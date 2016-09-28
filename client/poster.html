@@ -1,0 +1,548 @@
+<template name="poster">
+{{>loginCustom message="Connection "}}
+     {{>createLoginA message="Connection "}}
+    <div></div>
+	
+<nav>
+  <div class="container"> 
+    
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> 
+      <span class="sr-only">Toggle navigation</span> 
+      <!--
+      <span class="icon-bar"></span> 
+      <span class="glyphicon glyphicon-align-justify"></span> <span class="icon-bar"></span> 
+      -->
+      <ul class="nav navbar-nav navbar-fixed-top"  >
+        <li class="dropdown" style="float:left;"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+        <span class="glyphicon glyphicon-align-justify" style="font-size:25px;" ></span>
+        <img src="/jobday.png" height="30px" width="100px">
+         <span class="caret"></span></a>
+         
+          <ul class="dropdown-menu">
+            <li><a href="/poster" style="font-weight:bold;" >PROPOSER UN JOB</a> </li>
+            <li><a href="/searchMission" style="font-weight:bold;" >CHERCHER UN JOB</a> </li>
+            
+            {{#if currentUser}}
+   
+
+     <li> <a class="glyphicon glyphicon-home" href="/profiluser"  style="font-weight:bold;" > Tableau de Bord </a></li>
+        <li class="active"><a onclick="Meteor.logout();Router.go('/');" href="#" class="logout"  style="font-weight:bold;"  >Déconnexion <span class="sr-only">(current)</span></a></li>
+    
+       
+    {{else}}
+            
+            <li><a href="#"  data-toggle="modal" data-target="#createLogin" style="font-weight:bold;" >S'INCRIRE </a> </li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#" data-toggle="modal" data-target="#myModal" style="font-weight:bold;" >SE CONNECTER</a> </li>
+            {{/if}}
+            
+            <li role="separator" class="divider"></li>
+            <li><a href="#"><img src="facebook.png" height="30px" width="80px"> <span class="sr-only">(current)</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      
+      </button>
+     
+      
+      
+      </div>
+    
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-fixed-top">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/"><img src="/jobday.png" height="30px" width="100px"> <span class="sr-only">(current)</span></a> </li>
+        <li><a href="/poster" style="font-weight:bold;" >Poster un Job</a> </li>
+        <li><a href="/searchMission" style="font-weight:bold;" >Trouver un Job</a> </li>
+		<li><a href="/commentCaMarche" style="font-weight:bold;" >Comment ca marche </a> </li>
+      </ul>
+      <!--<form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>-->
+      <ul class="nav navbar-nav navbar-right hidden-sm">
+      
+       {{#if currentUser}}
+   
+
+     <li> <a class="glyphicon glyphicon-home" href="/profiluser" style="font-weight:bold;" > Tableau de Bord </a></li>
+        <li class="active"><a onclick="Meteor.logout();Router.go('/');" href="#" class="logout" style="font-weight:bold;" >Déconnexion <span class="sr-only">(current)</span></a></li>
+    
+       
+    {{else}}
+        <li><a href="#" data-toggle="modal" data-target="#createLogin" style="font-weight:bold;" >S'INCRIRE </a> </li>
+         <li><a href="#" data-toggle="modal" data-target="#myModal"  style="font-weight:bold;" >SE CONNECTER</a> </li>
+         
+         {{/if}}
+      </ul>
+    </div>
+    <!-- /.navbar-collapse --> 
+  </div>
+  <!-- /.container-fluid --> 
+</nav>
+
+
+
+    
+   
+  
+
+    
+        
+    
+        
+   
+    <div id="Categorie" class="tableauCategorie" style="margin-top:60px;">
+        <div class="celluleTableauResultat">
+                    <div class="celluleTitreResultat" style="text-align: left;">Poster un Job,c'est 100% gratuit</div>
+                </div>
+		<div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+
+
+            <div class="colonneTableauResultat" style="width: 100%;float: left;display: inline-block;      padding: 5px;">
+                
+
+                <div class="celluleTableauResultat" style="text-align: left;">
+                    <div class="celluleTitreResultat">De quoi avez-vous besoin ? </div>
+                    <select autocomplete="off" id="categorieID" class="form-control">
+                        <option value="0">Choisissez votre catégorie</option>
+                        <option value="1">Maison & Jardin</option>
+                        <option value="2">Hôtellerie & Restauration</option>
+                        <option value="3">Commerce & Vente </option>
+                        <option value="4">Web & Création </option>
+                        <option value="5">Evénementiel </option>
+                        <option value="6">Service à la personne</option>
+                        <option value="7"> Transport & Logistique </option>
+                        <option value="8">Service administratif </option>
+                        <option value="9">Rédaction & Traduction </option>
+                        <option value="10">Cours </option>
+                        <option value="11">Tourisme </option>
+                        <option value="12">Santé</option>
+                    </select>
+
+                    <select autocomplete="off" id="ssCategorieID" class="form-control">
+                        <option value='0'>Jardinier </option>
+                        <option value='0'> Menuisier </option>
+                        <option value='0'> Ebéniste </option>
+                        <option value='0'> Peintre </option>
+                        <option value='0'> Vitrier </option>
+                        <option value='0'> Electricien </option>
+                        <option value='0'> Plombier </option>
+                        <option value='0'> Serrurier </option>
+                        <option value='0'> Maçon </option>
+                        <option value='0'> Mécanicien </option>
+                        <option value='0'> Bricolage </option>
+                        <option value='0'> Montage de meubles </option>
+                        <option value='0'> Rénovation </option>
+                        <option value='0'> Ramonage </option>
+                        <option value='0'> Maréchal ferrant </option>
+                        <option value='0'> Métiers du bâtiment</option>
+                        <option value='0'></option>
+                        <option value='0'>Serveur </option>
+                        <option value='0'> Plongeur </option>
+                        <option value='0'> Barman </option>
+                        <option value='0'> Bartender </option>
+                        <option value='0'> Bagagiste </option>
+                        <option value='0'> Chef cuisinier </option>
+                        <option value='0'> Commis </option>
+                        <option value='0'> Agent d’entretien</option>
+                        <option value='0'></option>
+                        <option value='0'>Caissier </option>
+                        <option value='0'> Conseiller </option>
+                        <option value='0'> Vendeur </option>
+                        <option value='0'> Inventoriste </option>
+                        <option value='0'> Téléprospecteur </option>
+                        <option value='0'> Distribution de flyers </option>
+                        <option value='0'> Préparation et fabrication de produits frais </option>
+                        <option value='0'> Manutention</option>
+                        <option value='0'></option>
+                        <option value='0'>Informaticien </option>
+                        <option value='0'> Web designer </option>
+                        <option value='0'> Infographiste </option>
+                        <option value='0'> Retoucheur </option>
+                        <option value='0'> Monteur vidéo </option>
+                        <option value='0'> Motion design </option>
+                        <option value='0'> Ingé son </option>
+                        <option value='0'> Créer la E-réputation des entreprises </option>
+                        <option value='0'> Trouver des sponsors</option>
+                        <option value='0'></option>
+                        <option value='0'>Animation </option>
+                        <option value='0'> DJ </option>
+                        <option value='0'> Magicien </option>
+                        <option value='0'> Clown </option>
+                        <option value='0'> Photographe </option>
+                        <option value='0'> Vidéaste </option>
+                        <option value='0'> Traiteur </option>
+                        <option value='0'> Chef cuisine </option>
+                        <option value='0'> Wedding Planner </option>
+                        <option value='0'> Serveur </option>
+                        <option value='0'> Chauffeur privé </option>
+                        <option value='0'> Barman </option>
+                        <option value='0'> Bartender </option>
+                        <option value='0'> Chanteur </option>
+                        <option value='0'> Maquilleur </option>
+                        <option value='0'> Coiffeur </option>
+                        <option value='0'> Organisateur </option>
+                        <option value='0'> Sécurité</option>
+                        <option value='0'></option>
+                        <option value='0'>Ménage </option>
+                        <option value='0'> Repassage </option>
+                        <option value='0'> Baby-sitting </option>
+                        <option value='0'> Petsitting </option>
+                        <option value='0'> Toilettage pour animaux </option>
+                        <option value='0'> Couture et retouche </option>
+                        <option value='0'> Esthéticienne </option>
+                        <option value='0'> Coiffeur </option>
+                        <option value='0'> Manucure </option>
+                        <option value='0'> Esthéticienne </option>
+                        <option value='0'> Coach </option>
+                        <option value='0'> Traduction </option>
+                        <option value='0'> Pressing </option>
+                        <option value='0'> Faire la queue </option>
+                        <option value='0'> Aide aux repas </option>
+                        <option value='0'> Aide aux soins </option>
+                        <option value='0'> Personne de compagnie </option>
+                        <option value='0'> Repas à domicile</option>
+                        <option value='0'>Livreur </option>
+                        <option value='0'> Préparateur de commande </option>
+                        <option value='0'> Déménageur </option>
+                        <option value='0'> Magasinier </option>
+                        <option value='0'> VTC </option>
+                        <option value='0'> Manutention </option>
+                        <option value='0'> Coursiers </option>
+                        <option value='0'> Entretien et réparation de véhicules Assistanat </option>
+                        <option value='0'> Administration </option>
+                        <option value='0'> Traduction </option>
+                        <option value='0'> Comptabilité </option>
+                        <option value='0'> Secrétariat </option>
+                        <option value='0'> Aide aux impôts </option>
+                        <option value='0'> Gestion </option>
+                        <option value='0'> Finance</option>
+                        <option value='0'>Etudes de marché </option>
+                        <option value='0'> Rédaction </option>
+                        <option value='0'> Traduction </option>
+                        <option value='0'> Correction</option>
+                        <option value='0'></option>
+                        <option value='0'>Cours à domicile pour enfants </option>
+                        <option value='0'> Cours niveau universitaire </option>
+                        <option value='0'> Cours particuliers </option>
+                        <option value='0'> Cours de sport </option>
+                        <option value='0'> Cours de groupe </option>
+                        <option value='0'> Cours de langue </option>
+                        <option value='0'> Conversation en langue étrangère </option>
+                        <option value='0'> Cours de dessin et arts </option>
+                        <option value='0'> Ateliers créatifs </option>
+                        <option value='0'> Cours d’informatique</option>
+                        <option value='0'></option>
+                        <option value='0'>Guide </option>
+                        <option value='0'> Chambre d’hôte </option>
+                        <option value='0'> Circuits touristiques personnalisés</option>
+                        <option value='0'></option>
+                        <option value='0'>Infirmier </option>
+                        <option value='0'> Aide soignant </option>
+                        <option value='0'> Prothésiste dentaire </option>
+                        <option value='0'> Naturopathe </option>
+                        <option value='0'> Nutritionniste </option>
+                        <option value='0'> Diététicien </option>
+                        <option value='0'> Ostéopathe </option>
+                        <option value='0'> Chiropracteur </option>
+                        <option value='0'> Coach sportif </option>
+                        <option value='0'> Aide aux soins </option>
+                        <option value='0'> Aide aux repas</option>
+
+                    </select>
+                    <span class="glyphicon glyphicon-star">Annonce	</span>
+                    <select autocomplete="off" id="typeAnnonce" class="form-control">
+                        <option value="0">Job Professionnel</option>
+                        <option value="1">Job Particulier</option>
+                        <option value="2">Job à distance</option>
+
+                    </select>
+
+
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+
+        <div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+
+
+            <div class="colonneTableauResultat" style="width: 100%;float: left;display: inline-block;      padding: 5px;">
+                <div class="celluleTableauResultat">
+                    <div class="celluleTitreResultat" style="text-align: left;">Titre</div>
+                </div>
+
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+
+
+                    <input type="text" class="form-control" id="titreAnnonce" placeholder="Titre">
+
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+        <div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+
+
+            <div class="colonneTableauResultat" style="width: 100%;float: left;display: inline-block;      padding: 5px;">
+                <div class="celluleTableauResultat">
+                    <div class="celluleTitreResultat" style="text-align: left;">Description</div>
+                </div>
+
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+
+
+                    <textarea class="form-control" rows="5" id="descriptionAnnonce" placeholder="Expliquer votre besoin. (min 50 caractère)"></textarea>
+
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+        <div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+
+
+            <div class="colonneTableauResultat" style="width: 100%;float: left;display: inline-block;      padding: 5px;">
+                <div class="celluleTableauResultat">
+                    <div class="celluleTitreResultat" style="text-align: left;">Précision </div>
+                </div>
+
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+
+
+                    <textarea class="form-control" rows="5" id="precisionAnnonce" placeholder="Comme nombre de chambre a nettoyer. ETC..."></textarea>
+
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+        <div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+
+
+            <div class="colonneTableauResultat" style="width: 100%;float: left;display: inline-block;      padding: 5px;">
+                <div class="celluleTableauResultat">
+                    <div class="celluleTitreResultat" style="text-align: left;">
+                        <input type="checkbox" id="outilsAdisposition"> Outils à disposition </div>
+                    <input type="checkbox" id="vetementsADispositions">Vêtement à disposition
+                    <input type="checkbox" id="vehiculeNecessaire">Véhicule nécessaire? (camionnette etc)
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+        <div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+
+
+            <div class="colonneTableauResultat" style="width: 100%;float: left;display: inline-block;      padding: 5px;">
+                <div class="celluleTableauResultat">
+                    <div class="celluleTitreResultat" style="text-align: left;">Adresse du Job </div>
+                </div>
+
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+
+ <input type="text" id="adresseNumeroRueAnnonce" placeholder="numéro rue">
+     <input type="text" id="adressetypeRueAnnonce" placeholder=" rue, boulevard ,impasse">     
+                    <input type="text" id="adresseRueAnnonce" placeholder=" rue, boulevard ,impasse">        
+<input type="text" id="adresseCodePostalAnnonce" placeholder=" xxxxxxx">
+     <input type="text" id="adressePaysAnnonce" placeholder=" France">               
+                    
+                    
+                    
+                    
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+        <div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+
+
+            <div class="colonneTableauResultat" style="width: 100%;float: left;display: inline-block;      padding: 5px;">
+                <div class="celluleTableauResultat">
+                    <div class="celluleTitreResultat" style="text-align: left;">Pour quand? </div>
+                </div>
+
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+
+
+                    <input type="radio" id="choixAnnonceDate1">A une date précise
+                    <input type="radio" id="choixAnnonceDate2">Avant le
+                    <input type="date" id="DateAnnonce1" placeholder="JJ/MM/YYYY">
+                </div>
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+                    Ou
+                </div>
+
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+
+
+                    <input type="radio" id="choixAnnonceDate3">Du
+                    <input type="date" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
+                    <input type="radio" id="choixAnnonceDate4">Au
+                    <input type="date" id="AnnonceDate3" placeholder="JJ/MM/YYYY">
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+        <div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+
+
+            <div class="colonneTableauResultat" style="width: 100%;float: left;display: inline-block;      padding: 5px;">
+                <div class="celluleTableauResultat">
+                    <div class="celluleTitreResultat" style="text-align: left;">Horaire </div>
+                </div>
+
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+
+
+                    <input type="radio" id="choixHoraireAnnonce1">Horaire libre
+                    <input type="radio" id="choixHoraireAnnonce2">Matin
+                    <input type="radio" id="choixHoraireAnnonce3">Après-Midi
+                    <input type="radio" id="choixHoraireAnnonce4">Soir
+                </div>
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+                    Ou
+                </div>
+
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+
+
+                    <input type="radio" id="choixHoraireAnnonce5">De
+                    <input type="time" id="choixHoraireAnnonceDeb">
+                    <input type="radio" id="choixHoraireAnnonce6">A
+                    <input type="time" id="choixHoraireAnnonceFin">
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+        <div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+
+
+            <div class="colonneTableauResultat" style="width: 100%;float: left;display: inline-block;      padding: 5px;">
+                <div class="celluleTableauResultat">
+                    <div class="celluleTitreResultat" style="text-align: left;">Budget </div>
+                </div>
+
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+
+
+                    <input type="number" id="tarifAnnonce">€
+                    <input type="checkbox" id="TypeTarifAnnonce1">Prix fixe
+                    <input type="radio" id="TypeTarifAnnonce2">Prix négociable
+
+                </div>
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+                    Besoin de combien de personne?
+                    <input type="number" id="nbPersonnePourAnnonce">
+                </div>
+
+                <div class="celluleTableauResultat" style="text-align: left;">
+
+
+
+                    <input type="radio" id="totalAnnonce">Total
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+        <button id="posterAnnonce"  class="btn btn-primary glyphicon glyphicon-user">Poster </button>
+
+    </div>
+    
+    
+    
+  
+</template>

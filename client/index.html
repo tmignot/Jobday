@@ -1,0 +1,1048 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/x-icon" href="/jobday.png" />
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    </script>
+    
+    <script type="text/javascript">
+        var nav = navigator.userAgent;
+        var ischrome = nav.indexOf("Chrome");
+        if (ischrome != -1) {
+        } else {
+            //$('#internet').modal('show') ;
+        }
+    </script>
+
+</head>
+<template name="layoutHome">
+    
+    <nav>
+  <div class="container"> 
+    
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> 
+      <span class="sr-only">Toggle navigation</span> 
+      <!--
+      <span class="icon-bar"></span> 
+      <span class="glyphicon glyphicon-align-justify"></span> <span class="icon-bar"></span> 
+      -->
+      <ul class="nav navbar-nav navbar-fixed-top"  >
+        <li class="dropdown" style="float:left;"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+        <span class="glyphicon glyphicon-align-justify" style="font-size:25px;" ></span>
+        <img src="/jobday.png" height="30px" width="100px">
+         <span class="caret"></span></a>
+         
+          <ul class="dropdown-menu">
+            <li><a href="/poster" style="font-weight:bold;" >PROPOSER UN JOB</a> </li>
+            <li><a href="/searchMission" style="font-weight:bold;" >CHERCHER UN JOB</a> </li>
+            
+            {{#if currentUser}}
+   
+
+     <li> <a class="glyphicon glyphicon-home" href="/profiluser"  style="font-weight:bold;" > Tableau de Bord </a></li>
+        <li class="active"><a onclick="Meteor.logout();Router.go('/');" href="#" class="logout"  style="font-weight:bold;"  >Déconnexion <span class="sr-only">(current)</span></a></li>
+    
+       
+    {{else}}
+            
+            <li><a href="#"  data-toggle="modal" data-target="#createLogin" style="font-weight:bold;" >S'INCRIRE </a> </li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#" data-toggle="modal" data-target="#myModal" style="font-weight:bold;" >SE CONNECTER</a> </li>
+            {{/if}}
+            
+            <li role="separator" class="divider"></li>
+            <li><a href="#"><img src="facebook.png" height="30px" width="80px"> <span class="sr-only">(current)</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      
+      </button>
+     
+      
+      
+      </div>
+    
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-fixed-top">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/"><img src="/jobday.png" height="30px" width="100px"> <span class="sr-only">(current)</span></a> </li>
+        <li><a href="/poster" style="font-weight:bold;" >Poster un Job</a> </li>
+        <li><a href="/searchMission" style="font-weight:bold;" >Trouver un Job</a> </li>
+	  </ul>
+      <!--<form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>-->
+      <ul class="nav navbar-nav navbar-right hidden-sm">
+      
+       {{#if currentUser}}
+   
+
+     <li> <a class="glyphicon glyphicon-home" href="/profiluser" style="font-weight:bold;" > Tableau de Bord </a></li>
+        <li class="active"><a onclick="Meteor.logout();Router.go('/');" href="#" class="logout" style="font-weight:bold;" >Déconnexion <span class="sr-only">(current)</span></a></li>
+    
+       
+    {{else}}
+        <li><a href="#" data-toggle="modal" data-target="#createLogin" style="font-weight:bold;" >S'INCRIRE </a> </li>
+         <li><a href="#" data-toggle="modal" data-target="#myModal"  style="font-weight:bold;" >SE CONNECTER</a> </li>
+         
+         {{/if}}
+        <li><a href="#"><img src="facebook.png" height="30px" width="80px"> <span class="sr-only">(current)</span></a></li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse --> 
+  </div>
+  <!-- /.container-fluid --> 
+</nav>
+ <!--
+ {{> yield "mainContenu"}}
+-->
+{{> home}}
+    <div class="page-container">
+
+
+
+
+
+        <div class="container">
+            <div class="row row-offcanvas row-offcanvas-left">
+
+
+
+
+               
+
+
+
+            </div>
+            <!--/.row-->
+        </div>
+        <!--/.container-->
+    </div>
+    <!--/.page-container-->
+
+    <div id="footer" style=" background: #E6F0F5; background: -webkit-radial-gradient(white, #E6F0F5); background: -o-radial-gradient(white, #E6F0F5);background: -moz-radial-gradient(white, #E6F0F5); background: radial-gradient(white, #E6F0F5);">
+        <!--footer-->
+        <div class="container" style="text-align:center;">
+
+            <a href="https://plus.google.com/u/0/102886660986180638053/" target="_blank"><img width="100px" height="100px" src="image/png/Google_Plus.png" alt="">
+            </a>
+            <a href="http://www.youtube.com/channel/UCmqCaH1n5rLZ3XtagSet_Cw" target="_blank"><img width="100px" height="100px" src="image/png/YouTube.png" alt="">
+            </a>
+            <a href="https://www.linkedin.com/company/increased-development" target="_blank"><img width="100px" height="100px" src="image/png/Linkedin.png" alt="">
+            </a>
+            <a href="https://www.facebook.com/Increased.development/" target="_blank"><img width="100px" height="100px" src="image/png/facebook.png" alt="">
+            </a>
+            <a href="https://twitter.com/Incr_dev" target="_blank"><img width="100px" height="100px" src="image/png/Twitter.png" alt="">
+            </a>
+            <a href="https://www.instagram.com/increased_development/" target="_blank"><img width="100px" height="100px" src="image/png/Instagram.png" alt="">
+            </a>
+
+
+            <!--/row-->
+
+        </div>
+        <!--/container-->
+    </div>
+    {{>loginCustom message="Connection "}}
+     {{>createLoginA message="Connection "}}
+    <!--/footer-->
+</template>
+<template name="home">
+ {{>loginCustom message="Connection "}}
+     {{>createLoginA message="Connection "}}
+
+<nav>
+  <div class="container"> 
+    
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> 
+      <span class="sr-only">Toggle navigation</span> 
+      <!--
+      <span class="icon-bar"></span> 
+      <span class="glyphicon glyphicon-align-justify"></span> <span class="icon-bar"></span> 
+      -->
+      <ul class="nav navbar-nav navbar-fixed-top"  >
+        <li class="dropdown" style="float:left;"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+        <span class="glyphicon glyphicon-align-justify" style="font-size:25px;" ></span>
+        <img src="/jobday.png" height="30px" width="100px">
+         <span class="caret"></span></a>
+         
+          <ul class="dropdown-menu">
+            <li><a href="/poster" style="font-weight:bold;" >PROPOSER UN JOB</a> </li>
+            <li><a href="/searchMission" style="font-weight:bold;" >CHERCHER UN JOB</a> </li>
+            
+            <li><a href="/commentCaMarche" style="font-weight:bold;" >COMMENT CA MARCHE</a> </li>
+            {{#if currentUser}}
+   
+
+     <li> <a class="glyphicon glyphicon-home" href="/profiluser"  style="font-weight:bold;" > Tableau de Bord </a></li>
+        <li class="active"><a onclick="Meteor.logout();Router.go('/');" href="#" class="logout"  style="font-weight:bold;"  >Déconnexion <span class="sr-only">(current)</span></a></li>
+    
+       
+    {{else}}
+            
+            <li><a href="#"  data-toggle="modal" data-target="#createLogin" style="font-weight:bold;" >S'INCRIRE </a> </li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#" data-toggle="modal" data-target="#myModal" style="font-weight:bold;" >SE CONNECTER</a> </li>
+            {{/if}}
+            
+            <li role="separator" class="divider"></li>
+			<!--
+            <li><a href="#"><img src="facebook.png" height="30px" width="80px"> <span class="sr-only">(current)</span></a></li>
+-->         
+		 </ul>
+        </li>
+      </ul>
+      
+      </button>
+     
+      
+      
+      </div>
+    
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-fixed-top">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/"><img src="/jobday.png" height="30px" width="100px"> <span class="sr-only">(current)</span></a> </li>
+        <li><a href="/poster" style="font-weight:bold;" >Poster un Job</a> </li>
+        <li><a href="/searchMission" style="font-weight:bold;" >Trouver un Job</a> </li>
+		<li><a href="/commentCaMarche" style="font-weight:bold;" >Comment ca marche </a> </li>
+      </ul>
+      <!--<form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>-->
+      <ul class="nav navbar-nav navbar-right hidden-sm">
+      
+       {{#if currentUser}}
+   
+
+     <li> <a class="glyphicon glyphicon-home" href="/profiluser" style="font-weight:bold;" > Tableau de Bord </a></li>
+        <li class="active"><a onclick="Meteor.logout();Router.go('/');" href="#" class="logout" style="font-weight:bold;" >Déconnexion <span class="sr-only">(current)</span></a></li>
+    
+       
+    {{else}}
+        <li><a href="#" data-toggle="modal" data-target="#createLogin" style="font-weight:bold;" >S'INCRIRE </a> </li>
+         <li><a href="#" data-toggle="modal" data-target="#myModal"  style="font-weight:bold;" >SE CONNECTER</a> </li>
+         
+         {{/if}}
+		 <!--
+        <li><a href="#"><img src="facebook.png" height="30px" width="80px"> <span class="sr-only">(current)</span></a></li>
+      -->
+	  </ul>
+    </div>
+    <!-- /.navbar-collapse --> 
+  </div>
+  <!-- /.container-fluid --> 
+</nav>
+
+
+
+<div class="container" style="margin-top:50px;margin-left:0px;margin-right:0px;width:100%;"  >
+    <div class="row" style="" >
+      <div class="col-xs-4 col-sm-12 col-md-12 col-lg-12" style="height:50vh;margin:auto;background-image:url(back.png);background-size:cover;">
+        <div id="carousel1" class="carousel slide">
+          <ol class="carousel-indicators">
+            <li data-target="#carousel1" data-slide-to="0" class="active"> </li>
+            <li data-target="#carousel1" data-slide-to="1" class=""> </li>
+            <li data-target="#carousel1" data-slide-to="2" class=""> </li>
+			<li data-target="#carousel1" data-slide-to="3" class=""> </li>
+			<li data-target="#carousel1" data-slide-to="4" class=""> </li>
+          </ol>
+          <div class="carousel-inner" style="height:50vh;">
+            <div class="item" > 
+			
+			 <div class="carousel-caption"  >BESOIN D’ARRONDIR VOS FINS DE MOIS ? </div>
+			<img src="1.jpg" style="height:50vh;width:100%;" alt="thumb"  class="img-responsive">
+             
+            </div>
+            <div class="item"> <img src="2.jpg" style="height:50vh;width:100%;" alt="thumb"  class="img-responsive">
+              <div class="carousel-caption"> TRAVAILLER N’A JAMAIS ÉTÉ AUSSI SIMPLE. </div>
+            </div>
+            <div class="item"> <img src="3.jpg" style="height:50vh;width:100%;" alt="thumb"  class="img-responsive">
+              <div class="carousel-caption"> GÉRER MIEUX VOTRE TEMPS </div>
+            </div>
+            <div class="item active"> <img class="img-responsive" src="4.jpg" style="height:50vh;width:100%;" alt="thumb">
+              <div class="carousel-caption"> DES TRAVAILLEURS SUR DEMANDE. </div>
+            </div>
+            <div class="item"> <img src="5.jpg" style="height:50vh;width:100%;" alt="thumb" width="1920" height="500" class="img-responsive">
+              <div class="carousel-caption">DES TRAVAILLEURS SUR DEMANDE.</div>
+            </div>
+          </div>
+          <a class="left carousel-control" href="#carousel1" data-slide="prev"><span class="icon-prev"></span></a> <a class="right carousel-control" href="#carousel1" data-slide="next"><span class="icon-next"></span></a></div>
+      </div>
+</div>
+    <hr>
+  </div>
+
+    
+	<div class="container">
+  <div class="row"  >
+  <div style="text-align:center;">
+  <div class="col-xs-3 col-sm-6" style="background-color:#63c2c7"> 
+  <input value="Que recherchez-vous ? " type="text" name="textfield" id="textfield"></div>	
+  
+           <div class="col-xs-3 col-sm-3" style="background-color:#63c2c7"> {{> inputAutocomplete settings=settings id="localisation" placeholder="Localisation ?" aria-describedby="sizing-addon1"}}
+</div>
+           <div class="col-xs-3 col-sm-3" > 
+		   <button type="button" class="btn btn-lg btn-default" style="height:25px;background-color:#63c2c7;color:white;font-size:12px;">TROUVER</button>
+ </div>
+		
+    
+    </div>
+     
+   
+    
+  </div>
+  
+</div>
+	
+    <div class="container" style="margin-top:15px;">
+  <div class="row" style="text-align:center;">
+  <div style="
+  width: 550px;
+  height: 250px;
+  border-left: 10px solid #3ACFD5;
+  border-right: 10px solid #ed6e41;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-position: 0 0, 0 100% ;
+  background-repeat: no-repeat;
+  -webkit-background-size: 100% 10px;
+  -moz-background-size: 100% 10px;
+  background-size: 100% 10px;
+  background-image: url(data:image/svg+xml);
+  background-image: -webkit-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -webkit-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+  background-image: -moz-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -moz-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+  background-image: -o-linear-gradient(left, #ed6e41 0%, #3acfd5 100%), -o-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+  background-image: linear-gradient(to left, #ed6e41 0%, #3acfd5 100%), linear-gradient(to right, #3acfd5 0%, #ed6e41 100%);
+  display:inline-block;">
+  <div style="padding-top:50px ;" >
+  
+  <img src="/jobday.png" height="60px" width="130px"> est une PLATEFORME de MISE EN RELATION entre TRAVAILLEURS INDEPENDANTS et leurs clients soient PARTICULIERS ou des PROFESSIONNELS.  
+  </div>
+ 
+  </div>
+ 
+   
+  
+  </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+  
+  
+  
+   
+    <div class="col-lg-4 col-md-6">
+  <div class="media">
+          <div class="media-left"> <a href="#"> <img class="media-object" src="condition1.png" alt="placeholder image" style="width:300px"></a></div>
+</div>
+      <div class="media-object-default">
+        <div class="media">
+          <div class="media-left"> <a href="#">  </a> </div>
+          <div class="media-body" style="background-color:#eaded3;">
+            <h4 class="media-heading" style="background-color:#63c2c7;color:white;">100% GRATUIT</h4>
+            LES POSTES D'ANNONCES, LES RECHERCHES ET INSCRIPTION AU SITE SONT GRATUITS </div>
+        </div>
+        <div class="media">
+          <div class="media-left"> <a href="#">  </a> </div>
+          <div class="media-body" style="background-color:#eaded3;">
+          ALORS DITES-NOUS CE DONT VOUS AVEZ BESOIN. LES ANNONCES SONT GRATUITES. 
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-left"> <a href="#"> </a></div>
+          <div class="media-body" style="background-color:#eaded3;">
+          RECEVEZ RAPIDEMENT DES PROPOSITIONS DE TRAVAILLEURS DE CONFIANCE</div>
+        </div>
+      </div>
+    </div>
+    <hr class="hidden-md hidden-lg">
+    <div class="col-lg-4 col-md-6">
+    
+     <div class="media">
+          <div class="" style="margin-left:auto;margin-right:auto">  
+          <center><a href="#"><img class="media-object" src="condition2.png" alt="placeholder image" style="width:238px"></a>
+          </center>
+          </div>
+          
+</div>
+    
+      <div class="media-object-default">
+        <div class="media">
+          <div class="media-left"> <a href="#"> </a></div>
+          <div class="media-body" style="background-color:#eaded3;">
+            <h4 class="media-heading" style="background-color:#63c2c7;color:white;">DES TRAVAILLEURS QUALIFIES :</h4>
+           GRACE AUX BADGES, AUX NOTES ET AUX COMMENTAIRES ATTRIBUES A CHAQUE TRAVAILLEURS.
+           POUR VOUS ASSURER DE CHOISIR LA MEILLEURS PERSONNES POUR VOTRE MISSION  </div>
+        </div>
+        <div class="media">
+          <div class="media"><center> <a href="#"> <img class="media-object" src="perso1.png" alt="placeholder image" style="width:300px"></a>
+          </center>
+          </div>
+</div>
+</div>
+    </div>
+    <hr class="hidden-lg">
+    <div class="col-lg-4 col-md-12 hidden-md">
+ <div class="media">
+          <div class=""> <center><a href="#"> <img class="media-object" src="condition3.png" alt="placeholder image" style="width:238px"></a></center></div>
+</div>
+      <div class="media-object-default">
+        <div class="media">
+          <div class="media-left"> <a href="#"> </a></div>
+          <div class="media-body" style="background-color:#eaded3;">
+            <h4 class="media-heading" style="background-color:#63c2c7;color:white;" > <span style="margin-left:5px;" class="glyphicon glyphicon-lock"></span>SECURITE :</h4>
+            VOS DONNEES PERSONNELLES & BANCAIRES SONT PROTEGEES </div>
+        </div>
+        <div class="media">
+          <div class="media-left"> <a href="#"> </a></div>
+          <div class="media-body" style="background-color:#eaded3;"	>
+         CHOISISSEZ LE MEILLEUR TRAVAILLEUR QUALIFIE POUR VOTRE MISSION </div>
+        </div>
+        <div class="media">
+          <div class="media-left"> <a href="#"> </a></div>
+          <div class="media-body" style="background-color:#eaded3;">
+          NOTEZ LA PRESTATION <br>
+          <span class="glyphicon glyphicon-star-empty" style="font-size:40px"></span>
+          <span class="glyphicon glyphicon-star-empty" style="font-size:40px"></span>
+          <span class="glyphicon glyphicon-star-empty" style="font-size:40px"></span>
+          <span class="glyphicon glyphicon-star-empty" style="font-size:40px"></span>
+          <span class="glyphicon glyphicon-star-empty" style="font-size:40px"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container" style="margin-top:15px;">
+  <div class="row" style="text-align:center;">
+  <div style="
+  width: 550px;
+  height: 250px;
+  border-left: 10px solid #3ACFD5;
+  border-right: 10px solid #ed6e41;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-position: 0 0, 0 100% ;
+  background-repeat: no-repeat;
+  -webkit-background-size: 100% 10px;
+  -moz-background-size: 100% 10px;
+  background-size: 100% 10px;
+  background-image: url(data:image/svg+xml);
+  background-image: -webkit-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -webkit-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+  background-image: -moz-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -moz-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+  background-image: -o-linear-gradient(left, #ed6e41 0%, #3acfd5 100%), -o-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+  background-image: linear-gradient(to left, #ed6e41 0%, #3acfd5 100%), linear-gradient(to right, #3acfd5 0%, #ed6e41 100%);
+  display:inline-block;">
+  <div style="padding-top:50px ;" >
+  Avec 
+  <img src="/jobday.png" height="60px" width="130px"> , soyez votre propre patron. 
+<BR>
+Plus besoin d'envoyer des tonnes de  CV.
+<BR>
+Plus besoin de passer par une agence d'interim
+<BR>
+Plus besoin de demander a son voisin 
+<BR>
+Organisez votre vie professionnelle comme bon vous semble. 
+  
+  </div>
+ 
+  </div>
+ 
+   
+  
+  </div>
+  </div>
+<script>
+
+</script>
+
+<div class="container">
+  <div class="row text-center">
+    <div id="btnhotelRest" class="col-sm-4 col-md-4 col-lg-4 col-xs-4" >
+      <div class="thumbnail" style="border:0px;" > <img src="groupe2.png" alt="Thumbnail Image 1" class="img-responsive">
+        <div class="caption">
+          <h4>HOTELLERIE & RESTAURATION</h4>
+</div>
+      </div>
+    </div>
+	
+	<div  id="btnServicePersonne" class="col-sm-4 col-md-4 col-lg-4 col-xs-4" >
+      <div class="thumbnail" style="border:0px;" > <img src="groupe6.png" alt="Thumbnail Image 1" class="img-responsive">
+        <div class="caption">
+          <h4>SERVICE A LA PERSONNE</h4>
+</div>
+      </div>
+    </div>
+	
+    <div   id="btnCommerceVente" class="col-sm-4 col-md-4 col-lg-4 col-xs-4" >
+      <div class="thumbnail" style="border:0px;" > <img src="groupe3.png" alt="Thumbnail Image 1" class="img-responsive">
+        <div class="caption">
+          <h4>COMMERCE & VENTE</h4>
+</div>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+  </div>
+
+    
+ 
+  </div>
+
+
+<div class="row text-center">
+  <div style="margin-left:10px;">
+  <a href="" id="linkAllCategorie" class="btn btn-primary" style="background-color:#63c2c7"  role="button"><span 
+  aria-hidden="true"> DECOUVREZ LES JOBS PAR CATEGORIE </span></a>
+  
+  <a href="#"  id ="searchBasic" class="btn btn-primary" style="background-color:#63c2c7"  role="button"><span style="color:grey" class="glyphicon glyphicon-eye-open"
+  aria-hidden="true"></span> <span> VOIR TOUS LES JOBS </span></a>
+  
+  
+  </div>
+  <!--
+  <div style="margin-left:10px;margin-top:10px;">
+  <div class="ligneTableau">
+
+
+            <div onclick="window.location.href='/searchMission';" class="celluleTableau">
+                 {{#each annonceDernierUrgent}}
+                            
+                <div class="colonneTableauResultat" style ="float: right;display: inline-block; 
+			/* border: 5px;   border-color: #E95393;    border-style: solid;    border-radius: 20px; */ ">
+			
+			
+			<div class="celluleTableauResultat" style="text-align: left;" >
+			<div class="" style="float:left">Description     {{annonceDernierUrgent.descriptionAnnonce}}....................................	</div>	
+			</div>
+			<BR>
+			<div class="celluleTableauResultat" style="text-align: left;" >
+			<div class="celluleTitreResultat" style="text-align: left;">
+			<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-map-marker" >
+				 Lieu	</button>
+			</div>	
+			</div>	
+			
+			<div class="celluleTableauResultat" style="text-align: left;" >
+			<div class="celluleTitreResultat"> Date :  {{annonceDernierUrgent.DateAnnonce1}}		</div>
+			</div>
+			
+			<div class="celluleTableauResultat" style="text-align: left;" >
+			<div class="celluleTitreResultat"> 
+			<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-user">
+			Nombre de participant voulus {{annonceDernierUrgent.nbPersonnePourAnnonce }}	</button>
+			</div></div>
+				
+			<div class="celluleTableauResultat" style="text-align: left;">
+				<div class="celluleTitreResultat"> 
+					<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-user">			Nombre de participant postuler	{{annonceDernierUrgent.nbPersonnePostuler }} </button>
+				</div>
+			</div>
+			
+			<div class="celluleTableauResultat" style="text-align: left;">
+				<div class="celluleTitreResultat"> 	
+				<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-euro"> {{annonceDernierUrgent.tarifAnnonce}}   </button> 	
+				</div>
+			</div>
+			
+			<div class="celluleTableauResultat" style="text-align: left;">
+				<div class="celluleTitreResultat">
+					<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-comment" >Laisser Message	</button>	
+				</div>
+			</div>
+			
+			<div class="celluleTableauResultat" style="text-align: left;">
+			<div class="celluleTitreResultat">
+			<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-hand-up"> Postuler	</button>
+			</div>	
+			</div>
+			
+			
+			</div>
+                    {{/each}}
+            </div>
+        </div>
+		 </div>
+		<div style="margin-left:10px;margin-top:10px;">
+	
+        <div class="ligneTableau">
+		{{#each annonceDernier}}
+                 <div onclick="window.location.href='/searchMission';" class="celluleTableau" style="float: none;
+    display: flex;">           
+                <div class="colonneTableauResultat" style ="width: 65%;float: right;display: inline-block; 
+			/* border: 5px;   border-color: #E95393;    border-style: solid;    border-radius: 20px; */ ">
+			
+			
+			<div class="celluleTableauResultat" style="text-align: left;" >
+			<div class="" style="float:left">Description     {{annonceDernier.descriptionAnnonce}}....................................	</div>	
+			</div>
+			<BR>
+			<div class="celluleTableauResultat" style="text-align: left;" >
+			<div class="celluleTitreResultat" style="text-align: left;">
+			<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-map-marker" >
+				 Lieu	</button>
+			</div>	
+			</div>	
+			
+			<div class="celluleTableauResultat" style="text-align: left;" >
+			<div class="celluleTitreResultat"> Date :  {{annonceDernier.DateAnnonce1}}		</div>
+			</div>
+			
+			<div class="celluleTableauResultat" style="text-align: left;" >
+			<div class="celluleTitreResultat"> 
+			<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-user">
+			Nombre de participant voulus {{annonceDernier.nbPersonnePourAnnonce }}	</button>
+			</div></div>
+				
+			<div class="celluleTableauResultat" style="text-align: left;">
+				<div class="celluleTitreResultat"> 
+					<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-user">			Nombre de participant postuler	{{annonceDernier.nbPersonnePostuler }} </button>
+				</div>
+			</div>
+			
+			<div class="celluleTableauResultat" style="text-align: left;">
+				<div class="celluleTitreResultat"> 	
+				<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-euro"> {{annonceDernier.tarifAnnonce}}   </button> 	
+				</div>
+			</div>
+			
+			<div class="celluleTableauResultat" style="text-align: left;">
+				<div class="celluleTitreResultat">
+					<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-comment" >Laisser Message	</button>	
+				</div>
+			</div>
+			
+			<div class="celluleTableauResultat" style="text-align: left;">
+			<div class="celluleTitreResultat">
+			<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-hand-up"> Postuler	</button>
+			</div>	
+			</div>
+			
+			
+			</div>
+                     </div>
+					 {{/each}}
+                     </div>
+                    	
+		
+  </div>
+  
+  -->
+  </div>
+
+
+  
+    
+    
+  
+
+    
+    <div class="stepJob ">
+
+
+
+       
+
+        <div class="footer-grids " style="margin-top:10px;width:100%;">
+          <div style="margin-left:auto;margin-right:auto;">
+<div  style=" text-align:left; font-size:50px;
+background-position: 0 0, 0 100% ;
+  background-repeat: no-repeat;
+  -webkit-background-size: 100% 0px;
+  -moz-background-size: 100% 0px;
+  background-size: 100% 50px;
+  background-image: url(data:image/svg+xml);
+  background-image: -webkit-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -webkit-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+  background-image: -moz-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -moz-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+  background-image: -o-linear-gradient(left, #ed6e41 0%, #3acfd5 100%), -o-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+  background-image: linear-gradient(to left, #ed6e41 0%, #3acfd5 100%), linear-gradient(to right, #3acfd5 0%, #ed6e41 100%);
+  color:white;" >Newsletter</div>
+<form id="form1" name="form1" method="post" style="">
+<div style="margin-top:15px;margin-bottom:15px;font-weight:bold;font-size:15px;border-bottom:solid;border-color:#3acfd5;">INSCRIVEZ-VOUS POUR VOUS INFORMER DE NOS ACTUALITES</div>
+  <div style="border-bottom:solid;border-color:#3acfd5;">
+  <label for="textfield3">VOTRE NOM :</label>
+  <input type="text" name="textfield3" id="textfield3">
+  </div>
+  <br>
+  <div>
+  <div style="border-bottom:solid;border-color:#3acfd5;">
+  <label for="textfield3">VOTRE MAIL :</label>
+  <input type="email" name="email" id="email">
+  </div>
+  </div>
+<button type="button" class="btn btn-lg btn-default" style="margin-top:5px ;background-color:#3acfd5">SOUSCRIRE</button>
+  
+</form>
+  </div>
+        </div>
+
+    </div>
+    <!--
+    <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+    </div>
+-->
+  
+    <!--
+    <script>
+        function statusChangeCallback(response) {
+            //console.log('statusChangeCallback');
+            //console.log(response);
+            // The response object is returned with a status field that lets the
+            // app know the current login status of the person.
+            // Full docs on the response object can be found in the documentation
+            // for FB.getLoginStatus().
+            if (response.status === 'connected') {
+                // Logged into your app and Facebook.
+                testAPI();
+
+            } else if (response.status === 'not_authorized') {
+                // The person is logged into Facebook, but not your app.
+                document.getElementById('status').innerHTML = 'Please log ' +
+                    'into this app.';
+            } else {
+                // The person is not logged into Facebook, so we're not sure if
+                // they are logged into this app or not.
+                document.getElementById('status').innerHTML = 'Please log ' +
+                    'into Facebook.';
+            }
+        }
+
+        // This function is called when someone finishes with the Login
+        // Button.  See the onlogin handler attached to it in the sample
+        // code below.
+        function checkLoginState2() {
+
+            FB.login(function (response) { //console.log('statusChangeCallback');
+                //console.log(response);
+                // The response object is returned with a status field that lets the
+                // app know the current login status of the person.
+                // Full docs on the response object can be found in the documentation
+                // for FB.getLoginStatus().
+                if (response.status === 'connected') {
+                    // Logged into your app and Facebook.
+                    testAPI();
+
+                } else if (response.status === 'not_authorized') {
+                    // The person is logged into Facebook, but not your app.
+                    document.getElementById('status').innerHTML = 'Please log ' +
+                        'into this app.';
+                } else {
+                    // The person is not logged into Facebook, so we're not sure if
+                    // they are logged into this app or not.
+                    document.getElementById('status').innerHTML = 'Please log ' +
+                        'into Facebook.';
+                }
+            });
+
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+
+        }
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1081613621860903',
+                cookie: true, // enable cookies to allow the server to access 
+                // the session
+                xfbml: true, // parse social plugins on this page
+                version: 'v2.5', // use graph api version 2.5
+                apiKey: 'CAACEdEose0cBACfZAxXndaHERQZBY3UWQlcNIgpluyyp6PNs7zF6ZC0wsbeeIgpchUqcUmQV02y9E32Miy5RxL1XGPlbs3VbdSG6ojFBOE0TF4ed1dOz0WWZAxrWgv3558hrhBg0Sdi4z9jjOyssuVAW9VHkL5iq9lZBROiASMxqaGd0OGCMLz4wiU5ZBZAnG7yGr2R66o8PpsYAX5t8a60'
+            });
+
+            // Now that we've initialized the JavaScript SDK, we call 
+            // FB.getLoginStatus().  This function gets the state of the
+            // person visiting this page and can return one of three states to
+            // the callback you provide.  They can be:
+            //
+            // 1. Logged into your app ('connected')
+            // 2. Logged into Facebook, but not your app ('not_authorized')
+            // 3. Not logged into Facebook and can't tell if they are logged into
+            //    your app or not.
+            //
+            // These three cases are handled in the callback function.
+
+            //FB.getLoginStatus(function (response) {
+            //    statusChangeCallback(response);
+
+            //});
+
+
+
+        };
+
+        // Load the SDK asynchronously
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        // Here we run a very simple test of the Graph API after login is
+        // successful.  See statusChangeCallback() for when this call is made.
+        function deconnect() {
+
+
+
+            FB.logout(function (response) {});
+        };
+
+
+
+
+
+        function testAPI() {
+
+
+
+            FB.api(
+                '/me',
+                'GET', {
+                    "fields": "id,name,birthday,age_range,context,currency,devices,education,email,first_name,gender,hometown,interested_in"
+                },
+                function (response) {
+                    console.log(response); // Insert your code here
+                    document.getElementById('status').innerHTML =
+                        'Thanks for logging in, ' + response.name + '!';
+                }
+            );
+
+
+
+        }
+    </script>
+    <script type="text/javascript" src="https://platform.linkedin.com/in.js">
+        api_key: 77wg97iklzkqyn
+        onLoad: onLinkedInLoad
+        authorize: true
+    </script>
+    <script type="text/javascript">
+        function onLinkedInLoad() {
+            IN.Event.on(IN, "auth", onLinkedInAuth);
+        }
+
+        function onLinkedInAuth() {
+            IN.API.Profile("me").fields("firstName", "lastName", "industry").result(displayProfiles);
+        }
+
+        function displayProfiles(profiles) {
+            member = profiles.values[0];
+            document.getElementById("profiles").innerHTML =
+                "<p id=\"" + member.id + "\">Hello " + member.firstName + " " + member.lastName + " "+member.industry +"</p>";
+        }
+    </script>
+    <script type="IN/Login"></script>
+    <div id="profiles"></div>
+   
+    <button id="subscribe " class="btn btn-primary glyphicon glyphicon-erase " onlogin="checkLoginState2();" scope="public_profile,email" onclick="checkLoginState2();" type="button " style="width:100%; "> facebook connect </button>
+    <button id="subscribe " class="btn btn-primary glyphicon glyphicon-erase " onclick="deconnect();" type="button " style="width:100%; "> facebook deconnect </button>
+
+    <button id="subscribe " class="btn btn-primary glyphicon glyphicon-erase " onlogin="checkLoginState2linkedin();" scope="public_profile,email" onclick="onLinkedInLoad();" type="button " style="width:100%; "> linkedin connect </button>
+    <button id="subscribe " class="btn btn-primary glyphicon glyphicon-erase " onclick="deconnectlinkedin();" type="button " style="width:100%; "> linkedin deconnect </button>
+    <div id="status">
+    </div>
+
+    
+    
+    
+     <button id="authorize-button" style="visibility: hidden">Authorize</button>
+-->
+   <!-- <script type="text/javascript">
+
+      var clientId = '479545754930-ejfinvlle7p0fe7pmpek4jl8j6q2algb.apps.googleusercontent.com';
+
+      var apiKey = '479545754930-ejfinvlle7p0fe7pmpek4jl8j6q2algb.apps.googleusercontent.com';
+
+      var scopes = 'https://www.googleapis.com/auth/plus.me';
+
+      function handleClientLoad() {
+        // Step 2: Reference the API key
+        gapi.client.setApiKey(apiKey);
+        window.setTimeout(checkAuth,1);
+      }
+
+      function checkAuth() {
+        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuthResult);
+      }
+
+      function handleAuthResult(authResult) {
+        var authorizeButton = document.getElementById('authorize-button');
+        if (authResult && !authResult.error) {
+          authorizeButton.style.visibility = 'hidden';
+          makeApiCall();
+        } else {
+          authorizeButton.style.visibility = '';
+          authorizeButton.onclick = handleAuthClick;
+        }
+      }
+
+      function handleAuthClick(event) {
+        // Step 3: get authorization to use private data
+        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthResult);
+        return false;
+      }
+
+      // Load the API and make an API call.  Display the results on the screen.
+      function makeApiCall() {
+        // Step 4: Load the Google+ API
+        gapi.client.load('plus', 'v1').then(function() {
+          // Step 5: Assemble the API request
+          var request = gapi.client.plus.people.get({
+            'userId': 'me'
+          });
+          // Step 6: Execute the API request
+          request.then(function(resp) {
+            var heading = document.createElement('h4');
+            var image = document.createElement('img');
+            image.src = resp.result.image.url;
+            heading.appendChild(image);
+            heading.appendChild(document.createTextNode(resp.result.displayName));
+
+            document.getElementById('content').appendChild(heading);
+          }, function(reason) {
+            console.log('Error: ' + reason.result.error.message);
+          });
+        });
+      }
+    </script>
+    // Step 1: Load JavaScript client library
+    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    -->
+    
+    
+</template>
+
+<template name="maps ">
+
+    <div id="map " style="height:350px; "></div>
+    <script>
+        var map;
+
+        function initMap() {
+
+
+            var geocoder = new google.maps.Geocoder();
+            var address = "13 boulevard de l 'hôpital Stell, 92500 Rueil-MalMaison" //"new york";
+
+            geocoder.geocode({
+                    'address ': address
+                }, function (results, status) {
+
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        var latitude = results[0].geometry.location.lat();
+                        var longitude = results[0].geometry.location.lng();
+                        map = new google.maps.Map(document.getElementById('map '), {
+                            center: {
+                                lat: latitude,
+                                lng: longitude
+                            },
+                            zoom: 12
+                        });
+
+                        var location = {
+                            lat: latitude,
+                            lng: longitude
+                        };
+                        var contentString = '<div id="content">' + ' < div id = "siteNotice" > ' + ' < /div>' + ' < h1 id = "firstHeading"
+                        class = "firstHeading" > Titre Mission < /h1>' + ' < div id = "bodyContent" > ' + ' < p > < b > Roman < /b > , cherche un bon plan;)
+                    ' + '
+                    Vive Jobday. < /p > ' + ' < p > Attribution: Jobday, < a href = "https:/ / en.wikipedia.org / w / index.php ? title = Uluru & oldid = 297882194 " > ' +
+                    'Détails Annonce</a> ' + ' < /p>' + ' < /div>' + ' < /div>';
+                    var infowindow = new google.maps.InfoWindow({
+                        content: contentString
+                    });
+                    var marker = new google.maps.Marker({
+                        position: location,
+                        map: map,
+                        title: 'Job Information'
+                    });
+                    marker.addListener('click', function () {
+                        infowindow.open(map, marker);
+                    });
+                    / /
+                    alert(latitude);
+                }
+            });
+        address = "1 boulevard de l'hôpital Stell, 92500 Rueil-MalMaison";
+        geocoder.geocode({
+            'address': address
+        }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var latitude = results[0].geometry.location.lat();
+                var longitude = results[0].geometry.location.lng();
+                var location = {
+                    lat: latitude,
+                    lng: longitude
+                };
+                var contentString = ' < div id = "content" > ' + ' < div id = "siteNotice" > ' + ' < /div>' + ' < h1 id = "firstHeading"
+                class = "firstHeading" > Titre Mission2 < /h1>' + ' < div id = "bodyContent" > ' + ' < p > < b > Roman < /b > , cherche un bon plan;)
+            ' + '
+            Vive Jobday. < /p > ' + ' < p > Attribution: Jobday, < a href = "https:/ / en.wikipedia.org / w / index.php ? title = Uluru & oldid = 297882194 " > ' +
+            'Détails Annonce</a> ' + ' < /p>' + ' < /div>' + ' < /div>';
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                title: 'Job Information'
+            });
+            marker.addListener('click', function () {
+                infowindow.open(map, marker);
+            });
+            / /
+            alert(latitude);
+        }
+        }); //map = new google.maps.Map(document.getElementById('map'), { //center: {lat: -34.397, lng: 150.644}, //zoom: 8 // }); }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZi1ejGcXnlRxRdOqcqy5noRhSEAhaWt8&callback=initMap" async defer></script>
+
+</template>
+<template name="serverCollectionLocalisation">
+
+    <p>Département :{{type}} </p>
+
+</template>
+<template name="serverNoMatch">
+    <small class="muted">Localisation Inexistante</small>
+
+</template>

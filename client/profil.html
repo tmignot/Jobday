@@ -1,0 +1,268 @@
+<template name="dashboardJobber" >
+
+<nav>
+  <div class="container"> 
+    
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> 
+      <span class="sr-only">Toggle navigation</span> 
+      <!--
+      <span class="icon-bar"></span> 
+      <span class="glyphicon glyphicon-align-justify"></span> <span class="icon-bar"></span> 
+      -->
+      <ul class="nav navbar-nav navbar-fixed-top"  >
+        <li class="dropdown" style="float:left;"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+        <span class="glyphicon glyphicon-align-justify" style="font-size:25px;" ></span>
+        <img src="jobday.png" height="30px" width="100px">
+         <span class="caret"></span></a>
+         
+          <ul class="dropdown-menu">
+            <li><a href="/poster" style="font-weight:bold;" >PROPOSER UN JOB</a> </li>
+            <li><a href="/searchMission" style="font-weight:bold;" >CHERCHER UN JOB</a> </li>
+            
+            <li><a href="/commentCaMarche" style="font-weight:bold;" >COMMENT CA MARCHE</a> </li>
+            {{#if currentUser}}
+   
+
+     <li> <a class="glyphicon glyphicon-home" href="/profiluser"  style="font-weight:bold;" > Tableau de Bord </a></li>
+        <li class="active"><a onclick="Meteor.logout();Router.go('/');" href="#" class="logout"  style="font-weight:bold;"  >Déconnexion <span class="sr-only">(current)</span></a></li>
+    
+       
+    {{else}}
+            
+            <li><a href="#"  data-toggle="modal" data-target="#createLogin" style="font-weight:bold;" >S'INCRIRE </a> </li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#" data-toggle="modal" data-target="#myModal" style="font-weight:bold;" >SE CONNECTER</a> </li>
+            {{/if}}
+            
+            <li role="separator" class="divider"></li>
+          </ul>
+        </li>
+      </ul>
+      
+      </button>
+     
+      
+      
+      </div>
+    
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-fixed-top">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/"><img src="jobday.png" height="30px" width="100px"> <span class="sr-only">(current)</span></a> </li>
+        <li><a href="/poster" style="font-weight:bold;" >Poster un Job</a> </li>
+        <li><a href="/searchMission" style="font-weight:bold;" >Trouver un Job</a> </li>
+		<li><a href="/commentCaMarche" style="font-weight:bold;" >Comment ca marche </a> </li>
+      </ul>
+      <!--<form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>-->
+      <ul class="nav navbar-nav navbar-right hidden-sm">
+      
+       {{#if currentUser}}
+   
+
+     <li> <a class="glyphicon glyphicon-home" href="/profiluser" style="font-weight:bold;" > Tableau de Bord </a></li>
+        <li class="active"><a onclick="Meteor.logout();Router.go('/');" href="#" class="logout" style="font-weight:bold;" >Déconnexion <span class="sr-only">(current)</span></a></li>
+    
+       
+    {{else}}
+        <li><a href="#" data-toggle="modal" data-target="#createLogin" style="font-weight:bold;" >S'INCRIRE </a> </li>
+         <li><a href="#" data-toggle="modal" data-target="#myModal"  style="font-weight:bold;" >SE CONNECTER</a> </li>
+         
+         {{/if}}
+      </ul>
+    </div>
+    <!-- /.navbar-collapse --> 
+  </div>
+  <!-- /.container-fluid --> 
+</nav>
+
+
+<div style="margin-top:70px;display:flex /*-webkit-box*/;border: 5px; border-color: #E95393;border-style: solid;border-radius: 20px; width: 100%;"  >
+<div style="	 display: block;">
+<div class="cadreImageProfil" >
+<BR>
+
+<img id="" src="http://graph.facebook.com/{{currentUser.facebook.id}}/picture?type=square" alt="" class="thumbnail" style="height: 80px;
+    margin: 15px;
+    width: 80px;" />
+    
+    
+    
+<img id="" src="{{currentUser.google.picture}}" alt="" class="thumbnail" style="height: 80px; margin: 15px;    width: 80px;" />    
+    
+<img id="" src="{{currentUser.linkedin.pictureUrl}}" alt="" class="thumbnail" style="height: 80px; margin: 15px;    width: 80px;" />    
+    
+    
+    
+</div>
+    <div class="form-group">
+  <label for="usr">Nom:</label>
+  <input type="text" value="{{currentUser.facebook.last_name}} {{currentUser.google.family_name}} {{currentUser.linkedin.lastName}}  " class="form-control" id="usr">
+</div>
+     <div class="form-group">
+  <label for="usr">Prénom:</label>
+  <input type="text" value="{{currentUser.facebook.first_name}} {{currentUser.google.given_name}} {{currentUser.linkedin.firstName}}  {{currentUser.linkedin.firstName}}" class="form-control" id="usr">
+</div>
+     
+    <div class="form-group">
+  <label for="usr">Sexe:</label>
+  <input type="text" value="{{currentUser.facebook.gender}} {{currentUser.google.gender}} {{currentUser.linkedin.gender}}" class="form-control" id="sexe">
+</div>
+        
+</div>
+    <!--
+urlPhoto
+    UserActuel.id = response.id;
+    UserActuel.Nom = response.last_name;
+    UserActuel.Prenom = response.first_name;
+UserActuel.birthday = response.birthday  ;
+UserActuel.devices = response.devices  ;
+UserActuel.education = response.education  ;
+UserActuel.email = response.email  ;
+UserActuel.gender = response.gender  ;
+UserActuel.hometown = response.hometown  ;
+UserActuel.languages = response.languages  ;
+UserActuel.locale = response.locale  ;
+UserActuel.location = response.location ;
+    -->
+<div style="display: block;margin: 15px;">
+
+<div class="description" >
+<textarea name="textarea" rows="10" cols="50">{{currentUser.linkedin.headline}}      Présentation Jobber Saisir un texte ici.</textarea>
+</div>
+</div>
+<div style="display: block;margin: 15px;">
+<div >
+<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-credit-card" style="margin: 5px;" >Historique Facture</button>
+<BR>
+<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-map-marker" style="margin: 5px;">Localiser avant 30 minutes</button>
+<BR>
+<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-calendar" style="margin: 5px;">Dispoinibilité</button>
+<BR>
+<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-floppy-disk" style="margin: 5px;">Enregistrer</button>
+</div>
+</div>
+
+
+</div>
+
+<div id="Categorie" class="tableauResultat" style="padding: 5px;overflow-y: scroll;height:320px;">
+			
+				
+				
+			
+			
+			<div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+			
+			
+			<div class="colonneTableauResultat" style ="width: 35%;float: left;display: inline-block;      padding: 5px;
+			/*border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;*/">
+			<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat" style="text-align: left;">Evaluation Mission </div>	
+			</div>
+			
+			<div class="celluleTableauResultat" style="text-align: left;" >
+				<div class="celluleTitreResultat">Catégorie	</div>
+				<img src="images/categorie/9.jpg" alt="" class="thumbnail" />		
+			</div>
+			<div class="celluleTableauResultat" style="text-align: left;">
+				
+					
+				<div class="celluleTitreResultat"> 
+					<span class="glyphicon glyphicon-star"> Expérience Requis	</span> 
+				</div>
+			
+			</div>
+			</div>
+</div>
+
+<div class="ligneTableauResultat" style="padding: 5px;width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+			
+			
+			<div class="colonneTableauResultat" style ="width: 35%;float: left;display: inline-block;      padding: 5px;
+			/*border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;*/">
+			<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat" style="text-align: left;">Titre Mission</div>	
+			</div>
+			
+			<div class="celluleTableauResultat" style="text-align: left;" >
+				<div class="celluleTitreResultat">Catégorie	</div>
+				<img src="images/categorie/9.jpg" alt="" class="thumbnail" />		
+			</div>
+			<div class="celluleTableauResultat" style="text-align: left;">
+				
+					
+				<div class="celluleTitreResultat"> 
+					<span class="glyphicon glyphicon-star"> Expérience Requis	</span> 
+				</div>
+			
+			</div>
+			</div>
+</div>
+
+
+</div>
+
+<div id="Categorie" class="tableauResultat" style="padding: 5px;overflow-y: scroll;height:320px;">
+			
+				
+				
+			
+			
+			<div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+			
+			
+			<div class="colonneTableauResultat" style ="width: 35%;float: left;display: inline-block;      padding: 5px;
+			/*border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;*/">
+			<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat" style="text-align: left;">Compétences	</div>	
+			</div>
+			
+			<div class="celluleTableauResultat" style="text-align: left;" >
+				<div class="celluleTitreResultat">Catégorie	</div>
+				<img src="images/categorie/9.jpg" alt="" class="thumbnail" />		
+			</div>
+			<div class="celluleTableauResultat" style="text-align: left;">
+				
+					
+				<div class="celluleTitreResultat"> 
+					<span class="glyphicon glyphicon-star"> Expérience Requis	</span> 
+				</div>
+			
+			</div>
+			</div>
+</div>
+
+<div class="ligneTableauResultat" style="padding: 5px;width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
+			
+			
+			<div class="colonneTableauResultat" style ="width: 35%;float: left;display: inline-block;      padding: 5px;
+			/*border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;*/">
+			<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat" style="text-align: left;">Titre Mission</div>	
+			</div>
+			
+			<div class="celluleTableauResultat" style="text-align: left;" >
+				<div class="celluleTitreResultat">Catégorie	</div>
+				<img src="images/categorie/9.jpg" alt="" class="thumbnail" />		
+			</div>
+			<div class="celluleTableauResultat" style="text-align: left;">
+				
+					
+				<div class="celluleTitreResultat"> 
+					<span class="glyphicon glyphicon-star"> Expérience Requis	</span> 
+				</div>
+			
+			</div>
+			</div>
+</div>
+
+
+</div>
+</template>

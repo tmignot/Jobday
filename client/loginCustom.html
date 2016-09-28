@@ -1,0 +1,95 @@
+<template name="loginCustom">
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#63c2c7;color:white;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title " id="myModalLabel">SE CONNECTER</h4>
+                </div>
+                <form id="new_prayer">
+                    <div class="modal-body">
+
+                        <div class="input-group input-group-lg" style="margin:9px;">
+                            <span class="input-group-addon" id="sizing-addon1" style="width:150px;">E-mail </span>
+                            <input type="email" id="loginEmail" class="form-control" style="width: 200%;" placeholder="xxxxxxxx@xxxx.xxxx" aria-describedby="sizing-addon1">
+                        </div>
+
+                        <div class="input-group input-group-lg" style="margin:9px;">
+                            <span class="input-group-addon" id="sizing-addon1" style="width:150px;">Mot de passe  </span>
+                            <input type="password" id="loginPassword" class="form-control" style="width: 200%;" placeholder="*********" aria-describedby="sizing-addon1">
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+
+
+                        <div class="container" style="text-align:center;">
+                            <div style="  font-size: 1.8em;">Choississez-votre type de compte de connection </div>
+							<img id="jobdaybtn" style="cursor:pointer" width="150px" height="100px" src="/jobday.png" alt="">
+                            <img id="googlebtn" style="cursor:pointer" width="100px" height="100px" src="/image/png/Google_Plus.png" alt="">
+          <!--                  
+  <script type="text/javascript" src="https://platform.linkedin.com/in.js">
+        //api_key: 77wg97iklzkqyn
+        //onLoad: onLinkedInLoad
+        //authorize: true
+    </script>
+-->
+    <script type="text/javascript">
+      //  function onLinkedInLoad() {
+       //     IN.Event.on(IN, "auth", onLinkedInAuth);
+    //    }
+
+        //function onLinkedInAuth() {
+        //    IN.API.Profile("me").fields("firstName", "lastName", "industry").result(displayProfiles);
+       // }
+
+       // function displayProfiles(profiles) {
+        //    member = profiles.values[0];
+        //    document.getElementById("profiles").innerHTML =
+        //        "<p id=\"" + member.id + "\">Hello " + member.firstName + " " + member.lastName + " "+member.industry +"</p>";
+        //}
+    </script>
+                            <!--
+    <script type="IN/Login"></script>
+    -->
+
+                                                        <img id="facebookbtn"  scope="public_profile,email"  style="cursor:pointer" width="100px" height="100px" src="/image/png/facebook.png" alt="">
+                            <img id="linkedInbtn"  scope="public_profile,email"  style="cursor:pointer" width="100px" height="100px" src="/image/png/Linkedin.png" alt="">
+
+
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+        
+      
+        <div id="profiles"></div>
+    <div id="status">
+    </div>
+        
+    </div>
+    
+    
+    
+    
+    
+    
+
+    <!--
+  Below we include the Login Button social plugin. This button uses
+  the JavaScript SDK to present a graphical Login button that triggers
+  the FB.login() function when clicked.
+-->
+    
+    
+    
+    
+    
+    
+</template>

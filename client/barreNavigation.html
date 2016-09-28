@@ -1,0 +1,71 @@
+<template name="barreNavigation">
+
+    <nav class="navbar navbar-default" style="">
+        <div class="container-fluid">
+
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button class="btn btn-primary navbar-toggle" style="background-color: crimson;" type="button" id="btnCongeAttente">
+                    <span class="glyphicon glyphicon-plane" aria-hidden="true"></span><span class="badge">{{NbCongeAttente}}</span>Congés
+                </button>
+                <button class="btn btn-primary navbar-toggle" style="background-color: crimson;" type="button" id="btnFraisNonLu">
+                    <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span><span class="badge">{{nbFraisAttente}}</span> Frais.
+                </button>
+                <button class="btn btn-primary navbar-toggle" style="background-color: crimson;" type="button" id="btnCongeAttente">
+                    <span class="glyphicon glyphicon-plane" aria-hidden="true"></span><span class="badge">{{NbCongeAttente}}</span>Congés
+                </button>
+                <button class="btn btn-primary navbar-toggle" style="background-color: crimson;" type="button" id="btnFraisNonLu">
+                    <span class="glyphicon fa fa-tasks" aria-hidden="true"></span><span class="badge">{{nbFraisAttente}}</span> Frais.
+                </button>
+                <button class="btn btn-primary navbar-toggle" style="background-color: crimson;" type="button" id="btnReleve">
+                    <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span><span class="badge">{{nbReleveAttente}}</span> Relevé.
+                </button>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- <a class="navbar-brand" href="#">Acceuil</a>-->
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li> <a class="glyphicon glyphicon-home" href="/profiluser"> Tableau de Bord </a></li>
+                    <li class="active"><a onclick="Meteor.logout();Router.go('/');" href="#" class="logout">Déconnexion <span class="sr-only">(current)</span></a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <!--  <li><a href="#">Link</a></li>-->
+                    <li class="dropdown ">
+                        <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <!--   <img src="{{this.url }}" alt="" class="iconePhotoProfilBtn" /> 
+-->{{#each photoUser}}
+                            <a href="{{this.url}}" target="_blank" class="iconePhotoProfilBtn"><img src="{{this.url }}" alt="" class="iconePhotoProfilBtn" /></a>
+                            {{/each}}Profil <span class="caret "></span>
+
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><span style=" margin-right: 40px;    margin-left: 20px;"> {{UserProfil.Prenom }}</span></li>
+                            
+                            <li><a href="#">{{UserProfil.nom }}</a></li>
+	
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/mainTemplate/mainContenu/ProfilUSer">Options</a></li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+
+
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+
+</template>

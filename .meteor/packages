@@ -35,3 +35,5 @@ service-configuration
 pauli:accounts-linkedin
 standard-minifier-css
 standard-minifier-js
+aldeed:simple-schema
+aldeed:collection2

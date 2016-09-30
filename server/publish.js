@@ -6,6 +6,14 @@ Meteor.publish('Advert', function(id) {
 	return Adverts.find({_id: id});
 });
 
+Meteor.publish('UsersDatas', function(ids) {
+	return UsersDatas.find({_id: {$in: ids}});
+});
+
+Meteor.publish('Badges', function() {
+	return Badges.find({});
+});
+
 Meteor.publish("images", function (e) {
     return Images.find({});
 });

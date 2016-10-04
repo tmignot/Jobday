@@ -300,3 +300,33 @@ span.tooltips.noarrow span:after {
 	border: none;
 	margin: 5px;
 }
+
+.owl-item img {
+	max-height: 80%;
+}
+
+.poster-container .section label.title {
+	width: 100%;
+	color: white;
+	text-transform: uppercase;
+	padding: 5px;
+	background-position: 0 0, 0 100% ;
+	background-repeat: no-repeat;
+	-webkit-background-size: 100%;
+	-moz-background-size: 100%;
+	background-size: 100%;
+	background-image: url(data:image/svg+xml);
+	background-image: -webkit-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -webkit-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+	background-image: -moz-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -moz-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+	background-image: -o-linear-gradient(left, #ed6e41 0%, #3acfd5 100%), -o-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+	background-image: linear-gradient(to left, #ed6e41 0%, #3acfd5 100%), linear-gradient(to right, #3acfd5 0%, #ed6e41 100%);
+}
+
+.poster-container .submit-container button{
+	background: #63c2c8;
+	color: white;
+	height: 35px;
+	border: none;
+	margin: 0 auto;
+	padding: 5px 15px;
+}

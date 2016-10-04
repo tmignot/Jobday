@@ -1,151 +1,141 @@
 <template name="poster">
-	<div id="Categorie" class="tableauCategorie" style="margin-top:60px;">
-		<div class="celluleTableauResultat">
-			<div class="celluleTitreResultat" style="text-align: left;">
-				Poster un Job,c'est 100% gratuit
+	<div class='poster-container'>
+		<h2 style='text-align:center;'>Poster un Job,c'est 100% gratuit</h2>
+		<div class="categories-container section col-xs-12 col-sm-6" style="text-align: left;">
+			<label for='categorieID' class='title'>De quoi avez-vous besoin ?</label>
+			<select autocomplete="off" id="categorieID" class="form-control">
+				{{#each categories}}
+				<option value='{{index}}'>{{name}}</option>
+				{{/each}}
+			</select>
+			<select autocomplete="off" id="ssCategorieID" class="form-control">
+				{{#each subcategories}}
+				<option value='{{index}}'>{{name}}</option>
+				{{/each}}
+			</select>
+		</div>
+		<div class='annonce-container section col-xs-12 col-sm-6'>
+			<label for='typeAnnonce' class='title'><i class="glyphicon glyphicon-star"></i> Annonce</label>
+			<select autocomplete="off" id="typeAnnonce" class="form-control">
+				<option value="0">Job Professionnel</option>
+				<option value="1">Job Particulier</option>
+				<option value="2">Job à distance</option>
+			</select>
+		</div>
+		<div class="titreAnnonce-container section col-xs-12">
+			<label for='titreAnnonce' class='title'>Titre</label>
+			<input type="text" class="form-control" id="titreAnnonce" placeholder="Titre">
+		</div>
+		<div class="descriptionAnnonce-container section col-xs-12 col-sm-6">
+			<label for='descriptionAnnonce' class='title'>Description</label>
+			<textarea class="form-control" rows="5" id="descriptionAnnonce" placeholder="Expliquer votre besoin. (min 50 caractère)"></textarea>
+		</div>
+		<div class="precisionAnnonce-container section col-xs-12 col-sm-6">
+			<label for='precisionAnnonce' class='title'>Précision</label>
+			<textarea class="form-control" rows="5" id="precisionAnnonce" placeholder="Comme nombre de chambre a nettoyer. ETC..."></textarea>
+		</div>
+		<div class="OptionsAnnonce-container section col-xs-12 col-sm-6">
+			<label class='title'>Options</label>
+			<div class='col-xs-12'>
+				<div class='separate-input'>
+					<input type="checkbox" id="outilsAdisposition"><label for='outilsAdisposition'> Outils à disposition</label>
+				</div>
+				<div class='separate-input'>
+					<input type="checkbox" id="vetementsADispositions"><label for='vetementsADisposition'> Vêtement à disposition</label>
+				</div>
+				<div class='separate-input'>
+					<input type="checkbox" id="vehiculeNecessaire"><label for='vehiculeNecessaire'> Véhicule nécessaire? (camionnette etc)</label>
+				</div>
 			</div>
 		</div>
-		<div class="ligneTableauResultat">
-			<div class="colonneTableauResultat">
-				<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat">
-						De quoi avez-vous besoin ?
+		<div class="address-container section col-xs-12 col-sm-6">
+			<label for='address-inputs' class='title'>Adresse du Job </label>
+			<div id='address-inputs'>
+				<input type="text" class='form-control' id="adresseNumeroRueAnnonce" placeholder="Numéro, Rue">
+				<input type="text" class='form-control' id="adresseCodePostalAnnonce" placeholder="Code postal">
+				<input type="text" class='form-control' id="adressePaysAnnonce" placeholder="Ville">               
+			</div>
+		</div>
+		<div class="dateAnnonce-container section col-xs-12 col-sm-6">
+			<label class='title'>Pour quand?</label>
+			<div class='dateAnnonce-radios'>
+				<div class='col-xs-12 col-md-6'>
+					<input type="radio" id="choixAnnonceDate1" name='choixDate' value=1><label for='choixAnnonceDate1'>A une date précise</label>
+				</div>
+				<div class='col-xs-12 col-md-6'>
+					<input type="radio" id="choixAnnonceDate2" name='choixDate' value=2><label for='choixAnnonceDate2'>Avant une certaine date</label>
+				</div>
+				<div class='col-xs-12'>
+					<input type="radio" id="choixAnnonceDate3" name='choixDate' value=3><label for='choixAnnonceDate3'>Pendant une certaine periode</label>
+				</div>
+				<div class='dateAnnonce-inputs col-xs-12'>
+					{{#if $.Session.equals 'choixDate' 1}}
+					Le <input type="date" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
+					{{/if}}
+					{{#if $.Session.equals 'choixDate' 2}}
+					Le <input type="date" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
+					{{/if}}
+					{{#if $.Session.equals 'choixDate' 3}}
+					Du <input type="date" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
+					Au <input type="date" id="AnnonceDate3" placeholder="JJ/MM/YYYY">
+					{{/if}}
+				</div>
+			</div>
+		</div>
+		<div class="horaireAnnonce-container section col-xs-12 col-sm-6">
+			<label class='title'>A quelle heure?</label>
+			<div class="horaireAnnonce-radios">
+				<div class='col-xs-12 col-md-6'>
+					<input type="radio" id="choixHoraireAnnonce1" name='choixHoraire' value=1><label for='choixHoraireAnnonce1'>Horaire libre</label>
+				</div>
+				<div class='col-xs-12 col-md-6'>
+					<input type="radio" id="choixHoraireAnnonce2" name='choixHoraire' value=2><label for='choixHoraireAnnonce2'>Matin</label>
+				</div>
+				<div class='col-xs-12 col-md-6'>
+					<input type="radio" id="choixHoraireAnnonce3" name='choixHoraire' value=3><label for='choixHoraireAnnonce3'>Après-Midi</label>
+				</div>
+				<div class='col-xs-12 col-md-6'>
+					<input type="radio" id="choixHoraireAnnonce4" name='choixHoraire' value=4><label for='choixHoraireAnnonce4'>Soir</label>
+				</div>
+				<div class='col-xs-12 col-md-6'>
+					<input type="radio" id="choixHoraireAnnonce5" name='choixHoraire' value=5><label for='choixHoraireAnnonce5'>Periode</label>
+				</div>
+				<div class="horaireAnnonce-inputs col-xs-12">
+					{{#if $.Session.equals 'choixHoraire' 5}}
+					De <input type="time" id="choixHoraireAnnonceDeb">
+					A <input type="time" id="choixHoraireAnnonceFin">
+					{{/if}}
+				</div>
+			</div>
+		</div>
+		<div class="budgetAnnonce-container section col-xs-12">
+			<label class='title'>Budget</label>
+			<div class='budgetAnnonce-radios'>
+				<div class='col-xs-12 col-sm-3'>
+					<input type="radio" id="TypeTarifAnnonce1" name='choixTarif' value=1><label for='TypeTarifAnnonce1'>Prix fixe</label>
+				</div>
+				<div class='col-xs-12 col-sm-3'>
+					<input type="radio" id="TypeTarifAnnonce2" name='choixTarif' value=2><label for='TypeTarifAnnonce2'>Prix négociable</label>
+				</div>
+				<div class='budgetAnnonce-inputs col-xs-12 col-sm-6 input-group'>
+					<div class='col-xs-12 input-group'>
+						<input type="number" class='form-control' id="tarifAnnonce">
+						<div class='input-group-addon'>EUR</div>
 					</div>
-					<select autocomplete="off" id="categorieID" class="form-control">
-						{{#each categories}}
-							<option value='{{index}}'>{{name}}</option>
-						{{/each}}
-					</select>
-					<select autocomplete="off" id="ssCategorieID" class="form-control">
-						{{#each subcategories}}
-							<option value='{{index}}'>{{name}}</option>
-						{{/each}}
-					</select>
-					<span class="glyphicon glyphicon-star">Annonce</span>
-					<select autocomplete="off" id="typeAnnonce" class="form-control">
-						<option value="0">Job Professionnel</option>
-						<option value="1">Job Particulier</option>
-						<option value="2">Job à distance</option>
-					</select>
 				</div>
 			</div>
-		</div>
-		<div class="ligneTableauResultat">
-			<div class="colonneTableauResultat">
-				<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat">Titre</div>
-				</div>
-				<div class="celluleTableauResultat">
-					<input type="text" class="form-control" id="titreAnnonce" placeholder="Titre">
+			<div class='section'>
+				<label class='col-xs-12 col-sm-6'>Besoin de combien de personne?</label>
+				<div class='nbpeopleAnnonce-inputs col-xs-12 col-sm-6' style='padding:0;'>
+					<input type="number" class='form-control' id="nbPersonnePourAnnonce">
 				</div>
 			</div>
-		</div>
-		<div class="ligneTableauResultat">
-			<div class="colonneTableauResultat">
-				<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat">Description</div>
-				</div>
-				<div class="celluleTableauResultat">
-					<textarea class="form-control" rows="5" id="descriptionAnnonce" placeholder="Expliquer votre besoin. (min 50 caractère)"></textarea>
-				</div>
+			<div class="totalAnnonce-container col-xs-12 section">
+				<label id="totalAnnonce">Total</label><span id='totalVal'></span>
+			</div>
+			<div class='submit-container col-xs-12 section' style='text-align:center;'>
+				<button id="posterAnnonce"  class="glyphicon glyphicon-user" style='display:inline-block;'>Poster </button>
 			</div>
 		</div>
-		<div class="ligneTableauResultat">
-			<div class="colonneTableauResultat">
-				<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat">Précision </div>
-				</div>
-				<div class="celluleTableauResultat">
-					<textarea class="form-control" rows="5" id="precisionAnnonce" placeholder="Comme nombre de chambre a nettoyer. ETC..."></textarea>
-				</div>
-			</div>
-		</div>
-		<div class="ligneTableauResultat">
-			<div class="colonneTableauResultat">
-				<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat">
-						<input type="checkbox" id="outilsAdisposition"> Outils à disposition </div>
-					<input type="checkbox" id="vetementsADispositions">Vêtement à disposition
-					<input type="checkbox" id="vehiculeNecessaire">Véhicule nécessaire? (camionnette etc)
-				</div>
-			</div>
-		</div>
-		<div class="ligneTableauResultat">
-			<div class="colonneTableauResultat">
-				<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat">Adresse du Job </div>
-				</div>
-				<div class="celluleTableauResultat">
-					<input type="text" id="adresseNumeroRueAnnonce" placeholder="numéro rue">
-					<input type="text" id="adressetypeRueAnnonce" placeholder=" rue, boulevard ,impasse">     
-					<input type="text" id="adresseRueAnnonce" placeholder=" rue, boulevard ,impasse">        
-					<input type="text" id="adresseCodePostalAnnonce" placeholder=" xxxxxxx">
-					<input type="text" id="adressePaysAnnonce" placeholder=" France">               
-				</div>
-			</div>
-		</div>
-		<div class="ligneTableauResultat">
-			<div class="colonneTableauResultat">
-				<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat">Pour quand? </div>
-				</div>
-				<div class="celluleTableauResultat">
-					<input type="radio" id="choixAnnonceDate1">A une date précise
-					<input type="radio" id="choixAnnonceDate2">Avant le
-					<input type="date" id="DateAnnonce1" placeholder="JJ/MM/YYYY">
-				</div>
-				<div class="celluleTableauResultat">
-					Ou
-				</div>
-				<div class="celluleTableauResultat">
-					<input type="radio" id="choixAnnonceDate3">Du
-					<input type="date" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
-					<input type="radio" id="choixAnnonceDate4">Au
-					<input type="date" id="AnnonceDate3" placeholder="JJ/MM/YYYY">
-				</div>
-			</div>
-		</div>
-		<div class="ligneTableauResultat">
-			<div class="colonneTableauResultat">
-				<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat">Horaire </div>
-				</div>
-				<div class="celluleTableauResultat">
-					<input type="radio" id="choixHoraireAnnonce1">Horaire libre
-					<input type="radio" id="choixHoraireAnnonce2">Matin
-					<input type="radio" id="choixHoraireAnnonce3">Après-Midi
-					<input type="radio" id="choixHoraireAnnonce4">Soir
-				</div>
-				<div class="celluleTableauResultat">
-					Ou
-				</div>
-				<div class="celluleTableauResultat">
-					<input type="radio" id="choixHoraireAnnonce5">De
-					<input type="time" id="choixHoraireAnnonceDeb">
-					<input type="radio" id="choixHoraireAnnonce6">A
-					<input type="time" id="choixHoraireAnnonceFin">
-				</div>
-			</div>
-		</div>
-		<div class="ligneTableauResultat">
-			<div class="colonneTableauResultat">
-				<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat">Budget </div>
-				</div>
-				<div class="celluleTableauResultat">
-					<input type="number" id="tarifAnnonce">€
-					<input type="checkbox" id="TypeTarifAnnonce1">Prix fixe
-					<input type="radio" id="TypeTarifAnnonce2">Prix négociable
-				</div>
-				<div class="celluleTableauResultat">
-					Besoin de combien de personne?
-					<input type="number" id="nbPersonnePourAnnonce">
-				</div>
-				<div class="celluleTableauResultat">
-					<input type="radio" id="totalAnnonce">Total
-				</div>
-			</div>
-		</div>
-		<button id="posterAnnonce"  class="btn btn-primary glyphicon glyphicon-user">Poster </button>
 	</div>
 </template>

@@ -1,0 +1,151 @@
+<template name="poster">
+	<div id="Categorie" class="tableauCategorie" style="margin-top:60px;">
+		<div class="celluleTableauResultat">
+			<div class="celluleTitreResultat" style="text-align: left;">
+				Poster un Job,c'est 100% gratuit
+			</div>
+		</div>
+		<div class="ligneTableauResultat">
+			<div class="colonneTableauResultat">
+				<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat">
+						De quoi avez-vous besoin ?
+					</div>
+					<select autocomplete="off" id="categorieID" class="form-control">
+						{{#each categories}}
+							<option value='{{index}}'>{{name}}</option>
+						{{/each}}
+					</select>
+					<select autocomplete="off" id="ssCategorieID" class="form-control">
+						{{#each subcategories}}
+							<option value='{{index}}'>{{name}}</option>
+						{{/each}}
+					</select>
+					<span class="glyphicon glyphicon-star">Annonce</span>
+					<select autocomplete="off" id="typeAnnonce" class="form-control">
+						<option value="0">Job Professionnel</option>
+						<option value="1">Job Particulier</option>
+						<option value="2">Job à distance</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="ligneTableauResultat">
+			<div class="colonneTableauResultat">
+				<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat">Titre</div>
+				</div>
+				<div class="celluleTableauResultat">
+					<input type="text" class="form-control" id="titreAnnonce" placeholder="Titre">
+				</div>
+			</div>
+		</div>
+		<div class="ligneTableauResultat">
+			<div class="colonneTableauResultat">
+				<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat">Description</div>
+				</div>
+				<div class="celluleTableauResultat">
+					<textarea class="form-control" rows="5" id="descriptionAnnonce" placeholder="Expliquer votre besoin. (min 50 caractère)"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="ligneTableauResultat">
+			<div class="colonneTableauResultat">
+				<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat">Précision </div>
+				</div>
+				<div class="celluleTableauResultat">
+					<textarea class="form-control" rows="5" id="precisionAnnonce" placeholder="Comme nombre de chambre a nettoyer. ETC..."></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="ligneTableauResultat">
+			<div class="colonneTableauResultat">
+				<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat">
+						<input type="checkbox" id="outilsAdisposition"> Outils à disposition </div>
+					<input type="checkbox" id="vetementsADispositions">Vêtement à disposition
+					<input type="checkbox" id="vehiculeNecessaire">Véhicule nécessaire? (camionnette etc)
+				</div>
+			</div>
+		</div>
+		<div class="ligneTableauResultat">
+			<div class="colonneTableauResultat">
+				<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat">Adresse du Job </div>
+				</div>
+				<div class="celluleTableauResultat">
+					<input type="text" id="adresseNumeroRueAnnonce" placeholder="numéro rue">
+					<input type="text" id="adressetypeRueAnnonce" placeholder=" rue, boulevard ,impasse">     
+					<input type="text" id="adresseRueAnnonce" placeholder=" rue, boulevard ,impasse">        
+					<input type="text" id="adresseCodePostalAnnonce" placeholder=" xxxxxxx">
+					<input type="text" id="adressePaysAnnonce" placeholder=" France">               
+				</div>
+			</div>
+		</div>
+		<div class="ligneTableauResultat">
+			<div class="colonneTableauResultat">
+				<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat">Pour quand? </div>
+				</div>
+				<div class="celluleTableauResultat">
+					<input type="radio" id="choixAnnonceDate1">A une date précise
+					<input type="radio" id="choixAnnonceDate2">Avant le
+					<input type="date" id="DateAnnonce1" placeholder="JJ/MM/YYYY">
+				</div>
+				<div class="celluleTableauResultat">
+					Ou
+				</div>
+				<div class="celluleTableauResultat">
+					<input type="radio" id="choixAnnonceDate3">Du
+					<input type="date" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
+					<input type="radio" id="choixAnnonceDate4">Au
+					<input type="date" id="AnnonceDate3" placeholder="JJ/MM/YYYY">
+				</div>
+			</div>
+		</div>
+		<div class="ligneTableauResultat">
+			<div class="colonneTableauResultat">
+				<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat">Horaire </div>
+				</div>
+				<div class="celluleTableauResultat">
+					<input type="radio" id="choixHoraireAnnonce1">Horaire libre
+					<input type="radio" id="choixHoraireAnnonce2">Matin
+					<input type="radio" id="choixHoraireAnnonce3">Après-Midi
+					<input type="radio" id="choixHoraireAnnonce4">Soir
+				</div>
+				<div class="celluleTableauResultat">
+					Ou
+				</div>
+				<div class="celluleTableauResultat">
+					<input type="radio" id="choixHoraireAnnonce5">De
+					<input type="time" id="choixHoraireAnnonceDeb">
+					<input type="radio" id="choixHoraireAnnonce6">A
+					<input type="time" id="choixHoraireAnnonceFin">
+				</div>
+			</div>
+		</div>
+		<div class="ligneTableauResultat">
+			<div class="colonneTableauResultat">
+				<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat">Budget </div>
+				</div>
+				<div class="celluleTableauResultat">
+					<input type="number" id="tarifAnnonce">€
+					<input type="checkbox" id="TypeTarifAnnonce1">Prix fixe
+					<input type="radio" id="TypeTarifAnnonce2">Prix négociable
+				</div>
+				<div class="celluleTableauResultat">
+					Besoin de combien de personne?
+					<input type="number" id="nbPersonnePourAnnonce">
+				</div>
+				<div class="celluleTableauResultat">
+					<input type="radio" id="totalAnnonce">Total
+				</div>
+			</div>
+		</div>
+		<button id="posterAnnonce"  class="btn btn-primary glyphicon glyphicon-user">Poster </button>
+	</div>
+</template>

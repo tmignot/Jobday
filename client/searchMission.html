@@ -1,413 +1,221 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <template name="resultatSearch">
-<div id="Categorie" class="tableauResultat" style="overflow-y: scroll;height:320px;">
-			
-				
-				
-			
-			  {{#each annonce}}
-			<div   onclick="window.location.href='/missionProfil/{{this._id }}';"  class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
-			
-			
+	<div id="Categorie" class="tableauResultat" style="overflow-y: scroll;height:320px;">
+		{{#each annonce}}
+		<div   onclick="window.location.href='/missionProfil/{{this._id }}';"  class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
 			<div class="colonneTableauResultat" style ="width: 35%;float: left;display: inline-block;      padding: 5px;
 			/*border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;*/">
-			<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat" style="text-align: left;">Titre {{this.titreAnnonce }}</div>	
-			</div>
-			
-			<div class="celluleTableauResultat" style="text-align: left;" >
-				<div class="celluleTitreResultat">Catégorie	</div>
-				<img src="images/categorie/{{this.categorieID }}.jpg" alt="" class="thumbnail" />		
-			</div>
-			<div class="celluleTableauResultat" style="text-align: left;">
-				
-					
-				<div class="celluleTitreResultat"> 
-					<span class="glyphicon glyphicon-star"> Expérience Requis  {{this.experienceRequis }}	</span> 
+				<div class="celluleTableauResultat">
+					<div class="celluleTitreResultat" style="text-align: left;">
+						Titre {{this.titreAnnonce }}
+					</div>	
 				</div>
-			
-			</div>
-			</div>
-			
-			
-			
-			
-			<div class="colonneTableauResultat" style ="width: 65%;float: right;display: inline-block; 
-			/* border: 5px;   border-color: #E95393;    border-style: solid;    border-radius: 20px; */ ">
-			
-           
-                
-			
-			<div class="celluleTableauResultat" style="text-align: left;" >
-			<div class="" style="float:left">Description.. {{this.descriptionAnnonce }}	</div>	
-			</div>
-			<BR>
-			<div class="celluleTableauResultat" style="text-align: left;" >
-			<div class="celluleTitreResultat" style="text-align: left;">
-			<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-map-marker" >
-				 Lieu	</button>
-			</div>	
-			</div>	
-			
-			<div class="celluleTableauResultat" style="text-align: left;" >
-			<div class="celluleTitreResultat"> Date :  {{this.dateAnnonceDeb }}		</div>
-			</div>
-			
-			<div class="celluleTableauResultat" style="text-align: left;" >
-			<div class="celluleTitreResultat"> 
-			<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-user">
-			Nombre de participant voulus  {{this.nbParticipantVoulus }}	</button>
-			</div></div>
-				
-			<div class="celluleTableauResultat" style="text-align: left;">
-				<div class="celluleTitreResultat"> 
-					<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-user">			Nombre de participant postuler {{this.nbParticipantPostuler }}	</button>
+				<div class="celluleTableauResultat" style="text-align: left;" >
+					<div class="celluleTitreResultat">
+						Catégorie
+					</div>
+					<img src="images/categorie/{{this.categorieID }}.jpg" alt="" class="thumbnail" />		
+				</div>
+				<div class="celluleTableauResultat" style="text-align: left;">
+					<div class="celluleTitreResultat"> 
+						<span class="glyphicon glyphicon-star">Expérience Requis  {{this.experienceRequis }}</span> 
+					</div>
 				</div>
 			</div>
-			
-			<div class="celluleTableauResultat" style="text-align: left;">
-				<div class="celluleTitreResultat"> 	
-				<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-euro"> {{this.tarifAnnonce }} </button> 	
+			<div class="colonneTableauResultat" style ="width: 65%;float: right;display: inline-block;">
+				<div class="celluleTableauResultat" style="text-align: left;" >
+					<div class="" style="float:left">
+						Description.. {{this.descriptionAnnonce }}
+					</div>	
 				</div>
-			</div>
-			
-			<div class="celluleTableauResultat" style="text-align: left;">
-				<div class="celluleTitreResultat">
-					<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-comment" >Laisser Message	</button>	
+				<BR>
+				<div class="celluleTableauResultat" style="text-align: left;" >
+					<div class="celluleTitreResultat" style="text-align: left;">
+						<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-map-marker" >
+							Lieu	</button>
+					</div>	
+				</div>	
+				<div class="celluleTableauResultat" style="text-align: left;" >
+					<div class="celluleTitreResultat">
+						Date :  {{this.dateAnnonceDeb }}
+					</div>
 				</div>
+				<div class="celluleTableauResultat" style="text-align: left;" >
+					<div class="celluleTitreResultat"> 
+						<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-user">Nombre de participant voulus  {{this.nbParticipantVoulus }}	</button>
+					</div>
+				</div>
+					<div class="celluleTableauResultat" style="text-align: left;">
+						<div class="celluleTitreResultat"> 
+							<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-user">Nombre de participant postuler {{this.nbParticipantPostuler }}</button>
+						</div>
+					</div>
+					<div class="celluleTableauResultat" style="text-align: left;">
+						<div class="celluleTitreResultat"> 	
+							<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-euro">{{this.tarifAnnonce}}</button> 	
+						</div>
+					</div>
+					<div class="celluleTableauResultat" style="text-align: left;">
+						<div class="celluleTitreResultat">
+							<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-comment" >Laisser Message</button>	
+						</div>
+					</div>
+					<div class="celluleTableauResultat" style="text-align: left;">
+						<div class="celluleTitreResultat">
+							<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-hand-up">Postuler</button>
+						</div>	
+					</div>
 			</div>
-			
-			<div class="celluleTableauResultat" style="text-align: left;">
-			<div class="celluleTitreResultat">
-			<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-hand-up"> Postuler	</button>
-			</div>	
-			</div>
-			
-			
-			</div>
-			
-			
-			</div>
-			{{/each}}
-			
-			
-			
-			
-			
-			
-			</div>
+		</div>
+		{{/each}}
+	</div>
 </template>
+
 <template name="searchMission">
-
-<nav>
-  <div class="container"> 
-    
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> 
-      <span class="sr-only">Toggle navigation</span> 
-      <!--
-      <span class="icon-bar"></span> 
-      <span class="glyphicon glyphicon-align-justify"></span> <span class="icon-bar"></span> 
-      -->
-      <ul class="nav navbar-nav navbar-fixed-top"  >
-        <li class="dropdown" style="float:left;"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-        <span class="glyphicon glyphicon-align-justify" style="font-size:25px;" ></span>
-        <img src="jobday.png" height="30px" width="100px">
-         <span class="caret"></span></a>
-         
-          <ul class="dropdown-menu">
-            <li><a href="/poster" style="font-weight:bold;" >PROPOSER UN JOB</a> </li>
-            <li><a href="/searchMission" style="font-weight:bold;" >CHERCHER UN JOB</a> </li>
-            
-            <li><a href="/commentCaMarche" style="font-weight:bold;" >COMMENT CA MARCHE</a> </li>
-            {{#if currentUser}}
-   
-
-     <li> <a class="glyphicon glyphicon-home" href="/profiluser"  style="font-weight:bold;" > Tableau de Bord </a></li>
-        <li class="active"><a onclick="Meteor.logout();Router.go('/');" href="#" class="logout"  style="font-weight:bold;"  >Déconnexion <span class="sr-only">(current)</span></a></li>
-    
-       
-    {{else}}
-            
-            <li><a href="#"  data-toggle="modal" data-target="#createLogin" style="font-weight:bold;" >S'INCRIRE </a> </li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#" data-toggle="modal" data-target="#myModal" style="font-weight:bold;" >SE CONNECTER</a> </li>
-            {{/if}}
-            
-            <li role="separator" class="divider"></li>
-          </ul>
-        </li>
-      </ul>
-      
-      </button>
-     
-      
-      
-      </div>
-    
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse navbar-fixed-top">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="/"><img src="jobday.png" height="30px" width="100px"> <span class="sr-only">(current)</span></a> </li>
-        <li><a href="/poster" style="font-weight:bold;" >Poster un Job</a> </li>
-        <li><a href="/searchMission" style="font-weight:bold;" >Trouver un Job</a> </li>
-		<li><a href="/commentCaMarche" style="font-weight:bold;" >Comment ca marche </a> </li>
-      </ul>
-      <!--<form class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>-->
-      <ul class="nav navbar-nav navbar-right hidden-sm">
-      
-       {{#if currentUser}}
-   
-
-     <li> <a class="glyphicon glyphicon-home" href="/profiluser" style="font-weight:bold;" > Tableau de Bord </a></li>
-        <li class="active"><a onclick="Meteor.logout();Router.go('/');" href="#" class="logout" style="font-weight:bold;" >Déconnexion <span class="sr-only">(current)</span></a></li>
-    
-       
-    {{else}}
-        <li><a href="#" data-toggle="modal" data-target="#createLogin" style="font-weight:bold;" >S'INCRIRE </a> </li>
-         <li><a href="#" data-toggle="modal" data-target="#myModal"  style="font-weight:bold;" >SE CONNECTER</a> </li>
-         
-         {{/if}}
-      </ul>
-    </div>
-    <!-- /.navbar-collapse --> 
-  </div>
-  <!-- /.container-fluid --> 
-</nav>
-
-
-
-<div style="margin-top:100px;">
-
-
-
-	<button  id="btnSearchJobParticulier" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Job entre Particulier  </button>
-	<button  id="btnSearchJobProfessionel" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Job Professionnel </button>
-	<button  id="btnSearchJobAll" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Tous les Jobs </button>
-	<button  id="btnSearchJobOnline" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Job Connecté </button>
-	
-	
+	<div style="margin-top:100px;">
+		<button  id="btnSearchJobParticulier" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Job entre Particulier  </button>
+		<button  id="btnSearchJobProfessionel" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Job Professionnel </button>
+		<button  id="btnSearchJobAll" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Tous les Jobs </button>
+		<button  id="btnSearchJobOnline" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Job Connecté </button>
 	</div>	
-
-<div class="input-group input-group-lg" style="">
-                    <span style="text-align: left;" class="input-group-addon" id="sizing-addon1">Catégorie </span>
-                    <select autocomplete="off" id="collectionIdSelect" class="form-control">
-<option value="0">Toutes Catégories</option>
-					
-<option value="1">Hôtellerie & Restauration</option>
-<option value="2">Commerce & Vente</option>
-<option value="3">Service à la personne	</option>
-<option value="4">Web & Création	</option>
-<option value="5">Evénementiel	</option>
-<option value="6">Transport & Logistique	</option>
-<option value="7">Service administratif </option>
-<option value="8">Rédaction & Traduction</option>
-<option value="9">Cours</option>
-<option value="10">Tourisme	</option>
-<option value="11">Santé</option>
-<option value="12">Maison & Jardin</option>
-                    </select>
-                </div>
-				<div class="input-group input-group-lg" style="">
-                    <span style="text-align: left;" class="input-group-addon" id="sizing-addon1">Sous Catégorie </span>
-                    <select autocomplete="off" id="collectionIdSelect" class="form-control">
-<option value="0">Maison & Jardin</option>
-<option value="0">Hôtellerie & Restauration</option>
-<option value="0">Commerce & Vente</option>
-<option value="0">Web & Création	</option>
-<option value="0">Evénementiel	</option>
-<option value="0">Service à la personne	</option>
-<option value="0">Transport & Logistique	</option>
-<option value="0">Service administratif </option>
-<option value="0">Rédaction & Traduction</option>
-<option value="0">Cours</option>
-<option value="0">Tourisme	</option>
-<option value="0">Santé</option>                    </select>
-                </div>
-				
-				
-				<input type="text"  class="form-control" placeholder="Votre Besoin ?" id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-			
-				{{> inputAutocomplete settings=settings class="form-control" id="localisation" placeholder="Localisation ?" aria-describedby="sizing-addon1"}}
-    {{> inputAutocomplete settings=settings class="form-control" id="localisation" placeholder="Mots-clé" aria-describedby="sizing-addon1"}}
-    
-				<button  id="btnSearch" style ="background-color:#63c2c7;height: 55px;padding: 0px; width: 100%;margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Rechercher </button>
-		<div>
+	<div class="input-group input-group-lg" style="">
+		<span style="text-align: left;" class="input-group-addon" id="sizing-addon1">Catégorie </span>
+		<select autocomplete="off" id="collectionIdSelect" class="form-control">
+			<option value="0">Toutes Catégories</option>
+			<option value="1">Hôtellerie & Restauration</option>
+			<option value="2">Commerce & Vente</option>
+			<option value="3">Service à la personne	</option>
+			<option value="4">Web & Création	</option>
+			<option value="5">Evénementiel	</option>
+			<option value="6">Transport & Logistique	</option>
+			<option value="7">Service administratif </option>
+			<option value="8">Rédaction & Traduction</option>
+			<option value="9">Cours</option>
+			<option value="10">Tourisme	</option>
+			<option value="11">Santé</option>
+			<option value="12">Maison & Jardin</option>
+		</select>
+	</div>
+	<div class="input-group input-group-lg" style="">
+		<span style="text-align: left;" class="input-group-addon" id="sizing-addon1">Sous Catégorie </span>
+		<select autocomplete="off" id="collectionIdSelect" class="form-control">
+			<option value="0">Maison & Jardin</option>
+			<option value="0">Hôtellerie & Restauration</option>
+			<option value="0">Commerce & Vente</option>
+			<option value="0">Web & Création	</option>
+			<option value="0">Evénementiel	</option>
+			<option value="0">Service à la personne	</option>
+			<option value="0">Transport & Logistique	</option>
+			<option value="0">Service administratif </option>
+			<option value="0">Rédaction & Traduction</option>
+			<option value="0">Cours</option>
+			<option value="0">Tourisme	</option>
+			<option value="0">Santé</option>
+		</select>
+	</div>
+	<input type="text"  class="form-control" placeholder="Votre Besoin ?" id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
+	{{> inputAutocomplete settings=settings class="form-control" id="localisation" placeholder="Localisation ?" aria-describedby="sizing-addon1"}}
+	{{> inputAutocomplete settings=settings class="form-control" id="localisation" placeholder="Mots-clé" aria-describedby="sizing-addon1"}}
+	<button  id="btnSearch" style ="background-color:#63c2c7;height: 55px;padding: 0px; width: 100%;margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Rechercher </button>
+	<div>
 		Filtrer Par :
 		<div>
-		<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-		Date Publication Récente (Par défaut)
-		<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-		Prix croissant
-		<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-		Prix décroissant
-		<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-		Urgence
-		<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-		Distance
-		
-		<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-		<input type="date"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-		
-		
+			<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
+			Date Publication Récente (Par défaut)
+			<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
+			Prix croissant
+			<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
+			Prix décroissant
+			<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
+			Urgence
+			<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
+			Distance
+			<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
+			<input type="date"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
 		</div>
+	</div>
+	<div class="ligneTableau" style="display: flex;" >
+		<div class="celluleTableau" style="width: 725px;">
+			{{> resultatSearch}}
 		</div>
-		
-		
-		<div class="ligneTableau" style="display: flex;" >
-			<div class="celluleTableau" style="width: 725px;">{{> resultatSearch}}	</div>
-			<div class="celluleTableau" >{{> mapsMission}}	</div>
-			</div>
-
-   
-			
-			 
-			 
-                
-
-	
-	
-
-   
+		<div class="celluleTableau">
+			{{> mapsMission}}
+		</div>
+	</div>
 </template>
-	<template name="mapsMission">
 
-<div id="map" style="height:350px;width:375px;"></div>
-    <script>
-
-      var map;
-      function initMap() {
-	  
-	  
-	  			var geocoder = new google.maps.Geocoder();
-var address = "13 boulevard de l'hôpital Stell, 92500 Rueil-MalMaison"//"new york";
-
-geocoder.geocode( { 'address': address}, function(results, status) {
-
-if (status == google.maps.GeocoderStatus.OK) {
-    var latitude = results[0].geometry.location.lat();
-     var longitude = results[0].geometry.location.lng();
-	   map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: latitude, lng: longitude},
-		  zoom: 12
-        });
-	 
-	var location = { lat: latitude, lng: longitude }; 
-	var contentString = '<div id="content">'+
-      '<div id="siteNotice">'+
-      '</div>'+
-      '<h1 id="firstHeading" class="firstHeading">Titre Mission</h1>'+
-      '<div id="bodyContent">'+
-      '<p><b>Roman</b>, cherche un bon plan ;)' +
-      'Vive Jobday.</p>'+
-      '<p>Attribution: Jobday, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-      'Détails Annonce</a> '+
-      '</p>'+
-      '</div>'+
-      '</div>';
-
-  var infowindow = new google.maps.InfoWindow({
-    content: contentString
-  });
-
-
-  
-  
-   var marker = new google.maps.Marker({
-    position: location,
-    map: map,
-    title: 'Job Information'
-  });
-  
-  
-  
-  
-  marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
-	 
-    //alert(latitude);
-    }
-	}); 
-	  
-	  
-	  
-	  
-	  address = "1 boulevard de l'hôpital Stell, 92500 Rueil-MalMaison";
-geocoder.geocode( { 'address': address}, function(results, status) {
-
-if (status == google.maps.GeocoderStatus.OK) {
-    var latitude = results[0].geometry.location.lat();
-     var longitude = results[0].geometry.location.lng();
-	   
-	 
-	var location = { lat: latitude, lng: longitude }; 
-	var contentString = '<div id="content">'+
-      '<div id="siteNotice">'+
-      '</div>'+
-      '<h1 id="firstHeading" class="firstHeading">Titre Mission2</h1>'+
-      '<div id="bodyContent">'+
-      '<p><b>Roman</b>, cherche un bon plan ;)' +
-      'Vive Jobday.</p>'+
-      '<p>Attribution: Jobday, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-      'Détails Annonce</a> '+
-      '</p>'+
-      '</div>'+
-      '</div>';
-
-  var infowindow = new google.maps.InfoWindow({
-    content: contentString
-  });
-
-
-  
-  
-   var marker = new google.maps.Marker({
-    position: location,
-    map: map,
-    title: 'Job Information'
-  });
-  
-  
-  
-  
-  marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
-	 
-    //alert(latitude);
-    }
-	}); 
-	  
-	  
-	  
-	  
-	  
-        //map = new google.maps.Map(document.getElementById('map'), {
-          //center: {lat: -34.397, lng: 150.644},
-		  //zoom: 8
-       // });
-		
+<template name="mapsMission">
+	<div id="map" style="height:350px;width:375px;"></div>
+	<script>
+		var map;
+		function initMap() {
+			var geocoder = new google.maps.Geocoder();
+			var address = "13 boulevard de l'hôpital Stell, 92500 Rueil-MalMaison"//"new york";
+			geocoder.geocode( { 'address': address}, function(results, status) {
+				if (status == google.maps.GeocoderStatus.OK) {
+					var latitude = results[0].geometry.location.lat();
+					var longitude = results[0].geometry.location.lng();
+					map = new google.maps.Map(document.getElementById('map'), {
+						center: {lat: latitude, lng: longitude},
+						zoom: 12
+					});
+					var location = { lat: latitude, lng: longitude }; 
+					var contentString = '<div id="content">'+
+						'<div id="siteNotice">'+
+						'</div>'+
+						'<h1 id="firstHeading" class="firstHeading">Titre Mission</h1>'+
+						'<div id="bodyContent">'+
+						'<p><b>Roman</b>, cherche un bon plan ;)' +
+						'Vive Jobday.</p>'+
+						'<p>Attribution: Jobday, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+						'Détails Annonce</a> '+
+						'</p>'+
+						'</div>'+
+						'</div>';
+					var infowindow = new google.maps.InfoWindow({
+						content: contentString
+					});
+					var marker = new google.maps.Marker({
+						position: location,
+						map: map,
+						title: 'Job Information'
+					});
+					marker.addListener('click', function() {
+						infowindow.open(map, marker);
+					});
+				}
+			}); 
+			address = "1 boulevard de l'hôpital Stell, 92500 Rueil-MalMaison";
+			geocoder.geocode( { 'address': address}, function(results, status) {
+				if (status == google.maps.GeocoderStatus.OK) {
+					var latitude = results[0].geometry.location.lat();
+					var longitude = results[0].geometry.location.lng();
+					var location = { lat: latitude, lng: longitude }; 
+					var contentString = '<div id="content">'+
+						'<div id="siteNotice">'+
+						'</div>'+
+						'<h1 id="firstHeading" class="firstHeading">Titre Mission2</h1>'+
+						'<div id="bodyContent">'+
+						'<p><b>Roman</b>, cherche un bon plan ;)' +
+						'Vive Jobday.</p>'+
+						'<p>Attribution: Jobday, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+						'Détails Annonce</a> '+
+						'</p>'+
+						'</div>'+
+						'</div>';
+					var infowindow = new google.maps.InfoWindow({
+						content: contentString
+					});
+					var marker = new google.maps.Marker({
+						position: location,
+						map: map,
+						title: 'Job Information'
+					});
+					marker.addListener('click', function() {
+						infowindow.open(map, marker);
+					});
+				}
+			}); 
 		}
-
-
-		
-		
-      
-	  
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZi1ejGcXnlRxRdOqcqy5noRhSEAhaWt8&callback=initMap"
-    async defer></script>
-
+	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZi1ejGcXnlRxRdOqcqy5noRhSEAhaWt8&callback=initMap" async defer></script>
 </template>

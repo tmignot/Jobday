@@ -1,7 +1,7 @@
 .owl-item p {
 	position: absolute;
 	color: white;
-	bottom: 50%;
+	top: 50%;
 	margin: 0 auto;
 	width: 100%;
 	text-align: center;
@@ -48,12 +48,22 @@ ul.navbar-nav li a{
 	background: #63c2c8;
 	padding: 5px;
 	
+	vertical-align: middle;
 }
 
 .searchbar span {
 	color: white;
 	vertical-align: middle;
 	padding-left: 15px;
+}
+
+.searchbar input {
+	color: black;
+}
+
+.searchbar span:nth-child(1) {
+	font-size: 18px;
+	line-height: 26px;
 }
 
 .find-button {
@@ -65,10 +75,12 @@ ul.navbar-nav li a{
 
 .category {
 	margin-top: 40px;
+	text-align: center;
 }
 
 .category img {
-	width: 100%;
+	display: inline-block;
+	width: 70%;
 }
 
 .category span {
@@ -78,13 +90,38 @@ ul.navbar-nav li a{
 	margin: 15px;
 }
 
-.links-button {
+.jobday-desc {
+	padding:30px;
+	font-size: 2em;
+	border-left: 5px solid #3ACFD5;
+	border-right: 5px solid #ed6e41;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background-position: 0 0, 0 100% ;
+	background-repeat: no-repeat;
+	-webkit-background-size: 100% 5px;
+	-moz-background-size: 100% 5px;
+	background-size: 100% 5px;
+	background-image: url(data:image/svg+xml);
+	background-image: -webkit-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -webkit-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+	background-image: -moz-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -moz-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+	background-image: -o-linear-gradient(left, #ed6e41 0%, #3acfd5 100%), -o-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+	background-image: linear-gradient(to left, #ed6e41 0%, #3acfd5 100%), linear-gradient(to right, #3acfd5 0%, #ed6e41 100%);
+	display:inline-block;
+}
+
+.jobday-desc-text {
+}
+
+.section {
 	margin-top: 25px;
 }
 
 .links-button div {
 	padding: 10px;
 	color: white;
+	font-size: 16px;
 }
 
 .links-button div div {
@@ -95,4 +132,154 @@ ul.navbar-nav li a{
 .links-button div div.urgent-jobs {
 	text-align: center;
 	background: #ee7202;
+}
+
+.conditions {
+	padding-left: 30px;
+	padding-right: 30px;
+	text-align: center;
+}
+
+.conditions img {
+	display: inline-block;
+	width: 50%;
+}
+
+.conditions-logos div:nth-child(1) img {
+	width: 63%;
+}
+
+.tooltip-header {
+	background: #63c2c8;
+	color: white;
+	padding: 5px;
+	font-size:18px;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+span.tooltips span {
+  border-radius: 0px;
+	padding:25px;
+	display: block;
+	background: lightgray;
+	text-transform: uppercase;
+	min-height: 200px;
+}
+
+span.tooltips.topleft,
+span.tooltips.topright,
+span.tooltips.botleft,
+span.tooltips.botright {
+	margin-top: 30px;
+}
+
+span.tooltips.topleft,
+span.tooltips.botleft {
+	text-align: right;
+}
+
+span.tooltips.topright,
+span.tooltips.botright {
+	text-align: left;
+}
+
+span.tooltips.topleft span,
+span.tooltips.topright span,
+span.tooltips.botleft span,
+span.tooltips.botright span {
+	min-height: 150px;
+}
+
+span.tooltips i {
+	font-size: 2em;
+}
+
+span.tooltips span:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 0; height: 0;
+}
+
+span.tooltips.topleft span:after {
+  right: -10%;
+  border-left: 50px solid lightgray;
+  border-top: 20px solid transparent;
+  border-bottom: 0px solid transparent;
+	text-align: right;
+}
+span.tooltips.topright span:after {
+  left: -10%;
+  border-right: 50px solid lightgray;
+  border-top: 20px solid transparent;
+  border-bottom: 0px solid transparent;
+	text-align: left;
+}
+span.tooltips.botleft span:after {
+  right: -10%;
+  border-left: 50px solid lightgray;
+  border-top: 0px solid transparent;
+  border-bottom: 20px solid transparent;
+	text-align: right;
+}
+span.tooltips.botright span:after {
+  left: -10%;
+  border-right: 50px solid lightgray;
+  border-top: 0px solid transparent;
+  border-bottom: 20px solid transparent;
+	text-align: right;
+}
+
+span.tooltips.noarrow span:after {
+	visibility: hidden;
+}
+
+.newsletter h2 {
+	text-align: left;
+	color: white;
+	padding: 10px;
+	padding-left: 15px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background-position: 0 0, 0 100% ;
+	background-repeat: no-repeat;
+	-webkit-background-size: 100%;
+	-moz-background-size: 100%;
+	background-size: 100%;
+	background-image: url(data:image/svg+xml);
+	background-image: -webkit-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -webkit-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+	background-image: -moz-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -moz-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+	background-image: -o-linear-gradient(left, #ed6e41 0%, #3acfd5 100%), -o-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+	background-image: linear-gradient(to left, #ed6e41 0%, #3acfd5 100%), linear-gradient(to right, #3acfd5 0%, #ed6e41 100%);
+}
+
+.newsletter h3 {
+	padding-bottom: 10px;
+	text-transform: uppercase;
+	text-align: left;
+	border-bottom: solid 5px #63c2c8;
+	font-size: 18px;
+}
+
+.newsletter input {
+	border: none;
+	border-bottom: solid 5px #63c2c8;
+	margin-top: 15px;
+	box-shadow: none;
+	border-radius: 0;
+}
+
+.newsletter input:focus {
+	box-shadow: none;
+	border-bottom: solid 5px #ee7202;
+}
+
+.newsletter button {
+	background: #63c2c8;
+	color: white;
+	height: 35px;
+	border: none;
+	margin: 5px;
 }

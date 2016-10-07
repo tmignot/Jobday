@@ -1,4 +1,12 @@
 Meteor.methods({
+	addUser: function(doc) {
+		Accounts.users.find({
+			$or: [
+				'email.0': doc.email,
+				'email.0': doc.email
+			]
+		});
+	},
     sendEmailNoreply: function (text, text2, text3) {
         check([text], [String]);
 

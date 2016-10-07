@@ -1,3 +1,7 @@
+Accounts.config({
+	forbidClientAccountCreation: true
+});
+
 ServiceConfiguration.configurations.remove({
     service: 'facebook'
 });

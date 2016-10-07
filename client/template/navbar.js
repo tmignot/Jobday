@@ -5,7 +5,9 @@ Template.navbar.events({
 	'click .commentCaMarche': function() { Router.go('commentCaMarche');},
 	'click .fb-button img': function() {},
 	'click .signup-link': function() {
+		$('#signupModal').modal('show');
 	},
 	'click .login-link': function() {
+		$('#myModal').modal('show');
 	},
 });

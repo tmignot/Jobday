@@ -305,11 +305,39 @@ span.tooltips.noarrow span:after {
 	max-height: 80%;
 }
 
+.poster-container .section label {
+	font-weight: normal;
+}
+
 .poster-container .section label.title {
 	width: 100%;
 	color: white;
 	text-transform: uppercase;
 	padding: 5px;
+	background: #63c2c8;
+	/*
+	background-position: 0 0, 0 100% ;
+	background-repeat: no-repeat;
+	-webkit-background-size: 100%;
+	-moz-background-size: 100%;
+	background-size: 100%;
+	background-image: url(data:image/svg+xml);
+	background-image: -webkit-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -webkit-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+	background-image: -moz-linear-gradient(left, #ed6e41 0%, #ed6e41 100%), -moz-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+	background-image: -o-linear-gradient(left, #ed6e41 0%, #3acfd5 100%), -o-linear-gradient(left, #3acfd5 0%, #ed6e41 100%);
+	background-image: linear-gradient(to left, #ed6e41 0%, #3acfd5 100%), linear-gradient(to right, #3acfd5 0%, #ed6e41 100%);
+	*/
+}
+
+.poster-container h2 {
+	text-align: left;
+	text-transform: uppercase;
+	color: white;
+	padding: 10px;
+	padding-left: 15px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	background-position: 0 0, 0 100% ;
 	background-repeat: no-repeat;
 	-webkit-background-size: 100%;
@@ -329,4 +357,16 @@ span.tooltips.noarrow span:after {
 	border: none;
 	margin: 0 auto;
 	padding: 5px 15px;
+}
+
+.footer {
+	height: 80px;
+	background: #63c2c7;
+}
+
+.modal-body .has-error {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	color: red;
 }

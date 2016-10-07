@@ -1,4 +1,5 @@
 
+/*
 Template.poster.events({
     'click #posterAnnonce': function (event) {
         event.preventDefault();
@@ -57,3 +58,4 @@ $('#myModal').modal('show') ;
         
     }
 });
+*/

@@ -1,95 +1,93 @@
 <template name="loginCustom">
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color:#63c2c7;color:white;">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title " id="myModalLabel">SE CONNECTER</h4>
+				</div>
+				<form id="new_prayer">
+					<div class="modal-body">
+						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
+							<span class="input-group-addon" id="sizing-addon1" style="width:150px;">E-mail </span>
+							<input type="email" id="loginEmail" class="form-control" placeholder="xxxxxxxx@xxxx.xxxx" aria-describedby="sizing-addon1">
+						</div>
 
+						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
+							<span class="input-group-addon" id="sizing-addon1" style="width:150px;">Mot de passe  </span>
+							<input type="password" id="loginPassword" class="form-control" placeholder="*********" aria-describedby="sizing-addon1">
+						</div>
+						<span class='has-error hidden'>Mauvaise adresse ou mauvais mot de passe</span>
+					</div>
+					<div class="modal-footer">
+						<div class="" style="text-align:center;">
+							<h2>Choississez-votre type de compte de connection</h2>
+							<img id="jobdaybtn" style="cursor:pointer" height="100px" src="/jobday.png" alt="">
+							<h2>Ou</h2>
+							<img id="googlebtn" style="cursor:pointer" width="100px" height="100px" src="/image/png/Google_Plus.png" alt="">
+							<img id="facebookbtn"  scope="public_profile,email"  style="cursor:pointer" width="100px" height="100px" src="/image/png/facebook.png" alt="">
+							<img id="linkedInbtn"  scope="public_profile,email"  style="cursor:pointer" width="100px" height="100px" src="/image/png/Linkedin.png" alt="">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</template>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:#63c2c7;color:white;">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title " id="myModalLabel">SE CONNECTER</h4>
-                </div>
-                <form id="new_prayer">
-                    <div class="modal-body">
-
-                        <div class="input-group input-group-lg" style="margin:9px;">
-                            <span class="input-group-addon" id="sizing-addon1" style="width:150px;">E-mail </span>
-                            <input type="email" id="loginEmail" class="form-control" style="width: 200%;" placeholder="xxxxxxxx@xxxx.xxxx" aria-describedby="sizing-addon1">
-                        </div>
-
-                        <div class="input-group input-group-lg" style="margin:9px;">
-                            <span class="input-group-addon" id="sizing-addon1" style="width:150px;">Mot de passe  </span>
-                            <input type="password" id="loginPassword" class="form-control" style="width: 200%;" placeholder="*********" aria-describedby="sizing-addon1">
-                        </div>
-
-
-                    </div>
-                    <div class="modal-footer">
-
-
-                        <div class="container" style="text-align:center;">
-                            <div style="  font-size: 1.8em;">Choississez-votre type de compte de connection </div>
-							<img id="jobdaybtn" style="cursor:pointer" width="150px" height="100px" src="/jobday.png" alt="">
-                            <img id="googlebtn" style="cursor:pointer" width="100px" height="100px" src="/image/png/Google_Plus.png" alt="">
-          <!--                  
-  <script type="text/javascript" src="https://platform.linkedin.com/in.js">
-        //api_key: 77wg97iklzkqyn
-        //onLoad: onLinkedInLoad
-        //authorize: true
-    </script>
--->
-    <script type="text/javascript">
-      //  function onLinkedInLoad() {
-       //     IN.Event.on(IN, "auth", onLinkedInAuth);
-    //    }
-
-        //function onLinkedInAuth() {
-        //    IN.API.Profile("me").fields("firstName", "lastName", "industry").result(displayProfiles);
-       // }
-
-       // function displayProfiles(profiles) {
-        //    member = profiles.values[0];
-        //    document.getElementById("profiles").innerHTML =
-        //        "<p id=\"" + member.id + "\">Hello " + member.firstName + " " + member.lastName + " "+member.industry +"</p>";
-        //}
-    </script>
-                            <!--
-    <script type="IN/Login"></script>
-    -->
-
-                                                        <img id="facebookbtn"  scope="public_profile,email"  style="cursor:pointer" width="100px" height="100px" src="/image/png/facebook.png" alt="">
-                            <img id="linkedInbtn"  scope="public_profile,email"  style="cursor:pointer" width="100px" height="100px" src="/image/png/Linkedin.png" alt="">
-
-
-                        </div>
-                    </div>
-                </form>
-                
-            </div>
-        </div>
-        
-      
-        <div id="profiles"></div>
-    <div id="status">
-    </div>
-        
-    </div>
-    
-    
-    
-    
-    
-    
-
-    <!--
-  Below we include the Login Button social plugin. This button uses
-  the JavaScript SDK to present a graphical Login button that triggers
-  the FB.login() function when clicked.
--->
-    
-    
-    
-    
-    
-    
+<template name='signupCustom'>
+	<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color:#63c2c7;color:white;">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title " id="myModalLabel">S'INSCRIRE</h4>
+				</div>
+				<form id="new_prayer">
+					<div class="modal-body">
+						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
+							<span class="input-group-addon" id="sizing-addon3" style="width:150px;">Status</span>
+							<select id='societyInput' class='form-control' aria-describedby='sizing-addon3'>
+								<option value=false>Auto-entrepreneur</option>
+								<option value=true>Societe</option>
+							</select>
+						</div>
+						{{#if $.Session.equals 'society' 'false'}}
+						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
+							<span class="input-group-addon" id="sizing-addon4" style="width:150px;">Prenom </span>
+							<input type="text" id="signupFirstname" class="form-control" placeholder="Votre prenom" aria-describedby="sizing-addon1">
+						</div>
+						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
+							<span class="input-group-addon" id="sizing-addon4" style="width:150px;">Nom</span>
+							<input type="text" id="signupName" class="form-control" placeholder="Votre nom" aria-describedby="sizing-addon1">
+						</div>
+						{{else}}
+						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
+							<span class="input-group-addon" id="sizing-addon4" style="width:150px;">Nom</span>
+							<input type="text" id="signupName" class="form-control" placeholder="Nom de votre societe" aria-describedby="sizing-addon1">
+						</div>
+						{{/if}}
+						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
+							<span class="input-group-addon" id="sizing-addon2" style="width:150px;">E-mail </span>
+							<input type="email" id="signupEmail" class="form-control" placeholder="xxxxxxxx@xxxx.xxxx" aria-describedby="sizing-addon1">
+						</div>
+						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
+							<span class="input-group-addon" id="sizing-addon1" style="width:150px;">Mot de passe  </span>
+							<input type="password" id="signupPassword" class="form-control" placeholder="*********" aria-describedby="sizing-addon1">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="" style="text-align:center;">
+							<h2>Choississez-votre type de compte de connection</h2>
+							<img id="jobdaybtn" style="cursor:pointer" height="100px" src="/jobday.png" alt="">
+							<h2>Ou</h2>
+							<img id="googlebtn" style="cursor:pointer" width="100px" height="100px" src="/image/png/Google_Plus.png" alt="">
+							<img id="facebookbtn"  scope="public_profile,email"  style="cursor:pointer" width="100px" height="100px" src="/image/png/facebook.png" alt="">
+							<img id="linkedInbtn"  scope="public_profile,email"  style="cursor:pointer" width="100px" height="100px" src="/image/png/Linkedin.png" alt="">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </template>

@@ -1,6 +1,6 @@
 <template name="poster">
 	<div class='poster-container'>
-		<h2 style='text-align:center;'>Poster un Job,c'est 100% gratuit</h2>
+		<h2>Poster un Job,c'est 100% gratuit</h2>
 		<div class="categories-container section col-xs-12 col-sm-6" style="text-align: left;">
 			<label for='categorieID' class='title'>De quoi avez-vous besoin ?</label>
 			<select autocomplete="off" id="categorieID" class="form-control">
@@ -41,7 +41,7 @@
 					<input type="checkbox" id="outilsAdisposition"><label for='outilsAdisposition'> Outils à disposition</label>
 				</div>
 				<div class='separate-input'>
-					<input type="checkbox" id="vetementsADispositions"><label for='vetementsADisposition'> Vêtement à disposition</label>
+					<input type="checkbox" id="vetementsADispositions"><label for='vetementsADispositions'> Vêtement à disposition</label>
 				</div>
 				<div class='separate-input'>
 					<input type="checkbox" id="vehiculeNecessaire"><label for='vehiculeNecessaire'> Véhicule nécessaire? (camionnette etc)</label>
@@ -51,9 +51,9 @@
 		<div class="address-container section col-xs-12 col-sm-6">
 			<label for='address-inputs' class='title'>Adresse du Job </label>
 			<div id='address-inputs'>
-				<input type="text" class='form-control' id="adresseNumeroRueAnnonce" placeholder="Numéro, Rue">
+				<input type="text" class='form-control' id="adresseRueAnnonce" placeholder="Numéro, Rue">
 				<input type="text" class='form-control' id="adresseCodePostalAnnonce" placeholder="Code postal">
-				<input type="text" class='form-control' id="adressePaysAnnonce" placeholder="Ville">               
+				<input type="text" class='form-control' id="adresseVilleAnnonce" placeholder="Ville">               
 			</div>
 		</div>
 		<div class="dateAnnonce-container section col-xs-12 col-sm-6">
@@ -69,6 +69,9 @@
 					<input type="radio" id="choixAnnonceDate3" name='choixDate' value=3><label for='choixAnnonceDate3'>Pendant une certaine periode</label>
 				</div>
 				<div class='dateAnnonce-inputs col-xs-12'>
+					{{#if $.Session.equals 'choixDate' 0}}
+					Le <input type="date" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
+					{{/if}}
 					{{#if $.Session.equals 'choixDate' 1}}
 					Le <input type="date" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
 					{{/if}}

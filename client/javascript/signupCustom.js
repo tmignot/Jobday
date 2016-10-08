@@ -3,21 +3,38 @@ Template.signupCustom.onCreated(function() {
 });
 
 Template.signupCustom.events({
-	'change #societyInput': function(e,t) {
-		Session.set('society', e.currentTarget.value);
-	},
 	'click #jobdaybtn': function(e,t) {
 		console.log(getValues('jobday'));
 		Meteor.call('addUser', getValues('jobday'));
+	},
+	'click #googlebtn': function(e,t) {
+		Meteor.loginWithGoogle({
+			requestionPermissions: ['email', 'profile'],
+			requestOfflineToken: true,
+			loginStyle: 'popup'
+		}, function(err) {
+			if (err)
+				console.log(err);
+			else
+				console.log('ok');
+		});
+	},
+	'click #facebookbtn': function(e,t) {
+		Meteor.loginWithFacebook({
+			requestionPermissions: ['email', 'public_profile'],
+			loginStyle: 'popup'
+		}, function(err) {
+			if (err)
+				console.log(err);
+			else
+				console.log('ok');
+		});
 	}
 });
 
 function getValues(method) {
 	return {
 		method: method,
-		society: Session.equals('society', 'true'),
-		name: $('#signupName').val(),
-		firstname: $('#signupFirstname').val(),
 		email: $('#signupEmail').val(),
 		password: $('#signupPassword').val()
 	}

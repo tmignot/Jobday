@@ -1,11 +1,25 @@
 Meteor.methods({
 	addUser: function(doc) {
-		Accounts.users.find({
+		var existingAccount = Accounts.users.findOne({
 			$or: [
-				'email.0': doc.email,
-				'email.0': doc.email
+				{'emails.0': doc.email},
+				{'services.facebook.email': doc.email},
+				{'services.google.email': doc.email},
+				{'services.linkedIn.email': doc.email}
 			]
 		});
+		if (existingAccount)
+			throw new Meteor.error('User already exist, login then merge your accounts');
+		else {
+			var newUserId = Accounts.createUser({
+				email: doc.email,
+				password: doc.password
+			});
+			if (newUserId) {
+				Accounts.sendVerificationEmail(newUserId);
+				return true;
+			}
+		}
 	},
     sendEmailNoreply: function (text, text2, text3) {
         check([text], [String]);

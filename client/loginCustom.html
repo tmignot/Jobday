@@ -46,34 +46,16 @@
 				<form id="new_prayer">
 					<div class="modal-body">
 						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
-							<span class="input-group-addon" id="sizing-addon3" style="width:150px;">Status</span>
-							<select id='societyInput' class='form-control' aria-describedby='sizing-addon3'>
-								<option value=false>Auto-entrepreneur</option>
-								<option value=true>Societe</option>
-							</select>
-						</div>
-						{{#if $.Session.equals 'society' 'false'}}
-						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
-							<span class="input-group-addon" id="sizing-addon4" style="width:150px;">Prenom </span>
-							<input type="text" id="signupFirstname" class="form-control" placeholder="Votre prenom" aria-describedby="sizing-addon1">
-						</div>
-						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
-							<span class="input-group-addon" id="sizing-addon4" style="width:150px;">Nom</span>
-							<input type="text" id="signupName" class="form-control" placeholder="Votre nom" aria-describedby="sizing-addon1">
-						</div>
-						{{else}}
-						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
-							<span class="input-group-addon" id="sizing-addon4" style="width:150px;">Nom</span>
-							<input type="text" id="signupName" class="form-control" placeholder="Nom de votre societe" aria-describedby="sizing-addon1">
-						</div>
-						{{/if}}
-						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
 							<span class="input-group-addon" id="sizing-addon2" style="width:150px;">E-mail </span>
 							<input type="email" id="signupEmail" class="form-control" placeholder="xxxxxxxx@xxxx.xxxx" aria-describedby="sizing-addon1">
 						</div>
 						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
 							<span class="input-group-addon" id="sizing-addon1" style="width:150px;">Mot de passe  </span>
 							<input type="password" id="signupPassword" class="form-control" placeholder="*********" aria-describedby="sizing-addon1">
+						</div>
+						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
+							<span class="input-group-addon" id="sizing-addon1" style="width:150px;">Confirmation  </span>
+							<input type="password" id="signupPasswordConfirm" class="form-control" placeholder="*********" aria-describedby="sizing-addon1">
 						</div>
 					</div>
 					<div class="modal-footer">

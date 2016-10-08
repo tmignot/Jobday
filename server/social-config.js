@@ -1,7 +1,6 @@
 Accounts.onCreateUser(function (options, user) {
 	console.log(options, user);
 	if (user.services) {
-		console.log('services found')
 		if (options.profile) {
 			user.profile = options.profile
 		}
@@ -17,7 +16,6 @@ Accounts.onCreateUser(function (options, user) {
 			email = options.email;
 		}
 		if (!email) {
-			// if email is not set, there is no way to link it with other accounts
 			return user;
 		}
 
@@ -31,6 +29,9 @@ Accounts.onCreateUser(function (options, user) {
 			var doesntExist = !existingGoogleUser && !existingTwitterUser && !existingFacebookUser;
 			if (doesntExist)
 				return user;
+			else {
+				
+			}
 		} else {
 			if (!existingUser.services) {
 				if (user.emails) {

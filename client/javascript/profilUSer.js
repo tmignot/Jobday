@@ -13,5 +13,11 @@ Template.dashboardJobber.helpers({
 				return d.address.city;
 		}
 		return 'Non renseigne';
+	},
+	grades: function() {
+		var u = Meteor.user();
+		var g = UsersDatas.findOne({userId: u._id}).grades;
+		if (g)
+			return _.sortBy(g, 'date');
 	}
 });

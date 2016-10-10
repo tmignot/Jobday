@@ -430,6 +430,20 @@ span.tooltips.noarrow span:after {
 	border-bottom: solid 3px #ee7202;
 }
 
+.grade {
+	text-align: center;
+	padding: 10px;
+}
+
+.grade-inside {
+	padding-bottom: 10px;
+}
+
+.grade h4 {
+	text-transform: uppercase;
+	text-align: center;
+	height: 50px;
+}
+
 .user-disponibilities .fc-day {
-	height: 20px;
 }

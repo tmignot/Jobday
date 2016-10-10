@@ -1,32 +1,45 @@
 Meteor.methods({
 	addUser: function(doc) {
-		var existingAccount = Accounts.users.findOne({
+		console.log('addUser doc', doc);
+		var existingUser = Meteor.users.findOne({
 			$or: [
-				{'emails.0': doc.email},
-				{'services.facebook.email': doc.email},
+				{'emails.0.address': doc.email},
 				{'services.google.email': doc.email},
-				{'services.linkedIn.email': doc.email}
+				{'services.facebook.email': doc.email},
+				{'services,linkedin.email': doc.email}
 			]
 		});
-		if (existingAccount)
-			throw new Meteor.error('User already exist, login then merge your accounts');
-		else {
+		if (existingUser && existingUser.services.password)
+			throw new Error('Email already in database');
+		else if (existingUser) {
+			if (doc.password != doc.confirmation)
+				throw new Error('Password confirmation mismatch');
+			Accounts.addEmail(existingUser._id, doc.email);
+			Accounts.setPassword(existingUser._id, doc.password);
+			Accounts.sendVerificationEmail(existingUser._id);
+			return true;
+		} else {
 			var newUserId = Accounts.createUser({
 				email: doc.email,
-				password: doc.password
+				password: doc.password,
+				profile: {
+					name: doc.name,
+					firstname: doc.firstname,
+					society: doc.society
+				}
 			});
-			if (newUserId) {
+			console.log('addUser id', newUserId);
+			if (newUserId)
 				Accounts.sendVerificationEmail(newUserId);
-				return true;
-			}
+			return newUserId;
 		}
 	},
-    sendEmailNoreply: function (text, text2, text3) {
-        check([text], [String]);
+	sendEmailNoreply: function (text, text2, text3) {
+		check([text], [String]);
 
-        this.unblock();
-        process.env.MAIL_URL = 'smtp://directeur.general@incrdev.com:dominique081282@ssl0.ovh.net:465/'
-        var html = [
+		this.unblock();
+		process.env.MAIL_URL = 'smtp://directeur.general@incrdev.com:dominique081282@ssl0.ovh.net:465/'
+		var html = [
 ' <html> ',
 '<head>',
 '          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">',
@@ -493,64 +506,61 @@ text + ' ',
 '        </center>',
 '</body>',
 '</html>'
-].join('');
-        //var html = Blaze.toHTML(html);
-        Email.send({
-            to: text3,
-            from: 'no-reply@incrdev.com',
-            subject: text2,
-            html: html
-        });
-    }
-    ,annoncePoster: function (annonce) {
-       //  console.log(salarie.numeroSalarie);
-        return Annonce.insert({
-	                createdBy: Meteor.userId(),
-	                createdAt: new Date,
-	                categorieID                       :annonce.categorieID                      ,
-ssCategorieID                     :annonce.ssCategorieID                    ,
-typeAnnonce                       :annonce.typeAnnonce                      ,
-titreAnnonce                      :annonce.titreAnnonce                     ,
-descriptionAnnonce                :annonce.descriptionAnnonce               ,
-precisionAnnonce                  :annonce.precisionAnnonce                 ,
-outilsAdisposition                :annonce.outilsAdisposition               ,
-vetementsADispositions            :annonce.vetementsADispositions           ,
-vehiculeNecessaire                :annonce.vehiculeNecessaire               ,
-adresseNumeroRueAnnonce           :annonce.adresseNumeroRueAnnonce          ,
-adressetypeRueAnnonce             :annonce.adressetypeRueAnnonce            ,
-adresseRueAnnonce                 :annonce.adresseRueAnnonce                ,
-adresseCodePostalAnnonce          :annonce.adresseCodePostalAnnonce         ,
-adressePaysAnnonce                :annonce.adressePaysAnnonce               ,
-choixAnnonceDate1                 :annonce.choixAnnonceDate1                ,
-choixAnnonceDate2                 :annonce.choixAnnonceDate2                ,
-DateAnnonce1                      :annonce.DateAnnonce1                     ,
-choixAnnonceDate3                 :annonce.choixAnnonceDate3                ,
-AnnonceDate2                      :annonce.AnnonceDate2                     ,
-choixAnnonceDate4                 :annonce.choixAnnonceDate4                ,
-AnnonceDate3                      :annonce.AnnonceDate3                     ,
-choixHoraireAnnonce1              :annonce.choixHoraireAnnonce1             ,
-choixHoraireAnnonce2              :annonce.choixHoraireAnnonce2             ,
-choixHoraireAnnonce3              :annonce.choixHoraireAnnonce3             ,
-choixHoraireAnnonce4              :annonce.choixHoraireAnnonce4             ,
-choixHoraireAnnonce5              :annonce.choixHoraireAnnonce5             ,
-choixHoraireAnnonceDeb            :annonce.choixHoraireAnnonceDeb           ,
-choixHoraireAnnonce6              :annonce.choixHoraireAnnonce6             ,
-choixHoraireAnnonceFin            :annonce.choixHoraireAnnonceFin           ,
-tarifAnnonce                      :annonce.tarifAnnonce                     ,
-TypeTarifAnnonce1                 :annonce.TypeTarifAnnonce1                ,
-TypeTarifAnnonce2                 :annonce.TypeTarifAnnonce2                ,
-nbPersonnePourAnnonce             :annonce.nbPersonnePourAnnonce            ,
-totalAnnonce                      :annonce.totalAnnonce                     
-
-	            }, function (e, id) {
-	                if (e) {
-	                    console.log("Annonce foutus ");
-	                } else {
-	                    console.log(id);
-	                    //document.getElementById("fraisId").value = id;
-	                }
-
-	            });	
-}
-
+		].join('');
+		//var html = Blaze.toHTML(html);
+		Email.send({
+			to: text3,
+			from: 'no-reply@incrdev.com',
+			subject: text2,
+			html: html
+		});
+	},
+	annoncePoster: function (annonce) {
+		//  console.log(salarie.numeroSalarie);
+		return Annonce.insert({
+			createdBy: Meteor.userId(),
+			createdAt: new Date,
+			categorieID                       :annonce.categorieID                      ,
+			ssCategorieID                     :annonce.ssCategorieID                    ,
+			typeAnnonce                       :annonce.typeAnnonce                      ,
+			titreAnnonce                      :annonce.titreAnnonce                     ,
+			descriptionAnnonce                :annonce.descriptionAnnonce               ,
+			precisionAnnonce                  :annonce.precisionAnnonce                 ,
+			outilsAdisposition                :annonce.outilsAdisposition               ,
+			vetementsADispositions            :annonce.vetementsADispositions           ,
+			vehiculeNecessaire                :annonce.vehiculeNecessaire               ,
+			adresseNumeroRueAnnonce           :annonce.adresseNumeroRueAnnonce          ,
+			adressetypeRueAnnonce             :annonce.adressetypeRueAnnonce            ,
+			adresseRueAnnonce                 :annonce.adresseRueAnnonce                ,
+			adresseCodePostalAnnonce          :annonce.adresseCodePostalAnnonce         ,
+			adressePaysAnnonce                :annonce.adressePaysAnnonce               ,
+			choixAnnonceDate1                 :annonce.choixAnnonceDate1                ,
+			choixAnnonceDate2                 :annonce.choixAnnonceDate2                ,
+			DateAnnonce1                      :annonce.DateAnnonce1                     ,
+			choixAnnonceDate3                 :annonce.choixAnnonceDate3                ,
+			AnnonceDate2                      :annonce.AnnonceDate2                     ,
+			choixAnnonceDate4                 :annonce.choixAnnonceDate4                ,
+			AnnonceDate3                      :annonce.AnnonceDate3                     ,
+			choixHoraireAnnonce1              :annonce.choixHoraireAnnonce1             ,
+			choixHoraireAnnonce2              :annonce.choixHoraireAnnonce2             ,
+			choixHoraireAnnonce3              :annonce.choixHoraireAnnonce3             ,
+			choixHoraireAnnonce4              :annonce.choixHoraireAnnonce4             ,
+			choixHoraireAnnonce5              :annonce.choixHoraireAnnonce5             ,
+			choixHoraireAnnonceDeb            :annonce.choixHoraireAnnonceDeb           ,
+			choixHoraireAnnonce6              :annonce.choixHoraireAnnonce6             ,
+			choixHoraireAnnonceFin            :annonce.choixHoraireAnnonceFin           ,
+			tarifAnnonce                      :annonce.tarifAnnonce                     ,
+			TypeTarifAnnonce1                 :annonce.TypeTarifAnnonce1                ,
+			TypeTarifAnnonce2                 :annonce.TypeTarifAnnonce2                ,
+			nbPersonnePourAnnonce             :annonce.nbPersonnePourAnnonce            ,
+			totalAnnonce                      :annonce.totalAnnonce                     
+	  }, function (e, id) {
+			if (e) {
+					console.log("Annonce foutus ");
+			} else {
+					console.log(id);
+					//document.getElementById("fraisId").value = id;
+			}
+		});	
+	}
 });

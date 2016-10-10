@@ -29,6 +29,21 @@
 	cursor: pointer;
 }
 
+.navbar li.dropdown a.dropdown-toggle {
+	padding: 0;
+	margin: 0px 24px;
+}
+
+.navbar li i.glyphicon {
+	margin: 12px 24px;
+	font-size: 25px;
+}
+
+.navbar li.dropdown a img {
+	height: 40px;
+	margin: 5px;
+}
+
 .navbar .dummy-link {
 	position: absolute;
 	top: 0;

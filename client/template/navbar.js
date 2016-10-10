@@ -10,4 +10,8 @@ Template.navbar.events({
 	'click .login-link': function() {
 		$('#myModal').modal('show');
 	},
+	'click .logout': function() {
+		Meteor.logout();
+	},
+	'click .profile-link': function() { Router.go('profiluser'); }
 });

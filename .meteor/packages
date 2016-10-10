@@ -39,3 +39,5 @@ aldeed:simple-schema
 aldeed:collection2
 richsilv:owl-carousel
 raix:handlebar-helpers
+momentjs:moment
+rzymek:fullcalendar

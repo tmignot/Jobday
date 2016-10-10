@@ -1,184 +1,83 @@
 <template name="dashboardJobber" >
-<div style="margin-top:70px;display:flex /*-webkit-box*/;border: 5px; border-color: #E95393;border-style: solid;border-radius: 20px; width: 100%;"  >
-<div style="	 display: block;">
-<div class="cadreImageProfil" >
-<BR>
-
-<img id="" src="http://graph.facebook.com/{{currentUser.facebook.id}}/picture?type=square" alt="" class="thumbnail" style="height: 80px;
-    margin: 15px;
-    width: 80px;" />
-    
-    
-    
-<img id="" src="{{currentUser.google.picture}}" alt="" class="thumbnail" style="height: 80px; margin: 15px;    width: 80px;" />    
-    
-<img id="" src="{{currentUser.linkedin.pictureUrl}}" alt="" class="thumbnail" style="height: 80px; margin: 15px;    width: 80px;" />    
-    
-    
-    
-</div>
-    <div class="form-group">
-  <label for="usr">Nom:</label>
-  <input type="text" value="{{currentUser.facebook.last_name}} {{currentUser.google.family_name}} {{currentUser.linkedin.lastName}}  " class="form-control" id="usr">
-</div>
-     <div class="form-group">
-  <label for="usr">Prénom:</label>
-  <input type="text" value="{{currentUser.facebook.first_name}} {{currentUser.google.given_name}} {{currentUser.linkedin.firstName}}  {{currentUser.linkedin.firstName}}" class="form-control" id="usr">
-</div>
-     
-    <div class="form-group">
-  <label for="usr">Sexe:</label>
-  <input type="text" value="{{currentUser.facebook.gender}} {{currentUser.google.gender}} {{currentUser.linkedin.gender}}" class="form-control" id="sexe">
-</div>
-        
-</div>
-    <!--
-urlPhoto
-    UserActuel.id = response.id;
-    UserActuel.Nom = response.last_name;
-    UserActuel.Prenom = response.first_name;
-UserActuel.birthday = response.birthday  ;
-UserActuel.devices = response.devices  ;
-UserActuel.education = response.education  ;
-UserActuel.email = response.email  ;
-UserActuel.gender = response.gender  ;
-UserActuel.hometown = response.hometown  ;
-UserActuel.languages = response.languages  ;
-UserActuel.locale = response.locale  ;
-UserActuel.location = response.location ;
-    -->
-<div style="display: block;margin: 15px;">
-
-<div class="description" >
-<textarea name="textarea" rows="10" cols="50">{{currentUser.linkedin.headline}}      Présentation Jobber Saisir un texte ici.</textarea>
-</div>
-</div>
-<div style="display: block;margin: 15px;">
-<div >
-<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-credit-card" style="margin: 5px;" >Historique Facture</button>
-<BR>
-<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-map-marker" style="margin: 5px;">Localiser avant 30 minutes</button>
-<BR>
-<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-calendar" style="margin: 5px;">Dispoinibilité</button>
-<BR>
-<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-floppy-disk" style="margin: 5px;">Enregistrer</button>
-</div>
-</div>
-
-
-</div>
-
-<div id="Categorie" class="tableauResultat" style="padding: 5px;overflow-y: scroll;height:320px;">
-			
-				
-				
-			
-			
-			<div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
-			
-			
-			<div class="colonneTableauResultat" style ="width: 35%;float: left;display: inline-block;      padding: 5px;
-			/*border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;*/">
-			<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat" style="text-align: left;">Evaluation Mission </div>	
+	<div class='col-xs-12 col-md-4'>
+		<div class='user-photo-container col-xs-12'>
+			<img class='user-photo col-xs-12' src='{{userData.photo}}'>
+		</div>
+		<div class='user-info-container section col-xs-12'>
+			<h3>{{userData.firstname}} {{userData.name}}</h3>
+			<div class='user-stars col-xs-12'>
 			</div>
-			
-			<div class="celluleTableauResultat" style="text-align: left;" >
-				<div class="celluleTitreResultat">Catégorie	</div>
-				<img src="images/categorie/9.jpg" alt="" class="thumbnail" />		
-			</div>
-			<div class="celluleTableauResultat" style="text-align: left;">
-				
-					
-				<div class="celluleTitreResultat"> 
-					<span class="glyphicon glyphicon-star"> Expérience Requis	</span> 
+			<div class='user-dates col-xs-12'>
+				<div>
+				<label>Date d'inscription:</label>
+				<span>{{formatDate currentUser.createdAt}}</span>
 				</div>
-			
-			</div>
-			</div>
-</div>
-
-<div class="ligneTableauResultat" style="padding: 5px;width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
-			
-			
-			<div class="colonneTableauResultat" style ="width: 35%;float: left;display: inline-block;      padding: 5px;
-			/*border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;*/">
-			<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat" style="text-align: left;">Titre Mission</div>	
-			</div>
-			
-			<div class="celluleTableauResultat" style="text-align: left;" >
-				<div class="celluleTitreResultat">Catégorie	</div>
-				<img src="images/categorie/9.jpg" alt="" class="thumbnail" />		
-			</div>
-			<div class="celluleTableauResultat" style="text-align: left;">
-				
-					
-				<div class="celluleTitreResultat"> 
-					<span class="glyphicon glyphicon-star"> Expérience Requis	</span> 
+				<div>
+				<label>Derniere connexion:</label>
+				<span>{{lastLogin}}</span>
 				</div>
-			
 			</div>
+			<div class='user-address col-xs-12'>
+				<i class='glyphicon glyphicon-map-marker'></i>
+				<label>Adresse:</label>
+				<span>{{userAddress}}</span>
 			</div>
-</div>
-
-
-</div>
-
-<div id="Categorie" class="tableauResultat" style="padding: 5px;overflow-y: scroll;height:320px;">
-			
-				
-				
-			
-			
-			<div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
-			
-			
-			<div class="colonneTableauResultat" style ="width: 35%;float: left;display: inline-block;      padding: 5px;
-			/*border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;*/">
-			<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat" style="text-align: left;">Compétences	</div>	
+			<div class='user-edit-profil col-xs-12'>
+				<button class='edit-profil-button'>Editer mon profil</button>
 			</div>
-			
-			<div class="celluleTableauResultat" style="text-align: left;" >
-				<div class="celluleTitreResultat">Catégorie	</div>
-				<img src="images/categorie/9.jpg" alt="" class="thumbnail" />		
-			</div>
-			<div class="celluleTableauResultat" style="text-align: left;">
-				
-					
-				<div class="celluleTitreResultat"> 
-					<span class="glyphicon glyphicon-star"> Expérience Requis	</span> 
+			<div class='user-badges-container col-xs-12'>
+				<h4>Badges de confiance</h4>
+				<div class='user-badges'>
 				</div>
-			
 			</div>
-			</div>
-</div>
-
-<div class="ligneTableauResultat" style="padding: 5px;width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
-			
-			
-			<div class="colonneTableauResultat" style ="width: 35%;float: left;display: inline-block;      padding: 5px;
-			/*border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;*/">
-			<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat" style="text-align: left;">Titre Mission</div>	
-			</div>
-			
-			<div class="celluleTableauResultat" style="text-align: left;" >
-				<div class="celluleTitreResultat">Catégorie	</div>
-				<img src="images/categorie/9.jpg" alt="" class="thumbnail" />		
-			</div>
-			<div class="celluleTableauResultat" style="text-align: left;">
-				
-					
-				<div class="celluleTitreResultat"> 
-					<span class="glyphicon glyphicon-star"> Expérience Requis	</span> 
+			<div class='user-means-container col-xs-12'>
+				<h4>Moyens de transport</h4>
+				<div class='user-means'>
 				</div>
-			
 			</div>
+			<div class='user-means-container col-xs-12'>
+				<h4>Permis</h4>
+				<div class='user-permis'>
+				</div>
 			</div>
-</div>
-
-
-</div>
+			<div class='user-skills-container col-xs-12'>
+				<h4>Competences</h4>
+				<div class='user-skills'>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class='col-xs-12 col-md-8'>
+		<div class='user-presentation-container section user-text col-xs-12'>
+			<label>Presentation</label>
+			<div class='botborder'>
+				<p>{{userData.presentation}}</p>
+			</div>
+		</div>
+		<div class='user-experience-container section user-text col-xs-12'>
+			<label>Experiences</label>
+			<div class='botborder'>
+				<p>{{userData.experiences}}</p>
+			</div>
+		</div>
+		<div class='user-grades-container section user-text col-xs-12'>
+			<label>Formations / Diplomes</label>
+			<div class='botborder'>
+				<p>{{userData.grades}}</p>
+			</div>
+		</div>
+		<div class='user-precisions-container section user-text col-xs-12'>
+			<label>Information supplementaires</label>
+			<div class='botborder'>
+				<p>{{userData.precisions}}</p>
+			</div>
+		</div>
+		<div class='user-disponibilities-container section user-text col-xs-12'>
+			<label>Disponibilites</label>
+			<div class='botborder'>
+				<div id='dispo-calendar'>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>

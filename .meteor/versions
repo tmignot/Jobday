@@ -91,6 +91,7 @@ mobile-experience@1.0.3
 mobile-status-bar@1.0.11
 modules@0.5.2
 modules-runtime@0.6.2
+momentjs:moment@2.15.1
 mongo@1.1.6
 mongo-id@1.0.3
 mongo-livedata@1.0.11
@@ -116,6 +117,7 @@ reload@1.1.7
 retry@1.0.6
 richsilv:owl-carousel@0.1.0
 routepolicy@1.0.9
+rzymek:fullcalendar@2.7.2
 service-configuration@1.0.8
 session@1.1.4
 sha@1.0.6

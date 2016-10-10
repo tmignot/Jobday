@@ -385,3 +385,51 @@ span.tooltips.noarrow span:after {
 	text-align: center;
 	color: red;
 }
+
+.user-info-container h3 {
+	background: #63c2c8;
+	color: white;
+	padding: 5px;
+	font-size:18px;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.user-text label,
+.user-info-container h4 {
+	background: #63c2c8;
+	color: white;
+	padding: 5px;
+	font-size:15px;
+	text-align: center;
+	margin-bottom: 10px;
+	font-weight: normal;
+}
+
+.user-text label {
+	width: 100%;
+}
+
+.user-edit-profil {
+	text-align: center;
+}
+
+.user-edit-profil button {
+	display: inline-block;
+	background: #ee7202;
+	color: white;
+	height: 35px;
+	border: none;
+	margin: 5px;
+}
+
+.user-text .botborder {
+	border-radius: 0;
+	border: none;
+	box-shadow: none;
+	border-bottom: solid 3px #ee7202;
+}
+
+.user-disponibilities .fc-day {
+	height: 20px;
+}

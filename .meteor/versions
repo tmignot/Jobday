@@ -43,6 +43,7 @@ cfs:worker@0.1.4
 check@1.1.3
 coffeescript@1.0.16
 dandv:caret-position@2.1.1
+dapearce:material-icons@0.1.5
 dburles:google-maps@1.1.5
 ddp@1.2.4
 ddp-client@1.2.4

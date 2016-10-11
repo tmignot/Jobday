@@ -2,7 +2,16 @@ Template.registerHelper('userData', function() {
 	return UsersDatas.findOne({userId: Meteor.userId()});
 });
 
+Template.registerHelper('means', function() {
+	return MeansOfTransports.find();
+});
+
+Template.registerHelper('permis', function() {
+	return Permis.find();
+});
+
 Template.registerHelper('formatDate', function(date) {
+	console.log(date);
 	moment.locale('fr');
 	return moment(date).format('DD MMMM YYYY');
 });

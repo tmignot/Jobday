@@ -10,6 +10,14 @@ Meteor.publish('UsersDatas', function(ids) {
 	return UsersDatas.find({_id: {$in: ids}});
 });
 
+Meteor.publish('MeansOfTransports', function() {
+	return MeansOfTransports.find();
+});
+
+Meteor.publish('Permis', function() {
+	return Permis.find();
+});
+
 Meteor.publish('Badges', function() {
 	return Badges.find({});
 });

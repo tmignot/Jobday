@@ -445,5 +445,20 @@ span.tooltips.noarrow span:after {
 	height: 50px;
 }
 
-.user-disponibilities .fc-day {
+.user-means,
+.user-permis {
+	text-align: center;
+	color: lightgray;
+	font-size: 1.8em;
+}
+
+.user-means .mean-got,
+.user-permis .permis-got {
+	color: #ee7202;
+}
+
+.user-permis {
+	font-size: 1.2em;
+	font-weight: bold;
+	line-height: 35px;
 }

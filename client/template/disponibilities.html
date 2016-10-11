@@ -1,0 +1,28 @@
+<template name='disponibilities'>
+	<div id="editDisponibilities" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" style='background:#63c2c7;color:white;'>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">EDITER VOS DISPONIBILITES</h4>
+				</div>
+				<div class="modal-body row">
+					<h4 class='col-md-6 col-xs-12'><small>Pour le</small> {{#with $.Session.get 'dispoday'}}{{formatDate this}}{{/with}}</h4>
+					<div class='col-md-6 col-xs-12'>
+						<div class="checkbox col-xs-12">
+							<input type="checkbox"> Matin
+						</div>
+						<div class="checkbox col-xs-12">
+							<input type="checkbox"> Apres-midi
+						</div>
+						<div class="checkbox col-xs-12">
+							<input type="checkbox"> Soir
+						</div>
+					</div>
+					<button type="button" class="btn btn-default center-block section" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>	
+</template>

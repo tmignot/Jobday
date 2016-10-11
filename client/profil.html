@@ -33,11 +33,25 @@
 			<div class='user-means-container col-xs-12'>
 				<h4>Moyens de transport</h4>
 				<div class='user-means'>
+					{{#each means}}
+						{{#if userHasMean _id}}
+							<span class='col-xs-3 mean-got'>{{{icon}}}</span>
+						{{else}}
+							<span class='col-xs-3'>{{{icon}}}</span>
+						{{/if}}
+					{{/each}}
 				</div>
 			</div>
 			<div class='user-means-container col-xs-12'>
 				<h4>Permis</h4>
 				<div class='user-permis'>
+					{{#each permis}}
+						{{#if userHasPermis _id}}
+							<span class='col-xs-3 permis-got'>{{name}}</span>
+						{{else}}
+							<span class='col-xs-3'>{{name}}</span>
+						{{/if}}
+					{{/each}}
 				</div>
 			</div>
 			<div class='user-skills-container col-xs-12'>
@@ -83,6 +97,7 @@
 				<div id='dispo-calendar'>
 				</div>
 			</div>
+			{{>disponibilities}}
 		</div>
 	</div>
 </template>

@@ -11,7 +11,6 @@ Template.registerHelper('permis', function() {
 });
 
 Template.registerHelper('formatDate', function(date) {
-	console.log(date);
 	moment.locale('fr');
 	return moment(date).format('DD MMMM YYYY');
 });

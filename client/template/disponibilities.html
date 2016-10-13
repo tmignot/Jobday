@@ -10,16 +10,17 @@
 					<h4 class='col-md-6 col-xs-12'><small>Pour le</small> {{#with $.Session.get 'dispoday'}}{{formatDate this}}{{/with}}</h4>
 					<div class='col-md-6 col-xs-12'>
 						<div class="checkbox col-xs-12">
-							<input type="checkbox"> Matin
+							<input type="checkbox" data-when='morning'> Matin
 						</div>
 						<div class="checkbox col-xs-12">
-							<input type="checkbox"> Apres-midi
+							<input type="checkbox" data-when='afternoon'> Apres-midi
 						</div>
 						<div class="checkbox col-xs-12">
-							<input type="checkbox"> Soir
+							<input type="checkbox" data-when='evening'> Soir
 						</div>
+						{{whenChecked}}
 					</div>
-					<button type="button" class="btn btn-default center-block section" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary center-block section validate" data-dismiss="modal">Enregistrer</button>
 				</div>
 			</div>
 

@@ -1,11 +1,62 @@
 Template.dashboardJobber.onRendered(function() {
+	Session.set('dispoday', new Date());
 	$('#dispo-calendar').fullCalendar({
 		contentHeight: 250,
+		displayEventTime: false,
 		dayClick: function(date) {
-			console.log(new Date(date));
 			Session.set('dispoday', new Date(date));
 			$('#editDisponibilities').modal('show');
-		}
+		},
+		eventSources: [ 
+			{
+				color: 'blue',
+				textColor: 'white',
+				events: function(s,e,t,c) {
+					var u = UsersDatas.findOne({userId: Meteor.userId()});
+					var disp = u.disponibilities;
+					var events = _.map(_.where(disp, {morning: true}), function(d) {
+						return {
+							title: 'Matin',
+							start: (new Date(d.day)).setHours(6),
+							end: (new Date(d.day)).setHours(12)
+						};
+					});
+					c(events);
+				}
+			},
+			{
+				color: 'orange',
+				textColor: 'white',
+				events: function(s,e,t,c) {
+					var u = UsersDatas.findOne({userId: Meteor.userId()});
+					var disp = u.disponibilities;
+					var events = _.map(_.where(disp, {afternoon: true}), function(d) {
+						return {
+							title: 'Apres-midi',
+							start: (new Date(d.day)).setHours(12),
+							end: (new Date(d.day)).setHours(18)
+						};
+					});
+					c(events);
+				}
+			},
+			{
+				color: 'gray',
+				textColor: 'white',
+				events: function(s,e,t,c) {
+					var u = UsersDatas.findOne({userId: Meteor.userId()});
+					var disp = u.disponibilities;
+					var events = _.map(_.where(disp, {evening: true}), function(d) {
+						return {
+							title: 'Soir',
+							start: (new Date(d.day)).setHours(18),
+							end: (new Date(d.day)).setHours(23)
+						};
+					});
+					c(events);
+				}
+			}
+		]
 	});
 });
 

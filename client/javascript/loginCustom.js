@@ -11,7 +11,7 @@ Template.loginCustom.events({
 				if (err)
 					throw new Meteor.Error("Google login failed");
 				else {
-					Router.go('/profiluser');
+					Router.go('/profiluser/'+Meteor.userId());
 					$('#myModal').modal('hide');
 				}
 			});
@@ -20,11 +20,11 @@ Template.loginCustom.events({
 			event.preventDefault();
 			var emailVar = $('#loginEmail').val();
 			var passwordVar = $('#loginPassword').val();
-			Meteor.loginWithPassword(emailVar, passwordVar, function err(err) {
+			Meteor.loginWithPassword(emailVar, passwordVar, function (err) {
 				if (err) {
 					$('.modal-body .has-error').removeClass('hidden');
 				} else {
-					Router.go('/profiluser');
+					Router.go('/profiluser/'+Meteor.userId());
 					$('.modal-body .has-error').addClass('hidden');
 					$('#myModal').modal('hide');
 				}
@@ -47,7 +47,7 @@ Template.loginCustom.events({
 				if (err) {
 						throw new Meteor.Error("Facebook login failed");
 				} else {
-					Router.go('/profiluser');
+					Router.go('/profiluser/'+Meteor.userId());
 					$('#myModal').modal('hide');
 				}
 			});

@@ -10,7 +10,7 @@
 			<div class='user-dates col-xs-12'>
 				<div>
 				<label>Date d'inscription:</label>
-				<span>{{formatDate currentUser.createdAt}}</span>
+				<span>{{formatDate user.createdAt}}</span>
 				</div>
 				<div>
 				<label>Derniere connexion:</label>
@@ -22,9 +22,11 @@
 				<label>Adresse:</label>
 				<span>{{userAddress}}</span>
 			</div>
+			{{#if $.Session.equals 'currentUserDataId' currentUser._id}}
 			<div class='user-edit-profil col-xs-12'>
 				<button class='edit-profil-button'>Editer mon profil</button>
 			</div>
+			{{/if}}
 			<div class='user-badges-container col-xs-12'>
 				<h4>Badges de confiance</h4>
 				<div class='user-badges'>
@@ -97,7 +99,9 @@
 				<div id='dispo-calendar'>
 				</div>
 			</div>
+			{{#if $.Session.equals 'currentUserDataId' currentUser._id}}
 			{{>disponibilities}}
+			{{/if}}
 		</div>
 	</div>
 </template>

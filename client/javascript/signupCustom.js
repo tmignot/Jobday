@@ -26,7 +26,7 @@ Template.signupCustom.events({
 			if (err)
 				console.log(err);
 			else {
-				Router.go('profiluser');
+				Router.go('profile', {id: Meteor.userId()});
 				$('#signupModal').modal('hide');
 			}
 		});
@@ -41,7 +41,7 @@ Template.signupCustom.events({
 			if (err)
 				console.log(err);
 			else {
-				Router.go('profiluser');
+				Router.go('profile', {id: Meteor.userId()});
 				$('#signupModal').modal('hide');
 			}
 		});

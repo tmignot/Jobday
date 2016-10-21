@@ -1,18 +1,20 @@
 Template.dashboardJobber.onRendered(function() {
 	Session.set('dispoday', new Date());
+	var u = this.data;
 	$('#dispo-calendar').fullCalendar({
 		contentHeight: 250,
 		displayEventTime: false,
 		dayClick: function(date) {
-			Session.set('dispoday', new Date(date));
-			$('#editDisponibilities').modal('show');
+			if (u.userId == Meteor.userId()) {
+				Session.set('dispoday', new Date(date));
+				$('#editDisponibilities').modal('show');
+			}
 		},
 		eventSources: [ 
 			{
 				color: 'blue',
 				textColor: 'white',
 				events: function(s,e,t,c) {
-					var u = UsersDatas.findOne({userId: Meteor.userId()});
 					var disp = u.disponibilities;
 					var events = _.map(_.where(disp, {morning: true}), function(d) {
 						return {
@@ -28,7 +30,6 @@ Template.dashboardJobber.onRendered(function() {
 				color: 'orange',
 				textColor: 'white',
 				events: function(s,e,t,c) {
-					var u = UsersDatas.findOne({userId: Meteor.userId()});
 					var disp = u.disponibilities;
 					var events = _.map(_.where(disp, {afternoon: true}), function(d) {
 						return {
@@ -44,7 +45,6 @@ Template.dashboardJobber.onRendered(function() {
 				color: 'gray',
 				textColor: 'white',
 				events: function(s,e,t,c) {
-					var u = UsersDatas.findOne({userId: Meteor.userId()});
 					var disp = u.disponibilities;
 					var events = _.map(_.where(disp, {evening: true}), function(d) {
 						return {
@@ -62,32 +62,32 @@ Template.dashboardJobber.onRendered(function() {
 
 Template.dashboardJobber.helpers({
 	userAddress: function() {
-		var u = Meteor.user();
-		if (u) {
-			var d = UsersDatas.findOne({userId: u._id});
-			if (d && d.address && d.address.city)
-				return d.address.city;
-		}
+		var a = Template.instance().data.address;
+		if (a && a.city)
+			return a.city;
 		return 'Non renseigne';
 	},
 	grades: function() {
-		var u = Meteor.user();
-		var g = UsersDatas.findOne({userId: u._id}).grades;
+		var g = Template.instance().data.grades;
 		if (g)
 			return _.sortBy(g, 'date');
 	},
 	userHasMean: function(id) {
-		var u = Meteor.user();
-		var m = UsersDatas.findOne({userId: u._id}).means;
+		var m = Template.instance().data.means;
 		if (m && _.contains(m, id))
 			return true;
 		return false;
 	},
 	userHasPermis: function(id) {
-		var u = Meteor.user();
-		var p = UsersDatas.findOne({userId: u._id}).permis;
+		var p = Template.instance().data.permis;
 		if (p && _.contains(p, id))
 			return true;
 		return false;
+	}
+});
+
+Template.dashboardJobber.events({
+	'click .edit-profil-button': function(e,t) {
+		Router.go('editJobber', {id: Meteor.userId()}, {query: {tab: 'info'}});
 	}
 });

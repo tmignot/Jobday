@@ -129,7 +129,12 @@ function checkValues(values) {
 	AdvertSchema.clean(values);
 	ctx.validate(values);
 	if (ctx.isValid()) {
-		console.log('true');
+		Adverts.insert(values, function(err, res) {
+			if (err)
+				console.log(err)
+			else
+				Router.go('/missionProfil/'+res._id);
+		});
 	} else {
 		console.log(ctx.invalidKeys());
 		return false;

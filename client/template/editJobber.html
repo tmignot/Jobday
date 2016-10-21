@@ -1,0 +1,190 @@
+<template name='editJobber'>
+	<div class='user-information buttons section col-xs-12'>
+		<div class='previous-button-container col-xs-4'>
+			<div class='previous-button {{inactive "previous"}}'>
+				<i class='glyphicon glyphicon-chevron-left'></i>Retour
+			</div>
+		</div>
+		<div class='submit-button-container col-xs-4'>
+			<div class='submit-button'>
+				Enregistrer
+			</div>
+		</div>
+		<div class='next-button-container col-xs-4'>
+			<div class='next-button {{inactive "next"}}'>
+				Suivant <i class='glyphicon glyphicon-chevron-right'></i>
+			</div>
+		</div>
+	</div>
+	{{#if $.Session.equals 'editJobberTab' 'info'}}
+	<div class='user-informations-container col-xs-12 form-horizontal'>
+		<h3 class='blue'>Identite</h3>
+		<div class='user-information user-photo col-xs-12 col-md-4 from-group section'>
+			<label class='control-label'>Votre photo de profil</label>
+			<img src='{{photo}}' width='100%'>
+		</div>
+		<div class='col-md-8'>
+			<div class='user-information user-society col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-6'>Representez-vous une societe?</label>
+				<div class='col-xs-6 col-md-7' style='padding-top:7px;'>
+					<span class='col-xs-4 col-md-3'>
+						<input type='radio' name='user-society-input' value='true'> Oui
+					</span>
+					<span class='col-xs-4 col-md-3'>
+						<input type='radio' name='user-society-input' value='false'> Non
+					</span>
+				</div>
+			</div>
+			{{#if $.Session.equals 'isSociety' true}}
+			<div class='user-information user-name col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-6'>Nom de la societe</label>
+				<div class='col-xs-6 col-md-7'>
+					<input type='text' class='form-control' value='{{name}}'>
+				</div>
+			</div>
+			<div class='user-information user-siret col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-12'>Numero de SIRET</label>
+				<div class='col-xs-12 col-md-7'>
+					<input type='text' class='form-control' value='{{siret}}'>
+				</div>
+			</div>
+			<div class='user-information user-address col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-12'>Siege social</label>
+				<div class='col-xs-12 col-md-7'>
+					<input type='text' class='form-control' placeholder='Num, rue' value='{{address.street}}'>
+					<input type='text' style='margin-top:5px;' class='form-control' placeholder='12345' value='{{address.zipcode}}'>
+					<input type='text' style='margin-top:5px;' class='form-control' placeholder='Ville' value='{{address.city}}'>
+				</div>
+			</div>
+			{{/if}}
+			{{#if $.Session.equals 'isSociety' false}}
+			<div class='user-information user-firstname col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-6'>Prenom</label>
+				<div class='col-xs-6 col-md-7'>
+					<input type='text' class='form-control col-xs' value='{{firstname}}'>
+				</div>
+			</div>
+			<div class='user-information user-name col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-6'>Nom</label>
+				<div class='col-xs-6 col-md-7'>
+					<input type='text' class='form-control' value='{{name}}'>
+				</div>
+			</div>
+			<div class='user-information user-birthdate col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-6'>Date de naissance</label>
+				<div class='col-xs-6 col-md-7'>
+					<input type='date' class='form-control' value='{{dateValue birthdate}}'>
+				</div>
+			</div>
+			<div class='user-information user-gender col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-6'>Genre</label>
+				<div class='col-xs-6 col-md-7'>
+					<select name='user-gender-select' class='form-control'>
+						<option value='female'>Femme</option>
+						<option value='male'>Homme</option>
+					</select>
+				</div>
+			</div>
+			{{/if}}
+			<div class='user-information user-phone col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-6'>Numero de telephone</label>
+				<div class='col-xs-6 col-md-7'>
+					<div class='input-group'>
+						<span class='input-group-addon'>+33</span>
+						<input type='text' class='form-control' placeholder='612345678' value='{{phone}}'>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h3 class='blue col-xs-12 section'>Presentation</h3>
+		<div class='user-information user-presentation col-xs-12'>
+			<textarea class='form-control' rows=5>{{presentation}}</textarea>
+		</div>
+		<h3 class='blue col-xs-12 section'>Experiences</h3>
+		<div class='user-information user-experiences col-xs-12'>
+			<textarea class='form-control' rows=5>{{experiences}}</textarea>
+		</div>
+		<h3 class='blue col-xs-12 section'>Informations complementaire</h3>
+		<div class='user-information user-precisions col-xs-12'>
+			<textarea class='form-control' rows=5>{{precisions}}</textarea>
+		</div>
+	</div>
+	{{/if}}
+	{{#if $.Session.equals 'editJobberTab' 'skills'}}
+	<div class='user-categories-container col-xs-12 form-horizontal'>
+		<h3 class='blue col-xs-12'>Categories de competences</h3>
+		<div class='col-xs-12 user-categories section'>
+			{{#each categories}}
+			<div class='categorie col-xs-4 col-md-3 col-lg-2' data-name='{{name}}'>
+				<img src='{{icon}}' width='100%' style='padding:5px;'>
+			</div>
+			{{/each}}
+		</div>
+		<h3 class='blue col-xs-12'>Vos moyens de transports</h3>
+		<div class='col-xs-12 user-means section'>
+			{{#each means}}
+			<div class='{{userHasMean _id}} col-xs-4 col-md-2' data-name='{{name}}'>
+				{{{icon}}}
+			</div>
+			{{/each}}
+		</div>
+		<h3 class='blue col-xs-12'>Vos permis</h3>
+		<div class='col-xs-12 user-permis section'>
+			{{#each permis}}
+			<div class='{{userHasPermis _id}} col-xs-3 col-md-2 col-lg-1' data-name='{{name}}'>
+				{{name}}
+			</div>
+			{{/each}}
+		</div>
+		<h3 class='blue col-xs-12'>Vos Diplomes</h3>
+		<div class='col-xs-12 col-md-4 add-grade section'>
+			<div class='form-group'>
+				<label class='control-label'>Nom du diplome</label>
+				<input type='text' class='form-control add-grade-name' placeholder='BAC, Brevet, etc'>
+			</div>
+			<div class='form-group'>
+				<label class='control-label'>Date d'obtention</label>
+				<input type='date' class='form-control'>
+			</div>
+			<div class='form-group'>
+				<div class='blue'>Ajouter</div>
+			</div>
+		</div>
+		<div class='col-xs-12 col-md-8 user-grades section'>
+			{{#each this.grades}}
+			<div class='grade col-xs-6 col-md-3'>
+				<div class='botborder grade-inside col-xs-12'>
+					<h4>{{name}}</h4>
+					<small>{{formatDate date}}</small>
+					<div class='delete-button' data-which='{{_id}}'>
+						<i class='pull-right mdi mdi-delete'></i>
+					</div>
+				</div>
+			</div>
+			{{/each}}
+		</div>
+	</div>
+	{{/if}}
+	{{#if $.Session.equals 'editJobberTab' 'badges'}}
+	<div class='user-badges-container col-xs-12'>
+		<h3>Badges</h3>
+	</div>
+	{{/if}}
+	<div class='user-information buttons section col-xs-12'>
+		<div class='previous-button-container col-xs-4'>
+			<div class='previous-button {{inactive "previous"}}'>
+				<i class='glyphicon glyphicon-chevron-left'></i><span class='hidden-xs'> Retour</span>
+			</div>
+		</div>
+		<div class='submit-button-container col-xs-4'>
+			<div class='submit-button'>
+				<i class='glyphicon glyphicon-check'></i><span class='hidden-xs'> Enregistrer</span>
+			</div>
+		</div>
+		<div class='next-button-container col-xs-4'>
+			<div class='next-button {{inactive "next"}}'>
+				<span class='hidden-xs'>Suivant </span><i class='glyphicon glyphicon-chevron-right'></i>
+			</div>
+		</div>
+	</div>
+</template>

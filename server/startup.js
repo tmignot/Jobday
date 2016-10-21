@@ -9,10 +9,10 @@ Meteor.startup(function() {
 				society: true
 			}
 		});
-		UsersDatas.update({userId: adminId}, {$set: {
+		var udId = UsersDatas.findOne({userId: adminId})._id;
+		UsersDatas.update({_id: udId}, {$set: {
 			locale: 'fr',
 			gender: 1,
-			society: false,
 			devices: [],
 			languages: [ 'fr' ],
 			grades: 
@@ -69,7 +69,7 @@ Meteor.startup(function() {
 					{name: 'A1'}]
 	}).fetch(), function(elem) { return elem._id; });
 
-	UsersDatas.update({userId: adminId}, {
+	UsersDatas.update({_id: udId}, {
 		$set: {
 			means: adminMeans,
 			permis: adminPermis

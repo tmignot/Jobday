@@ -386,6 +386,7 @@ span.tooltips.noarrow span:after {
 	color: red;
 }
 
+.blue,
 .user-info-container h3 {
 	background: #63c2c8;
 	color: white;
@@ -423,7 +424,7 @@ span.tooltips.noarrow span:after {
 	margin: 5px;
 }
 
-.user-text .botborder {
+.botborder {
 	border-radius: 0;
 	border: none;
 	box-shadow: none;
@@ -443,6 +444,7 @@ span.tooltips.noarrow span:after {
 	text-transform: uppercase;
 	text-align: center;
 	height: 50px;
+	color: #333;
 }
 
 .user-means,
@@ -452,13 +454,63 @@ span.tooltips.noarrow span:after {
 	font-size: 1.8em;
 }
 
-.user-means .mean-got,
-.user-permis .permis-got {
-	color: #ee7202;
+.user-categories-container .user-permis {
+	font-size: 2em;
 }
+
+.user-categories-container .user-means {
+	font-size: 3em;
+}
+
 
 .user-permis {
 	font-size: 1.2em;
 	font-weight: bold;
 	line-height: 35px;
+}
+
+.user-permis .col-xs-3 {
+	width: 14.2857%;
+}
+
+@media (min-width:1200px) { /* lg */
+	.user-permis .col-lg-1 {
+		width: 7.142857%;
+	}
+}
+.user-means .mean-got,
+.user-permis .permis-got {
+	color: #ee7202;
+}
+
+.grade-inside .delete-button {
+	color: #ee7202;
+	font-size: 2em;
+	width: 100%;
+	cursor: pointer;
+}
+
+.spinner-container.col-xs-12 {
+	min-height: 500px;
+}
+
+.user-information.buttons div {
+	padding: 10px;
+}
+
+.user-information.buttons div div {
+	text-align: center;
+	color: white;
+	font-size: 16px;
+	background: #ee7202;
+	cursor: pointer;
+}
+
+.user-information.buttons div div.submit-button {
+	background: #63c2c8;
+}
+
+.user-information.buttons div div.inactive {
+	background: lightgray;
+	cursor: default;
 }

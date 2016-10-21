@@ -13,5 +13,5 @@ Template.navbar.events({
 	'click .logout': function() {
 		Meteor.logout();
 	},
-	'click .profile-link': function() { Router.go('profiluser'); }
+	'click .profile-link': function() { Router.go('profile', {id: Meteor.userId()}); }
 });

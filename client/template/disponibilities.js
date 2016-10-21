@@ -11,8 +11,7 @@ Template.disponibilities.helpers({
 	whenChecked: function() {
 		var currentDay = Session.get('dispoday');
 		var t = Template.instance();
-		var userdata = UsersDatas.findOne({userId: Meteor.userId()});
-		var id = userdata._id;
+		var userdata = Blaze._globalHelpers.userData();
 		var date = _.find(userdata.disponibilities, function(disp) {
 			if (disp.day && currentDay && disp.day.getTime() == currentDay.getTime())
 				return disp;

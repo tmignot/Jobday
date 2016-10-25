@@ -491,7 +491,7 @@ span.tooltips.noarrow span:after {
 	}
 }
 
-.user-skill img:hover {
+.user-categories-container .user-skill img:hover {
 	zoom: 1.4;
 	cursor:pointer;
 }

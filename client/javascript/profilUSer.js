@@ -78,6 +78,13 @@ Template.dashboardJobber.helpers({
 			return true;
 		return false;
 	},
+	userHasSkill: function(id) {
+		if (!Template.instance().data)
+			return
+		var p = Template.instance().data.skills;
+		if (p && _.contains(p, id))
+			return 'skill-got';
+	},
 	userHasPermis: function(id) {
 		var p = Template.instance().data.permis;
 		if (p && _.contains(p, id))

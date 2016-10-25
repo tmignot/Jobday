@@ -59,6 +59,11 @@
 			<div class='user-skills-container col-xs-12'>
 				<h4>Competences</h4>
 				<div class='user-skills'>
+					{{#each categories}}
+					<div class='categorie col-xs-4 user-skill'>
+						<img data-toggle='tooltip' title='{{name}}' alt='{{name}}' src='{{icon}}' class='{{userHasSkill index}}' width='100%' style='padding:5px;'>
+					</div>
+					{{/each}}
 				</div>
 			</div>
 		</div>

@@ -59,6 +59,23 @@ Meteor.startup(function() {
 		});
 	}
 
+	if (Badges.find().count() == 0) {
+		_.each([
+			{
+				name: 'Numero de telephone',
+				description: 'Faites verifier votre numero de telephone pour recevoir des offres par SMS',
+				icon: 'phone'
+			},
+			{
+				name: 'Identite',
+				description: 'Transferez votre carte d\'identite pour que nous puissions verifier les informations de votre profil',
+				icon: 'account_box'
+			}
+		], function(b) {
+			Badges.insert(b);
+		});
+	}
+
 	var adminMeans = _.map(MeansOfTransports.find({
 		$or: [{name: 'Voiture'},
 					{name: 'Pieds'},

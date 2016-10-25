@@ -28,7 +28,9 @@ Template.registerHelper('user', function() {
 });
 
 Template.registerHelper('categories', function() {
-	return Categories;
+	return _.map(Categories, function(c,i) {
+		return _.extend(c, {index: i});
+	});
 });
 
 Template.registerHelper('means', function() {
@@ -37,6 +39,10 @@ Template.registerHelper('means', function() {
 
 Template.registerHelper('permis', function() {
 	return Permis.find();
+});
+
+Template.registerHelper('badges', function() {
+	return Badges.find();
 });
 
 Template.registerHelper('formatDate', function(date) {

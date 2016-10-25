@@ -387,6 +387,7 @@ span.tooltips.noarrow span:after {
 }
 
 .blue,
+.orange,
 .user-info-container h3 {
 	background: #63c2c8;
 	color: white;
@@ -394,6 +395,11 @@ span.tooltips.noarrow span:after {
 	font-size:18px;
 	text-align: center;
 	margin-bottom: 10px;
+}
+
+.orange {
+	background: #ee7202;
+	cursor: pointer;
 }
 
 .user-text label,
@@ -463,6 +469,12 @@ span.tooltips.noarrow span:after {
 }
 
 
+.user-skills img {
+	opacity: 0.4;
+	-webkit-filter: saturate(0%);
+	filter: saturate(0%);
+}
+
 .user-permis {
 	font-size: 1.2em;
 	font-weight: bold;
@@ -478,16 +490,55 @@ span.tooltips.noarrow span:after {
 		width: 7.142857%;
 	}
 }
+
+.user-skill img:hover {
+	opacity: 1.0;
+	zoom: 1.4;
+	cursor:pointer;
+}
+
+.user-skills .skill-got,
 .user-means .mean-got,
 .user-permis .permis-got {
+	opacity: 1;
 	color: #ee7202;
 }
 
+.user-skills .skill-got {
+	-webkit-filter: saturate(100%);
+	filter: saturate(100%);
+}
+
+.user-skills .skill-got:hover {
+	opacity: 0.5;
+}
+
+.user-mean i:hover,
+.user-permi:hover {
+	color: #63c2c8;
+	zoom: 0.9;
+	cursor:pointer;
+}
+
+.user-means .mean-got i:hover,
+.user-permis .permis-got:hover {
+	color: #ee7202;
+	opacity: 0.6;
+}
+
+
 .grade-inside .delete-button {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
 	color: #ee7202;
 	font-size: 2em;
 	width: 100%;
 	cursor: pointer;
+}
+
+.grade-inside .delete-button:hover {
+	zoom: 1.1;
 }
 
 .spinner-container.col-xs-12 {

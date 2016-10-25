@@ -22,13 +22,13 @@ Meteor.publish('Badges', function() {
 	return Badges.find({});
 });
 
-Meteor.publish("images", function (e) {
-    return Images.find({});
+Meteor.publish("Images", function () {
+	return Images.find({}).cursor;
 });
 
 Meteor.publish("users");
 Meteor.publish("utilisateur", function (e) {
-    return Utilisateur.find({});
+	return Utilisateur.find({});
 });
 
 Meteor.publish("userData", function (ids) {
@@ -41,5 +41,5 @@ Meteor.publish("userData", function (ids) {
 });
 
 Meteor.publish("annonce", function () {
-    return Annonce.find({});
+	return Annonce.find({});
 });

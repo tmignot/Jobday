@@ -6,7 +6,7 @@
 			</div>
 		</div>
 		<div class='submit-button-container col-xs-4'>
-			<div class='submit-button'>
+			<div class='submit-button {{inactive "submit"}}'>
 				Enregistrer
 			</div>
 		</div>
@@ -21,7 +21,23 @@
 		<h3 class='blue'>Identite</h3>
 		<div class='user-information user-photo col-xs-12 col-md-4 from-group section'>
 			<label class='control-label'>Votre photo de profil</label>
-			<img src='{{photo}}' width='100%'>
+			<img id='apercu' src='{{photo}}' width='100%'>
+			{{#if currentFile}}
+				{{#with currentFile}}
+						<div class="progress">
+							<div class="progress-bar" role="progressbar" aria-valuenow="{{progress.get}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.get}}%;background:#ee7202;">
+								{{progress.get}}%
+							</div>
+						</div>
+				{{/with}}
+			{{else}}
+				{{#if compressing}}
+				<div class='blue center-block'>Compression... <i class='fa fa-spinner fa-spin'></i></div>
+				{{else}}
+					<div class='orange center-block'>Modifier</div>
+					<input id="fileInput" type="file" class='hidden'/>
+				{{/if}}
+			{{/if}}
 		</div>
 		<div class='col-md-8'>
 			<div class='user-information user-society col-xs-12 from-group section'>
@@ -113,17 +129,17 @@
 	{{#if $.Session.equals 'editJobberTab' 'skills'}}
 	<div class='user-categories-container col-xs-12 form-horizontal'>
 		<h3 class='blue col-xs-12'>Categories de competences</h3>
-		<div class='col-xs-12 user-categories section'>
+		<div class='col-xs-12 user-categories user-skills section'>
 			{{#each categories}}
-			<div class='categorie col-xs-4 col-md-3 col-lg-2' data-name='{{name}}'>
-				<img src='{{icon}}' width='100%' style='padding:5px;'>
+			<div class='categorie col-xs-4 col-md-3 col-lg-2 user-skill' data-which='{{index}}'>
+				<img src='{{icon}}' class='{{userHasSkill index}}' width='100%' style='padding:5px;'>
 			</div>
 			{{/each}}
 		</div>
 		<h3 class='blue col-xs-12'>Vos moyens de transports</h3>
 		<div class='col-xs-12 user-means section'>
 			{{#each means}}
-			<div class='{{userHasMean _id}} col-xs-4 col-md-2' data-name='{{name}}'>
+			<div class='{{userHasMean _id}} user-mean col-xs-4 col-md-2' data-which='{{_id}}'>
 				{{{icon}}}
 			</div>
 			{{/each}}
@@ -131,7 +147,7 @@
 		<h3 class='blue col-xs-12'>Vos permis</h3>
 		<div class='col-xs-12 user-permis section'>
 			{{#each permis}}
-			<div class='{{userHasPermis _id}} col-xs-3 col-md-2 col-lg-1' data-name='{{name}}'>
+			<div class='{{userHasPermis _id}} user-permi col-xs-3 col-md-2 col-lg-1' data-which='{{_id}}'>
 				{{name}}
 			</div>
 			{{/each}}
@@ -144,7 +160,7 @@
 			</div>
 			<div class='form-group'>
 				<label class='control-label'>Date d'obtention</label>
-				<input type='date' class='form-control'>
+				<input type='date' class='form-control add-grade-date'>
 			</div>
 			<div class='form-group'>
 				<div class='blue'>Ajouter</div>
@@ -156,8 +172,8 @@
 				<div class='botborder grade-inside col-xs-12'>
 					<h4>{{name}}</h4>
 					<small>{{formatDate date}}</small>
-					<div class='delete-button' data-which='{{_id}}'>
-						<i class='pull-right mdi mdi-delete'></i>
+					<div class='delete-button'>
+						<i class='delete-icon pull-right mdi mdi-delete' data-which='{{index}}'></i>
 					</div>
 				</div>
 			</div>
@@ -167,7 +183,22 @@
 	{{/if}}
 	{{#if $.Session.equals 'editJobberTab' 'badges'}}
 	<div class='user-badges-container col-xs-12'>
-		<h3>Badges</h3>
+		<h3 class='blue col-xs-12'>Badges</h3>
+		{{#each badges}}
+		<div class='user-badge col-xs-12 col-md-6' style=padding:25px; data-which='{{_id}}'>
+			<h4 class='col-xs-12'>
+				<i class='material-icons'>{{icon}}</i>
+				<span style=vertical-align:super;>{{name}}</span>
+				{{#if userHasBadge _id}}
+					<i class='material-icons pull-right'>check_circle</i>
+				{{/if}}
+			</h4>
+			<h4><small>{{description}}</small></h4>
+			{{#unless userHasBadge _id}}
+				<button class='btn btn-default center-block'>Verifier</button>
+			{{/unless}}
+		</div>
+		{{/each}}
 	</div>
 	{{/if}}
 	<div class='user-information buttons section col-xs-12'>
@@ -177,7 +208,7 @@
 			</div>
 		</div>
 		<div class='submit-button-container col-xs-4'>
-			<div class='submit-button'>
+			<div class='submit-button {{inactive "submit"}}'>
 				<i class='glyphicon glyphicon-check'></i><span class='hidden-xs'> Enregistrer</span>
 			</div>
 		</div>

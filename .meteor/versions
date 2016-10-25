@@ -96,8 +96,6 @@ momentjs:moment@2.15.2
 mongo@1.1.13
 mongo-id@1.0.5
 mongo-livedata@1.0.12
-nemo64:bootstrap@3.3.5_3
-nemo64:bootstrap-data@3.3.5
 npm-bcrypt@0.9.1_1
 npm-mongo@2.2.11_1
 oauth@1.1.11

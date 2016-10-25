@@ -20,6 +20,13 @@ Template.editJobber.onRendered(function() {
 });
 
 Template.editJobber.helpers({
+	runHelp: function() {
+		var data = Template.instance().data;
+		if (data) {
+			Session.set('isSociety', data.society);
+			Session.set('gender', data.gender == 1? 'male':'female');
+		}
+	},
 	active: function(w) {
 		var params = Router.current().params;
 		if (params && params.query && params.query.tab)
@@ -209,5 +216,50 @@ Template.editJobber.events({
 			date: new Date($('.add-grade-date').val())
 		};
 		UsersDatas.update(user, {$push: {grades: new_grade}});
+	},
+	'click .submit-button': function(e,t) {
+		var params = Router.current().params;
+		if (params && params.query && params.query.tab) {
+			if (params.query.tab == 'info') {
+				var data;
+				if (Session.get('isSociety') == true) {
+					data = {
+						userId: Meteor.userId(),
+						society: true,
+						name: $('.user-name input').val(),
+						siret: $('.user-siret input').val(),
+						address: {
+							street: $('.user-address-street').val(),
+							zipcode: $('.user-address-zipcode').val(),
+							city: $('.user-address-city').val()
+						},
+						phone: $('.user-phone input').val()
+					};
+				} else {
+					data = {
+						userId: Meteor.userId(),
+						society: false,
+						name: $('.user-name input').val(),
+						firstname: $('.user-firstname input').val(),
+						birthdate: new Date($('.user-birthdate input').val()),
+						gender: $('select[name="user-gender-select"]').val() == 'male'? 1:2,
+						phone: $('.user-phone input').val()
+					};
+				}
+				data.presentation = $('.user-presentation textarea').val();
+				data.experiences = $('.user-experiences textarea').val();
+				data.precisions = $('.user-precisions textarea').val();
+				
+				var cleanData = _.extend({}, data);
+				UserDataSchema.clean(cleanData);
+				var ctx = UserDataSchema.newContext();
+				ctx.validate(cleanData);
+				if (ctx.invalidKeys().length) {
+				} else {
+					console.log(data);
+					UsersDatas.update({_id: t.data._id}, {$set: data});
+				}
+			}
+		}
 	}
 });

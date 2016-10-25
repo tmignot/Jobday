@@ -17,6 +17,7 @@
 		</div>
 	</div>
 	{{#if $.Session.equals 'editJobberTab' 'info'}}
+	{{runHelp}}
 	<div class='user-informations-container col-xs-12 form-horizontal'>
 		<h3 class='blue'>Identite</h3>
 		<div class='user-information user-photo col-xs-12 col-md-4 from-group section'>
@@ -43,12 +44,21 @@
 			<div class='user-information user-society col-xs-12 from-group section'>
 				<label class='control-label col-md-5 col-xs-6'>Representez-vous une societe?</label>
 				<div class='col-xs-6 col-md-7' style='padding-top:7px;'>
+					{{#if $.Session.equals 'isSociety' true}}
 					<span class='col-xs-4 col-md-3'>
-						<input type='radio' name='user-society-input' value='true'> Oui
+						<input type='radio' name='user-society-input' value='true' checked> Oui
 					</span>
 					<span class='col-xs-4 col-md-3'>
 						<input type='radio' name='user-society-input' value='false'> Non
 					</span>
+					{{else}}
+					<span class='col-xs-4 col-md-3'>
+						<input type='radio' name='user-society-input' value='true'> Oui
+					</span>
+					<span class='col-xs-4 col-md-3'>
+						<input type='radio' name='user-society-input' value='false' checked> Non
+					</span>
+					{{/if}}
 				</div>
 			</div>
 			{{#if $.Session.equals 'isSociety' true}}
@@ -67,9 +77,9 @@
 			<div class='user-information user-address col-xs-12 from-group section'>
 				<label class='control-label col-md-5 col-xs-12'>Siege social</label>
 				<div class='col-xs-12 col-md-7'>
-					<input type='text' class='form-control' placeholder='Num, rue' value='{{address.street}}'>
-					<input type='text' style='margin-top:5px;' class='form-control' placeholder='12345' value='{{address.zipcode}}'>
-					<input type='text' style='margin-top:5px;' class='form-control' placeholder='Ville' value='{{address.city}}'>
+					<input type='text' class='form-control user-address-street' placeholder='Num, rue' value='{{address.street}}'>
+					<input type='text' style='margin-top:5px;' class='form-control user-address-zipcode' placeholder='12345' value='{{address.zipcode}}'>
+					<input type='text' style='margin-top:5px;' class='form-control user-address-city' placeholder='Ville' value='{{address.city}}'>
 				</div>
 			</div>
 			{{/if}}
@@ -96,8 +106,13 @@
 				<label class='control-label col-md-5 col-xs-6'>Genre</label>
 				<div class='col-xs-6 col-md-7'>
 					<select name='user-gender-select' class='form-control'>
+						{{#if $.Session.equals 'gender' 'male'}}
 						<option value='female'>Femme</option>
+						<option value='male' selected>Homme</option>
+						{{else}}
+						<option value='female' selected>Femme</option>
 						<option value='male'>Homme</option>
+						{{/if}}
 					</select>
 				</div>
 			</div>

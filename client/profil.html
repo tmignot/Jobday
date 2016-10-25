@@ -4,7 +4,7 @@
 			<img class='user-photo col-xs-12' src='{{userData.photo}}'>
 		</div>
 		<div class='user-info-container section col-xs-12'>
-			<h3>{{userData.firstname}} {{userData.name}}</h3>
+			<h3>{{#unless userData.society}}{{userData.firstname}}{{/unless}} {{userData.name}}</h3>
 			<div class='user-stars col-xs-12'>
 			</div>
 			<div class='user-dates col-xs-12'>

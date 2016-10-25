@@ -1,7 +1,3 @@
-Template.navbar.onRendered(function() {
-	$('.dropdown-toggle').dropdown();
-});
-
 Template.navbar.events({
 	'click .navbar-brand .dummy-link': function(e) { Router.go('home');	},
 	'click .proposerUnJob a': function() { Router.go('poster'); },

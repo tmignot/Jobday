@@ -492,7 +492,6 @@ span.tooltips.noarrow span:after {
 }
 
 .user-skill img:hover {
-	opacity: 1.0;
 	zoom: 1.4;
 	cursor:pointer;
 }
@@ -509,21 +508,14 @@ span.tooltips.noarrow span:after {
 	filter: saturate(100%);
 }
 
-.user-skills .skill-got:hover {
-	opacity: 0.5;
-}
-
 .user-mean i:hover,
 .user-permi:hover {
-	color: #63c2c8;
 	zoom: 0.9;
 	cursor:pointer;
 }
 
-.user-means .mean-got i:hover,
-.user-permis .permis-got:hover {
-	color: #ee7202;
-	opacity: 0.6;
+.user-categories-container .user-means .mean-got i:hover,
+.user-categories-container .user-permis .permis-got:hover {
 }
 
 

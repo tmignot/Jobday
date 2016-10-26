@@ -1,10 +1,13 @@
 Template.dashboardJobber.onRendered(function() {
 	Session.set('dispoday', new Date());
-	var u = this.data;
+	var uid;
+	if (this.data)
+		uid = this.data._id;
 	$('#dispo-calendar').fullCalendar({
 		contentHeight: 250,
 		displayEventTime: false,
 		dayClick: function(date) {
+			var u = UsersDatas.findOne({_id: uid});
 			if (u.userId == Meteor.userId()) {
 				Session.set('dispoday', new Date(date));
 				$('#editDisponibilities').modal('show');
@@ -15,7 +18,10 @@ Template.dashboardJobber.onRendered(function() {
 				color: 'blue',
 				textColor: 'white',
 				events: function(s,e,t,c) {
-					var disp = u.disponibilities;
+					var u = UsersDatas.findOne({_id: uid}),
+							disp = [];
+					if (u && u.disponibilities)
+						disp = u.disponibilities
 					var events = _.map(_.where(disp, {morning: true}), function(d) {
 						return {
 							title: 'Matin',
@@ -30,7 +36,10 @@ Template.dashboardJobber.onRendered(function() {
 				color: 'orange',
 				textColor: 'white',
 				events: function(s,e,t,c) {
-					var disp = u.disponibilities;
+					var u = UsersDatas.findOne({_id: uid}),
+							disp = [];
+					if (u && u.disponibilities)
+						disp = u.disponibilities
 					var events = _.map(_.where(disp, {afternoon: true}), function(d) {
 						return {
 							title: 'Apres-midi',
@@ -45,7 +54,10 @@ Template.dashboardJobber.onRendered(function() {
 				color: 'gray',
 				textColor: 'white',
 				events: function(s,e,t,c) {
-					var disp = u.disponibilities;
+					var u = UsersDatas.findOne({_id: uid}),
+							disp = [];
+					if (u && u.disponibilities)
+						disp = u.disponibilities
 					var events = _.map(_.where(disp, {evening: true}), function(d) {
 						return {
 							title: 'Soir',

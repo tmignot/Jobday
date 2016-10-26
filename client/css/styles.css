@@ -557,3 +557,13 @@ span.tooltips.noarrow span:after {
 	background: lightgray;
 	cursor: default;
 }
+
+@media only screen and (max-width: 1200px) {
+	 .tooltips {
+		 font-size: 13px;
+	 }
+	 .tooltip-header { 
+		 font-size: 15px; 
+	 }
+}
+

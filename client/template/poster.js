@@ -75,7 +75,11 @@ function dateVal(id) {
 
 function getValues() {
 	var wh = {};
-	var whType = parseInt($('input[name="choixHoraire"]').val());
+	var whType = 0;
+	$('input[name="choixHoraire"]').each(function(i,e) {
+		if ($(e).is(':checked'))
+			whType = $(e).val();
+	});
 	if (whType == 5) {
 		var	from = strVal('choixHoraireAnnonceDeb').split(':');
 		var	to = strVal('choixHoraireAnnonceFin').split(':');

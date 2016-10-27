@@ -47,3 +47,4 @@ planettraining:material-design-icons-font
 ostrio:files
 reactive-var@1.0.10
 shell-server
+panter:moment-duration-format

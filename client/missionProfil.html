@@ -1,139 +1,166 @@
 <template name="missionProfil">
-	{{#if currentUser}}
-	<button id="btnPostulerAnnonce" style="margin-top:75px;" onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-hand-up"> Postuler pour cette annonce	</button>
-	<button   id="btnFaireOffre" style="margin-top:75px;" class="btn btn-primary glyphicon glyphicon-map-marker" >Faire une Offre</button>
-	<button   id="btnQuestion" style="margin-top:75px;" class="btn btn-primary glyphicon glyphicon-map-marker" >Poser/Repondre Question </button>
-	{{/if}}
-	<div id="Categorie" class="tableauCategorie" style="margin-top:75px;overflow-y: scroll;height:620px;">
-		<div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
-			<div class="colonneTableauResultat" style ="width: 35%;float: left;display: inline-block;      padding: 5px;
-			/*border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;*/">
-				<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat" style="text-align: left;">Titre {{annonce.titreAnnonce}}</div>	
-				</div>
-				<div class="celluleTableauResultat" style="text-align: left;" >
-					<div class="celluleTitreResultat">Poste Par {{annonce.createdBy}}	</div>
-					{{#if btnModifierOK annonce.createdBy }}
-					<button  onclick="Router.go('/poster/{{annonce._id }}');" id="btnModifierJob" class="btn btn-primary glyphicon glyphicon-map-marker" >
-						Modifier Job	</button>
-					{{/if}}
-				</div>
-				<div class="celluleTableauResultat" style="text-align: left;">
-					<div class="celluleTitreResultat"> 
-						<span class="glyphicon glyphicon-star"> Expérience Requis {{annonce.titreAnnonce}}	</span> 
-						<select autocomplete="off" id="selectTypeAnnonce" class="form-control">
-							<option value="-1"> </option>
-							<option value="0">Job Professionnel</option>
-							<option value="1">Job Particulier</option>
-							<option value="2">Job à distance</option>
-						</select>
-						<div class="celluleTableauResultat" style="text-align: left;" >
-							<div class="celluleTitreResultat">			 
-								Nécéssite encore x personnes	
-							</div>
-						</div>
-						<div class="celluleTableauResultat" style="text-align: left;" >
-							<div class="celluleTitreResultat">	
-								Outils à disposition
-							</div>
-						</div>
-						<div class="celluleTableauResultat" style="text-align: left;" >
-							<div class="celluleTitreResultat">	
-								Pourboire
-							</div>
-						</div>
-						<div class="celluleTableauResultat" style="text-align: left;" >
-							<div class="celluleTitreResultat">	
-								Habillage à disposition
-							</div>
-						</div>
-						<div class="celluleTableauResultat" style="text-align: left;" >
-							<div class="celluleTitreResultat">	
-								Besoin d'une voiture
-							</div>
-						</div>
-						<div class="celluleTableauResultat" style="text-align: left;" >
-							<div class="celluleTitreResultat">	
-								checkbox Prix négociable
-							</div>
-						</div>
-						<div class="celluleTableauResultat" style="text-align: left;" >
-							<div class="celluleTitreResultat">	
-								lieu : Communes
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="colonneTableauResultat" style="margin-top:20px;width: 65%;float: right;display: inline-block; 
-			/* border: 5px;   border-color: #E95393;    border-style: solid;    border-radius: 20px; */ ">
-				<div class="celluleTableauResultat" style="text-align: left;" >
-					<div class="" style="float:left">
-						Description..{{annonce.descriptionAnnonce}}.....
-					</div>	
-				</div>
-				<br>
-				<div class="celluleTableauResultat" style="text-align: left;" >
-					<div class="celluleTitreResultat" style="text-align: left;">
-						Prix €	
-					</div>	
-				</div>	
-				<div class="celluleTableauResultat" style="text-align: left;" >
-					<div class="celluleTitreResultat">
-						Durée  Date : JJ/MM/YYYY
-					</div>
-				</div>
-				<div class="celluleTableauResultat" style="text-align: left;" >
-					<div class="celluleTitreResultat"> 
-						Nombre de participant voulus	
-					</div>
-				</div>
-					<div class="celluleTableauResultat" style="text-align: left;">
-						<div class="celluleTitreResultat"> 
-							Nombre de participant postuler
-						</div>
-					</div>
-					<div class="celluleTableauResultat" style="text-align: left;">
-						<div class="celluleTitreResultat"> 	
-							XXXX,XX 
-						</div>
-					</div>
+	<div class='mission-container col-xs-12 col-md-9'>
+		<div class='mission-header' style='width:100%'>
+			{{#with category this.category}}
+			<img src='{{icon}}' style='display:inline-block;vertical-align:middle;padding:15px;' width='23%' data-toggle='tooltip' title='{{name}}'>
+			{{/with}}
+			<div style='width:75%;display:inline-block;vertical-align:middle;'>
+				<h3 style='vertical-align:middle;'>{{title}}<br>
+					<small>{{getCat}}</small>
+				</h3>
+				<h4 style='text-align:right;'><small>Poste par <a href='/profilUser/{{owner}}'>{{username owner}}</a> {{fromNow createdAt}}</small></h4>
 			</div>
 		</div>
-		---------------------
-		<div class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
-			<div class="colonneTableauResultat" style ="width: 35%;float: left;display: inline-block;      padding: 5px;
-			/*border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;*/">
-				<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat" style="text-align: left;">
-						Question Réponses
-					</div>	
+		<div class='mission-description col-xs-12 section bleft'>
+			<span class='col-xs-6 col-md-3'>
+				<i class='material-icons'>person_add</i>{{waitingFor}} places restantes
+			</span>
+			{{#if tools}}
+			<span class='col-xs-6 col-md-3'>
+				<i class='material-icons'>build</i> Outils fournis
+			</span>
+			{{/if}}
+			{{#if clothes}}
+			<span class='col-xs-6 col-md-3'>
+				<i class='material-icons'>accessibility</i> Vetements fournis
+			</span>
+			{{/if}}
+			{{#if needsVehicle}}
+			<span class='col-xs-6 col-md-3'>
+				<i class='material-icons'>directions_car</i> Vehicule necessaire
+			</span>
+			{{/if}}
+			<h4 class='col-xs-12 section pre-wrap'>{{description}}</h4>
+			<h4 class='col-xs-12 pre-wrap'><small>{{precisions}}</small></h4>
+			<div class='col-xs-12 col-md-6 section mission-dates'>
+				<div class='col-xs-12'>
+					<i class='material-icons'>today</i>
+					{{#if beforeDate}}
+					<label>Avant le {{formatDate startDate}}</label>
+					{{else}}
+					{{#if endDate}}
+					<label>Du {{formatDate startDate}} au {{formatDate endDate}}</label>
+					{{else}}
+					<label>Le {{formatDate startDate}}</label>
+					{{/if}}
+					{{/if}}
 				</div>
-				<div class="celluleTableauResultat" style="text-align: left;" >
-					<div class="celluleTitreResultat">
-						Poste Par [Prénom]
-					</div>
-					<div class="celluleTableauResultat" style="text-align: left;">
-						<div class="celluleTitreResultat"> 
-							Bonjour,voiture ? 
-						</div>
-					</div>				
-				</div>
-				<div class="celluleTableauResultat" style="text-align: left;" >
-					<div class="celluleTitreResultat">
-						Poste Par [Prénom2]
-					</div>
-					<div class="celluleTableauResultat" style="text-align: left;">
-						<div class="celluleTitreResultat"> 
-							Oui bien sur
-						</div>
-					</div>				
+			</div>
+			<div class='col-xs-12 col-md-6 section mission-hours'>
+				<div class='col-xs-12'>
+					<i class='material-icons'>schedule</i>
+					{{#with workingHours}}
+					{{#if $eq type 1}}	
+					<label>Horaire libre</label>
+					{{/if}}{{#if $eq type 2}}
+					<label>Le matin</label>
+					{{/if}}{{#if $eq type 3}}
+					<label>L'apres-midi</label>
+					{{/if}}{{#if $eq type 4}}
+					<label>Le soir</label>
+					{{/if}}{{#if $eq type 5}}
+					<label>De {{from.hour}}:{{from.min}} a {{to.hour}}:{{to.min}}</label>
+					{{/if}}
+					{{/with}}
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<!-- Modal -->
+	<div class='mission-sidebar col-md-3 hidden-sm hidden-xs'>
+		<div class='col-xs-12 section bleft'>
+			<div class='col-xs-12 mission-status'>
+				<div class='col-xs-12 status-{{getStatus}}' data-toggle='tooltip' title='{{getStatus}}'>
+				</div>
+			</div>
+			<div class='col-xs-12 mission-infos section'>
+				<h4>Prix: {{budget}}<small><i style='vertical-align:bottom' class='material-icons'>euro_symbol</i></small></h4>
+				{{#if $eq workingHours.type 5}}
+				{{duration workingHours.from workingHours.to}}
+				{{/if}}
+			</div>
+			{{#if currentUser}}
+			<div id="btnFaireOffre" class="orange section col-xs-12" >
+				<i class='glyphicon glyphicon-map-marker'></i> Faire une Offre
+			</div>
+			{{/if}}
+			<div class="panel-group col-xs-12" style='margin-top:5px;'>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" href="#collapse1">Plus d'options</a>
+						</h4>
+					</div>
+					<div id="collapse1" class="panel-collapse collapse in">
+						<ul class="list-group" style='text-align:left'>
+							<li class='list-group-item'><a href="#">Poster une offre similaire</a></li>
+							<li class='list-group-item'><a href="#">Partager sur Facebook</a></li>
+							<li class='list-group-item'><a href="#">Suivre l'annonce</a></li>
+							<li class='list-group-item'><a href="#">Signaler un abus</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class='col-xs-12'>
+		<div id='big-accordion' class='panel-group mission-questions col-md-8 hidden-xs hidden-sm' style='padding:0'>
+			<div class='col-xs-12 section bleft panel panel-default'>
+				{{>offers offers=this.offers parentAcc="big-accordion"}}
+			</div>
+			<div class='col-xs-12 section bleft panel panel-default'>
+				{{>messages messages=this.messages parentAcc="big-accordion"}}
+			</div>
+		</div>
+		<div class='col-xs-12 col-md-4 section bleft'>
+			<div class='col-xs-12'>
+				<div id='mission-map'></div>
+			</div>
+		</div>
+		<div id='little-accordion' class='panel-group mission-questions col-xs-12 visible-xs visible-sm' style='padding:0'>
+			<div class='col-xs-12 section bleft panel panel-default'>
+				{{>offers offers=this.offers parentAcc="little-accordion"}}
+			</div>
+			<div class='col-xs-12 section bleft panel panel-default'>
+				{{>messages messages=this.messages parentAcc="little-accordion"}}
+			</div>
+		</div>
+	</div>
+	<div class='mission-sidebar col-xs-12 visible-sm visible-xs'>
+		<div class='col-xs-12 section bleft'>
+			<div class='col-xs-12 mission-status'>
+				<div class='col-xs-12 status-{{getStatus}}' data-toggle='tooltip' title='{{getStatus}}'>
+				</div>
+			</div>
+			<div class='col-xs-12 mission-infos section'>
+				<h4>Prix: {{budget}}<small><i style='vertical-align:bottom' class='material-icons'>euro_symbol</i></small></h4>
+				{{#if $eq workingHours.type 5}}
+				{{duration workingHours.from workingHours.to}}
+				{{/if}}
+			</div>
+			{{#if currentUser}}
+			<div id="btnFaireOffre" class="orange section col-xs-12" >
+				<i class='glyphicon glyphicon-map-marker'></i> Faire une Offre
+			</div>
+			{{/if}}
+			<div class="panel-group col-xs-12" style='margin-top:5px;'>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" href="#collapse2">Plus d'options</a>
+						</h4>
+					</div>
+					<div id="collapse2" class="panel-collapse collapse">
+						<ul class="list-group" style='text-align:left'>
+							<li class='list-group-item'><a href="#">Poster une offre similaire</a></li>
+							<li class='list-group-item'><a href="#">Partager sur Facebook</a></li>
+							<li class='list-group-item'><a href="#">Suivre l'annonce</a></li>
+							<li class='list-group-item'><a href="#">Signaler un abus</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="modal fade" id="posterOffre" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">

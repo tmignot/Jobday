@@ -27,6 +27,10 @@ Template.registerHelper('user', function() {
 		return Meteor.users.findOne({_id: Meteor.userId()});
 });
 
+Template.registerHelper('username', function(id) {
+	return UsersDatas.findOne({userId: id}).name;
+});
+
 Template.registerHelper('categories', function() {
 	return _.map(Categories, function(c,i) {
 		return _.extend(c, {index: i});
@@ -56,6 +60,19 @@ Template.registerHelper('adverts', function(settings) {
 Template.registerHelper('formatDate', function(date) {
 	moment.locale('fr');
 	return moment(date).format('DD MMMM YYYY');
+});
+
+Template.registerHelper('duration', function(from, to) {
+	moment.locale('fr');
+	return moment.duration({hours: to.hour, minutes: to.min})
+		.subtract(moment.duration({hours: from.hour, minutes: from.min}))
+		.humanize();
+});
+
+Template.registerHelper('fromNow', function(d) {
+	console.log(d);
+	moment.locale('fr');
+	return moment(d).fromNow();
 });
 
 Template.registerHelper('lastLogin', function() {

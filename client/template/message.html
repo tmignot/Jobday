@@ -1,0 +1,27 @@
+<template name='messages'>
+	<div class='panel-heading'>
+		<h4 class='panel-title'><a data-toggle='collapse' data-parent='#{{parentAcc}}' href='#{{parentAcc}}-collapse-2'>Questions/Reponses ({{messages.length}})</a></h4>
+	</div>
+	<div id='{{parentAcc}}-collapse-2' class='panel-collapse collapse in'>
+		<div class='panel-body'>
+			{{#unless messages.length}}
+				<h3><small>Aucune question n'a encore ete posee</small></h3>
+			{{else}}
+				{{#each messages}}
+					{{>message}}
+				{{/each}}
+			{{/unless}}
+			<div class='col-xs-12 col-md-3'>
+				<img width='100%' src='{{currentUserData.photo}}'>
+			</div>
+			<div class='col-xs-12 col-md-9'>
+				<textarea class='form-control' placeholder='Posez une question'></textarea>
+				<small class='col-xs-12 col-sm-6 col-md-8 col-lg-9'>Il est interdit de divulguer ici des informations pouvant permettre de vous contacter</small>
+				<span class='orange col-xs-12 col-sm-6 col-md-4 col-lg-3'>Envoyer</span>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name='message'>
+</template>

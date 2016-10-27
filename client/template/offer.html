@@ -1,0 +1,19 @@
+<template name='offers'>
+	<div class='panel-heading'>
+		<h4 class='panel-title'><a data-toggle='collapse' data-parent='#{{parentAcc}}' href='#{{parentAcc}}-collapse-1'>Offres recues ({{offers.length}})</a></h4>
+	</div>
+	<div id='{{parentAcc}}-collapse-1' class='panel-collapse collapse'>
+		<div class='panel-body'>
+			{{#unless offers.length}}
+				<h3><small>Aucune offre n'a encore ete faite</small></h3>
+			{{else}}
+				{{#each offers}}
+					{{>offer}}
+				{{/each}}
+			{{/unless}}
+		</div>
+	</div>
+</template>
+
+<template name='offer'>
+</template>

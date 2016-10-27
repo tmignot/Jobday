@@ -1,6 +1,12 @@
-initAutocomplete = function() {
-	autocomplete = new google.maps.places.Autocomplete(document.getElementById('local-input'),{types: ['geocode']});
-};
+Template.searchbar.onRendered(function() {
+	Maps.create({
+		type: 'autocomplete',
+		doc: document.getElementById('local-input'),
+		params: {
+			types: ['geocode']
+		}
+	});
+});
 
 Template.searchbar.events({
 	'focus #local-input': function(e,t) {
@@ -14,7 +20,7 @@ Template.searchbar.events({
 					center: geolocation,
 					radius: position.coords.accuracy
 				});
-				autocomplete.setBounds(circle.getBounds());
+				Maps.places.autocomplete.setBounds(circle.getBounds());
 			});
 		}
 	}

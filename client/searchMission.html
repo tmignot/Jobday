@@ -1,72 +1,26 @@
 <template name="resultatSearch">
-	<div id="Categorie" class="tableauResultat" style="overflow-y: scroll;height:320px;">
-		{{#each annonce}}
-		<div   onclick="window.location.href='/missionProfil/{{this._id }}';"  class="ligneTableauResultat" style="width: 100%;display: inline-block;border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;">
-			<div class="colonneTableauResultat" style ="width: 35%;float: left;display: inline-block;      padding: 5px;
-			/*border: 5px;  border-color: #E95393;    border-style: solid;    border-radius: 20px;*/">
-				<div class="celluleTableauResultat">
-					<div class="celluleTitreResultat" style="text-align: left;">
-						Titre {{this.titreAnnonce }}
-					</div>	
-				</div>
-				<div class="celluleTableauResultat" style="text-align: left;" >
-					<div class="celluleTitreResultat">
-						Catégorie
-					</div>
-					<img src="images/categorie/{{this.categorieID }}.jpg" alt="" class="thumbnail" />		
-				</div>
-				<div class="celluleTableauResultat" style="text-align: left;">
-					<div class="celluleTitreResultat"> 
-						<span class="glyphicon glyphicon-star">Expérience Requis  {{this.experienceRequis }}</span> 
-					</div>
-				</div>
-			</div>
-			<div class="colonneTableauResultat" style ="width: 65%;float: right;display: inline-block;">
-				<div class="celluleTableauResultat" style="text-align: left;" >
-					<div class="" style="float:left">
-						Description.. {{this.descriptionAnnonce }}
-					</div>	
-				</div>
-				<BR>
-				<div class="celluleTableauResultat" style="text-align: left;" >
-					<div class="celluleTitreResultat" style="text-align: left;">
-						<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-map-marker" >
-							Lieu	</button>
-					</div>	
-				</div>	
-				<div class="celluleTableauResultat" style="text-align: left;" >
-					<div class="celluleTitreResultat">
-						Date :  {{this.dateAnnonceDeb }}
-					</div>
-				</div>
-				<div class="celluleTableauResultat" style="text-align: left;" >
-					<div class="celluleTitreResultat"> 
-						<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-user">Nombre de participant voulus  {{this.nbParticipantVoulus }}	</button>
-					</div>
-				</div>
-					<div class="celluleTableauResultat" style="text-align: left;">
-						<div class="celluleTitreResultat"> 
-							<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-user">Nombre de participant postuler {{this.nbParticipantPostuler }}</button>
-						</div>
-					</div>
-					<div class="celluleTableauResultat" style="text-align: left;">
-						<div class="celluleTitreResultat"> 	
-							<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-euro">{{this.tarifAnnonce}}</button> 	
-						</div>
-					</div>
-					<div class="celluleTableauResultat" style="text-align: left;">
-						<div class="celluleTitreResultat">
-							<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-comment" >Laisser Message</button>	
-						</div>
-					</div>
-					<div class="celluleTableauResultat" style="text-align: left;">
-						<div class="celluleTitreResultat">
-							<button onclick="window.location.href = '#Categorie6';" class="btn btn-primary glyphicon glyphicon-hand-up">Postuler</button>
-						</div>	
-					</div>
-			</div>
-		</div>
+	<div id="AdvertsList" class="">
+		{{#each adverts searchSettings}}
+			{{>advertCard this}}
 		{{/each}}
+	</div>
+</template>
+
+<template name='advertCard'>
+	<div class='col-xs-12 section advertCard'>
+		<div class='col-xs-2'>
+			{{#with category this.category}}
+			<img src='{{icon}}' width='100%'>
+			{{/with}}
+		</div>
+		<div class='col-xs-6 col-md-7'>
+			<h4 class='advertCard-title' data-which='{{_id}}'>{{title}}</h4>
+			<h4><small>{{getCat}}</small></h4>
+		</div>
+		<div class='pull-right col-xs-4 col-md-3'>
+			<div><i class='material-icons'>euro_symbol</i>{{budget}}</div>
+			<div><i class='material-icons'>place</i>{{address.zipcode}} {{address.city}}</div>
+		</div>
 	</div>
 </template>
 
@@ -217,5 +171,4 @@
 			}); 
 		}
 	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZi1ejGcXnlRxRdOqcqy5noRhSEAhaWt8&callback=initMap" async defer></script>
 </template>

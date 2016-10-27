@@ -33,6 +33,10 @@ Template.registerHelper('categories', function() {
 	});
 });
 
+Template.registerHelper('category', function(id) {
+	return Categories[id];
+});
+
 Template.registerHelper('means', function() {
 	return MeansOfTransports.find();
 });
@@ -43,6 +47,10 @@ Template.registerHelper('permis', function() {
 
 Template.registerHelper('badges', function() {
 	return Badges.find();
+});
+
+Template.registerHelper('adverts', function(settings) {
+	return Adverts.find(settings||{});
 });
 
 Template.registerHelper('formatDate', function(date) {

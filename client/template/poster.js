@@ -44,9 +44,7 @@ Template.poster.events({
 	},
 	'click .submit-container button': function(e,t) {
 		var values = getValues();
-		if (checkValues(values)) {
-			Adverts.insert(values);
-		}
+		checkValues(values);
 	}
 });
 
@@ -133,7 +131,7 @@ function checkValues(values) {
 			if (err)
 				console.log(err)
 			else
-				Router.go('/missionProfil/'+res._id);
+				Router.go('/missionProfil/'+res);
 		});
 	} else {
 		console.log(ctx.invalidKeys());

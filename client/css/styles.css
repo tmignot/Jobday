@@ -630,3 +630,7 @@ span.tooltips.noarrow span:after {
 .status-termine {
 	background: gray;
 }
+
+.pointer {
+	cursor: pointer;
+}

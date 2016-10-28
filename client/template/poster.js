@@ -2,6 +2,8 @@ Template.poster.onCreated(function() {
 	Session.set('currentCategory', 0);
 	Session.set('choixDate', 0);
 	Session.set('choixHoraire', 0);
+	Session.set('addressStatus', false);
+	Maps.create({type: 'geocoder'});
 });
 
 Template.poster.onRendered(function() {
@@ -41,6 +43,24 @@ Template.poster.events({
 	'change input[name="choixHoraire"]': function(e,t) {
 		console.log(e.currentTarget);
 		Session.set('choixHoraire', parseInt(e.currentTarget.value));
+	},
+	'change #address-inputs input': function(e,t) {
+		var s = t.find('#adresseRueAnnonce').value,
+				z = t.find('#adresseCodePostalAnnonce').value,
+				c = t.find('#adresseVilleAnnonce').value;
+		if (s == '' || z == '' || c == '') {
+			Session.set('addressStatus', 'ZERO_RESULT');
+			return;
+		}
+		Maps.geocoder.geocode({
+			address: s + ' ' + z + ' ' + c,
+			componentRestrictions: {
+				country: 'FR'
+			}
+		}, function(res, stat) {
+			console.log(res);
+			Session.set('addressStatus', stat);
+		});
 	},
 	'click .submit-container button': function(e,t) {
 		var values = getValues();
@@ -111,7 +131,8 @@ function getValues() {
 		address: {
 			street: strVal('adresseRueAnnonce').replace(/\s+/g, ' ').trim(),
 			zipcode: strVal('adresseCodePostalAnnonce'),
-			city: strVal('adresseVilleAnnonce')
+			city: strVal('adresseVilleAnnonce'),
+			geocoded: Session.equals('addressStatus', 'OK') ? true : undefined
 		},
 		tools: bVal('outilsAdisposition'),
 		clothes: bVal('vetementsADispositions'),

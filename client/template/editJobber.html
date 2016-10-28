@@ -75,7 +75,15 @@
 				</div>
 			</div>
 			<div class='user-information user-address col-xs-12 from-group section'>
-				<label class='control-label col-md-5 col-xs-12'>Siege social</label>
+				<label class='control-label col-md-5 col-xs-12'>
+					{{#if $.Session.equals 'addressStatus' false}}
+					{{else}}
+					{{#if $.Session.equals 'addressStatus' 'OK'}}
+						<i class='text-success fa fa-check-circle-o'></i>
+					{{else}}
+						<i class='text-warning fa fa-question-circle-o'></i>
+					{{/if}}{{/if}} Siege social
+				</label>
 				<div class='col-xs-12 col-md-7'>
 					<input type='text' class='form-control user-address-street' placeholder='Num, rue' value='{{address.street}}'>
 					<input type='text' style='margin-top:5px;' class='form-control user-address-zipcode' placeholder='12345' value='{{address.zipcode}}'>
@@ -114,6 +122,22 @@
 						<option value='male'>Homme</option>
 						{{/if}}
 					</select>
+				</div>
+			</div>
+			<div class='user-information user-address col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-12'>
+					{{#if $.Session.equals 'addressStatus' false}}
+					{{else}}
+					{{#if $.Session.equals 'addressStatus' 'OK'}}
+						<i class='text-success fa fa-check-circle-o'></i>
+					{{else}}
+						<i class='text-warning fa fa-question-circle-o'></i>
+					{{/if}}{{/if}} Adresse
+				</label>
+				<div class='col-xs-12 col-md-7'>
+					<input type='text' class='form-control user-address-street' placeholder='Num, rue' value='{{address.street}}'>
+					<input type='text' style='margin-top:5px;' class='form-control user-address-zipcode' placeholder='12345' value='{{address.zipcode}}'>
+					<input type='text' style='margin-top:5px;' class='form-control user-address-city' placeholder='Ville' value='{{address.city}}'>
 				</div>
 			</div>
 			{{/if}}

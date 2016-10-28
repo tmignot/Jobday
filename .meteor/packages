@@ -48,3 +48,5 @@ ostrio:files
 reactive-var@1.0.10
 shell-server
 panter:moment-duration-format
+peppelg:bootstrap-3-modal
+matb33:collection-hooks

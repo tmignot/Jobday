@@ -161,32 +161,41 @@
 			</div>
 		</div>
 	</div>
+</template>
+
+<template name='makeOfferModal'>
 	<div class="modal fade" id="posterOffre" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header" style="background-color:#63c2c7;color:white;">
+		<div class="modal-dialog container" role="document">
+			<div class="modal-content row">
+				<div class="modal-header col-xs-12" style="background-color:#63c2c7;color:white;">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title " id="myModalLabel">Poster une offre</h4>
 				</div>
-				<form id="new_prayer">
-					<div class="modal-body">
-						<div class="input-group input-group-lg" style="margin:9px;">
-							<span class="input-group-addon" id="sizing-addon1" style="width:150px;">Commentaire </span>
-							<textarea rows="4" cols="50">
-								At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies. 
-							</textarea>*
+				<form id="new_prayer" class='form'>
+					<div class="modal-body col-xs-12">
+						<div class='form-group'>
+							<label class="control-label">Prix</label>
+							{{#if negocible}}
+							<div class="input-group">
+								<input type='number' id='make-offer-price' class='form-control' placeholder='{{budget}}' value='{{budget}}'>
+								<div class='input-group-addon'>€</div>
+							</div>
+							{{else}}
+							<h3>{{budget}} <small><i class='material-icons'>euro_symbol</i></small></h3>
+							{{/if}}
+						</div>
+						<div class="form-group">
+							<label class="control-label">Commentaire</label>
+							<textarea id='make-offer-comment' class='form-control col-xs-12' rows="4" cols="50"></textarea>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<div class="container" style="text-align:center;">
-							<button  id="btnPosterOffreGo" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Poster Offre  </button>
+						<div class="col-xs-12" style="text-align:center;">
+							<span id="btnPosterOffreGo" class="orange col-xs-6 col-xs-offset-3"> Poster Offre </span>
 						</div>
 					</div>
 				</form>
 			</div>
-		</div>
-		<div id="profiles"></div>
-		<div id="status">
 		</div>
 	</div>
 </template>

@@ -1,5 +1,4 @@
 UrlQuery = function(queryObj) {
-	console.log(Router.current().url);
 	var currentRouteMatch = Router.current().url.match(/^(https?:\/\/)?[^\/]*(\/[^?]*)\\?/);
 	var route = _.last(currentRouteMatch);
 	var query = '?';
@@ -13,7 +12,9 @@ UrlQuery = function(queryObj) {
 Template.registerHelper('currentUserData', function() {
 		return UsersDatas.findOne({userId: Meteor.userId()});
 });
-Template.registerHelper('userData', function() {
+Template.registerHelper('userData', function(id) {
+	if (id)
+		return UsersDatas.findOne({userId: id});
 	if (Session.get('currentUserDataId'))
 		return UsersDatas.findOne({userId: Session.get('currentUserDataId')});
 	else
@@ -70,7 +71,6 @@ Template.registerHelper('duration', function(from, to) {
 });
 
 Template.registerHelper('fromNow', function(d) {
-	console.log(d);
 	moment.locale('fr');
 	return moment(d).fromNow();
 });

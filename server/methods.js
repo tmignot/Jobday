@@ -1,4 +1,37 @@
+var regexp = {
+	phone: /\b[0-9０-９٠-٩۰-۹]{2}$|^[+＋]*(?:[-x‐-―−ー－-／  ­​⁠　()（）［］.\[\]\/~⁓∼～*]*[0-9０-９٠-٩۰-۹]){3,}[-x‐-―−ー－-／  ­​⁠　()（）［］.\[\]\/~⁓∼～0-9０-９٠-٩۰-۹]*(?:;ext=([0-9０-９٠-٩۰-۹]{1,7})|[  \t,]*(?:e?xt(?:ensi(?:ó?|ó))?n?|ｅ?ｘｔｎ?|[,xｘ#＃~～]|int|anexo|ｉｎｔ)[:\.．]?[  \t,-]*([0-9０-９٠-٩۰-۹]{1,7})#?|[- ]+([0-9０-９٠-٩۰-۹]{1,5})#)?\b/i,
+	url: /\b(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?\b/i,
+	email: /\b[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\b/,
+	domain: /\b(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z](?:[a-z-]*[a-z])?\b/,
+	weakdomain: /\b(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.|$))+|(?:(?:[0-1]?\d{1,2}|2[0-4]\d|25[0-5])(?:\.|$)){4}|(?:(?:[\dA-Fa-f]{1,4}(?::|$)){8}|(?=(?:[^:\s]|:[^:\s])*::(?:[^:\s]|:[^:\s])*$)[\dA-Fa-f]{0,4}(?:::?(?:[\dA-Fa-f]{1,4}|$)){1,6}))\b/
+};
+
 Meteor.methods({
+	postMessage: function(params) {
+		if (this.userId) {
+			if (params.to && params.to.advert) {
+				var err;
+				_.each(_.keys(regexp), function(k) {
+					var m = params.text.match(regexp[k]);
+					if (m) {
+						err = m;
+						return;
+					}
+				});
+				if (err)
+					return err;
+				Adverts.update(params.to.advert, {
+					$push: {messages: {text: params.text}}
+				}, function(err) {
+					if (err)
+						return err;
+				});
+				return;
+			}
+			return 'Requete invalide';
+		}
+		return 'Vous devez etre connecte';
+	},
 	addUser: function(doc) {
 		console.log('addUser doc', doc);
 		var existingUser = Meteor.users.findOne({
@@ -514,53 +547,5 @@ text + ' ',
 			subject: text2,
 			html: html
 		});
-	},
-	annoncePoster: function (annonce) {
-		//  console.log(salarie.numeroSalarie);
-		return Annonce.insert({
-			createdBy: Meteor.userId(),
-			createdAt: new Date,
-			categorieID                       :annonce.categorieID                      ,
-			ssCategorieID                     :annonce.ssCategorieID                    ,
-			typeAnnonce                       :annonce.typeAnnonce                      ,
-			titreAnnonce                      :annonce.titreAnnonce                     ,
-			descriptionAnnonce                :annonce.descriptionAnnonce               ,
-			precisionAnnonce                  :annonce.precisionAnnonce                 ,
-			outilsAdisposition                :annonce.outilsAdisposition               ,
-			vetementsADispositions            :annonce.vetementsADispositions           ,
-			vehiculeNecessaire                :annonce.vehiculeNecessaire               ,
-			adresseNumeroRueAnnonce           :annonce.adresseNumeroRueAnnonce          ,
-			adressetypeRueAnnonce             :annonce.adressetypeRueAnnonce            ,
-			adresseRueAnnonce                 :annonce.adresseRueAnnonce                ,
-			adresseCodePostalAnnonce          :annonce.adresseCodePostalAnnonce         ,
-			adressePaysAnnonce                :annonce.adressePaysAnnonce               ,
-			choixAnnonceDate1                 :annonce.choixAnnonceDate1                ,
-			choixAnnonceDate2                 :annonce.choixAnnonceDate2                ,
-			DateAnnonce1                      :annonce.DateAnnonce1                     ,
-			choixAnnonceDate3                 :annonce.choixAnnonceDate3                ,
-			AnnonceDate2                      :annonce.AnnonceDate2                     ,
-			choixAnnonceDate4                 :annonce.choixAnnonceDate4                ,
-			AnnonceDate3                      :annonce.AnnonceDate3                     ,
-			choixHoraireAnnonce1              :annonce.choixHoraireAnnonce1             ,
-			choixHoraireAnnonce2              :annonce.choixHoraireAnnonce2             ,
-			choixHoraireAnnonce3              :annonce.choixHoraireAnnonce3             ,
-			choixHoraireAnnonce4              :annonce.choixHoraireAnnonce4             ,
-			choixHoraireAnnonce5              :annonce.choixHoraireAnnonce5             ,
-			choixHoraireAnnonceDeb            :annonce.choixHoraireAnnonceDeb           ,
-			choixHoraireAnnonce6              :annonce.choixHoraireAnnonce6             ,
-			choixHoraireAnnonceFin            :annonce.choixHoraireAnnonceFin           ,
-			tarifAnnonce                      :annonce.tarifAnnonce                     ,
-			TypeTarifAnnonce1                 :annonce.TypeTarifAnnonce1                ,
-			TypeTarifAnnonce2                 :annonce.TypeTarifAnnonce2                ,
-			nbPersonnePourAnnonce             :annonce.nbPersonnePourAnnonce            ,
-			totalAnnonce                      :annonce.totalAnnonce                     
-	  }, function (e, id) {
-			if (e) {
-					console.log("Annonce foutus ");
-			} else {
-					console.log(id);
-					//document.getElementById("fraisId").value = id;
-			}
-		});	
 	}
 });

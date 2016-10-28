@@ -26,7 +26,6 @@ Meteor.publish("Images", function () {
 	return Images.find({}).cursor;
 });
 
-Meteor.publish("users");
 Meteor.publish("utilisateur", function (e) {
 	return Utilisateur.find({});
 });

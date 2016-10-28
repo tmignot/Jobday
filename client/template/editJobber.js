@@ -1,8 +1,10 @@
 Template.editJobber.onCreated(function() {
   this.currentFile = new ReactiveVar(false);
 	this.compressing = new ReactiveVar(false);
+	Maps.create({type: 'geocoder'});
 	Session.set('isSociety', false);
 	Session.set('gender', 'female');
+	Session.set('addressStatus', false);
 	if (this.data) {
 		Session.set('isSociety', this.data.society);
 		Session.set('gender', this.data.gender == 1? 'male':'female');
@@ -108,6 +110,23 @@ Template.editJobber.events({
 	},
 	'click .user-photo .orange': function() {
 		$('#fileInput').click();
+	},
+	'change .user-address input': function(e,t) {
+		var s = t.find('.user-address-street').value,
+				z = t.find('.user-address-zipcode').value,
+				c = t.find('.user-address-city').value;
+		if (s == '' || z == '' || c == '') {
+			Session.set('addressStatus', 'ZERO_RESULT');
+			return;
+		}
+		Maps.geocoder.geocode({
+			address: s + ' ' + z + ' ' + c,
+			componentRestrictions: {
+				country: 'FR'
+			}
+		}, function(res, stat) {
+			Session.set('addressStatus', stat);
+		});
 	},
   'change #fileInput': function (e, t) {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
@@ -218,8 +237,11 @@ Template.editJobber.events({
 		UsersDatas.update(user, {$push: {grades: new_grade}});
 	},
 	'click .submit-button': function(e,t) {
+		console.log('toto');
 		var params = Router.current().params;
+		console.log(params);
 		if (params && params.query && params.query.tab) {
+			console.log('toto');
 			if (params.query.tab == 'info') {
 				var data;
 				if (Session.get('isSociety') == true) {
@@ -243,18 +265,26 @@ Template.editJobber.events({
 						firstname: $('.user-firstname input').val(),
 						birthdate: new Date($('.user-birthdate input').val()),
 						gender: $('select[name="user-gender-select"]').val() == 'male'? 1:2,
-						phone: $('.user-phone input').val()
+						phone: $('.user-phone input').val(),
+						address: {
+							street: $('.user-address-street').val(),
+							zipcode: $('.user-address-zipcode').val(),
+							city: $('.user-address-city').val()
+						},
 					};
 				}
 				data.presentation = $('.user-presentation textarea').val();
 				data.experiences = $('.user-experiences textarea').val();
 				data.precisions = $('.user-precisions textarea').val();
+				if (data.address && Session.equals('addressStatus','OK'))
+					data.address.geocoded = true;
 				
 				var cleanData = _.extend({}, data);
 				UserDataSchema.clean(cleanData);
 				var ctx = UserDataSchema.newContext();
 				ctx.validate(cleanData);
 				if (ctx.invalidKeys().length) {
+					console.log(ctx.invalidKeys());
 				} else {
 					console.log(data);
 					UsersDatas.update({_id: t.data._id}, {$set: data});

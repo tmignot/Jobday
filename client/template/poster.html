@@ -49,7 +49,15 @@
 			</div>
 		</div>
 		<div class="address-container section col-xs-12 col-sm-6">
-			<label for='address-inputs' class='title'>Adresse du Job </label>
+			<label for='address-inputs' class='title'>
+				{{#if $.Session.equals 'addressStatus' false}}
+				{{else}}
+				{{#if $.Session.equals 'addressStatus' 'OK'}}
+					<i class='text-success fa fa-check-circle-o'></i>
+				{{else}}
+					<i class='text-warning fa fa-question-circle-o'></i>
+				{{/if}}{{/if}} Adresse du job
+			</label>
 			<div id='address-inputs'>
 				<input type="text" class='form-control' id="adresseRueAnnonce" placeholder="Numéro, Rue">
 				<input type="text" class='form-control' id="adresseCodePostalAnnonce" placeholder="Code postal">

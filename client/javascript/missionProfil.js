@@ -7,7 +7,6 @@ Template.missionProfil.onRendered (function() {
 	}
 	Maps.create({type: 'geocoder'});
 	Maps.onLoad(function(maps) {
-		console.log('loaded', address);
 		maps.geocoder.geocode({address: address}, function(res, stat) {
 			var c = {lat: 0, lng: 0};
 			if (stat === 'OK')
@@ -65,13 +64,32 @@ Template.missionProfil.helpers({
 Template.missionProfil.events({
 	'click #btnModifierJob': function (event) {
 	},
-	'click #btnFaireOffre': function (event) {
-		event.preventDefault();
-		if (Meteor.userId() != null){
-			$('#posterOffre').modal()         ; // initialized with no keyboard
-			$('#posterOffre').modal('show') ;
-		}else{
-			alert('Vous devez vous connecter');
+	'click #btnFaireOffre': function (event, t) {
+		var d = UsersDatas.findOne({userId: Meteor.userId()});
+		if (d) {
+			if (d.profileComplete)
+				Modal.show('makeOfferModal', t.data);
+			else
+				Modal.show('profileNotComplete');
+		} else
+			Modal.show('shouldBeLogged');
+	}
+});
+
+Template.makeOfferModal.events({
+	'click #btnPosterOffreGo': function(e,t) {
+		var d = UsersDatas.findOne({userId: Meteor.userId()});
+		if (d) {
+			if (d.profileComplete) {
+				Meteor.call('makeOffer', {
+					comment: document.getElementById('make-offer-comment').value,
+					price: document.getElementById('make-offer-price').value
+				}, function(err, res) {
+					console.log(err, res);
+				});
+				return
+			}
 		}
+		Modal.hide('makeOfferModal');
 	}
 });

@@ -98,7 +98,7 @@ Template.makeOfferModal.events({
 							advert: t.data._id,
 							distance: distance.value,
 							comment: document.getElementById('make-offer-comment').value,
-							price: parseInt(document.getElementById('make-offer-price').value)
+							price: (t.data.negocible)? parseInt(document.getElementById('make-offer-price').value) : t.data.budget
 						};
 						console.log(data);
 						var ctx = OfferSchema.newContext();

@@ -151,7 +151,11 @@ function checkValues(values) {
 	var ctx = AdvertSchema.namedContext('advertForm');
 	AdvertSchema.clean(values);
 	ctx.validate(values);
-	if (ctx.isValid()) {
+	_.each(['city','zipcode','street'], function(e) {
+		if (!values[e])
+			ctx.addInvalidKeys([{name: 'address.'+e , type: 'required'}]);
+	});
+	if (ctx.isValid() && !ctx.invalidKeys().length) {
 		Adverts.insert(values, function(err, res) {
 			if (err)
 				console.log(err)
@@ -159,7 +163,7 @@ function checkValues(values) {
 				Router.go('/missionProfil/'+res);
 		});
 	} else {
-		console.log(ctx.invalidKeys());
+		Modal.show('errorModal', ctx.getErrorObject());
 		return false;
 	}
 	return false;

@@ -37,3 +37,20 @@
 	<h4>Vous devez vous connecter pour acceder a cette page</h4>
 	{{/genericModal}}
 </template>
+
+<template name='errorModal'>
+	{{#genericModal title='Erreur de saisie'}}
+		<h4>Les champs suivants ne sont pas valides</h4>
+		<ul>
+			{{#each invalidKeys}}
+				<li>
+					{{message}}
+				</li>
+			{{/each}}
+		</ul>
+	{{else}}
+		<div class='col-xs-4 col-xs-offset-4 orange pointer' data-dismiss='modal'>
+			Corriger
+		</div>
+	{{/genericModal}}
+</template>

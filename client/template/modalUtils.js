@@ -5,3 +5,20 @@ Template.profileNotComplete.events({
 		Router.go('editJobber', {id: Meteor.userId()},{query: {tab: 'info'}});
 	}
 });
+
+var keysTranslate = {
+	comment: 'Commentaire',
+	price: 'Prix',
+},	errMsgTranslate = {
+	minString: 'Il faut au moins [x] caracteres'
+};
+
+Template.errorModal.helpers({
+	translateKey: function(name) {
+		return keysTranslate[name];
+	},
+	translateErrMsg: function(type) {
+		return errMsgTranslate[type];
+	}
+});
+

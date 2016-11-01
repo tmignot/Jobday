@@ -76,20 +76,54 @@ Template.missionProfil.events({
 	}
 });
 
+Template.makeOfferModal.onCreated(function(){
+	Maps.create({type: 'distance'});
+});
+
 Template.makeOfferModal.events({
 	'click #btnPosterOffreGo': function(e,t) {
 		var d = UsersDatas.findOne({userId: Meteor.userId()});
 		if (d) {
 			if (d.profileComplete) {
-				Meteor.call('makeOffer', {
-					comment: document.getElementById('make-offer-comment').value,
-					price: document.getElementById('make-offer-price').value
-				}, function(err, res) {
-					console.log(err, res);
+				var distance = 0;
+				Maps.distance.getDistanceMatrix({
+					origins: [d.address.street +' '+d.address.zipcode+' '+d.address.city],
+					destinations: [t.data.address.street+' '+t.data.address.zipcode+' '+t.data.address.city],
+					travelMode: 'DRIVING'
+				}, function(r,s) {
+					if (s == 'OK') {
+						distance = r.rows[0].elements[0].distance;
+						console.log(r);
+						data = {
+							advert: t.data._id,
+							distance: distance.value,
+							comment: document.getElementById('make-offer-comment').value,
+							price: parseInt(document.getElementById('make-offer-price').value)
+						};
+						console.log(data);
+						var ctx = OfferSchema.newContext();
+						var valid = true;
+						_.each(['comment','price','distance'], function(e) {
+							if (!ctx.validateOne(data, e))
+								valid = false;
+						});
+						if (valid) { 
+							Meteor.call('makeOffer', data, function(err, res) {
+								console.log(err, res);
+								if (!err && res == 'OK')
+									console.log('success');
+								else
+									console.log(res);
+								Modal.hide('makeOfferModal');
+							});
+						} else {
+							console.log(ctx);
+							Modal.allowMultiple = true;
+							Modal.show('errorModal', ctx.getErrorObject());
+						}
+					}
 				});
-				return
 			}
 		}
-		Modal.hide('makeOfferModal');
 	}
 });

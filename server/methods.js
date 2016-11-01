@@ -7,6 +7,41 @@ var regexp = {
 };
 
 Meteor.methods({
+	validateOffer: function(params) {
+		if (params && params.advert) {
+			var ad = Adverts.findOne({_id: params.advert, status: 0});
+			if (ad && this.userId && this.userId == ad.owner) {
+				if (params.offer) {
+					Adverts.update({_id: params.advert,	'offers._id': params.offer}, {
+						$set: {'offers.$.validated': true}
+					});
+				}
+			}
+		}
+	},
+	makeOffer: function(params) {
+		if (this.userId) {
+			if (params.distance && params.comment && params.price && params.advert) {
+				var ret = Adverts.update({_id: params.advert}, {$push: {offers: {
+					userId: this.userId,
+					date: new Date(),
+					distance: params.distance,
+					comment: params.comment,
+					price: params.price,
+					validated: false
+				}}}, function(err) {
+					console.log(err);
+					if (err)
+						return err
+					else
+						return 'OK';
+				});
+				return ret;
+			} else
+				return 'Bad parameters';
+		} else
+			return 'User not logged';
+	},
 	postMessage: function(params) {
 		if (this.userId) {
 			if (params.to && params.to.advert) {

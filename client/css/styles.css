@@ -634,3 +634,37 @@ span.tooltips.noarrow span:after {
 .pointer {
 	cursor: pointer;
 }
+
+.offer-user {
+	text-align: center;
+}
+
+.offer-pro i {
+	vertical-align: baseline;
+}
+
+.star {
+	font-size: 15px;
+}
+
+.offer {
+	border-bottom: 1px solid lightgray;
+	margin-bottom: 15px;
+	padding-bottom: 15px;
+}
+
+.offer-info {
+	/*
+	border-top: 1px solid #ee7202;
+	border-bottom: 1px solid #ee7202;
+	*/
+	margin-top: -10px;
+	border-bottom: 1px solid lightgray;
+}
+
+
+.offer-validation {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}

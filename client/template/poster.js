@@ -152,8 +152,10 @@ function checkValues(values) {
 	AdvertSchema.clean(values);
 	ctx.validate(values);
 	_.each(['city','zipcode','street'], function(e) {
-		if (!values[e])
+		if (!values.address[e]) { 
+			console.log(values.address, values.address[e], e);
 			ctx.addInvalidKeys([{name: 'address.'+e , type: 'required'}]);
+		}
 	});
 	if (ctx.isValid() && !ctx.invalidKeys().length) {
 		Adverts.insert(values, function(err, res) {

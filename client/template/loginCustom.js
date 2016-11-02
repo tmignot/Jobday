@@ -4,6 +4,8 @@ Template.loginCustom.onRendered(function(){
 		$('.modal-body .has-error').addClass('hidden');
 });
 
+// log a user in with a OAuth service provider
+// then route to user profile
 Template.loginCustom.events({
     'click #googlebtn': function (event) {
 			event.preventDefault();

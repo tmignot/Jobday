@@ -1,3 +1,6 @@
+/*
+** Initiallizing empty disponibilities
+*/
 Template.disponibilities.onCreated(function() {
 	this.dispo = {
 		day: null,
@@ -8,7 +11,8 @@ Template.disponibilities.onCreated(function() {
 });
 
 Template.disponibilities.helpers({
-	whenChecked: function() {
+	whenChecked: function() { // pre-check disponibilities if date
+														// already in DB
 		var currentDay = Session.get('dispoday');
 		var t = Template.instance();
 		var userdata = Blaze._globalHelpers.userData();
@@ -37,22 +41,22 @@ Template.disponibilities.helpers({
 
 
 Template.disponibilities.events({
-	'change .checkbox input': function(e,t) {
+	'change .checkbox input': function(e,t) { // update template.dispo on change
 		tg = $(e.currentTarget);
 		t.dispo[tg.data('when')] = tg.is(':checked');
 	},
-	'click button': function(e,t) {
+	'click button': function(e,t) { // save changes on submit
 		t.dispo.day = Session.get('dispoday');
 		var userdataId = UsersDatas.findOne({userId: Meteor.userId()})._id;
-		UsersDatas.update({_id: userdataId}, {
+		UsersDatas.update({_id: userdataId}, { // remove the current day all the way
 			$pull: {disponibilities: {day: t.dispo.day}},
 		});
 		if (t.dispo.morning || t.dispo.afternoon || t.dispo.evening) {
-			UsersDatas.update({_id: userdataId}, {
+			UsersDatas.update({_id: userdataId}, { // re-insert it if not empty
 				$push: {disponibilities: t.dispo}
 			});
 		}
-		t.dispo = {day: t.dispo.day, morning: false, evening: false, afternoon: false};
-		$('#dispo-calendar').fullCalendar('refetchEvents');
+		t.dispo = {day: t.dispo.day, morning: false, evening: false, afternoon: false}; // uncheck all for the next
+		$('#dispo-calendar').fullCalendar('refetchEvents'); // refresh callendar
 	}
 });

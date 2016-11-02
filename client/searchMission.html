@@ -6,24 +6,6 @@
 	</div>
 </template>
 
-<template name='advertCard'>
-	<div class='col-xs-12 section advertCard'>
-		<div class='col-xs-2'>
-			{{#with category this.category}}
-			<img src='{{icon}}' width='100%'>
-			{{/with}}
-		</div>
-		<div class='col-xs-6 col-md-7'>
-			<h4 class='advertCard-title' data-which='{{_id}}'>{{title}}</h4>
-			<h4><small>{{getCat}}</small></h4>
-		</div>
-		<div class='pull-right col-xs-4 col-md-3'>
-			<div><i class='material-icons'>euro_symbol</i>{{budget}}</div>
-			<div><i class='material-icons'>place</i>{{address.zipcode}} {{address.city}}</div>
-		</div>
-	</div>
-</template>
-
 <template name="searchMission">
 	<div style="margin-top:100px;">
 		<button  id="btnSearchJobParticulier" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Job entre Particulier  </button>

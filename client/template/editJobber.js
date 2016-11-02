@@ -11,6 +11,9 @@ Template.editJobber.onCreated(function() {
 	}
 });
 
+/*
+** onRendered: fill select & checkbox inputs with known datas
+*/
 Template.editJobber.onRendered(function() {
 	window.scrollTo(0,0);
 	var gender = Session.get('gender');
@@ -22,19 +25,20 @@ Template.editJobber.onRendered(function() {
 });
 
 Template.editJobber.helpers({
-	runHelp: function() {
+	runHelp: function() { // dummy helper just to be rerun on subTemplate rendering
 		var data = Template.instance().data;
 		if (data) {
 			Session.set('isSociety', data.society);
 			Session.set('gender', data.gender == 1? 'male':'female');
 		}
 	},
-	active: function(w) {
+	active: function(w) { // tab handler
+												// I don't think its used anymore
 		var params = Router.current().params;
 		if (params && params.query && params.query.tab)
 			return (params.query.tab == w)? 'active': undefined;
 	},
-	inactive: function(w) {
+	inactive: function(w) { // tab button state handler
 		var params = Router.current().params;
 		if (params && params.query && params.query.tab) {
 			switch(w) {
@@ -119,13 +123,16 @@ Template.editJobber.events({
 			Session.set('addressStatus', 'ZERO_RESULT');
 			return;
 		}
-		Maps.geocoder.geocode({
-			address: s + ' ' + z + ' ' + c,
-			componentRestrictions: {
-				country: 'FR'
-			}
-		}, function(res, stat) {
-			Session.set('addressStatus', stat);
+		// check address with geocoder
+		Maps.onLoad(function() { // ensure Maps is loaded with a callback;
+			Maps.geocoder.geocode({
+				address: s + ' ' + z + ' ' + c,
+				componentRestrictions: {
+					country: 'FR'
+				}
+			}, function(res, stat) {
+				Session.set('addressStatus', stat);
+			});
 		});
 	},
   'change #fileInput': function (e, t) {
@@ -134,6 +141,13 @@ Template.editJobber.events({
 			t.compressing.set(true);
 			var reader = new FileReader();
 			if (current_file.type.indexOf('image') == 0) {
+				/*
+				** Compression :
+				** here we create a canvas which we will draw the new photo to
+				** then we check its size and resize to maxWidth or maxHeight
+				** depending on format and we draw the photo
+				** in its new size
+				*/
 				reader.onload = function (event) {
 					var image = new Image();
 					image.src = event.target.result;
@@ -162,13 +176,17 @@ Template.editJobber.events({
 						image.height = imageHeight;
 						var ctx = canvas.getContext("2d");
 						ctx.drawImage(this, 0, 0, imageWidth, imageHeight);
+						// photo drawn (end of compression)
 						t.compressing.set(false);
+						// creating uploader
 						var uploader = Images.insert({
 							file: canvas.toDataURL(current_file.type),
 							isBase64: true,
 							fileName: 'pic.png'
 						}, false);
-
+						/*
+						** Diverse event listeners to handle upload progression
+						*/
 						uploader.on('start', function () {
 							t.currentFile.set(this);
 						});
@@ -178,6 +196,7 @@ Template.editJobber.events({
 						uploader.on('progress', function(percent, file) {
 						});
 						uploader.on('uploaded', function (error, fileObj) {
+							// we remove the old photo if provided
 							var cur = t.data.photo.match(/([^\/]*)\.png$/);
 							if (cur) {
 								Images.remove({_id: cur[1]})
@@ -189,6 +208,7 @@ Template.editJobber.events({
 						uploader.on('error', function (error, fileObj) {
 							alert('Error during upload: ' + error);
 						});
+						// start uploading
 						uploader.start();
 					}
 				}
@@ -196,7 +216,7 @@ Template.editJobber.events({
 			}
     }
   },
-	'click .user-skill': function(e,t) {
+	'click .user-skill': function(e,t) { // add the skill that was clicked
 		var user = {_id: t.data._id};
 		var index = parseInt($(e.currentTarget).data('which'));
 		if (_.contains(t.data.skills, index))
@@ -204,7 +224,7 @@ Template.editJobber.events({
 		else
 			UsersDatas.update(user, {$push: {skills: index}});
 	},
-	'click .user-mean': function(e,t) {
+	'click .user-mean': function(e,t) { // add the mean that was clicked
 		var user = {_id: t.data._id};
 		var index = $(e.currentTarget).data('which');
 		if (_.contains(t.data.means, index))
@@ -212,7 +232,7 @@ Template.editJobber.events({
 		else
 			UsersDatas.update(user, {$push: {means: index}});
 	},
-	'click .user-permi': function(e,t) {
+	'click .user-permi': function(e,t) { // add the permis that was clicked
 		var user = {_id: t.data._id};
 		var index = $(e.currentTarget).data('which');
 		if (_.contains(t.data.permis, index))
@@ -220,7 +240,7 @@ Template.editJobber.events({
 		else
 			UsersDatas.update(user, {$push: {permis: index}});
 	},
-	'click .user-grades .delete-icon': function(e,t) {
+	'click .user-grades .delete-icon': function(e,t) { // removes the grade that was clicked
 		var user = {_id: t.data._id};
 		var index = $(e.currentTarget).data('which');
 		var grades = _.filter(t.data.grades, function(g) {
@@ -228,7 +248,7 @@ Template.editJobber.events({
 		});
 		UsersDatas.update(user, {$set: {grades: grades}});
 	},
-	'click .add-grade .blue': function(e,t) {
+	'click .add-grade .blue': function(e,t) { // add a grade from grades form
 		var user = {_id: t.data._id};
 		var new_grade = {
 			name: $('.add-grade-name').val(),
@@ -236,12 +256,9 @@ Template.editJobber.events({
 		};
 		UsersDatas.update(user, {$push: {grades: new_grade}});
 	},
-	'click .submit-button': function(e,t) {
-		console.log('toto');
+	'click .submit-button': function(e,t) { // saves user infos
 		var params = Router.current().params;
-		console.log(params);
 		if (params && params.query && params.query.tab) {
-			console.log('toto');
 			if (params.query.tab == 'info') {
 				var data;
 				if (Session.get('isSociety') == true) {
@@ -283,10 +300,9 @@ Template.editJobber.events({
 				UserDataSchema.clean(cleanData);
 				var ctx = UserDataSchema.newContext();
 				ctx.validate(cleanData);
-				if (ctx.invalidKeys().length) {
-					console.log(ctx.invalidKeys());
+				if (ctx.invalidKeys().length) { // if data not valid, show errorModal
+					Modal.show('errorModal', ctx.getErrorObject());
 				} else {
-					console.log(data);
 					UsersDatas.update({_id: t.data._id}, {$set: data});
 				}
 			}

@@ -1,6 +1,6 @@
 Template.navbar.events({
 	'click .navbar-brand .dummy-link': function(e) { Router.go('home');	},
-	'click .proposerUnJob a': function() { 
+	'click .proposerUnJob a': function() { // check profile completion before posting a job
 		var d = UsersDatas.findOne({userId: Meteor.userId()});
 		if (d) {
 			if (d.profileComplete)

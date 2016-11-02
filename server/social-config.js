@@ -3,10 +3,8 @@ Accounts.config({
 });
 
 Accounts.onCreateUser(function (options, user) {
-	console.log('onCreateUser');
 	if (options.profile)
 		user.profile = options.profile;
-
 	var service, email;
 	if (user.emails && user.emails[0])
 		email = user.emails[0].address;
@@ -26,8 +24,8 @@ Accounts.onCreateUser(function (options, user) {
 		{'services.facebook.email': email},
 		{'services.linkedin.email': email}
 	]});
-	console.log(existingUser);
 	if (existingUser) {
+		// merging account with already existing account
 		console.log('user exists');
 		var newServices = _.extend(user.services||{}, existingUser.services||{});
 		var newEmails = _.extend(user.emails||[], existingUser.emails||[]);
@@ -36,7 +34,6 @@ Accounts.onCreateUser(function (options, user) {
 		Meteor.users.remove({_id: existingUser._id}); // remove existing record
 		return existingUser;                  // record is re-inserted
 	} else {
-		console.log('user doesnt exists');
 		var method;
 		var userData = {
 			userId: user._id
@@ -73,6 +70,7 @@ Accounts.onCreateUser(function (options, user) {
 				}
 			})();
 		}
+		// create userdata if new user
 		userDataId = UsersDatas.insert(userData);
 		if (userDataId) {
 			return user;

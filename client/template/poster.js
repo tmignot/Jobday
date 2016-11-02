@@ -1,12 +1,15 @@
 Template.poster.onCreated(function() {
+	// initialize session variables
 	Session.set('currentCategory', 0);
 	Session.set('choixDate', 0);
 	Session.set('choixHoraire', 0);
 	Session.set('addressStatus', false);
+	// create geocoder from Maps api
 	Maps.create({type: 'geocoder'});
 });
 
 Template.poster.onRendered(function() {
+	// pre-fill firsts choices for each radios
 	$('#choixHoraireAnnonce1').prop('checked', true);
 	$('#choixAnnonceDate1').prop('checked', true);
 	$('#TypeTarifAnnonce1').prop('checked', true);
@@ -14,7 +17,7 @@ Template.poster.onRendered(function() {
 	
 
 Template.poster.helpers({
-	categories: function() {
+	categories: function() { // minifying categories for select
 		return _.map(Categories, function(d,i) {
 			return {
 				index: i,
@@ -22,7 +25,7 @@ Template.poster.helpers({
 			}
 		});
 	},
-	subcategories: function() {
+	subcategories: function() { // extending subcategories for select
 		var cat = Session.get('currentCategory');
 		return _.map(Categories[cat].subcategories, function(d,i) {
 			return {
@@ -41,7 +44,6 @@ Template.poster.events({
 		Session.set('choixDate', parseInt(e.currentTarget.value));
 	},
 	'change input[name="choixHoraire"]': function(e,t) {
-		console.log(e.currentTarget);
 		Session.set('choixHoraire', parseInt(e.currentTarget.value));
 	},
 	'change #address-inputs input': function(e,t) {
@@ -52,22 +54,24 @@ Template.poster.events({
 			Session.set('addressStatus', 'ZERO_RESULT');
 			return;
 		}
-		Maps.geocoder.geocode({
-			address: s + ' ' + z + ' ' + c,
-			componentRestrictions: {
-				country: 'FR'
-			}
-		}, function(res, stat) {
-			console.log(res);
-			Session.set('addressStatus', stat);
+		Maps.onLoad(function() { // ensure maps api loaded;
+			Maps.geocoder.geocode({
+				address: s + ' ' + z + ' ' + c,
+				componentRestrictions: {
+					country: 'FR'
+				}
+			}, function(res, stat) {
+				Session.set('addressStatus', stat); // sets the icon near address label
+			});
 		});
 	},
 	'click .submit-container button': function(e,t) {
-		var values = getValues();
-		checkValues(values);
+		var values = getValues(); // get all values
+		checkValues(values); // check and insert new advert
 	}
 });
 
+// Some helper functions to retrieve input datas depending on data type
 function numVal(id) {
 	var elem = document.getElementById(id);
 	if (!elem)
@@ -96,11 +100,12 @@ function dateVal(id) {
 function getValues() {
 	var wh = {};
 	var whType = 0;
+	// which "choixHoraire" is checked is saved as whType (workingHours.type)
 	$('input[name="choixHoraire"]').each(function(i,e) {
 		if ($(e).is(':checked'))
 			whType = $(e).val();
 	});
-	if (whType == 5) {
+	if (whType == 5) { // date range
 		var	from = strVal('choixHoraireAnnonceDeb').split(':');
 		var	to = strVal('choixHoraireAnnonceFin').split(':');
 		var wh = {
@@ -110,14 +115,14 @@ function getValues() {
 				min: from[1]
 			}
 		};
-		if (whType == 5 && to.length == 2) {
+		if (to.length == 2) { // ensure [to] input has been set
 			wh.to = {
 				hour: to[0],
 				min: to[1]
 			};
 		}
 	} else {
-		var wh = {
+		var wh = { // not a date range so one of morning, afternoon, evening
 			type: whType
 		};
 	}
@@ -151,9 +156,12 @@ function checkValues(values) {
 	var ctx = AdvertSchema.namedContext('advertForm');
 	AdvertSchema.clean(values);
 	ctx.validate(values);
+	/*
+	** hack around:
+	** manually add invalid key. see editJobber for more info
+	*/
 	_.each(['city','zipcode','street'], function(e) {
 		if (!values.address[e]) { 
-			console.log(values.address, values.address[e], e);
 			ctx.addInvalidKeys([{name: 'address.'+e , type: 'required'}]);
 		}
 	});

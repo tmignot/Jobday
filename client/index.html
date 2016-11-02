@@ -1,128 +1,17 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-
 <head>
-    <title></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    <link rel="shortcut icon" type="image/x-icon" href="/jobday.png" />
-    <script type="application/x-javascript">
-        addEventListener("load", function () {
-            setTimeout(hideURLbar, 0);
-        }, false);
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<link rel="shortcut icon" type="image/x-icon" href="/jobday.png" />
+	<script type="application/x-javascript">
+		addEventListener("load", function () {
+			setTimeout(hideURLbar, 0);
+		}, false);
 
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
-    </script>
-    </script>
-    
-    <script type="text/javascript">
-        var nav = navigator.userAgent;
-        var ischrome = nav.indexOf("Chrome");
-        if (ischrome != -1) {
-        } else {
-            //$('#internet').modal('show') ;
-        }
-    </script>
+		function hideURLbar() {
+			window.scrollTo(0, 1);
+		}
+	</script>
+	</script>
 </head>
-<template name="layoutHome">
-           <div class="col-xs-3 col-sm-3" style="background-color:#63c2c7"> {{> inputAutocomplete settings=settings id="localisation" placeholder="Localisation ?" aria-describedby="sizing-addon1"}}
-</div>
-</template>
 
-<template name="maps ">
-
-    <div id="map " style="height:350px; "></div>
-    <script>
-        var map;
-
-        function initMap() {
-
-
-            var geocoder = new google.maps.Geocoder();
-            var address = "13 boulevard de l 'hôpital Stell, 92500 Rueil-MalMaison" //"new york";
-
-            geocoder.geocode({
-                    'address ': address
-                }, function (results, status) {
-
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        var latitude = results[0].geometry.location.lat();
-                        var longitude = results[0].geometry.location.lng();
-                        map = new google.maps.Map(document.getElementById('map '), {
-                            center: {
-                                lat: latitude,
-                                lng: longitude
-                            },
-                            zoom: 12
-                        });
-
-                        var location = {
-                            lat: latitude,
-                            lng: longitude
-                        };
-                        var contentString = '<div id="content">' + ' < div id = "siteNotice" > ' + ' < /div>' + ' < h1 id = "firstHeading"
-                        class = "firstHeading" > Titre Mission < /h1>' + ' < div id = "bodyContent" > ' + ' < p > < b > Roman < /b > , cherche un bon plan;)
-                    ' + '
-                    Vive Jobday. < /p > ' + ' < p > Attribution: Jobday, < a href = "https:/ / en.wikipedia.org / w / index.php ? title = Uluru & oldid = 297882194 " > ' +
-                    'Détails Annonce</a> ' + ' < /p>' + ' < /div>' + ' < /div>';
-                    var infowindow = new google.maps.InfoWindow({
-                        content: contentString
-                    });
-                    var marker = new google.maps.Marker({
-                        position: location,
-                        map: map,
-                        title: 'Job Information'
-                    });
-                    marker.addListener('click', function () {
-                        infowindow.open(map, marker);
-                    });
-                    / /
-                    alert(latitude);
-                }
-            });
-        address = "1 boulevard de l'hôpital Stell, 92500 Rueil-MalMaison";
-        geocoder.geocode({
-            'address': address
-        }, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                var latitude = results[0].geometry.location.lat();
-                var longitude = results[0].geometry.location.lng();
-                var location = {
-                    lat: latitude,
-                    lng: longitude
-                };
-                var contentString = ' < div id = "content" > ' + ' < div id = "siteNotice" > ' + ' < /div>' + ' < h1 id = "firstHeading"
-                class = "firstHeading" > Titre Mission2 < /h1>' + ' < div id = "bodyContent" > ' + ' < p > < b > Roman < /b > , cherche un bon plan;)
-            ' + '
-            Vive Jobday. < /p > ' + ' < p > Attribution: Jobday, < a href = "https:/ / en.wikipedia.org / w / index.php ? title = Uluru & oldid = 297882194 " > ' +
-            'Détails Annonce</a> ' + ' < /p>' + ' < /div>' + ' < /div>';
-            var infowindow = new google.maps.InfoWindow({
-                content: contentString
-            });
-            var marker = new google.maps.Marker({
-                position: location,
-                map: map,
-                title: 'Job Information'
-            });
-            marker.addListener('click', function () {
-                infowindow.open(map, marker);
-            });
-            / /
-            alert(latitude);
-        }
-        }); //map = new google.maps.Map(document.getElementById('map'), { //center: {lat: -34.397, lng: 150.644}, //zoom: 8 // }); }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZi1ejGcXnlRxRdOqcqy5noRhSEAhaWt8&callback=initMap" async defer></script>
-</template>
-<template name="serverCollectionLocalisation">
-    <p>Département :{{type}} </p>
-</template>
-<template name="serverNoMatch">
-    <small class="muted">Localisation Inexistante</small>
-</template>

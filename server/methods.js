@@ -1,3 +1,4 @@
+// some  regular expressions to check messages contents
 var regexp = {
 	phone: /\b[0-9０-９٠-٩۰-۹]{2}$|^[+＋]*(?:[-x‐-―−ー－-／  ­​⁠　()（）［］.\[\]\/~⁓∼～*]*[0-9０-９٠-٩۰-۹]){3,}[-x‐-―−ー－-／  ­​⁠　()（）［］.\[\]\/~⁓∼～0-9０-９٠-٩۰-۹]*(?:;ext=([0-9０-９٠-٩۰-۹]{1,7})|[  \t,]*(?:e?xt(?:ensi(?:ó?|ó))?n?|ｅ?ｘｔｎ?|[,xｘ#＃~～]|int|anexo|ｉｎｔ)[:\.．]?[  \t,-]*([0-9０-９٠-٩۰-۹]{1,7})#?|[- ]+([0-9０-９٠-٩۰-۹]{1,5})#)?\b/i,
 	url: /\b(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?\b/i,
@@ -7,7 +8,7 @@ var regexp = {
 };
 
 Meteor.methods({
-	validateOffer: function(params) {
+	validateOffer: function(params) { // offer validation
 		if (params && params.advert) {
 			var ad = Adverts.findOne({_id: params.advert, status: 0});
 			if (ad && this.userId && this.userId == ad.owner) {
@@ -19,7 +20,7 @@ Meteor.methods({
 			}
 		}
 	},
-	makeOffer: function(params) {
+	makeOffer: function(params) { // make an offer
 		if (this.userId) {
 			if (params.distance && params.comment && params.price && params.advert) {
 				var ret = Adverts.update({_id: params.advert}, {$push: {offers: {
@@ -42,7 +43,7 @@ Meteor.methods({
 		} else
 			return 'User not logged';
 	},
-	postMessage: function(params) {
+	postMessage: function(params) { // post message (checks content with regex)
 		if (this.userId) {
 			if (params.to && params.to.advert) {
 				var err;
@@ -67,8 +68,7 @@ Meteor.methods({
 		}
 		return 'Vous devez etre connecte';
 	},
-	addUser: function(doc) {
-		console.log('addUser doc', doc);
+	addUser: function(doc) { // 
 		var existingUser = Meteor.users.findOne({
 			$or: [
 				{'emails.0.address': doc.email},
@@ -77,12 +77,16 @@ Meteor.methods({
 				{'services,linkedin.email': doc.email}
 			]
 		});
-		if (existingUser && existingUser.services.password)
+		if (existingUser && existingUser.services.password) // user exists and has password
 			throw new Error('Email already in database');
-		else if (existingUser) {
+		else if (existingUser) {	// user exists but hasn't password
 			if (doc.password != doc.confirmation)
 				throw new Error('Password confirmation mismatch');
-			Accounts.addEmail(existingUser._id, doc.email);
+			// we add its email and set password
+			// then we send verification mail to ensure
+			// identity (it have to be the same that previously logged in
+			// with another service provider
+			Accounts.addEmail(existingUser._id, doc.email); 
 			Accounts.setPassword(existingUser._id, doc.password);
 			Accounts.sendVerificationEmail(existingUser._id);
 			return true;
@@ -96,7 +100,6 @@ Meteor.methods({
 					society: doc.society
 				}
 			});
-			console.log('addUser id', newUserId);
 			if (newUserId)
 				Accounts.sendVerificationEmail(newUserId);
 			return newUserId;

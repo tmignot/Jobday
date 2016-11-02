@@ -1,3 +1,4 @@
+// submit a message to an advert or show errors
 Template.messages.events({
 	'click .submit': function(e,t) {
 		var ctx = MessageSchema.newContext();
@@ -11,6 +12,7 @@ Template.messages.events({
 				else
 					console.log(res);
 			});
-		}
+		}	else
+			Modal.show('errorModal', ctx.getErrorObject());
 	}
 });

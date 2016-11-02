@@ -1,5 +1,5 @@
 Template.advertCard.helpers({
-	getCat: function() {
+	getCat: function() { //returns [category][subcategory]
 		var d = Template.instance().data;
 		if (d) {
 			var c = Categories[d.category].name,

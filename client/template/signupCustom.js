@@ -3,6 +3,7 @@ Template.signupCustom.onCreated(function() {
 	Session.set('society', 'false');
 });
 
+// sign user up with some OAuth service providers
 Template.signupCustom.events({
 	'click #jobdaybtn': function(e,t) {
 		if (Meteor.userId())

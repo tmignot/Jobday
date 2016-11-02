@@ -1,4 +1,8 @@
 Template.stars.onCreated(function() {
+	// n : array of notes values
+	// l : length of notes array
+	// s : sum of all notes
+	// mean: mean of all notes
 	var n = _.map(this.data.notes, function(e) { return e.note }),
 			l = this.data.notes.length;
 	var s = _.reduce(n, function(acc,val){ return acc+val }, 0);

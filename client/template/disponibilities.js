@@ -67,7 +67,7 @@ Template.dispoRangeModal.events({
 				hTo = t.find('.hours-to').value,
 				dFrom = t.find('.date-from').value,
 				dTo = t.find('.date-to').value;
-		var isDip = $().
+		var isDip;
 		var day = moment(dFrom);
 		var days = moment(dTo).diff(dFrom, 'days');
 		var duration = moment.duration(1, 'days');

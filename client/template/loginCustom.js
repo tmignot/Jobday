@@ -38,7 +38,7 @@ Template.loginCustom.events({
 				if (err) {
 						throw new Meteor.Error("Linked login failed");
 				} else {
-					Router.go('/profiluser');
+					Router.go('/profiluser/'+Meteor.userId());
 					$('#myModal').modal('hide');
 				}
 			});

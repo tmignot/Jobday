@@ -40,6 +40,16 @@ Template.poster.helpers({
 });
 
 Template.poster.events({
+	'change #nbPersonnePourAnnonce': function(e,t) {
+		var n = numVal('nbPersonnePourAnnonce') * numVal('tarifAnnonce');
+		if (n == n)
+			$('#totalVal').html(n + ' Euros');
+	},
+	'change #tarifAnnonce': function(e,t) {
+		var n = numVal('nbPersonnePourAnnonce') * numVal('tarifAnnonce');
+		if (n == n)
+			$('#totalVal').html(n + ' Euros');
+	},
 	'change #categorieID': function(e,t) {
 		Session.set('currentCategory', e.currentTarget.value);
 	},

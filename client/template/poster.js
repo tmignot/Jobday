@@ -33,6 +33,9 @@ Template.poster.helpers({
 				name: d
 			}
 		});
+	},
+	infobulle: function() {
+		return "Certaines missions concernent uniquement les travailleurs professionels independant.D'autres missions occasionnelles comme l'entraide peuvent s'effectuer entre particuliers";
 	}
 });
 

@@ -24,7 +24,7 @@
 			</div>
 			{{#if $.Session.equals 'currentUserDataId' currentUser._id}}
 			<div class='user-edit-profil col-xs-12'>
-				<button class='edit-profil-button'>Editer mon profil</button>
+				<span class='orange edit-profil-button button'>Editer mon profil</span>
 			</div>
 			{{/if}}
 			<div class='user-badges-container col-xs-12'>
@@ -107,6 +107,26 @@
 			{{#if $.Session.equals 'currentUserDataId' currentUser._id}}
 			{{>disponibilities}}
 			{{/if}}
+		</div>
+		<div class='user-notes-container section user-text col-xs-12'>
+			<label>Synthese des avis recus</label>
+			<div class='botborder col-xs-12'>
+				<div class='col-xs-12'>
+					<span class='center-block' style='width:190px;font-size:18px;'>
+				{{> stars notes=userData.notes printCount=true printMean=true size="md-18"}}
+					</span>
+				</div>
+				<div class='col-xs-12'>
+					{{#times 5}}
+					<span class='col-xs-12 col-sm-4'>{{labelForProgress this}} ({{nbNote this}})</span>
+					<div class="progress col-xs-12 col-sm-8">
+						<div class="progress-bar" role="progressbar" aria-valuenow="{{nbNote this}}" aria-valuemin="0" aria-valuemax="{{userData.notes.length}}" style="width:{{nbNote this}}%">
+							<span class="sr-only">{{nbNote this}} avis</span>
+						</div>
+					</div>
+					{{/times}}
+				</div>
+			</div>
 		</div>
 	</div>
 </template>

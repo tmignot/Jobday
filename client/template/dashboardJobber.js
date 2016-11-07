@@ -114,6 +114,27 @@ Template.dashboardJobber.helpers({
 		if (p && _.contains(p, id))
 			return true;
 		return false;
+	},
+	nbNote: function(i) {
+		i = 4 - i;
+		var n = Template.instance().data.notes;
+		var min = 2*i,
+				max = 2*(i+1);
+		return _.select(n, function(e) {
+			if ((max != 10 && e.note >= min && e.note < max) ||
+					(max == 10 && e.note >= min))
+				return e.note;
+		}).length
+	},
+	labelForProgress: function(i) {
+		switch(i) {
+			case 0: return 'Parfait';
+			case 1: return 'Tres bien';
+			case 2: return 'Bien';
+			case 3: return 'Decevant';
+			case 4: return 'A eviter';
+			default: return;
+		}
 	}
 });
 

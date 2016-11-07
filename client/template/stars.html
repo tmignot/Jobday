@@ -1,14 +1,15 @@
 <template name='stars'>
-	<div class='col-xs-12 stars-container' data-toggle='tooltip' title='{{mean}}/10, {{notes.length}} notes'>
+	<div class='stars-container' data-toggle='tooltip' title='{{mean}}/10, {{notes.length}} notes'>
 		{{#times fullStars}}
-		<i class='star full-star material-icons {{hover}}'>star</i>
+		<i class='star full-star material-icons {{../size}} {{hover}}'>star</i>
 		{{/times}}
 		{{#times halfStars}}
-		<i class='star half-star material-icons {{hover}}'>star_half</i>
+		<i class='star half-star material-icons {{../size}} {{hover}}'>star_half</i>
 		{{/times}}
 		{{#times emptyStars}}
-		<i class='star empty-star material-icons {{hover}}'>star_border</i>
+		<i class='star empty-star material-icons {{../size}} {{hover}}'>star_border</i>
 		{{/times}}
-		{{#if count}}({{notes.length}}){{/if}}
+		{{#if printMean}}{{mean}}{{/if}}
+		{{#if printCount}}{{#if printMean}} - {{/if}}{{notes.length}} avis{{/if}}
 	</div>
 </template>

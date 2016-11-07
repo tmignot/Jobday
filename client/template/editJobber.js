@@ -32,6 +32,11 @@ Template.editJobber.helpers({
 			Session.set('gender', data.gender == 1? 'male':'female');
 		}
 	},
+	tab: function() {
+		var params = Router.current().params;
+		if (params && params.query && params.query.tab)
+			return params.query.tab;
+	},
 	active: function(w) { // tab handler
 												// I don't think its used anymore
 		var params = Router.current().params;
@@ -42,8 +47,6 @@ Template.editJobber.helpers({
 		var params = Router.current().params;
 		if (params && params.query && params.query.tab) {
 			switch(w) {
-				case 'submit': return params.query.tab == 'info' ? '': 'inactive';
-				case 'previous': return params.query.tab == 'info' ? 'inactive':'';
 				case 'next': return params.query.tab == 'badges' ? 'inactive':'';
 				default: return '';
 			}
@@ -96,6 +99,7 @@ Template.editJobber.events({
 		var params = Router.current().params;
 		if (params && params.query && params.query.tab) {
 			switch(params.query.tab) {
+				case 'info' : Router.go('/profiluser/'+Meteor.userId()); break;
 				case 'skills': UrlQuery({tab: 'info'}); break;
 				case 'badges': UrlQuery({tab: 'skills'}); break;
 				default: return;
@@ -303,7 +307,9 @@ Template.editJobber.events({
 				if (ctx.invalidKeys().length) { // if data not valid, show errorModal
 					Modal.show('errorModal', ctx.getErrorObject());
 				} else {
-					UsersDatas.update({_id: t.data._id}, {$set: data});
+					UsersDatas.update({_id: t.data._id}, {$set: data}, function() {
+						Modal.show('modalSuccess', {message: 'Vos informations ont bien ete mises a jour'});
+					});
 				}
 			}
 		}

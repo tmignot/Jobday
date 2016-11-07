@@ -402,6 +402,11 @@ span.tooltips.noarrow span:after {
 	cursor: pointer;
 }
 
+.button:active {
+	box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
+	-webkit-box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
+}
+
 .user-text label,
 .user-info-container h4 {
 	background: #63c2c8;
@@ -558,6 +563,28 @@ span.tooltips.noarrow span:after {
 	cursor: default;
 }
 
+@media only screen and (max-width: 768px) {
+	.searchbar {
+		text-align: center;
+	}
+
+	.jobday-desc {
+		font-size: 18px;
+	}
+
+	.user-mean, .user-permi { font-size: 19px;}
+}
+
+@media only screen and (max-width: 360px) {
+	.newsletter h2 {
+		font-size: 18px;
+	}
+	.newsletter h3 {
+		font-size: 15px;
+	}
+	.user-mean, .user-permi { font-size: 16px;}
+}
+
 @media only screen and (max-width: 1200px) {
 	 .tooltips {
 		 font-size: 13px;
@@ -667,4 +694,9 @@ span.tooltips.noarrow span:after {
 	position: absolute;
 	bottom: 0;
 	right: 0;
+}
+
+.user-notes-container .progress {
+	height: 8px;
+	margin-bottom: 15px;
 }

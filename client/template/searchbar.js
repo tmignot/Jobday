@@ -1,12 +1,5 @@
 Template.searchbar.onRendered(function() {
 	// create Maps autocomplete API
-	Maps.create({
-		type: 'autocomplete',
-		doc: document.getElementById('local-input'),
-		params: {
-			types: ['geocode']
-		}
-	});
 });
 
 Template.searchbar.events({
@@ -18,6 +11,13 @@ Template.searchbar.events({
 					lat: position.coords.latitude,
 					lng: position.coords.longitude
 				};
+				Maps.create({
+					type: 'autocomplete',
+					doc: document.getElementById('local-input'),
+					params: {
+						types: ['geocode']
+					}
+				});
 				Maps.onLoad(function() { // ensure Maps api loaded
 					var circle = new google.maps.Circle({
 						center: geolocation,

@@ -54,3 +54,13 @@
 		</div>
 	{{/genericModal}}
 </template>
+
+<template name='modalSuccess'>
+	{{#genericModal title="Action validee"}}
+		<h4>{{message}}</h4>
+	{{else}}
+		<div class='col-xs-4 col-xs-offset-4 orange pointer' data-dismiss='modal'>
+			Ok
+		</div>
+	{{/genericModal}}
+</template>

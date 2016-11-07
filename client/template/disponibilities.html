@@ -27,3 +27,32 @@
 		</div>
 	</div>	
 </template>
+
+<template name='dispoRangeModal'>
+	{{#genericModal title='Editer vos disponibilites'}}
+	<h4>Editer vos disponibilites pour une periode donnee</h4>
+	<div class='col-xs-12 dispo-range form-horizontal'>
+		<div class='dispo-range-checkbox form-group'>
+			<label class='control-label'>Je serais </label>
+			<div>
+			<input type='checkbox' data-dispo='yes'> disponible
+			<input type='checkbox' data-dispo='no'> indisponible
+			</div>
+		</div>
+		<div class='date form-group'>
+			<label class='control-label'>Du </label>
+			<input type='date' class='date-from form-control'>
+			<label class='control-label'>A </label>
+			<input type='time' class='hours-from form-control'>
+		</div>
+		<div class='hours form-group'>
+			<label class='control-label'>Au </label>
+			<input type='date' class='date-to form-control'>
+			<label class='control-label'>A </label>
+			<input type='time' class='hours-to form-control'>
+		</div>
+		</div>
+	{{else}}
+	<button type="button" class="btn btn-primary center-block section validate" data-dismiss="modal">Enregistrer</button>
+	{{/genericModal}}
+</template>

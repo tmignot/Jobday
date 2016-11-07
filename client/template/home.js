@@ -5,5 +5,7 @@ Template.home.events({
 			email: $('.news-mail').val()
 		});
 		$('.newsletter input').val('');
-	}
+	},
+	'click .category-jobs.button': function() { Router.go('allCategories'); },
+	'click .all-jobs.button': function() { Router.go('searchMission'); }
 });

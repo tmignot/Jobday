@@ -141,5 +141,8 @@ Template.dashboardJobber.helpers({
 Template.dashboardJobber.events({
 	'click .edit-profil-button': function(e,t) { // routes to edit profile page, first tab
 		Router.go('editJobber', {id: Meteor.userId()}, {query: {tab: 'info'}});
+	},
+	'click .user-disponibilities-container .orange.button': function(e,t) {
+		Modal.show('dispoRangeModal');
 	}
 });

@@ -8,16 +8,16 @@
 <template name="searchMission">
 	<div class='col-xs-12'>
 		<span class='col-md-3 button-container'>
-			<span  id="btnSearchJobParticulier" class="col-xs-12 button blue glyphicon glyphicon-search"> Job<br>entre Particuliers</span>
+			<span  id="btnSearchJobParticulier" class="col-xs-12 button blue glyphicon glyphicon-search {{active 'particulier'}}"> Job<br>entre Particuliers</span>
 		</span>
 		<span class='col-md-3 button-container'>
-			<span  id="btnSearchJobProfessionel" class="col-xs-12 button blue glyphicon glyphicon-search"> Job<br>Professionnel</span>
+			<span  id="btnSearchJobProfessionel" class="col-xs-12 button blue glyphicon glyphicon-search {{active 'pro'}}"> Job<br>Professionnel</span>
 		</span>
 		<span class='col-md-3 button-container'>
-			<span  id="btnSearchJobAll" class="col-xs-12 button blue glyphicon glyphicon-search"><br>Tous les Jobs</span>
+			<span  id="btnSearchJobAll" class="col-xs-12 button blue glyphicon glyphicon-search {{active 'all'}}"><br>Tous les Jobs</span>
 		</span>
 		<span class='col-md-3 button-container'>
-			<span  id="btnSearchJobOnline" class="col-xs-12 button blue glyphicon glyphicon-search"> Job<br>Connecté </span>
+			<span  id="btnSearchJobOnline" class="col-xs-12 button blue glyphicon glyphicon-search {{active 'online'}}"> Job<br>Connecté </span>
 		</span>
 	</div>
 	<div class='form col-xs-12 bleft section'>

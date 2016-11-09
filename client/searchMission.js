@@ -1,3 +1,8 @@
+Template.searchMission.onCreated(function() {
+	this.filters = new ReactiveVar({});
+	this.formFilters = {};
+});
+
 Template.searchMission.onRendered(function() {
 	Session.set('currentCategory', 'off');
 	Session.set('latlng', {lat: 48.853, lng: 2.35});
@@ -26,6 +31,15 @@ Template.searchMission.onRendered(function() {
 });
 
 Template.searchMission.helpers({
+	active: function(w) {
+		var f = Template.instance().filters.get();
+		console.log(f);
+		if ((f && !_.keys(f).length && w == 'all') ||
+				(f && f.type == 1 && w == 'particulier') ||
+				(f && f.type == 0 && w == 'pro') ||
+				(f && f.online && w == 'online'))
+			return 'botborder'
+	},
 	subdisabled: function() {
 		return Session.equals('currentCategory', 'off')? 'disabled':'';
 	},
@@ -47,10 +61,28 @@ Template.searchMission.events({
 	'change #categorySelect': function(e,t) {
 		Session.set('currentCategory', e.currentTarget.value);
 	},
+	'click #btnSearchJobParticulier': function(e,t) {
+		AdvertsPages.set({filters: {type: 1}});
+		t.filters.set({type: 1});
+	},
+	'click #btnSearchJobProfessionel': function(e,t) {
+		AdvertsPages.set({filters: {type: 0}});
+		t.filters.set({type: 0});
+	},
+	'click #btnSearchJobAll': function(e,t) {
+		AdvertsPages.set({filters: {}});
+		t.filters.set({});
+	},
+	'click #btnSearchJobOnline': function(e,t) {
+		AdvertsPages.set({filters: {online: true}});
+		t.filters.set({online: true});
+	},
 	'click #btnSearch': function(e,t) {
 		// FILTRES
-		var filters = { };
+		var filters = _.clone(t.filters.get());
 		var cat = parseInt(t.find('#categorySelect').value);
+		console.log(cat);
+		console.log('hey', filters);
 		if (cat || cat == 0) {
 			filters.category = cat;
 			filters.subcategory = parseInt(t.find('#subcatSelect').value);
@@ -59,6 +91,7 @@ Template.searchMission.events({
 		filters.description = new RegExp('^.*'+t.find('#keyword').value+'.*$', 'gi');
 		console.log(filters);
 		AdvertsPages.set({filters: filters});
+		filters = {};
 
 		// TRI
 		var ss = t.find('#sort-type');
@@ -73,5 +106,6 @@ Template.searchMission.events({
 				break
 			default: break;
 		}
+
 	},
 });

@@ -8,10 +8,6 @@ Template.maps.onRendered(function() {
 	this.map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);   
 });
 */
-Template.searchMission.onRendered(function() {
-	document.getElementById("collectionIdSelect").selectedIndex = Session.get("categorie");
-});
-
 Template.searchMission.helpers({
   settings: function () {
 		return {

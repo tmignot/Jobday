@@ -1,17 +1,70 @@
 <template name='advertCard'>
-	<div class='col-xs-12 section advertCard'>
-		<div class='col-xs-2'>
+	<div class='col-xs-12 section advertCard nopad'>
+		<div class='col-xs-4 col-sm-2 nopad'>
 			{{#with category this.category}}
 			<img src='{{icon}}' width='100%'>
 			{{/with}}
 		</div>
-		<div class='col-xs-6 col-md-7'>
+		<div class='col-xs-8 col-sm-6'>
 			<h4 class='advertCard-title' data-which='{{_id}}'>{{title}}</h4>
-			<h4><small>{{getCat}}</small></h4>
+			<h4 class='hidden-xs'><small>{{getCat}}</small></h4>
 		</div>
-		<div class='pull-right col-xs-4 col-md-3'>
-			<div><i class='material-icons'>euro_symbol</i>{{budget}}</div>
-			<div><i class='material-icons'>place</i>{{address.zipcode}} {{address.city}}</div>
+		<div class='col-xs-12 col-sm-4'>
+			<div class='col-xs-4 col-sm-12'><i class='material-icons'>euro_symbol</i>{{budget}}</div>
+			<div class='col-xs-4 col-sm-12'><i class='material-icons'>place</i>{{address.zipcode}} <span class='hidden-xs'>{{address.city}}</span></div>
+			{{#if $eq type 0}}
+			<div class='col-xs-4 col-sm-12 .prosign'><h2 style='margin-top:5px;text-align:center;'><small class='text-warning'>[PRO]</small></h2></div>
+			{{/if}}
+		</div>
+		<div class='col-xs-12 nopad section description online-{{online}}'>
+			<span class='col-xs-12 col-sm-6 nopad'>
+				<i class='col-xs-2 material-icons md-18'>today</i>
+				<span class='col-xs-10'>
+					{{#if beforeDate}}
+					<!-- Avant startDate -->
+					Avant le {{formatDate startDate}}
+					{{else}}
+					{{#if endDate}}
+					<!-- Periode -->
+					Du {{formatDate startDate}} au {{formatDate endDate}}
+					{{else}}
+					<!-- Ponctuel -->
+					Le {{formatDate startDate}}
+					{{/if}}
+					{{/if}}
+				</span>
+			</span>
+			<span class='col-xs-12 col-sm-6 nopad'>
+				<i class='col-xs-2 material-icons md-18'>schedule</i>
+				<span class='col-xs-10'>
+					{{#if $eq workingHours.type 1}}
+					Horaires libres
+					{{/if}}
+					{{#if $eq workingHours.type 2}}
+					Le matin
+					{{/if}}
+					{{#if $eq workingHours.type 3}}
+					L'apres-midi
+					{{/if}}
+					{{#if $eq workingHours.type 4}}
+					Le soir
+					{{/if}}
+					{{#if $eq workingHours.type 5}}
+					De {{workingHours.from.hour}}h{{workingHours.from.min}} a {{workingHours.to.hour}}h{{workingHours.to.min}}
+					{{/if}}
+				</span>
+			</span>
+		<div class='col-xs-12 section'>
+			<span class='col-xs-4 nopad'>
+				<i class='material-icons md-18'>message</i> {{messages.length}}
+			</span>
+			<span class='col-xs-4 nopad'>
+				<i class='fa fa-hand-paper-o' style='font-size:18px; width:1em;'></i> {{offers.length}}
+			</span>
+			<span class='col-xs-4 nopad'>
+				<i class='material-icons md-18'>person_add</i> {{waitingFor}}
+			</span>
+		</div>
 		</div>
 	</div>
 </template>

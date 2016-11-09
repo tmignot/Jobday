@@ -1,80 +1,79 @@
-<template name="resultatSearch">
-	<div id="AdvertsList" class="">
-		{{#each adverts searchSettings}}
-			{{>advertCard this}}
-		{{/each}}
+<template name="Adverts">
+	<div id="AdvertsList" class="col-xs-12 nopad">
+		{{>pages}}
+		{{>pagesNav}}
 	</div>
 </template>
 
 <template name="searchMission">
-	<div style="margin-top:100px;">
-		<button  id="btnSearchJobParticulier" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Job entre Particulier  </button>
-		<button  id="btnSearchJobProfessionel" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Job Professionnel </button>
-		<button  id="btnSearchJobAll" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Tous les Jobs </button>
-		<button  id="btnSearchJobOnline" style ="background-color:#63c2c7;height: 25px;padding: 0px; margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Job Connecté </button>
-	</div>	
-	<div class="input-group input-group-lg" style="">
-		<span style="text-align: left;" class="input-group-addon" id="sizing-addon1">Catégorie </span>
-		<select autocomplete="off" id="collectionIdSelect" class="form-control">
-			<option value="0">Toutes Catégories</option>
-			<option value="1">Hôtellerie & Restauration</option>
-			<option value="2">Commerce & Vente</option>
-			<option value="3">Service à la personne	</option>
-			<option value="4">Web & Création	</option>
-			<option value="5">Evénementiel	</option>
-			<option value="6">Transport & Logistique	</option>
-			<option value="7">Service administratif </option>
-			<option value="8">Rédaction & Traduction</option>
-			<option value="9">Cours</option>
-			<option value="10">Tourisme	</option>
-			<option value="11">Santé</option>
-			<option value="12">Maison & Jardin</option>
-		</select>
+	<div class='col-xs-12'>
+		<span class='col-md-3 button-container'>
+			<span  id="btnSearchJobParticulier" class="col-xs-12 button blue glyphicon glyphicon-search"> Job<br>entre Particuliers</span>
+		</span>
+		<span class='col-md-3 button-container'>
+			<span  id="btnSearchJobProfessionel" class="col-xs-12 button blue glyphicon glyphicon-search"> Job<br>Professionnel</span>
+		</span>
+		<span class='col-md-3 button-container'>
+			<span  id="btnSearchJobAll" class="col-xs-12 button blue glyphicon glyphicon-search"><br>Tous les Jobs</span>
+		</span>
+		<span class='col-md-3 button-container'>
+			<span  id="btnSearchJobOnline" class="col-xs-12 button blue glyphicon glyphicon-search"> Job<br>Connecté </span>
+		</span>
 	</div>
-	<div class="input-group input-group-lg" style="">
-		<span style="text-align: left;" class="input-group-addon" id="sizing-addon1">Sous Catégorie </span>
-		<select autocomplete="off" id="collectionIdSelect" class="form-control">
-			<option value="0">Maison & Jardin</option>
-			<option value="0">Hôtellerie & Restauration</option>
-			<option value="0">Commerce & Vente</option>
-			<option value="0">Web & Création	</option>
-			<option value="0">Evénementiel	</option>
-			<option value="0">Service à la personne	</option>
-			<option value="0">Transport & Logistique	</option>
-			<option value="0">Service administratif </option>
-			<option value="0">Rédaction & Traduction</option>
-			<option value="0">Cours</option>
-			<option value="0">Tourisme	</option>
-			<option value="0">Santé</option>
-		</select>
-	</div>
-	<input type="text"  class="form-control" placeholder="Votre Besoin ?" id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-	{{> inputAutocomplete settings=settings class="form-control" id="localisation" placeholder="Localisation ?" aria-describedby="sizing-addon1"}}
-	{{> inputAutocomplete settings=settings class="form-control" id="localisation" placeholder="Mots-clé" aria-describedby="sizing-addon1"}}
-	<button  id="btnSearch" style ="background-color:#63c2c7;height: 55px;padding: 0px; width: 100%;margin-top: 2px;margin-bottom: 2px;" class="btn btn-primary glyphicon glyphicon-search" type="button" > Rechercher </button>
-	<div>
-		Filtrer Par :
-		<div>
-			<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-			Date Publication Récente (Par défaut)
-			<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-			Prix croissant
-			<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-			Prix décroissant
-			<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-			Urgence
-			<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-			Distance
-			<input type="radio"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
-			<input type="date"  id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
+	<div class='form col-xs-12 bleft section'>
+		<div class='col-xs-12 col-md-6'>
+			<div class="form-group col-xs-12">
+				<label class="control-label">Catégorie</label>
+				<select autocomplete="off" id="categorySelect" class="form-control">
+					<option value="off">Toutes Catégories</option>
+					{{#each categories}}
+					<option value="{{index}}">{{name}}</option>
+					{{/each}}
+				</select>
+			</div>
+			<div class="form-group col-xs-12">
+				<label class="control-label">Sous Catégorie</label>
+				<select autocomplete="off" id="subcatSelect" class="form-control" {{subdisabled}}>
+					{{#each subcategories}}
+					<option value='{{index}}'>{{name}}</option>
+					{{/each}}
+				</select>
+			</div>
+		</div>
+		<div class='col-xs-12 col-md-6'>
+			<div class='form-group col-xs-12'>
+			<input type="text"  class="form-control" placeholder="Votre Besoin ?" id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
+			</div>
+			<div class='form-group col-xs-12'>
+			<input class='form-control' placeholder='Localisation' id='localisation'>
+			</div>
+			<div class='form-group col-xs-12'>
+			<input class='form-control' placeholder='Mots-clefs' id='keyword'>
+			</div>
 		</div>
 	</div>
-	<div class="ligneTableau" style="display: flex;" >
-		<div class="celluleTableau" style="width: 725px;">
-			{{> resultatSearch}}
+	<div class='col-xs-12 bleft section'>
+	<div class='col-xs-12 col-md-6'>
+		<label class='control-label'>Trier Par :</label>
+		<select class='form-control' id='sort-type'>
+			<option value='date_desc'>Date Publication Récente (Par défaut)</option>
+			<option value='date_asc'>Urgence</option>
+			<option value='price_asc'>Prix croissant</option>
+			<option value='price_desc'>Prix décroissant</option>
+		</select>
+	</div>
+	<div class='col-xs-12 col-md-6 section'>
+		<div class='button-container'>
+			<span id="btnSearch" class="button orange glyphicon glyphicon-search col-xs-6 col-xs-offset-3"> Rechercher </span>
 		</div>
-		<div class="celluleTableau">
-			{{> mapsMission}}
+	</div>
+	</div>
+	<div class="ligneTableau col-xs-12">
+		<div class="celluleTableau col-xs-12 col-md-6 nopad">
+			{{> Adverts}}
+		</div>
+		<div class="celluleTableau col-xs-12 col-md-6">
+			<div id='searchMissionMap' data-spy='affix' data-offset-top='400'></div>
 		</div>
 	</div>
 </template>

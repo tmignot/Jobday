@@ -64,18 +64,22 @@ Template.searchMission.events({
 	'click #btnSearchJobParticulier': function(e,t) {
 		AdvertsPages.set({filters: {type: 1}});
 		t.filters.set({type: 1});
+		resetForm();
 	},
 	'click #btnSearchJobProfessionel': function(e,t) {
 		AdvertsPages.set({filters: {type: 0}});
 		t.filters.set({type: 0});
+		resetForm();
 	},
 	'click #btnSearchJobAll': function(e,t) {
 		AdvertsPages.set({filters: {}});
 		t.filters.set({});
+		resetForm();
 	},
 	'click #btnSearchJobOnline': function(e,t) {
 		AdvertsPages.set({filters: {online: true}});
 		t.filters.set({online: true});
+		resetForm();
 	},
 	'click #btnSearch': function(e,t) {
 		// FILTRES
@@ -89,6 +93,7 @@ Template.searchMission.events({
 		}
 		filters['address.city'] = new RegExp('^.*'+t.find('#localisation').value+'.*$', 'gi');		
 		filters.description = new RegExp('^.*'+t.find('#keyword').value+'.*$', 'gi');
+		filters.title = new RegExp('^.*'+t.find('#besoin').value+'.*$', 'gi');
 		console.log(filters);
 		AdvertsPages.set({filters: filters});
 		filters = {};
@@ -109,3 +114,10 @@ Template.searchMission.events({
 
 	},
 });
+
+function resetForm() {
+	Session.set('currentCategory', 'off');
+	$('#localisation').val('');
+	$('#besoin').val('');
+	$('#keyword').val('');
+}

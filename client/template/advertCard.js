@@ -23,6 +23,18 @@ Template.advertCard.onRendered(function() {
 	}
 });
 
+Template.advertCard.onDestroyed(function() {
+	if (this.data) {
+		var name = this.data._id;
+		Maps.onLoad(function() {
+			if (Maps.markers && Maps.markers[name]) {
+				Maps.markers[name].setMap(null);
+				Maps.markers[name] = undefined;
+			}
+		});
+	}
+});
+
 Template.advertCard.helpers({
 	getCat: function() { //returns [category][subcategory]
 		var d = Template.instance().data;

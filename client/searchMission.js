@@ -1,3 +1,5 @@
+Template.spinner.replaces('_pagesLoading');
+
 Template.searchMission.onCreated(function() {
 	this.filters = new ReactiveVar({});
 	this.formFilters = {};

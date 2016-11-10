@@ -201,6 +201,9 @@
 		</div>
 		<h3 class='blue col-xs-12'>Vos Diplomes</h3>
 		<div class='col-xs-12 col-md-4 add-grade section'>
+			{{#if uploadingGrade}}
+			{{>spinner}}
+			{{else}}
 			<div class='form-group'>
 				<label class='control-label'>Nom du diplome</label>
 				<input type='text' class='form-control add-grade-name' placeholder='BAC, Brevet, etc'>
@@ -216,6 +219,7 @@
 			<div class='form-group'>
 				<div class='blue'>Ajouter</div>
 			</div>
+			{{/if}}
 		</div>
 		<div class='col-xs-12 col-md-8 user-grades section'>
 			{{#each this.grades}}

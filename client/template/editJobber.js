@@ -1,6 +1,7 @@
 Template.editJobber.onCreated(function() {
   this.currentFile = new ReactiveVar(false);
 	this.compressing = new ReactiveVar(false);
+	this.uploadingGrade = new ReactiveVar(false);
 	Maps.create({type: 'geocoder'});
 	Session.set('isSociety', false);
 	Session.set('gender', 'female');
@@ -88,6 +89,9 @@ Template.editJobber.helpers({
 	},
 	compressing: function() {
 		return Template.instance().compressing.get();
+	},
+	uploadingGrade: function() {
+		return Template.instance().uploadingGrade.get();
 	}
 });
 
@@ -140,85 +144,30 @@ Template.editJobber.events({
 		});
 	},
   'change #fileInput': function (e, t) {
-    if (e.currentTarget.files && e.currentTarget.files[0]) {
-			var current_file = e.currentTarget.files[0];
-			t.compressing.set(true);
-			var reader = new FileReader();
-			if (current_file.type.indexOf('image') == 0) {
-				/*
-				** Compression :
-				** here we create a canvas which we will draw the new photo to
-				** then we check its size and resize to maxWidth or maxHeight
-				** depending on format and we draw the photo
-				** in its new size
-				*/
-				reader.onload = function (event) {
-					var image = new Image();
-					image.src = event.target.result;
-					image.onload = function() {
-						var maxWidth = 1024,
-								maxHeight = 1024,
-								imageWidth = image.width,
-								imageHeight = image.height;
-
-						if (imageWidth > imageHeight) {
-							if (imageWidth > maxWidth) {
-								imageHeight *= maxWidth / imageWidth;
-								imageWidth = maxWidth;
-							}
-						}
-						else {
-							if (imageHeight > maxHeight) {
-								imageWidth *= maxHeight / imageHeight;
-								imageHeight = maxHeight;
-							}
-						}
-						var canvas = document.createElement('canvas');
-						canvas.width = imageWidth;
-						canvas.height = imageHeight;
-						image.width = imageWidth;
-						image.height = imageHeight;
-						var ctx = canvas.getContext("2d");
-						ctx.drawImage(this, 0, 0, imageWidth, imageHeight);
-						// photo drawn (end of compression)
-						t.compressing.set(false);
-						// creating uploader
-						var uploader = Images.insert({
-							file: canvas.toDataURL(current_file.type),
-							isBase64: true,
-							fileName: 'pic.png'
-						}, false);
-						/*
-						** Diverse event listeners to handle upload progression
-						*/
-						uploader.on('start', function () {
-							t.currentFile.set(this);
-						});
-						uploader.on('end', function (error, fileObj) {
-							t.currentFile.set(false);
-						});
-						uploader.on('progress', function(percent, file) {
-						});
-						uploader.on('uploaded', function (error, fileObj) {
-							// we remove the old photo if provided
-							var cur = t.data.photo.match(/([^\/]*)\.png$/);
-							if (cur) {
-								Images.remove({_id: cur[1]})
-							}
-							UsersDatas.update({_id: t.data._id}, {
-								$set: {photo: Images.link(fileObj)}
-							});
-						});
-						uploader.on('error', function (error, fileObj) {
-							alert('Error during upload: ' + error);
-						});
-						// start uploading
-						uploader.start();
-					}
-				}
-				reader.readAsDataURL(current_file);
+		UploadImage({
+			name: 'pic.jpg',
+			doc: e.currentTarget,
+			maxWidth: 1024,
+			maxHeight: 1024,
+			onBeforeCompress: function() {
+				t.compressing.set(true);
+			},
+			onStartUpload: function() {
+				t.compressing.set(false); 
+				t.currentFile.set(this);
+			},
+			onEndUpload: function(error, file) {
+				t.currentFile.set(false);
+			},
+			onAfterUpload: function(error, file) {
+				var cur = t.data.photo.match(/([^\/]*)\.png$/);
+				if (cur)
+					Images.remove({_id: cur[1]})
+				UsersDatas.update({_id: t.data._id}, {
+					$set: {photo: Images.link(file)}
+				});
 			}
-    }
+		});
   },
 	'click .user-skill': function(e,t) { // add the skill that was clicked
 		var user = {_id: t.data._id};
@@ -258,7 +207,20 @@ Template.editJobber.events({
 			name: $('.add-grade-name').val(),
 			date: new Date($('.add-grade-date').val())
 		};
-		UsersDatas.update(user, {$push: {grades: new_grade}});
+		UploadImage({
+			doc: $('.add-grade input[type=file]')[0],
+			name: user._id + new_grade.name + Date.now(),
+			maxWidth: 300,
+			maxHeight: 300,
+			onBeforeCompress: function() { t.uploadingGrade.set(true); },
+			onAfterUpload: function(error, file) {
+				if (!error) {
+					new_grade.image = Images.link(file);
+					UsersDatas.update(user, {$push: {grades: new_grade}});
+				}
+				t.uploadingGrade.set(false);
+			}
+		});
 	},
 	'click .submit-button': function(e,t) { // saves user infos
 		var params = Router.current().params;

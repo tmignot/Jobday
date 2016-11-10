@@ -1,3 +1,103 @@
+checkParams = function(p, o, f) {
+	_.each(_.keys(p), function(k) {
+		if (!o)
+			throw new Error('No parameters provided');
+		if (!o[k] && !_.contains(f, k))
+			return;
+		if (!o || ! o[k] || !o[k].constructor || !o[k].constructor.name)
+			throw new Error('No constructor found for key '+k);
+		if (!o[k].constructor.name == p[k])
+			throw new Error('checkParam: Value mismatch '+o[k].contructor.name+' and '+p[k]);
+	});
+};
+
+UploadImage = function(opt) {
+	checkParams({
+		doc: 'HTMLInputElement',
+		name: 'String',
+		maxWidth: "Number",
+		maxHeight: "Number",
+		onBeforeCompress: 'Function',
+		onStartUpload: 'Function',
+		onProgress: 'Function',
+		onEndUpload: 'Function',
+		onAfterCompress: 'Function',
+		onAfterUpload: 'Function',
+		onError: 'Function'
+	}, opt, ['doc', 'name']);
+	if (opt.doc.type != 'file')
+		throw new Error('UploadImage: doc have to be a file input');
+	if (!opt.doc.files || !opt.doc.files.length)
+		throw new Error('UploadImage: no file chosen');
+	if (opt.onBeforeCompress)
+		opt.onBeforeCompress.call();
+	/*
+	** Compression :
+	** here we create a canvas which we will draw the new photo to
+	** then we check its size and resize to maxWidth or maxHeight
+	** depending on format and we draw the photo
+	** in its new size
+	*/
+	var file = opt.doc.files[0];
+	var reader = new FileReader();
+	if (file.type.indexOf('image') == 0) {
+		reader.onload = function (event) {
+			var image = new Image();
+			image.src = event.target.result;
+			image.onload = function() {
+				if (image.width > image.height) {
+					if (opt.maxWidth && image.width > opt.maxWidth) {
+						image.height *= opt.maxWidth / image.width;
+						image.width = opt.maxWidth;
+					}
+				}
+				else {
+					if (opt.maxHeight && image.height > opt.maxHeight) {
+						image.width *= opt.maxHeight / image.height;
+						image.height = opt.maxHeight;
+					}
+				}
+				var canvas = document.createElement('canvas');
+				canvas.width = image.width;
+				canvas.height = image.height;
+				var ctx = canvas.getContext("2d");
+				ctx.drawImage(this, 0, 0, image.width, image.height);
+				if (opt.onAfterCompress)
+					opt.onAfterCompress.call();
+
+				var uploader = Images.insert({
+					file: canvas.toDataURL(file.type),
+					isBase64: true,
+					fileName: opt.name
+				}, false);
+				uploader.on('start', function () {
+					if (opt.onStartUpload)
+						opt.onStartUpload.call();
+				});
+				uploader.on('end', function (error, file) {
+					if (opt.onEndUpload)
+						opt.onEndUpload.call(this, error, file);
+				});
+				uploader.on('progress', function(percent, file) {
+					if (opt.onProgress)
+						opt.onProgress.call(this, percent, file);
+				});
+				uploader.on('uploaded', function (error, file) {
+					if (opt.onAfterUpload)
+						opt.onAfterUpload.call(this, error, file);
+				});
+				uploader.on('error', function (error, file) {
+					if (opt.onError)
+						opt.onError.call(this, error, file);
+				});
+				// start uploading
+				uploader.start();
+			};
+		};
+		reader.readAsDataURL(file);
+	}
+};
+
 /*
 ** UrlQuery: route to current URL with queryParameters
 **		- queryObj: Object in the form {k1: v1, ..., kx: vx}

@@ -53,6 +53,16 @@ Template.missionProfil.helpers({
 		if (d)
 			return d.nbPeople - _.where(d.offers, {validated: true}).length;
 	},
+	hasOffer: function() {
+		var d = Template.instance().data,
+				retval = false;
+		_.each(d.offers, function(o) {
+			if (o.userId == Meteor.userId()) {
+				retval = true;
+			}
+		});
+		return retval;
+	},
 	getStatus: function() { // get the status of advert given the number of validated offers
 		var d = Template.instance().data;
 		if (d) {
@@ -66,7 +76,8 @@ Template.missionProfil.helpers({
 });
 
 Template.missionProfil.events({
-	'click #btnModifierJob': function (event) { // TODO route to editJob
+	'click #btnModifierJob': function (event,t) { // TODO route to editJob
+		Router.go('editJob', {_id: t.data._id});
 	},
 	'click #btnFaireOffre': function (event, t) { // open the makeOfferModal
 		var d = UsersDatas.findOne({userId: Meteor.userId()});
@@ -77,6 +88,9 @@ Template.missionProfil.events({
 				Modal.show('profileNotComplete');
 		} else
 			Modal.show('shouldBeLogged');
+	},
+	'click #btnPay': function(e,t) {
+		Modal.show('makePaymentModal', t.data)
 	}
 });
 

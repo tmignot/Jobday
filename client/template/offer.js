@@ -1,6 +1,13 @@
+Template.offer.onCreated(function() {
+	this.requestingValidation = new ReactiveVar(false);
+});
+
 // helper to convert meters to kilometers
 Template.offer.helpers({
-	m2km: function(dist) { return Math.round(dist / 1000); }
+	m2km: function(dist) { return Math.round(dist / 1000); },
+	requestingValidation: function() {
+		return Template.instance().requestingValidation.get();
+	}
 });
 
 /*
@@ -12,9 +19,21 @@ Template.offer.helpers({
 */
 Template.offer.events({
 	'click .validate': function(e,t) {
+		t.requestingValidation.set(true);
 		Meteor.call('validateOffer', {
 			advert: Template.parentData(2)._id,
 			offer: t.data._id
+		}, function() {
+			t.requestingValidation.set(false);
+		});
+	},
+	'click .invalidate': function(e,t) {
+		t.requestingValidation.set(true);
+		Meteor.call('invalidateOffer', {
+			advert: Template.parentData(2)._id,
+			offer: t.data._id
+		}, function() {
+			t.requestingValidation.set(false);
 		});
 	}
 });

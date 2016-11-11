@@ -1,18 +1,62 @@
 Template.poster.onCreated(function() {
 	// initialize session variables
-	Session.set('currentCategory', 0);
-	Session.set('choixDate', 0);
-	Session.set('choixHoraire', 0);
-	Session.set('addressStatus', false);
+	if (this.data) {
+		Session.set('currentCategory', this.data.category);
+		Session.set('choixDate', this.data.beforeDate? 2 : this.data.endDate ? 3 : 1);
+		Session.set('choixHoraire', this.data.workingHours.type);
+	} else {
+		Session.set('currentCategory', 0);
+		Session.set('choixDate', 0);
+		Session.set('choixHoraire', 0);
+		Session.set('addressStatus', false);
+	}
 	// create geocoder from Maps api
 	Maps.create({type: 'geocoder'});
 });
 
 Template.poster.onRendered(function() {
-	// pre-fill firsts choices for each radios
-	$('#choixHoraireAnnonce1').prop('checked', true);
-	$('#choixAnnonceDate1').prop('checked', true);
-	$('#TypeTarifAnnonce1').prop('checked', true);
+	if (this.data) {
+		// Edit existing advert
+		// pre-fill all inputs
+		$('#categorieID').val(this.data.category);
+		$('#ssCategorieID').val(this.data.subcategory);
+		$('#typeAnnonce').val(this.data.type);
+		$('#titreAnnonce').val(this.data.title);
+		$('#descriptionAnnonce').val(this.data.description);
+		$('#precisionAnnonce').val(this.data.precisions);
+		$('#outilAdisposition').prop('checked', this.data.tools);
+		$('#vetementADisposition').prop('checked', this.data.clothes);
+		$('#vehiculeNecessaire').prop('checked', this.data.needsVehicle);
+		$('#adresseRueAnnonce').val(this.data.address.street);
+		$('#adresseCodePostalAnnonce').val(this.data.address.zipcode);
+		$('#adresseVilleAnnonce').val(this.data.address.city);
+		if (this.data.beforeDate)
+			$('.dateAnnonce-radios input[name=choixDate][value=2]').prop('checked', true);
+		else if (this.data.endDate) {
+			$('.dateAnnonce-radios input[name=choixDate][value=3]').prop('checked', true);
+			$('#AnnonceDate3').val(this.data.endDate.toISOString().split('T')[0]);
+		} else
+			$('.dateAnnonce-radios input[name=choixDate][value=1]').prop('checked', true);
+		$('#AnnonceDate2').val(this.data.startDate.toISOString().split('T')[0]);
+		$('.horaireAnnonce-radios input[name=choixHoraire][value='+this.data.workingHours.type+']').prop('checked', true);
+		if (this.data.workingHours.type == 5) {
+			$('#choixHoraireAnnonceDeb').val(this.data.workingHours.from.hour+':'+this.data.workingHours.from.min);
+			$('#choixHoraireAnnonceFin').val(this.data.workingHours.to.hour+':'+this.data.workingHours.to.min);
+		}
+		$('#tarifAnnonce').val(this.data.budget);
+		if (this.data.negocible)
+			$('#TypeTarifAnnonce2').prop('checked', true);
+		else
+			$('#TypeTarifAnnonce1').prop('checked', true);
+		$('#nbPersonnePourAnnonce').val(this.data.nbPeople);
+		$('#totalVal').html(this.data.budget*this.data.nbPeople + ' Euros');
+	} else {
+		// New advert
+		// pre-fill firsts choices for each radios
+		$('#choixHoraireAnnonce1').prop('checked', true);
+		$('#choixAnnonceDate1').prop('checked', true);
+		$('#TypeTarifAnnonce1').prop('checked', true);
+	}
 });
 	
 
@@ -78,9 +122,9 @@ Template.poster.events({
 			});
 		});
 	},
-	'click .submit-container button': function(e,t) {
+	'click .submit-container .button': function(e,t) {
 		var values = getValues(); // get all values
-		checkValues(values); // check and insert new advert
+		checkValues(values, t.data); // check and insert new advert
 	}
 });
 
@@ -165,7 +209,7 @@ function getValues() {
 	};
 };
 
-function checkValues(values) {
+function checkValues(values, data) {
 	var ctx = AdvertSchema.namedContext('advertForm');
 	AdvertSchema.clean(values);
 	ctx.validate(values);
@@ -179,14 +223,27 @@ function checkValues(values) {
 		}
 	});
 	if (ctx.isValid() && !ctx.invalidKeys().length) {
-		Adverts.insert(values, function(err, res) {
-			if (err)
-				console.log(err)
-			else {
-				Modal.show('modalSuccess', {message: 'Votre annonce a bien ete publiee'});
-				Router.go('/missionProfil/'+res);
-			}
-		});
+		if (!data) {
+			Adverts.insert(values, function(err, res) {
+				if (err)
+					console.log(err)
+				else {
+					Modal.show('modalSuccess', {message: 'Votre annonce a bien ete publiee'});
+					Router.go('/missionProfil/'+res);
+				}
+			});
+		} else {
+			values.messages = data.messages;
+			values.offers = data.offers;
+			Adverts.update({_id: data._id}, {$set: values}, function(err, res) {
+				if (err)
+					console.log(err)
+				else {
+					Modal.show('modalSuccess', {message: 'Votre annonce a bien ete mise a jour'});
+					Router.go('/missionProfil/'+data._id);
+				}
+			});
+		}
 	} else {
 		Modal.show('errorModal', ctx.getErrorObject());
 		return false;

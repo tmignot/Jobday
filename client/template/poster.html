@@ -144,7 +144,11 @@
 				<label id="totalAnnonce" class='col-xs-6'>Total</label><span class='col-xs-6' id='totalVal'></span>
 			</div>
 			<div class='submit-container col-xs-12 section' style='text-align:center;'>
-				<button id="posterAnnonce"  class="glyphicon glyphicon-user" style='display:inline-block;'>Poster </button>
+				{{#if _id}}
+				<div id="posterAnnonce"  class="orange button glyphicon glyphicon-edit" style='display:inline-block;padding:15px;'>Modifier </div>
+				{{else}}
+				<div id="posterAnnonce"  class="blue button glyphicon glyphicon-user" style='display:inline-block;padding:15px;'>Poster </div>
+				{{/if}}
 			</div>
 		</div>
 	</div>

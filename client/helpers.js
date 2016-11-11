@@ -171,7 +171,13 @@ Template.registerHelper('user', function() {
 **	username: helper to get a user's name from its id
 */
 Template.registerHelper('username', function(id) {
-	return UsersDatas.findOne({userId: id}).name;
+	var u = UsersDatas.findOne({userId: id});
+	if (u) {
+		if (u.society)
+			return u.name
+		else
+			return u.firstname + ' ' + u.name
+	}
 });
 
 /*

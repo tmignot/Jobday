@@ -754,7 +754,7 @@ max-Height: 500px;
 @media screen and (min-width: 992px) {
 	.affix {
 		position: fixed !important;
-		top: 100px;
+		top: 75px;
 		width: 525px;
 		height: 500px;
 	}

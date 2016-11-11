@@ -79,14 +79,27 @@
 				{{/if}}
 			</div>
 			{{#if currentUser}}
-				{{#if negocible}}
-				<div id="btnFaireOffre" class="blue button section col-xs-12" >
-					<i class='glyphicon glyphicon-map-marker'></i> Faire une Offre
-				</div>
+				{{#if $eq currentUser._id owner}}
+					{{#unless waitingFor}}
+						<div id="btnPay" class="orange button section col-xs-12" >
+							<i class='glyphicon glyphicon-money-mark'></i> Effectuer le paiement
+						</div>
+					{{/unless}}
+					<div id="btnPay" class="blue button section col-xs-12" >
+						<i class='glyphicon glyphicon-edit'></i>Editer le Job 
+					</div>
 				{{else}}
-				<div id="btnFaireOffre" class="orange button section col-xs-12" >
-					<i class='glyphicon glyphicon-map-marker'></i> Faire une Offre
-				</div>
+					{{#if waitingFor}}
+						{{#if negocible}}
+						<div id="btnFaireOffre" class="orange button section col-xs-12" >
+							<i class='glyphicon glyphicon-map-marker'></i> Faire une Offre
+						</div>
+						{{else}}
+						<div id="btnFaireOffre" class="blue button section col-xs-12" >
+							<i class='glyphicon glyphicon-map-marker'></i> Faire une Offre
+						</div>
+						{{/if}}
+					{{/if}}
 				{{/if}}
 			{{/if}}
 			<div class="panel-group col-xs-12" style='margin-top:5px;'>

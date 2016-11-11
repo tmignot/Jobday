@@ -182,8 +182,10 @@ function checkValues(values) {
 		Adverts.insert(values, function(err, res) {
 			if (err)
 				console.log(err)
-			else
+			else {
+				Modal.show('modalSuccess', {message: 'Votre annonce a bien ete publiee'});
 				Router.go('/missionProfil/'+res);
+			}
 		});
 	} else {
 		Modal.show('errorModal', ctx.getErrorObject());

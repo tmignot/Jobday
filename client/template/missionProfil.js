@@ -7,11 +7,9 @@ Template.missionProfil.onRendered (function() {
 			' ' + this.data.address.city;
 	}
 	// create geocoder if not already
-	Maps.create({type: 'geocoder'});
-	// ensure maps script is laoded
-	Maps.onLoad(function(maps) {
+	Maps.create({type: 'geocoder', after: function(maps) {
 		// geocode address to create map marker and center map
-		maps.geocoder.geocode({address: address}, function(res, stat) {
+		Maps.geocoder.geocode({address: address}, function(res, stat) {
 			var c = {lat: 0, lng: 0};
 			if (stat === 'OK')
 				c = res[0].geometry.location;
@@ -33,7 +31,7 @@ Template.missionProfil.onRendered (function() {
 				position: c
 			});
 		});
-	});
+	}});
 });
 
 Template.missionProfil.helpers({

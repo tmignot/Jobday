@@ -5,7 +5,129 @@ var regexp = {
 	providers: /(gmail)|(hotmail)|(microsoft)|(laposte)|(live\.((com)|fr))/i
 };
 
+Future = Npm.require('fibers/future');
+
 Meteor.methods({
+	leaveComment: function(params) {
+		var advertId = params.advertId,
+				offerId = params.offer,
+				note = params.note,
+				msg = params.msg;
+		if (this.userId) {
+			var advert = Adverts.findOne({_id: advertId});
+			if (advert) {
+				if (advert.owner == this.userId) {
+					var offer = _.findWhere(advert.offers, {_id: offerId, validated: true});
+					if (offer) {
+						var noted = UsersDatas.findOne({userId: offer.userId});
+						if (noted && !_.where(noted.notes, {advertId: advertId}).length) {
+							var ctx = NoteSchema.newContext();
+							var data = {
+								advertOwnerId: this.userId,
+								advertId: advertId,
+								note: note,
+								message: msg
+							};
+							ctx.validate(data);
+							if (ctx.invalidKeys().length)
+								return ctx.getErrorObject();
+							else 
+								UsersDatas.update({userId: offer.userId}, {$push: {notes: data}});
+						} else { throw new Error('Une note a deja ete laissee pour ce Job'); }
+					} else { throw new Error('L\'offre est introuvable'); }
+				} else { throw new Error('Vous n\'etes pas le proprietaire de cette annonce'); }
+			} else { throw new Error('L\'annonce est introuvable'); }
+		} else { throw new Error('Vous devez etre connecte pour effectuer cette operation'); }
+	},
+	finalizePayment: function(advertId) {
+		var advert = Adverts.findOne({_id: advertId});
+		var user = MangoUsers.findOne({userId: this.userId});
+		if (advert && advert.status == 1 && user) {
+			var code = [];
+			_.each(_.where(advert.offers, {validated: true}), function(o) {
+				code.push(createMangoTransfer(user.mango.user, user.mango.wallet, o));
+			});
+			if (!_.compact(code).length)
+				Adverts.update({_id: advert._id}, {$set: {status: 2}});
+			else
+				return _.compact(code);
+		} else {
+			if (!advert)
+				return ['L\'annonce n\'existe pas'];
+			else if (advert.status == 2)
+				return ['L\'annonce a deja ete payee'];
+			else if (advert.status == 0)
+				return ['Les offres de cette annonce n\'ont pas encore ete validees'];
+			else if (!user)
+				return ['Vous devez etre connecte pour effectuer cette action'];
+			else
+				return ['Une erreur est survenue'];
+		}
+	},
+	getPayin: function(id) {
+		var mangoUser = MangoUsers.findOne({userId: this.userId});
+		var payin = Payins.findOne({Id: id});
+		if (mangoUser && mangoUser.mango && mangoUser.mango.user &&
+				payin && payin.CreditedUserId && payin.CreditedUserId == mangoUser.mango.user) {
+			var ret = new Future();
+			MangoPaySDK.payin.fetch(id, function(e,r) {
+				if (e)
+					ret.throw(e);
+				else {
+					r.advertId = payin.advertId
+					ret.return(r);
+				}
+			});
+			return ret.wait();
+		} else
+			throw new Error('No wright to do that bro');
+	},
+	createCardReg: function() {
+		var u = MangoUsers.findOne({userId: this.userId});
+		if (u) {
+			var retVal = new Future();
+			var regCard = new MangoPaySDK.cardRegistraton.CardRegistration({
+				cardType: MangoPaySDK.card.type.VISA_MASTERCARD,
+				Currency: 'EUR',
+				UserId: u.mango.user
+			});
+			MangoPaySDK.cardRegistraton.create(regCard, function(err, rc) {
+				if (err || !rc)
+					retVal.throw(err);
+				else
+					retVal.return({user: u.mango.user, cardReg: rc});
+			});
+			return retVal.wait();
+		}
+		else
+			throw new Error('Mango user not found');
+	},
+	updateCardReg: function(data) {
+		var currentUser = this.userId;
+		var retVal = new Future();
+		MangoPaySDK.cardRegistraton.update(data.id, {RegistrationData: data.data}, function(err, res) {
+			if (err || !res || !res.CardId) 
+				retVal.throw('Erreur lors de l\'enregistrement de la carte');
+			else {
+				retVal.return(res.CardId);
+			}
+		});
+		return retVal.wait();
+	},
+	makePayment: function(data) {
+		var advertId = data.advertId,
+				cardId = data.cardId;
+		var mangoUser = MangoUsers.findOne({userId: this.userId});
+		var a = Adverts.findOne({_id: advertId});
+		if (a && a.status == 1 && mangoUser && mangoUser.mango.user && mangoUser.mango.wallet) {
+			var m = mangoUser.mango;
+			var amount = _.reduce(a.offers, function(acc,offer) {
+				return acc + offer.price;
+			}, 0) * 1.1;
+			return createMangoPayin(m.user, cardId, m.wallet, amount, a._id, _.where(a.offers, {validated: true}));
+		} else
+			throw new Error('An error occured');
+	},
 	invalidateOffer: function(params) {
 		if (params && params.advert) {
 			var ad = Adverts.findOne({_id: params.advert});
@@ -20,7 +142,7 @@ Meteor.methods({
 	},
 	validateOffer: function(params) { // offer validation
 		if (params && params.advert) {
-			var ad = Adverts.findOne({_id: params.advert, status: 0});
+			var ad = Adverts.findOne({_id: params.advert});
 			if (ad && this.userId && this.userId == ad.owner) {
 				if (params.offer) {
 					Adverts.update({_id: params.advert,	'offers._id': params.offer}, {
@@ -32,6 +154,9 @@ Meteor.methods({
 	},
 	makeOffer: function(params) { // make an offer
 		if (this.userId) {
+			var o = Adverts.findOne({_id: params.advert}).offers;
+			if (_.where(o, {userId: this.userId}).length)
+				return;
 			if (params.distance && params.comment && params.price && params.advert) {
 				var ret = Adverts.update({_id: params.advert}, {$push: {offers: {
 					userId: this.userId,
@@ -41,7 +166,6 @@ Meteor.methods({
 					price: params.price,
 					validated: false
 				}}}, function(err) {
-					console.log(err);
 					if (err)
 						return err
 					else

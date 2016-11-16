@@ -82,7 +82,7 @@ Template.editJobber.helpers({
 			return 'badge-got';
 	},
 	dateValue: function(d) {
-		return moment(d).format('Y-MM-DD');
+		return d ? moment(d).format('Y-MM-DD'): undefined;
 	},
 	currentFile: function() {
 		return Template.instance().currentFile.get();
@@ -246,7 +246,6 @@ Template.editJobber.events({
 						society: false,
 						name: $('.user-name input').val(),
 						firstname: $('.user-firstname input').val(),
-						birthdate: new Date($('.user-birthdate input').val()),
 						gender: $('select[name="user-gender-select"]').val() == 'male'? 1:2,
 						phone: $('.user-phone input').val(),
 						address: {
@@ -256,9 +255,13 @@ Template.editJobber.events({
 						},
 					};
 				}
+				if ($('.user-birthdate input').val())
+					data.birthdate = new Date($('.user-birthdate input').val()),
 				data.presentation = $('.user-presentation textarea').val();
 				data.experiences = $('.user-experiences textarea').val();
 				data.precisions = $('.user-precisions textarea').val();
+				data.iban = $('.user-iban input').val();
+				data.bic = $('.user-bic input').val();
 				if (data.address && Session.equals('addressStatus','OK'))
 					data.address.geocoded = true;
 				

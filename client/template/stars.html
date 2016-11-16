@@ -1,10 +1,7 @@
 <template name='stars'>
-	<div class='stars-container' data-toggle='tooltip' title='{{mean}}/10, {{notes.length}} notes'>
+	<div class='stars-container' data-toggle='tooltip' title='{{mean}}/5, {{notes.length}} notes'>
 		{{#times fullStars}}
 		<i class='star full-star material-icons {{../size}} {{hover}}'>star</i>
-		{{/times}}
-		{{#times halfStars}}
-		<i class='star half-star material-icons {{../size}} {{hover}}'>star_half</i>
 		{{/times}}
 		{{#times emptyStars}}
 		<i class='star empty-star material-icons {{../size}} {{hover}}'>star_border</i>

@@ -7,6 +7,15 @@ Template.offer.helpers({
 	m2km: function(dist) { return Math.round(dist / 1000); },
 	requestingValidation: function() {
 		return Template.instance().requestingValidation.get();
+	},
+	hasBeenNoted: function() {
+		var t = Template.instance();
+		var advert = Template.parentData(2)._id;
+		var user = UsersDatas.findOne({userId: t.data.userId});
+		console.log(user, user.notes, _.findWhere(user.notes, {advertId: advert}));
+		if (user && user.notes && !_.findWhere(user.notes, {advertId: advert}))
+			return false;
+		return true;
 	}
 });
 
@@ -35,5 +44,8 @@ Template.offer.events({
 		}, function() {
 			t.requestingValidation.set(false);
 		});
+	},
+	'click .comment': function(e,t) {
+		Modal.show('leaveComment', {offer: t.data, advert: Template.parentData(2)._id});
 	}
 });

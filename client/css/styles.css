@@ -752,6 +752,9 @@ max-Height: 500px;
 }
 
 @media screen and (min-width: 992px) {
+	.comment-note i {
+		font-size: 36px;
+	}
 	.affix {
 		position: fixed !important;
 		top: 75px;
@@ -767,3 +770,13 @@ overflow-x: hidden;
 overflow-y: scroll;
 }
 */
+
+.card-icon.selected {
+	color: #63c2c8;
+	border-bottom: 2px solid #ee7202;
+}
+
+.spinner-container {
+	height: 50px;
+}
+

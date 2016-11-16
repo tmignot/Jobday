@@ -118,13 +118,19 @@ Template.dashboardJobber.helpers({
 	nbNote: function(i) {
 		i = 4 - i;
 		var n = Template.instance().data.notes;
-		var min = 2*i,
-				max = 2*(i+1);
+		var min = i,
+				max = (i+1);
 		return _.select(n, function(e) {
-			if ((max != 10 && e.note >= min && e.note < max) ||
-					(max == 10 && e.note >= min))
+			if ((max != 5 && e.note >= min && e.note < max) ||
+					(max == 5 && e.note >= min))
 				return e.note;
 		}).length
+	},
+	notePercent: function(i) {
+		i = 4 - i;
+		var n = Template.instance().data.notes;
+		var ni = _.where(n, {note: i}).length
+		return ni/n.length * 100;
 	},
 	labelForProgress: function(i) {
 		switch(i) {
@@ -135,6 +141,9 @@ Template.dashboardJobber.helpers({
 			case 4: return 'A eviter';
 			default: return;
 		}
+	},
+	advertTitle: function(advertId) {
+		return Adverts.findOne(advertId).title;
 	}
 });
 

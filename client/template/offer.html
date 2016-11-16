@@ -48,14 +48,22 @@
 		</div>
 		{{#if $eq ../../owner currentUser._id}}
 			<div class='offer-validation'>
-				{{#if requestingValidation}}
-					{{>minispinner}}
-				{{else}}
+				{{#if $eq ../../status 2}}
 					{{#if validated}}
-						<div class='orange button invalidate'>Se desister</div>
+						{{#unless hasBeenNoted}}
+							<div class='blue button comment'>Laisser un avis</div>
+						{{/unless}}
+					{{/if}}
+				{{else}}
+					{{#if requestingValidation}}
+						{{>minispinner}}
 					{{else}}
-						{{#if $eq ../../status 0}}
-							<div class='blue button validate'>Valider</div>
+						{{#if validated}}
+							<div class='orange button invalidate'>Se desister</div>
+						{{else}}
+							{{#if $eq ../../status 0}}
+								<div class='blue button validate'>Valider</div>
+							{{/if}}
 						{{/if}}
 					{{/if}}
 				{{/if}}

@@ -1,5 +1,8 @@
-Meteor.publish('Adverts', function() {
-	return Adverts.find({});
+Meteor.publish('Adverts', function(ids) {
+	if (!ids)
+		return Adverts.find({});
+	else
+		return Adverts.find({_id: {$in: ids}});
 });
 
 Meteor.publish('Advert', function(id) {

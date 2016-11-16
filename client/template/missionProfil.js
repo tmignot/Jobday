@@ -1,4 +1,9 @@
 Template.missionProfil.onRendered (function() {
+	var q = Router.current().params.query;
+	if (q && q.pay) {
+		Modal.show('payment'+q.pay, {errors: q.errors});
+		Router.go('/missionProfil/'+this.data._id);
+	}
 	var address;
 	if (this.data && this.data.address) {
 		// construct address litteral

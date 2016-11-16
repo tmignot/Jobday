@@ -26,7 +26,6 @@ Accounts.onCreateUser(function (options, user) {
 	]});
 	if (existingUser) {
 		// merging account with already existing account
-		console.log('user exists');
 		var newServices = _.extend(user.services||{}, existingUser.services||{});
 		var newEmails = _.extend(user.emails||[], existingUser.emails||[]);
 		existingUser.services = newServices;

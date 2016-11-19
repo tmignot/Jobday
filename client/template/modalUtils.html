@@ -38,6 +38,16 @@
 	{{/genericModal}}
 </template>
 
+<template name='accountError'>
+	{{#genericModal title='Aucun compte n\'a ete trouve'}}
+		<h4>Votre adresse email n'est reliee a aucun compte, veuillez d'abord vous inscrire</h4>
+	{{else}}
+	{{/genericModal}}
+	<div class='col-xs-4 col-xs-offset-4 orange pointer' data-dismiss='modal'>
+		OK
+	</div>
+</template>
+
 <template name='errorModal'>
 	{{#genericModal title='Erreur de saisie'}}
 		<h4>Les champs suivants ne sont pas valides</h4>

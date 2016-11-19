@@ -124,10 +124,13 @@ createMangoBank = function(_id) {
 				Country: 'FR'
 			}
 		}), function(err, nbank) {
-			if (err || !nbank)
+			if (err || !nbank) {
 				ret.throw(err);
-			else
+				UsersDatas.update({userId: _id}, {$set: {bankComplete: false}});
+			} else {
+				UsersDatas.update({userId: _id}, {$set: {bankComplete: true}});
 				ret.return(MangoUsers.update({userId: _id}, {$set: {'mango.bank': nbank.Id}}));
+			}
 		});
 		return ret.wait();
 	} else

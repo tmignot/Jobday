@@ -87,7 +87,7 @@ Template.missionProfil.events({
 	'click #btnFaireOffre': function (event, t) { // open the makeOfferModal
 		var d = UsersDatas.findOne({userId: Meteor.userId()});
 		if (d) {
-			if (d.profileComplete)
+			if (d.bankComplete)
 				Modal.show('makeOfferModal', t.data);
 			else
 				Modal.show('profileNotComplete');
@@ -96,6 +96,9 @@ Template.missionProfil.events({
 	},
 	'click #btnPay': function(e,t) {
 		Modal.show('makePaymentModal', t.data)
+	},
+	'click #btnPayFake': function(e,t) {
+		Meteor.call('fakePayment', {advertId: t.data._id});
 	}
 });
 

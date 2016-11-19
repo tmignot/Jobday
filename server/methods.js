@@ -128,6 +128,13 @@ Meteor.methods({
 		} else
 			throw new Error('An error occured');
 	},
+	fakePayment: function(data) {
+		var advertId = data.advertId;
+		var a = Adverts.findOne({_id: advertId});
+		if (a && a.status == 1) {
+			Adverts.update({_id: advertId}, {$set: {status: 2}});
+		}
+	},
 	invalidateOffer: function(params) {
 		if (params && params.advert) {
 			var ad = Adverts.findOne({_id: params.advert});
@@ -158,6 +165,9 @@ Meteor.methods({
 			if (_.where(o, {userId: this.userId}).length)
 				return;
 			if (params.distance && params.comment && params.price && params.advert) {
+				var u = UsersDatas.findOne({userId: this.userId});
+				if (!u || !u.bankComplete)
+					return false;
 				var ret = Adverts.update({_id: params.advert}, {$push: {offers: {
 					userId: this.userId,
 					date: new Date(),

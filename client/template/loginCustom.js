@@ -9,9 +9,11 @@ Template.loginCustom.onRendered(function(){
 Template.loginCustom.events({
     'click #googlebtn': function (event) {
 			event.preventDefault();
+			Modal.hide();
 			Meteor.loginWithGoogle({}, function (err) {
 				if (err)
-					throw new Meteor.Error("Google login failed");
+					if (err.error)
+						Modal.show('accountError');
 				else {
 					Router.go('/profiluser/'+Meteor.userId());
 					$('#myModal').modal('hide');
@@ -33,10 +35,12 @@ Template.loginCustom.events({
 			});
     },
     'click #linkedInbtn': function (event) {
+			Modal.hide();
 			event.preventDefault();
 			Meteor.loginWithLinkedin({}, function (err) {
 				if (err) {
-						throw new Meteor.Error("Linked login failed");
+					if (err.error)
+						Modal.show('accountError');
 				} else {
 					Router.go('/profiluser/'+Meteor.userId());
 					$('#myModal').modal('hide');
@@ -44,10 +48,12 @@ Template.loginCustom.events({
 			});
     },
     'click #facebookbtn': function (event) {
+			Modal.hide();
 			event.preventDefault();
 			Meteor.loginWithFacebook({}, function (err) {
 				if (err) {
-						throw new Meteor.Error("Facebook login failed");
+					if (err.error)
+						Modal.show('accountError');
 				} else {
 					Router.go('/profiluser/'+Meteor.userId());
 					$('#myModal').modal('hide');

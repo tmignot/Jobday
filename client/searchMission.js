@@ -4,6 +4,8 @@ Template.searchMission.onCreated(function() {
 	Session.set('mapsIsLoaded', false);
 	Session.set('latlng', {lat: 48.853, lng: 2.35});
 
+	// we retrived previously set filters from other pages such as allCategoryScreen
+	// that are stored in Session
 	var f = {};
 	if (Session.get('currentCategory') && !Session.equals('currentCategory', 'off')) {
 		this.filters = new ReactiveVar({
@@ -11,6 +13,7 @@ Template.searchMission.onCreated(function() {
 		});
 	} else
 		this.filters = new ReactiveVar({});
+	// retriving dateBeginning from urgentJob button
 	if (Session.get('dateBeginning') && Session.get('dateBeginning') != 'off') {
 		switch(Session.get('dateBeginning')) {
 			case 'off': break;
@@ -19,23 +22,23 @@ Template.searchMission.onCreated(function() {
 			case 'week': f.startDate = {$lte: new Date(moment().add(moment.duration(1,'week'))), $gte: new Date()}; break;
 			case 'past': f.startDate = {$lt: new Date()}; break;
 			case 'future': filters.startDate = {gte: new Date()}; break;
-			default: console.log('error in date filter');
+			default: break;
 		}
 	}
 	this.filters.set(_.extend(f, this.filters.get()));
 
+	// setting filters
 	AdvertsPages.set('filters', _.clone(this.filters.get()));
 });
 
 Template.searchMission.onDestroyed(function() {
-	console.log('destroying searchmission');
 	Session.set('currentCategory', 'off');
 	Session.set('dateBeginning', 'off');
 	delete Maps.maps.searchMissionMap;
 });
 
 Template.searchMission.onRendered(function() {
-	console.log('searchmission');
+	// creating map
 	Maps.create({
 		type: 'map', 
 		name: 'searchMissionMap', 
@@ -45,20 +48,21 @@ Template.searchMission.onRendered(function() {
 			zoom: 5
 		},
 		after: function() {
-			Session.set('mapsIsLoaded', true);
+			Session.set('mapsIsLoaded', true); // this is for map markers
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position) {
 					Maps.maps.searchMissionMap.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
-					Maps.maps.searchMissionMap.setZoom(7);
+					Maps.maps.searchMissionMap.setZoom(6);
 				});
 			}
 		}
 	});
-	$("#searchMissionMap").affix({
+	$("#searchMissionMap").affix({ // setting map affix to permit it to stay when scrolling
 		offset: { 
-			top: 475 //data-offset-top="400"
+			top: 475
 		}
 	});
+	// setting selects inputs to match current filters
 	var cat = Session.get('currentCategory'),
 			dat = Session.get('dateBeginning');
 	if (cat != 'off' && (cat || cat == '0'))
@@ -70,7 +74,7 @@ Template.searchMission.onRendered(function() {
 });
 
 Template.searchMission.helpers({
-	active: function(w) {
+	active: function(w) { // returns a classname for underlining top filters
 		var f = Template.instance().filters.get();
 		if ((f && !_.keys(f).length && w == 'all') ||
 				(f && f.type == 1 && w == 'particulier') ||
@@ -78,7 +82,7 @@ Template.searchMission.helpers({
 				(f && f.online && w == 'online'))
 			return 'botborder'
 	},
-	subdisabled: function() {
+	subdisabled: function() { // disable suCategories if no categories are selected
 		return Session.equals('currentCategory', 'off')? 'disabled':'';
 	},
 	subcategories: function() { // extending subcategories for select
@@ -121,19 +125,26 @@ Template.searchMission.events({
 	},
 	'click #btnSearch': function(e,t) {
 		// FILTRES
+		// retriveing filters
 		var filters = _.clone(t.filters.get());
+		// category
 		var cat = parseInt(t.find('#categorySelect').value);
 		if (cat || cat == 0) {
+			// if category -> subcategory
 			filters.category = cat;
 			var sc = t.find('#subcatSelect').value;
 			if (sc != 'off')
 				filters.subcategory = parseInt(t.find('#subcatSelect').value);
 		} else if (filters.hasOwnProperty('category'))
-			delete filters['category'];
+			delete filters['category']; // we delete it because we don't want to find category:undefined
+		// online OR with current address filter
 		filters['$or'] = [{'online': true}, {'address.city': new RegExp('^.*'+t.find('#localisation').value+'.*$', 'gi')}];
+		// description that contains the keywords
 		filters.description = new RegExp('^.*'+t.find('#keyword').value+'.*$', 'gi');
+		// title that contains the needs
 		filters.title = new RegExp('^.*'+t.find('#besoin').value+'.*$', 'gi');
 
+		// Setting date filters
 		switch($('#dateSelect').val()) {
 			case 'off': break;
 			case 'hour': filters.startDate = {$lte: new Date(moment().add(moment.duration(1, 'hour'))), $gte: new Date()}; break;
@@ -141,9 +152,8 @@ Template.searchMission.events({
 			case 'week': filters.startDate = {$lte: new Date(moment().add(moment.duration(1,'week'))), $gte: new Date()}; break;
 			case 'past': filters.startDate = {$lt: new Date()}; break;
 			case 'future': filters.startDate = {$gte: new Date()}; break;
-			default: console.log('error in date filter');
+			default: break;
 		}
-		console.log(filters);
 		AdvertsPages.set({filters: filters});
 		filters = {};
 
@@ -151,6 +161,7 @@ Template.searchMission.events({
 		var ss = t.find('#sort-type');
 		var a = ss.value.split('_');
 		switch(a[0]) {
+			// sort by price or sort by date
 			case 'price': AdvertsPages.set({sort: {budget: a[1]=='asc'?1:-1}}); break;
 			case 'date': 
 				if (a[1] == 'desc')

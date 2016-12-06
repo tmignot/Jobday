@@ -62,9 +62,9 @@ Template.disponibilities.events({
 });
 
 Template.dispoRangeModal.events({
-	'click .validate': function(e,t) {
+	'click .validate': function(e,t) { // on validation
 		var userDataId = UsersDatas.findOne({userId: Meteor.userId()})._id;
-		var hFrom = t.find('.hours-from').value,
+		var hFrom = t.find('.hours-from').value, // we retrieve the form's values
 				hTo = t.find('.hours-to').value,
 				dFrom = t.find('.date-from').value,
 				dTo = t.find('.date-to').value;
@@ -72,12 +72,12 @@ Template.dispoRangeModal.events({
 		var day = new Date(dFrom);
 		var days = moment(dTo).diff(dFrom, 'days');
 		var duration = moment.duration(1, 'days');
-		for (i=0; i<days; i++) {
+		for (i=0; i<days; i++) { //for each day in the range chosen
 			// logic
 			UsersDatas.update({_id: userDataId}, {
-				$pull: {disponibilities: {day: new Date(day)}}
+				$pull: {disponibilities: {day: new Date(day)}} // removing the selected day
 			});
-			if (isDisp) {
+			if (isDisp) { // if the user is disponible we re-insert the day with the proper values
 				var disp = {morning: true, afternoon: true, evening: true};
 				if (!i) {
 					var hfh = parseInt(hFrom.split(':')[0]);
@@ -93,11 +93,11 @@ Template.dispoRangeModal.events({
 						disp.evening = false;
 				}
 				disp.day = new Date(day);
-				UsersDatas.update({_id: userDataId}, {
+				UsersDatas.update({_id: userDataId}, { // re-inserting here
 					$push: {disponibilities: disp}
 				});
 			}
-			// increment day
+			// increment day in order to loop correctly
 			day = moment(day).add(duration);
 		}
 		$('#dispo-calendar').fullCalendar('refetchEvents'); // refresh callendar

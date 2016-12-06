@@ -27,6 +27,7 @@ MangoPaySDK.apiVersion = 'v2.01';
 MangoPaySDK.authenticate('thommignot', 'Hk6aeu4Bhft0LbkPU6Jtt5dwOtjQGSLR6wREFPXJ7zvtzzHZhS');
 
 
+/* Created a user in mango's DB and store its ID in MangoUsers collection */
 createNaturalMangoUser = function(_id, email, data) {
 	var ret = new Future();
 	MangoPaySDK.user.create(new MangoPaySDK.user.NaturalUser({
@@ -48,6 +49,7 @@ createNaturalMangoUser = function(_id, email, data) {
 	return ret.wait();
 };
 
+/* Create a wallet attached to a user in mango's DB and stores its ID in MangoUsers collection */
 createMangoWallet = function(_id) {
 	var ret = new Future();
 	MangoPaySDK.wallet.create(new MangoPaySDK.wallet.Wallet({
@@ -63,6 +65,7 @@ createMangoWallet = function(_id) {
 	return ret.wait();
 };
 
+/* get a user email and call createMangoUser */
 createMangoUser = function(_id) {
 	var user = Meteor.users.findOne(_id),
 			email;
@@ -81,6 +84,7 @@ createMangoUser = function(_id) {
 	}
 };
 
+/* If a users doesn't exist, we create it, else we update */
 upsertMangoUser = function(_id) {
 	var localUser = UsersDatas.findOne({userId: _id});
 	var localMangoUser = MangoUsers.findOne({userId: _id});
@@ -108,6 +112,7 @@ upsertMangoUser = function(_id) {
 		createMangoUser(_id);
 };
 
+/* Creates a bank account attached to a user in mango's DB and store its ID */
 createMangoBank = function(_id) {
 	var localUser = UsersDatas.findOne({userId: _id});
 	var localMangoUser = MangoUsers.findOne({userId: _id});
@@ -137,6 +142,7 @@ createMangoBank = function(_id) {
 		throw new Error('No user found with _id ' + _id);
 };
 
+/* if a bank account exists, update it else, create it */
 upsertMangoBank = function(_id) {
 	var localUser = UsersDatas.findOne({userId: _id});
 	var localMangoUser = MangoUsers.findOne({userId: _id});
@@ -155,6 +161,7 @@ upsertMangoBank = function(_id) {
 		createMangoBank(_id);
 };
 
+/*  */
 createMangoPayin = function(uid, cid, wid, amount, ad, offers) {
 	var ret = new Future();
 	MangoPaySDK.payin.create(new MangoPaySDK.payin.TokenizedCard({
@@ -191,6 +198,7 @@ createMangoPayin = function(uid, cid, wid, amount, ad, offers) {
 	return ret.wait();
 };
 
+/* transfers from a wallet to another */
 createMangoTransfer = function(uid, wid, offer) {
 	var creditedUser = MangoUsers.findOne({userId: offer.userId});
 	if (creditedUser && creditedUser.mango && creditedUser.mango.wallet) {
@@ -222,6 +230,7 @@ createMangoTransfer = function(uid, wid, offer) {
 		throw new Error('No user found with id '+offer.userId);
 };
 
+/* credit bank account from wallet */
 createMangoPayout = function(user, transfer) {
 	if (user.mango.bank) {
 		var ret = new Future();

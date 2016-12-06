@@ -207,7 +207,7 @@ Template.editJobber.events({
 			name: $('.add-grade-name').val(),
 			date: new Date($('.add-grade-date').val())
 		};
-		UploadImage({
+		UploadImage({ //See client/helpers.js for a better looking of this function
 			doc: $('.add-grade input[type=file]')[0],
 			name: user._id + new_grade.name + Date.now(),
 			maxWidth: 300,

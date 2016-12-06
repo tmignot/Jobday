@@ -1,19 +1,22 @@
 Template.advertCard.onRendered(function() {
-	console.log('advertCard');
 	if (this.data) {
 		var addr = this.data.address.city;
 		var name = this.data._id;
 		var self = this;
+		/* Running tracker.autorun to ensure searchMissionMap is correctly loaded */
 		Tracker.autorun(function(c) {
 			self.tracker = this;
 			self.destroyed = false;
-			if (Session.get('mapsIsLoaded')) {
+			/* There's multiple checks due to multiplicity of possible errors
+				 such has filter changing, fast back/forward in navigator, etc
+				 before adding the marker attached to this advert
+			*/
+			if (Session.get('mapsIsLoaded')) { 
 				Maps.onLoad(function() {
 					Maps.create({type: 'geocoder',
 						after: function() {
 							Maps.geocoder.geocode({address: addr}, function(r,s) {
-								if (s == 'OK' && !self.destroyed) {
-									console.log('creating marker '+name);
+								if (s == 'OK' && !self.destroyed) { // Check that advertCard is still present
 									Maps.create({type: 'marker',
 										name: name,
 										map: Maps.maps.searchMissionMap,
@@ -34,13 +37,13 @@ Template.advertCard.onRendered(function() {
 });
 
 Template.advertCard.onDestroyed(function() {
+	/* We stop the tracker attached to this advertCard */
 	this.tracker.stop();
 	this.destroyed = true;
 	if (this.data) {
-		console.log('destroying card');
+		/* Deleting the marker */
 		var name = this.data._id;
 		if (Maps.markers && Maps.markers[name]) {
-			console.log('destroying marker '+name);
 			Maps.markers[name].setMap(null);
 			Maps.markers[name] = undefined;
 		}

@@ -1,3 +1,4 @@
+/* Configuration for sharing adverts */
 ShareIt.configure({
 	sites: {
 		'facebook': {

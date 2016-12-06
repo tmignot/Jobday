@@ -254,7 +254,7 @@ function checkValues(values, data) {
 		}
 	});
 	if (ctx.isValid() && !ctx.invalidKeys().length) {
-		if (!data || !data._id) {
+		if (!data || !data._id) { // for similar advert posting, we have data but no _id
 			Adverts.insert(values, function(err, res) {
 				if (err)
 					console.log(err)

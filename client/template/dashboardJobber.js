@@ -115,7 +115,7 @@ Template.dashboardJobber.helpers({
 			return true;
 		return false;
 	},
-	nbNote: function(i) {
+	nbNote: function(i) { // returns the number of note which the user has recieved
 		i = 4 - i;
 		var n = Template.instance().data.notes;
 		var min = i,
@@ -126,13 +126,13 @@ Template.dashboardJobber.helpers({
 				return e.note;
 		}).length
 	},
-	notePercent: function(i) {
+	notePercent: function(i) { // returns the percent of a note over the total number of note
 		i = 4 - i;
 		var n = Template.instance().data.notes;
 		var ni = _.where(n, {note: i}).length
 		return ni/n.length * 100;
 	},
-	labelForProgress: function(i) {
+	labelForProgress: function(i) { // returns a label for a given progress bar
 		switch(i) {
 			case 0: return 'Parfait';
 			case 1: return 'Tres bien';
@@ -142,7 +142,7 @@ Template.dashboardJobber.helpers({
 			default: return;
 		}
 	},
-	advertTitle: function(advertId) {
+	advertTitle: function(advertId) { // advert title...
 		return Adverts.findOne(advertId).title;
 	}
 });

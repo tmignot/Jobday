@@ -1,8 +1,8 @@
 Template.missionProfil.onRendered (function() {
 	var q = Router.current().params.query;
-	if (q && q.pay) {
+	if (q && q.pay) { // if we have alert to show about payment we do it
 		Modal.show('payment'+q.pay, {errors: q.errors});
-		Router.go('/missionProfil/'+this.data._id);
+		Router.go('/missionProfil/'+this.data._id); // re-routing to same route to prevent multiple alerts
 	}
 	var address;
 	if (this.data && this.data.address) {
@@ -56,7 +56,7 @@ Template.missionProfil.helpers({
 		if (d)
 			return d.nbPeople - _.where(d.offers, {validated: true}).length;
 	},
-	hasOffer: function() {
+	hasOffer: function() { // return true if current user has already made an offer
 		var d = Template.instance().data,
 				retval = false;
 		_.each(d.offers, function(o) {
@@ -96,9 +96,9 @@ Template.missionProfil.events({
 		Modal.show('makePaymentModal', t.data)
 	},
 	'click #btnPayFake': function(e,t) {
-		Meteor.call('fakePayment', {advertId: t.data._id});
+		Meteor.call('fakePayment', {advertId: t.data._id}); // fake payment for testing
 	},
-	'click .postSimilarAdvert': function(e,t) {
+	'click .postSimilarAdvert': function(e,t) { // fill post form for a similar advert
 		e.preventDefault();
 		Router.go('poster', {}, {query: 'like='+t.data._id});
 	}

@@ -1,13 +1,41 @@
 Template.spinner.replaces('_pagesLoading');
 
 Template.searchMission.onCreated(function() {
-	this.filters = new ReactiveVar({});
-	this.formFilters = {};
+	Session.set('mapsIsLoaded', false);
+	Session.set('latlng', {lat: 48.853, lng: 2.35});
+
+	var f = {};
+	if (Session.get('currentCategory') && !Session.equals('currentCategory', 'off')) {
+		this.filters = new ReactiveVar({
+			category: parseInt(Session.get('currentCategory'))
+		});
+	} else
+		this.filters = new ReactiveVar({});
+	if (Session.get('dateBeginning') && Session.get('dateBeginning') != 'off') {
+		switch(Session.get('dateBeginning')) {
+			case 'off': break;
+			case 'hour': f.startDate = {$lte: new Date(moment().add(moment.duration(1, 'hour'))), $gte: new Date()}; break;
+			case 'day': f.startDate = {$lte: new Date(moment().add(moment.duration(1,'day'))), $gte: new Date()}; break;
+			case 'week': f.startDate = {$lte: new Date(moment().add(moment.duration(1,'week'))), $gte: new Date()}; break;
+			case 'past': f.startDate = {$lt: new Date()}; break;
+			case 'future': filters.startDate = {gte: new Date()}; break;
+			default: console.log('error in date filter');
+		}
+	}
+	this.filters.set(_.extend(f, this.filters.get()));
+
+	AdvertsPages.set('filters', _.clone(this.filters.get()));
+});
+
+Template.searchMission.onDestroyed(function() {
+	console.log('destroying searchmission');
+	Session.set('currentCategory', 'off');
+	Session.set('dateBeginning', 'off');
+	delete Maps.maps.searchMissionMap;
 });
 
 Template.searchMission.onRendered(function() {
-	Session.set('currentCategory', 'off');
-	Session.set('latlng', {lat: 48.853, lng: 2.35});
+	console.log('searchmission');
 	Maps.create({
 		type: 'map', 
 		name: 'searchMissionMap', 
@@ -17,6 +45,7 @@ Template.searchMission.onRendered(function() {
 			zoom: 5
 		},
 		after: function() {
+			Session.set('mapsIsLoaded', true);
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position) {
 					Maps.maps.searchMissionMap.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
@@ -27,15 +56,22 @@ Template.searchMission.onRendered(function() {
 	});
 	$("#searchMissionMap").affix({
 		offset: { 
-			top: 400 //data-offset-top="400"
+			top: 475 //data-offset-top="400"
 		}
 	});
+	var cat = Session.get('currentCategory'),
+			dat = Session.get('dateBeginning');
+	if (cat != 'off' && (cat || cat == '0'))
+		$('#categorySelect').val(cat);
+	else
+		Session.set('currentCategory', 'off');
+	if (dat && dat != 'off')
+		$('#dateSelect').val(dat);
 });
 
 Template.searchMission.helpers({
 	active: function(w) {
 		var f = Template.instance().filters.get();
-		console.log(f);
 		if ((f && !_.keys(f).length && w == 'all') ||
 				(f && f.type == 1 && w == 'particulier') ||
 				(f && f.type == 0 && w == 'pro') ||
@@ -64,38 +100,49 @@ Template.searchMission.events({
 		Session.set('currentCategory', e.currentTarget.value);
 	},
 	'click #btnSearchJobParticulier': function(e,t) {
+		resetForm();
 		AdvertsPages.set({filters: {type: 1}});
 		t.filters.set({type: 1});
-		resetForm();
 	},
 	'click #btnSearchJobProfessionel': function(e,t) {
+		resetForm();
 		AdvertsPages.set({filters: {type: 0}});
 		t.filters.set({type: 0});
-		resetForm();
 	},
 	'click #btnSearchJobAll': function(e,t) {
+		resetForm();
 		AdvertsPages.set({filters: {}});
 		t.filters.set({});
-		resetForm();
 	},
 	'click #btnSearchJobOnline': function(e,t) {
+		resetForm();
 		AdvertsPages.set({filters: {online: true}});
 		t.filters.set({online: true});
-		resetForm();
 	},
 	'click #btnSearch': function(e,t) {
 		// FILTRES
 		var filters = _.clone(t.filters.get());
 		var cat = parseInt(t.find('#categorySelect').value);
-		console.log(cat);
-		console.log('hey', filters);
 		if (cat || cat == 0) {
 			filters.category = cat;
-			filters.subcategory = parseInt(t.find('#subcatSelect').value);
-		}
-		filters['address.city'] = new RegExp('^.*'+t.find('#localisation').value+'.*$', 'gi');		
+			var sc = t.find('#subcatSelect').value;
+			if (sc != 'off')
+				filters.subcategory = parseInt(t.find('#subcatSelect').value);
+		} else if (filters.hasOwnProperty('category'))
+			delete filters['category'];
+		filters['$or'] = [{'online': true}, {'address.city': new RegExp('^.*'+t.find('#localisation').value+'.*$', 'gi')}];
 		filters.description = new RegExp('^.*'+t.find('#keyword').value+'.*$', 'gi');
 		filters.title = new RegExp('^.*'+t.find('#besoin').value+'.*$', 'gi');
+
+		switch($('#dateSelect').val()) {
+			case 'off': break;
+			case 'hour': filters.startDate = {$lte: new Date(moment().add(moment.duration(1, 'hour'))), $gte: new Date()}; break;
+			case 'day': filters.startDate = {$lte: new Date(moment().add(moment.duration(1,'day'))), $gte: new Date()}; break;
+			case 'week': filters.startDate = {$lte: new Date(moment().add(moment.duration(1,'week'))), $gte: new Date()}; break;
+			case 'past': filters.startDate = {$lt: new Date()}; break;
+			case 'future': filters.startDate = {$gte: new Date()}; break;
+			default: console.log('error in date filter');
+		}
 		console.log(filters);
 		AdvertsPages.set({filters: filters});
 		filters = {};
@@ -119,6 +166,7 @@ Template.searchMission.events({
 
 function resetForm() {
 	Session.set('currentCategory', 'off');
+	$('#dateSelect').val('off');
 	$('#localisation').val('');
 	$('#besoin').val('');
 	$('#keyword').val('');

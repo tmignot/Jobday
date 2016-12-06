@@ -95,7 +95,8 @@ UploadImage = function(opt) {
 			};
 		};
 		reader.readAsDataURL(file);
-	}
+	} else
+		opt.onAfterUpload.call(this, new Error('Le type de fichier n\'est pas supporte'));
 };
 
 /*
@@ -176,7 +177,7 @@ Template.registerHelper('username', function(id) {
 		if (u.society)
 			return u.name
 		else
-			return u.firstname + ' ' + u.name
+			return u.firstname
 	}
 });
 

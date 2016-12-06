@@ -7,9 +7,7 @@ Template.missionProfil.onRendered (function() {
 	var address;
 	if (this.data && this.data.address) {
 		// construct address litteral
-		address = this.data.address.street +
-			' ' + this.data.address.zipcode +
-			' ' + this.data.address.city;
+		address = this.data.address.city;
 	}
 	// create geocoder if not already
 	Maps.create({type: 'geocoder', after: function(maps) {
@@ -99,6 +97,10 @@ Template.missionProfil.events({
 	},
 	'click #btnPayFake': function(e,t) {
 		Meteor.call('fakePayment', {advertId: t.data._id});
+	},
+	'click .postSimilarAdvert': function(e,t) {
+		e.preventDefault();
+		Router.go('poster', {}, {query: 'like='+t.data._id});
 	}
 });
 

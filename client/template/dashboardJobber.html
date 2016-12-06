@@ -1,10 +1,15 @@
 <template name="dashboardJobber" >
 	<div class='col-xs-12 col-md-4'>
-		<div class='user-photo-container col-xs-12'>
+		<div class='user-photo-container col-xs-12' style='text-align:center;'>
+			{{#if society}}
+			<h2><small>[PRO]</small></h2>
+			{{else}}
+			<h2><small>[PARTICULIER]</small></h2>
+			{{/if}}
 			<img class='user-photo col-xs-12' src='{{userData.photo}}'>
 		</div>
-		<div class='user-info-container section col-xs-12'>
-			<h3>{{#unless userData.society}}{{userData.firstname}}{{/unless}} {{userData.name}}</h3>
+		<div class='user-info-container col-xs-12'>
+			<h3>{{#unless userData.society}}{{userData.firstname}}{{else}}{{userData.name}}{{/unless}}</h3>
 			<div class='user-stars col-xs-12'>
 			</div>
 			<div class='user-dates col-xs-12'>
@@ -84,7 +89,7 @@
 		<div class='user-grades-container section user-text col-xs-12'>
 			<label>Formations / Diplomes</label>
 			{{#each grades}}
-			<div class='grade col-xs-6 col-md-3'>
+			<div class='grade col-xs-6 col-md-3' data-img='{{image}}'>
 				<div class='botborder grade-inside col-xs-12'>
 					<h4>{{name}}</h4>
 					<small>{{formatDate date}}</small>

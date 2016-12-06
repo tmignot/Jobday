@@ -69,6 +69,7 @@
 	<div class='mission-sidebar col-md-3 hidden-sm hidden-xs'>
 		<div class='col-xs-12 section bleft'>
 			<div class='col-xs-12 mission-status'>
+				<small>{{getStatus}}</small>
 				<div class='col-xs-12 status-{{getStatus}}' data-toggle='tooltip' title='{{getStatus}}'>
 				</div>
 			</div>
@@ -120,8 +121,8 @@
 					</div>
 					<div id="collapse1" class="panel-collapse collapse in">
 						<ul class="list-group" style='text-align:left'>
-							<li class='list-group-item'><a href="#">Poster une offre similaire</a></li>
-							<li class='list-group-item'><a href="#">Partager sur Facebook</a></li>
+							<li class='list-group-item'><a href="#" class='postSimilarAdvert'>Poster une offre similaire</a></li>
+							<li class='list-group-item'>{{>shareit}}</li>
 							<li class='list-group-item'><a href="#">Suivre l'annonce</a></li>
 							<li class='list-group-item'><a href="#">Signaler un abus</a></li>
 						</ul>
@@ -156,6 +157,7 @@
 	<div class='mission-sidebar col-xs-12 visible-sm visible-xs'>
 		<div class='col-xs-12 section bleft'>
 			<div class='col-xs-12 mission-status'>
+				<small>{{getStatus}}</small>
 				<div class='col-xs-12 status-{{getStatus}}' data-toggle='tooltip' title='{{getStatus}}'>
 				</div>
 			</div>
@@ -207,8 +209,8 @@
 					</div>
 					<div id="collapse2" class="panel-collapse collapse">
 						<ul class="list-group" style='text-align:left'>
-							<li class='list-group-item'><a href="#">Poster une offre similaire</a></li>
-							<li class='list-group-item'><a href="#">Partager sur Facebook</a></li>
+							<li class='list-group-item'><a href="#" class='postSimilarAdvert'>Poster une offre similaire</a></li>
+							<li class='list-group-item'><a href="#" class='shareOnFacebook' >Partager sur Facebook</a></li>
 							<li class='list-group-item'><a href="#">Suivre l'annonce</a></li>
 							<li class='list-group-item'><a href="#">Signaler un abus</a></li>
 						</ul>

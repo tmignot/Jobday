@@ -15,8 +15,8 @@
 			</select>
 		</div>
 		<div class='annonce-container section col-xs-12 col-sm-6'>
-			<label for='typeAnnonce' class='title' data-toggle='tooltip' title='{{infobulle}}'><i class="glyphicon glyphicon-star"></i> Annonce</label>
-			<select autocomplete="off" id="typeAnnonce" class="form-control">
+			<label for='typeAnnonce' class='title' ><i class="glyphicon glyphicon-star"></i> Annonce</label>
+			<select title='{{infobulle}}' data-toggle='tooltip' id="typeAnnonce" class="form-control">
 				<option value="0">Professionnelle</option>
 				<option value="1">Entre Particuliers</option>
 			</select>
@@ -36,6 +36,9 @@
 		<div class="OptionsAnnonce-container section col-xs-12 col-sm-6">
 			<label class='title'>Options</label>
 			<div class='col-xs-12'>
+				<div class='separate-input'>
+					<input type="checkbox" id="online"><label for='online'> Job connecte</label>
+				</div>
 				<div class='separate-input'>
 					<input type="checkbox" id="outilsAdisposition"><label for='outilsAdisposition'> Outils à disposition</label>
 				</div>
@@ -58,9 +61,15 @@
 				{{/if}}{{/if}} Adresse du job
 			</label>
 			<div id='address-inputs'>
+				{{#if $.Session.equals 'online' true}}
+				<input disabled type="text" class='form-control' id="adresseRueAnnonce" placeholder="Numéro, Rue">
+				<input disabled type="text" class='form-control' id="adresseCodePostalAnnonce" placeholder="Code postal">
+				<input disabled type="text" class='form-control' id="adresseVilleAnnonce" placeholder="Ville">               
+				{{else}}
 				<input type="text" class='form-control' id="adresseRueAnnonce" placeholder="Numéro, Rue">
 				<input type="text" class='form-control' id="adresseCodePostalAnnonce" placeholder="Code postal">
 				<input type="text" class='form-control' id="adresseVilleAnnonce" placeholder="Ville">               
+				{{/if}}
 			</div>
 		</div>
 		<div class="dateAnnonce-container section col-xs-12 col-sm-6">

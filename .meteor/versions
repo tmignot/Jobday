@@ -78,6 +78,7 @@ iron:middleware-stack@1.1.0
 iron:router@1.0.13
 iron:url@1.0.11
 jalik:mangopay@0.2.5
+joshowens:shareit@1.0.2
 jquery@1.11.9
 launch-screen@1.0.12
 less@2.7.5_1
@@ -134,6 +135,7 @@ sha@1.0.8
 shell-server@0.2.1
 spacebars@1.0.13
 spacebars-compiler@1.0.13
+spiderable@1.0.13
 srp@1.0.9
 standard-minifier-css@1.2.1
 standard-minifier-js@1.2.0_1

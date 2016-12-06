@@ -2,6 +2,13 @@ Accounts.config({
 	sendVerificationEmail: true
 });
 
+Accounts.validateNewUser(function(user) {
+	if (user.services && user.services.password)
+		return true;
+	else
+		throw new Meteor.Error('accountNotFound');
+});
+
 Accounts.onCreateUser(function (options, user) {
 	if (options.profile)
 		user.profile = options.profile;
@@ -32,18 +39,20 @@ Accounts.onCreateUser(function (options, user) {
 		existingUser.emails = newEmails;
 		Meteor.users.remove({_id: existingUser._id}); // remove existing record
 		return existingUser;                  // record is re-inserted
-	} else {
+	}	else {
 		var method;
 		var userData = {
 			userId: user._id
 		};
 		if (user.services && user.services.password) {
 			method = 'password';
-			console.log(user.profile);
 			userData.name = user.profile.name;
 			userData.society = user.profile.society;
 			if (!userData.society)
 				userData.firstname = user.profile.firstname;
+		} else
+			return new Error('Creating account with external service is forbidden');
+	/*
 		} else if (user.services && user.services.google) {
 			userData.name = user.services.google.family_name;
 			userData.firstname = user.services.google.given_name;
@@ -69,6 +78,7 @@ Accounts.onCreateUser(function (options, user) {
 				}
 			})();
 		}
+		*/
 		// create userdata if new user
 		userDataId = UsersDatas.insert(userData);
 		if (userDataId) {

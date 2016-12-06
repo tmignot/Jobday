@@ -38,15 +38,27 @@
 			<div class="form-group col-xs-12">
 				<label class="control-label">Sous Catégorie</label>
 				<select autocomplete="off" id="subcatSelect" class="form-control" {{subdisabled}}>
+					<option value="off">Toutes Sous Catégories</option>
 					{{#each subcategories}}
 					<option value='{{index}}'>{{name}}</option>
 					{{/each}}
 				</select>
 			</div>
+			<div class="form-group col-xs-12">
+				<label class="control-label">Date de debut</label>
+				<select autocomplete="off" id="dateSelect" class="form-control">
+					<option value="off">Toutes les dates</option>
+					<option value="future">Toutes les dates a venir</option>
+					<option value='hour'>Dans l'heure</option>
+					<option value='day'>Aujourd'hui</option>
+					<option value='week'>Les 7 prochains jours</option>
+					<option value='past'>Passees</option>
+				</select>
+			</div>
 		</div>
 		<div class='col-xs-12 col-md-6'>
 			<div class='form-group col-xs-12'>
-			<input type="text"  class="form-control" placeholder="Votre Besoin ?" id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
+			<input type="text"  class="form-control section" placeholder="Votre Besoin ?" id="besoin" aria-describedby="sizing-addon1" style="margin-top: 2px;margin-bottom: 2px;">
 			</div>
 			<div class='form-group col-xs-12'>
 			<input class='form-control' placeholder='Localisation' id='localisation'>

@@ -224,7 +224,7 @@ span.tooltips.botright span {
 }
 
 span.tooltips i {
-	font-size: 2em;
+	font-size: 1em;
 }
 
 span.tooltips span:after {
@@ -261,6 +261,30 @@ span.tooltips.botright span:after {
   border-top: 0px solid transparent;
   border-bottom: 20px solid transparent;
 	text-align: right;
+}
+
+@media (max-width: 767px) { /* xs only */
+	span.tooltips.topleft span:after {
+		right: inherit;
+		border-left: 25px solid lightgray;
+		border-top: 10px solid transparent;
+		border-bottom: 0px solid transparent;
+	}
+	span.tooltips.topleft span {
+		min-height: inherit;
+	}
+	span.tooltips img {
+		display: inline-block;
+		vertical-align: middle;
+	}
+	span.tooltips {
+		margin-top: 0px;
+	}
+	span.tooltips span {
+		padding: 3px;
+		font-size: x-small;
+		min-height: inherit;
+	}
 }
 
 span.tooltips.noarrow span:after {
@@ -374,9 +398,14 @@ span.tooltips.noarrow span:after {
 	padding: 5px 15px;
 }
 
+.poster-container #address-inputs input {
+	margin-top: 5px;
+}
+
 .footer {
-	height: 80px;
+	min-height: 80px;
 	background: #63c2c7;
+	text-align:center;
 }
 
 .modal-body .has-error {
@@ -780,3 +809,8 @@ overflow-y: scroll;
 	height: 50px;
 }
 
+.tooltip-inner, .tooltip-arrow {
+	background: white;
+	color: black;
+	border-top-color: white !important;
+}

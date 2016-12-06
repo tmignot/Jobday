@@ -4,6 +4,7 @@ Template.poster.onCreated(function() {
 		Session.set('currentCategory', this.data.category);
 		Session.set('choixDate', this.data.beforeDate? 2 : this.data.endDate ? 3 : 1);
 		Session.set('choixHoraire', this.data.workingHours.type);
+		Session.set('online', this.data.online);
 	} else {
 		Session.set('currentCategory', 0);
 		Session.set('choixDate', 0);
@@ -15,6 +16,31 @@ Template.poster.onCreated(function() {
 });
 
 Template.poster.onRendered(function() {
+	Maps.create({
+		type: 'autocomplete',
+		doc: document.getElementById('adresseCodePostalAnnonce'),
+		params: {
+			componentRestrictions: {country: 'fr'}
+		},
+		listeners: {
+			place_changed: function() {
+				var p = Maps.places.autocomplete.getPlace();
+				for (var i = 0; i < p.address_components.length; i++) {
+					var addressType = p.address_components[i].types[0];
+					var val = p.address_components[i].long_name;
+					switch(addressType) {
+						case 'postal_code': $('#adresseCodePostalAnnonce').val(val); break;
+						case 'locality': $('#adresseVilleAnnonce').val(val); break;
+						default: break;
+					}
+				}
+			}
+		}
+	});
+	$('[data-toggle="tooltip"]').tooltip({
+		trigger: 'focus',
+		style: 'background: white; color: black;'
+	});
 	if (this.data) {
 		// Edit existing advert
 		// pre-fill all inputs
@@ -24,6 +50,7 @@ Template.poster.onRendered(function() {
 		$('#titreAnnonce').val(this.data.title);
 		$('#descriptionAnnonce').val(this.data.description);
 		$('#precisionAnnonce').val(this.data.precisions);
+		$('#online').prop('checked', this.data.online);
 		$('#outilAdisposition').prop('checked', this.data.tools);
 		$('#vetementADisposition').prop('checked', this.data.clothes);
 		$('#vehiculeNecessaire').prop('checked', this.data.needsVehicle);
@@ -122,6 +149,9 @@ Template.poster.events({
 			});
 		});
 	},
+	'change #online': function(e,t) {
+		Session.set('online', bVal('online'));
+	},
 	'click .submit-container .button': function(e,t) {
 		var values = getValues(); // get all values
 		checkValues(values, t.data); // check and insert new advert
@@ -196,6 +226,7 @@ function getValues() {
 			city: strVal('adresseVilleAnnonce'),
 			geocoded: Session.equals('addressStatus', 'OK') ? true : undefined
 		},
+		online: bVal('online'),
 		tools: bVal('outilsAdisposition'),
 		clothes: bVal('vetementsADispositions'),
 		needsVehicle: bVal('vehiculeNecessaire'),
@@ -218,12 +249,12 @@ function checkValues(values, data) {
 	** manually add invalid key. see editJobber for more info
 	*/
 	_.each(['city','zipcode','street'], function(e) {
-		if (!values.address[e]) { 
+		if (!values.online && !values.address[e]) { 
 			ctx.addInvalidKeys([{name: 'address.'+e , type: 'required'}]);
 		}
 	});
 	if (ctx.isValid() && !ctx.invalidKeys().length) {
-		if (!data) {
+		if (!data || !data._id) {
 			Adverts.insert(values, function(err, res) {
 				if (err)
 					console.log(err)

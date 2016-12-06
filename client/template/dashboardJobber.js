@@ -153,5 +153,9 @@ Template.dashboardJobber.events({
 	},
 	'click .user-disponibilities-container .orange.button': function(e,t) {
 		Modal.show('dispoRangeModal');
+	},
+	'click .grade': function(e,t) {
+		var src = $(e.currentTarget).data('img');
+		Modal.show('imageModal', {src: src});
 	}
 });

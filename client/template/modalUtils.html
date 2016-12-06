@@ -74,3 +74,13 @@
 		</div>
 	{{/genericModal}}
 </template>
+
+<template name='imageModal'>
+	{{#genericModal title="Voir l'image"}}
+		<img src='{{src}}' width='100%'>
+	{{else}}
+		<div class='col-xs-4 col-xs-offset-4 orange pointer' data-dismiss='modal'>
+			Ok
+		</div>
+	{{/genericModal}}	
+</template>

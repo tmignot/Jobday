@@ -217,7 +217,8 @@ Template.editJobber.events({
 				if (!error) {
 					new_grade.image = Images.link(file);
 					UsersDatas.update(user, {$push: {grades: new_grade}});
-				}
+				} else
+					Modal.show('errorModal', {invalidKeys: [{message: error.message}]});
 				t.uploadingGrade.set(false);
 			}
 		});

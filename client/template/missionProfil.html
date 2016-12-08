@@ -80,18 +80,24 @@
 				{{/if}}
 			</div>
 			{{#if currentUser}}
-				{{#if $eq status 2}}
+				{{#if $eq status 3}}
 				<span>Job termine</span>
 				{{else}}
 				{{#if $eq currentUser._id owner}}
-					{{#unless waitingFor}}
-						<div id="btnPay" class="orange button section col-xs-12" >
-							<i class='glyphicon glyphicon-money-mark'></i> Effectuer le paiement
+					{{#if $eq status 2}}
+							<div id="btnPay" class="orange button section col-xs-12" >
+								<i class='glyphicon glyphicon-money-mark'></i> Effectuer le paiement
+							</div>
+							<div id="btnPayFake" class="orange button section col-xs-12" >
+								<i class='glyphicon glyphicon-money-mark'></i> Tester le paiement
+							</div>
+					{{else}}
+						{{#if $eq status 1}}
+						<div id="btnClose" class="orange button section col-xs-12" >
+							<i class='glyphicon glyphicon-money-mark'></i> Fermer les candidatures
 						</div>
-						<div id="btnPayFake" class="orange button section col-xs-12" >
-							<i class='glyphicon glyphicon-money-mark'></i> Tester le paiement
-						</div>
-					{{/unless}}
+						{{/if}}
+					{{/if}}
 					<div id="btnModifierJob" class="blue button section col-xs-12" >
 						<i class='glyphicon glyphicon-edit'></i>Editer le Job 
 					</div>

@@ -72,14 +72,15 @@ Template.missionProfil.helpers({
 			switch(d.status) {
 				case 0: return 'ouvert';
 				case 1: return 'attribue';
-				case 2: return 'termine';
+				case 2: return 'ferme';
+				case 3: return 'termine';
 			}
 		}
 	}
 });
 
 Template.missionProfil.events({
-	'click #btnModifierJob': function (event,t) { // TODO route to editJob
+	'click #btnModifierJob': function (event,t) {
 		Router.go('editJob', {_id: t.data._id});
 	},
 	'click #btnFaireOffre': function (event, t) { // open the makeOfferModal
@@ -92,8 +93,29 @@ Template.missionProfil.events({
 		} else
 			Modal.show('shouldBeLogged');
 	},
+	'click #btnClose': function(e,t) {
+		var d = t.data;
+		if (d && d.nbPeople - _.where(d.offers, {validated: true}).length == 0)
+			Meteor.call('closeAdvert', {advertId: t.data._id});
+	},
 	'click #btnPay': function(e,t) {
-		Modal.show('makePaymentModal', t.data)
+		var d = t.data;
+		if (d) {
+			var notedUsersIds = _.map(_.where(d.offers, {validated: true}), function(o) {
+				return o.userId;
+			});
+			console.log(notedUsersIds);
+			var notedUsers = UsersDatas.find({userId: {$in: notedUsersIds}}, {fields: {notes: 1}}).fetch();
+			var ok = true;
+			_.each(notedUsers, function(u) {
+				if (!_.findWhere(u.notes, {advertId: t.data._id}))
+					ok = false;
+			});
+			if (ok)
+				Modal.show('makePaymentModal', t.data)
+			else
+				Modal.show('shouldNote');
+		}
 	},
 	'click #btnPayFake': function(e,t) {
 		Meteor.call('fakePayment', {advertId: t.data._id}); // fake payment for testing

@@ -12,7 +12,6 @@ Template.offer.helpers({
 		var t = Template.instance();
 		var advert = Template.parentData(2)._id;
 		var user = UsersDatas.findOne({userId: t.data.userId});
-		console.log(user, user.notes, _.findWhere(user.notes, {advertId: advert}));
 		if (user && user.notes && !_.findWhere(user.notes, {advertId: advert}))
 			return false;
 		return true;

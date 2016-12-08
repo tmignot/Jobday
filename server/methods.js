@@ -8,6 +8,20 @@ var regexp = {
 Future = Npm.require('fibers/future');
 
 Meteor.methods({
+	closeAdvert: function(params) {
+		var advertId = params.advertId;
+		if (this.userId) {
+			var advert = Adverts.findOne({_id: advertId});
+			if (advert) {
+				if (advert.owner == this.userId) {
+					var offers = _.where(advert.offers, {validated: true});
+					if (offers.length == advert.nbPeople)
+						Adverts.update({_id: advertId}, {$set: {status: 2}});
+					else { throw new Error('Vous n\'avez pas valide suffisament d\'offres'); }
+				} else { throw new Error('Vous n\'etes pas le proprietaire de cette annonce'); }
+			} else { throw new Error('L\'annonce est introuvable'); }
+		} else { throw new Error('Vous devez etre connecte pour effectuer cette operation'); }
+	},
 	leaveComment: function(params) {
 		var advertId = params.advertId,
 				offerId = params.offer,

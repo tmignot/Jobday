@@ -689,6 +689,9 @@ span.tooltips.noarrow span:after {
 .status-attribue {
 	background: orange;
 }
+.status-ferme {
+	background: red;
+}
 .status-termine {
 	background: gray;
 }

@@ -36,6 +36,19 @@
 	{{#genericModal title='Connexion obligatoire' noFoot=true}}
 	<h4>Vous devez vous connecter pour acceder a cette page</h4>
 	{{/genericModal}}
+	<div class='col-xs-4 col-xs-offset-4 orange pointer' data-dismiss='modal'>
+		OK
+	</div>
+</template>
+
+<template name='shouldNote'>
+	{{#genericModal title='Note jobber manquante'}}
+	<h4>Vous devez finir de noter tous les jobbers pour pouvoir effectuer cette action</h4>
+	{{else}}
+	<div class='col-xs-4 col-xs-offset-4 orange pointer' data-dismiss='modal'>
+		OK
+	</div>
+	{{/genericModal}}
 </template>
 
 <template name='accountError'>

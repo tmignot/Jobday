@@ -28,5 +28,10 @@ Template.searchbar.events({
 				});
 			});
 		}
+	},
+	'click .find-button': function(e,t) {
+		Session.set('searchMissionLocal', t.find('#local-input').value);
+		Session.set('searchMissionNeed', t.find('#need-input').value);
+		Router.go('/searchMission');
 	}
 });

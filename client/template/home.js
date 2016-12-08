@@ -11,5 +11,12 @@ Template.home.events({
 	'click .urgent-jobs.button': function() { 
 		Session.set('dateBeginning', 'hour');
 		Router.go('searchMission');
+	},
+	'click .category': function(e,t) {
+		var c = $(e.currentTarget).data('category');
+		if (c) {
+			Session.set('currentCategory', c);
+			Router.go('/searchMission');
+		}
 	}
 });

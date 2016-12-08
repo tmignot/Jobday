@@ -25,6 +25,11 @@ Template.searchMission.onCreated(function() {
 			default: break;
 		}
 	}
+	if (Session.get('searchMissionLocal'))
+		f['$or'] = [{'online': true}, {'address.city': new RegExp('^.*'+Session.get('searchMissionLocal').split(',')[0]+'.*$', 'i')}];
+	if (Session.get('searchMissionNeed')) 
+		f.title = new RegExp('^.*'+Session.get('searchMissionNeed')+'.*$', 'i');
+
 	this.filters.set(_.extend(f, this.filters.get()));
 
 	// setting filters
@@ -34,6 +39,8 @@ Template.searchMission.onCreated(function() {
 Template.searchMission.onDestroyed(function() {
 	Session.set('currentCategory', 'off');
 	Session.set('dateBeginning', 'off');
+	Session.set('searchMissionLocal', undefined);
+	Session.set('searchMissionNeed', undefined);
 	delete Maps.maps.searchMissionMap;
 });
 
@@ -64,13 +71,19 @@ Template.searchMission.onRendered(function() {
 	});
 	// setting selects inputs to match current filters
 	var cat = Session.get('currentCategory'),
-			dat = Session.get('dateBeginning');
+			dat = Session.get('dateBeginning'),
+			loc = Session.get('searchMissionLocal'),
+			need= Session.get('searchMissionNeed');
 	if (cat != 'off' && (cat || cat == '0'))
 		$('#categorySelect').val(cat);
 	else
 		Session.set('currentCategory', 'off');
 	if (dat && dat != 'off')
 		$('#dateSelect').val(dat);
+	if (loc)
+		$('#localisation').val(loc);
+	if (need)
+		$('#besoin').val(need);
 });
 
 Template.searchMission.helpers({

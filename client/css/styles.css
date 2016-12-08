@@ -108,6 +108,7 @@ ul.navbar-nav li a{
 .category {
 	margin-top: 40px;
 	text-align: center;
+	cursor: pointer;
 }
 
 .category img {

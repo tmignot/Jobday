@@ -51,12 +51,23 @@ Template.advertCard.onDestroyed(function() {
 });
 
 Template.advertCard.helpers({
+	waitingFor: function() { // returns the number of jobber needed
+		var d = Template.instance().data;
+		if (d)
+			return d.nbPeople - _.where(d.offers, {validated: true}).length;
+	},
 	getCat: function() { //returns [category][subcategory]
 		var d = Template.instance().data;
 		if (d) {
 			var c = Categories[d.category].name,
 					s = Categories[d.category].subcategories[d.subcategory];
 			return '[' + c + '][' + s + ']';
+		}
+	},
+	passed: function() { //return wether startDate is passed or not
+		var d = Template.instance().data;
+		if (d) {
+			return d.startDate <= new Date()? 'passed': '';
 		}
 	}
 });

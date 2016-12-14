@@ -754,6 +754,10 @@ span.tooltips.noarrow span:after {
 	padding: 10px;
 }
 
+.advertCard.passed {
+	opacity: 0.7;
+}
+
 .advertCard .description {
 	background: darkgray;
 	color:white;

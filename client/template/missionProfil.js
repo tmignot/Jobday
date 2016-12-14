@@ -7,7 +7,12 @@ Template.missionProfil.onRendered (function() {
 	var address;
 	if (this.data && this.data.address) {
 		// construct address litteral
-		address = this.data.address.city;
+		if (this.data && this.data.status == 2 && _.findWhere(this.data.offers, {validated: true, userId: Meteor.userId()}))
+			address = this.data.address.street + ' ' +
+								this.data.address.zipcode + ' ' +
+								this.data.address.city;
+		else
+			address = this.data.address.city;
 	}
 	// create geocoder if not already
 	Maps.create({type: 'geocoder', after: function(maps) {
@@ -72,15 +77,25 @@ Template.missionProfil.helpers({
 			switch(d.status) {
 				case 0: return 'ouvert';
 				case 1: return 'attribue';
-				case 2: return 'ferme';
-				case 3: return 'termine';
+				case 2: return 'termine';
 			}
 		}
+	},
+	canSee: function() {
+		var d = Template.instance().data;
+		console.log(d.offers);
+		return d && d.status == 2 && _.findWhere(d.offers, {validated: true, userId: Meteor.userId()});
+	},
+	hasPassed: function() {
+		var d = Template.instance().data;
+		if (!d || d.startDate > new Date())
+			return false
+		return true;
 	}
 });
 
 Template.missionProfil.events({
-	'click #btnModifierJob': function (event,t) {
+	'click #btnModifierJob': function (event,t) { // TODO route to editJob
 		Router.go('editJob', {_id: t.data._id});
 	},
 	'click #btnFaireOffre': function (event, t) { // open the makeOfferModal
@@ -93,29 +108,8 @@ Template.missionProfil.events({
 		} else
 			Modal.show('shouldBeLogged');
 	},
-	'click #btnClose': function(e,t) {
-		var d = t.data;
-		if (d && d.nbPeople - _.where(d.offers, {validated: true}).length == 0)
-			Meteor.call('closeAdvert', {advertId: t.data._id});
-	},
 	'click #btnPay': function(e,t) {
-		var d = t.data;
-		if (d) {
-			var notedUsersIds = _.map(_.where(d.offers, {validated: true}), function(o) {
-				return o.userId;
-			});
-			console.log(notedUsersIds);
-			var notedUsers = UsersDatas.find({userId: {$in: notedUsersIds}}, {fields: {notes: 1}}).fetch();
-			var ok = true;
-			_.each(notedUsers, function(u) {
-				if (!_.findWhere(u.notes, {advertId: t.data._id}))
-					ok = false;
-			});
-			if (ok)
-				Modal.show('makePaymentModal', t.data)
-			else
-				Modal.show('shouldNote');
-		}
+		Modal.show('makePaymentModal', t.data)
 	},
 	'click #btnPayFake': function(e,t) {
 		Meteor.call('fakePayment', {advertId: t.data._id}); // fake payment for testing
@@ -143,8 +137,9 @@ Template.makeOfferModal.events({
 						destinations: [t.data.address.street+' '+t.data.address.zipcode+' '+t.data.address.city],
 						travelMode: 'DRIVING'
 					}, function(r,s) {
-						if (s == 'OK') {
-							distance = r.rows[0].elements[0].distance;
+						if (s == 'OK' || t.data.online) {
+							console.log('on est la');
+							distance = t.data.online? {value: 0} : r.rows[0].elements[0].distance;
 							data = {
 								advert: t.data._id,
 								distance: distance.value,
@@ -165,6 +160,8 @@ Template.makeOfferModal.events({
 							});
 							if (valid) { 
 								Meteor.call('makeOffer', data, function(err, res) {
+									console.log(err);
+									console.log(res);
 									Modal.hide('makeOfferModal');
 								});
 							} else {

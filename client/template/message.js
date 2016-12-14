@@ -14,3 +14,11 @@ Template.messages.events({
 			Modal.show('errorModal', ctx.getErrorObject());
 	}
 });
+
+Template.messages.helpers({
+	hasPassed: function() {
+		var d = Template.parentData();
+		if (d)
+			return d.startDate <= new Date();
+	}
+});

@@ -18,7 +18,7 @@ Template.poster.onCreated(function() {
 Template.poster.onRendered(function() {
 	Maps.create({
 		type: 'autocomplete',
-		doc: document.getElementById('adresseCodePostalAnnonce'),
+		doc: document.getElementById('adresseRueAnnonce'),
 		params: {
 			componentRestrictions: {country: 'fr'}
 		},
@@ -28,11 +28,18 @@ Template.poster.onRendered(function() {
 				for (var i = 0; i < p.address_components.length; i++) {
 					var addressType = p.address_components[i].types[0];
 					var val = p.address_components[i].long_name;
+					console.log(addressType, val);
+					var s,z,c;
 					switch(addressType) {
-						case 'postal_code': $('#adresseCodePostalAnnonce').val(val); break;
-						case 'locality': $('#adresseVilleAnnonce').val(val); break;
+						case 'street_number': s = s?val+' '+s:val; break;
+						case 'route': s = s?s+' '+val:s; break;
+						case 'postal_code': z = val; break;
+						case 'locality': c = val; break;
 						default: break;
 					}
+					$('#adresseRueAnnonce').val(s);
+					$('#adresseCodePostalAnnonce').val(z);
+					$('#adresseVilleAnnonce').val(c);
 				}
 			}
 		}

@@ -90,6 +90,12 @@ Template.dashboardJobber.helpers({
 			return a.city;
 		return 'Non renseigne';
 	},
+	userAddressFull: function() { // returns the user's hometown
+		var a = Template.instance().data.address;
+		if (a && a.city && a.street && a.zipcode)
+			return a.street + ', ' + a.zipcode+ ' ' + a.city;
+		return 'Non renseigne';
+	},
 	grades: function() { // returns the user's grades sorted by date
 		var g = Template.instance().data.grades;
 		if (g)
@@ -144,6 +150,22 @@ Template.dashboardJobber.helpers({
 	},
 	advertTitle: function(advertId) { // advert title...
 		return Adverts.findOne(advertId).title;
+	},
+	canSee: function() {
+		var d = Template.instance().data,
+				uid;
+		if (d)
+			uid = d.userId;
+		var adverts = Adverts.find({
+			owner: Meteor.userId(), 
+			status: 2
+		}, {fields: {offers: 1}}).fetch();
+		var advert = _.find(adverts, function(a) {
+			if (_.findWhere(a.offers, {validated: true, userId: uid}))
+				return true;
+		});
+		if (advert)
+			return true;
 	}
 });
 

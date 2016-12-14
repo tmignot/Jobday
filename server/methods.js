@@ -8,20 +8,6 @@ var regexp = {
 Future = Npm.require('fibers/future');
 
 Meteor.methods({
-	closeAdvert: function(params) {
-		var advertId = params.advertId;
-		if (this.userId) {
-			var advert = Adverts.findOne({_id: advertId});
-			if (advert) {
-				if (advert.owner == this.userId) {
-					var offers = _.where(advert.offers, {validated: true});
-					if (offers.length == advert.nbPeople)
-						Adverts.update({_id: advertId}, {$set: {status: 2}});
-					else { throw new Error('Vous n\'avez pas valide suffisament d\'offres'); }
-				} else { throw new Error('Vous n\'etes pas le proprietaire de cette annonce'); }
-			} else { throw new Error('L\'annonce est introuvable'); }
-		} else { throw new Error('Vous devez etre connecte pour effectuer cette operation'); }
-	},
 	leaveComment: function(params) {
 		var advertId = params.advertId,
 				offerId = params.offer,
@@ -45,8 +31,12 @@ Meteor.methods({
 							ctx.validate(data);
 							if (ctx.invalidKeys().length)
 								return ctx.getErrorObject();
-							else 
+							else  {
 								UsersDatas.update({userId: offer.userId}, {$push: {notes: data}});
+								var user = MangoUsers.findOne({userId: this.userId});
+								var err = createMangoTransfer(user.mango.user, user.mango.wallet, offer);
+								if (err) { throw err; }
+							}
 						} else { throw new Error('Une note a deja ete laissee pour ce Job'); }
 					} else { throw new Error('L\'offre est introuvable'); }
 				} else { throw new Error('Vous n\'etes pas le proprietaire de cette annonce'); }
@@ -57,14 +47,7 @@ Meteor.methods({
 		var advert = Adverts.findOne({_id: advertId});
 		var user = MangoUsers.findOne({userId: this.userId});
 		if (advert && advert.status == 1 && user) {
-			var code = [];
-			_.each(_.where(advert.offers, {validated: true}), function(o) {
-				code.push(createMangoTransfer(user.mango.user, user.mango.wallet, o));
-			});
-			if (!_.compact(code).length)
-				Adverts.update({_id: advert._id}, {$set: {status: 2}});
-			else
-				return _.compact(code);
+			Adverts.update({_id: advert._id}, {$set: {status: 2}});
 		} else {
 			if (!advert)
 				return ['L\'annonce n\'existe pas'];
@@ -178,7 +161,7 @@ Meteor.methods({
 			var o = Adverts.findOne({_id: params.advert}).offers;
 			if (_.where(o, {userId: this.userId}).length)
 				return;
-			if (params.distance && params.comment && params.price && params.advert) {
+			if ((params.distance||params.distance==0) && params.comment && params.price && params.advert) {
 				var u = UsersDatas.findOne({userId: this.userId});
 				if (!u || !u.bankComplete)
 					return false;

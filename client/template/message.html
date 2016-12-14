@@ -11,6 +11,7 @@
 					{{>message}}
 				{{/each}}
 			{{/unless}}
+			{{#unless hasPassed}}
 			{{#if currentUser}}
 			<div class='col-xs-12 col-md-3 section hidden-xs hidden-sm'>
 				<img width='100%' src='{{currentUserData.photo}}'>
@@ -25,6 +26,7 @@
 				<span class='warning'>Vous devez etre connecte pour envoyer un message</span>
 			</div>
 			{{/if}}
+			{{/unless}}
 		</div>
 	</div>
 </template>

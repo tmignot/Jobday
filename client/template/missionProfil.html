@@ -64,14 +64,26 @@
 					{{/with}}
 				</div>
 			</div>
+			{{#if canSee}}
+			<div class='col-xs-12 col-md-6 section mission-address'>
+				<div class='col-xs-12'>
+					<i class='material-icons'>place</i>
+					<label>{{address.street}}, {{address.zipcode}} {{address.city}}</label>
+				</div>
+			</div>
+			{{/if}}
 		</div>
 	</div>
 	<div class='mission-sidebar col-md-3 hidden-sm hidden-xs'>
 		<div class='col-xs-12 section bleft'>
 			<div class='col-xs-12 mission-status'>
+				{{#unless hasPassed}}
 				<small>{{getStatus}}</small>
-				<div class='col-xs-12 status-{{getStatus}}' data-toggle='tooltip' title='{{getStatus}}'>
-				</div>
+				<div class='col-xs-12 status-{{getStatus}}' data-toggle='tooltip' title='{{getStatus}}'></div>
+				{{else}}
+				<small>termine</small>
+				<div class='col-xs-12 status-termine' data-toggle='tooltip' title='termine'></div>
+				{{/unless}}
 			</div>
 			<div class='col-xs-12 mission-infos section'>
 				<h4>Prix: {{budget}}<small><i style='vertical-align:bottom' class='material-icons'>euro_symbol</i></small></h4>
@@ -79,25 +91,20 @@
 				{{duration workingHours.from workingHours.to}}
 				{{/if}}
 			</div>
+			{{#unless hasPassed}}
 			{{#if currentUser}}
-				{{#if $eq status 3}}
+				{{#if $eq status 2}}
 				<span>Job termine</span>
 				{{else}}
 				{{#if $eq currentUser._id owner}}
-					{{#if $eq status 2}}
-							<div id="btnPay" class="orange button section col-xs-12" >
-								<i class='glyphicon glyphicon-money-mark'></i> Effectuer le paiement
-							</div>
-							<div id="btnPayFake" class="orange button section col-xs-12" >
-								<i class='glyphicon glyphicon-money-mark'></i> Tester le paiement
-							</div>
-					{{else}}
-						{{#if $eq status 1}}
-						<div id="btnClose" class="orange button section col-xs-12" >
-							<i class='glyphicon glyphicon-money-mark'></i> Fermer les candidatures
+					{{#unless waitingFor}}
+						<div id="btnPay" class="orange button section col-xs-12" >
+							<i class='glyphicon glyphicon-money-mark'></i> Effectuer le paiement
 						</div>
-						{{/if}}
-					{{/if}}
+						<div id="btnPayFake" class="orange button section col-xs-12" >
+							<i class='glyphicon glyphicon-money-mark'></i> Tester le paiement
+						</div>
+					{{/unless}}
 					<div id="btnModifierJob" class="blue button section col-xs-12" >
 						<i class='glyphicon glyphicon-edit'></i>Editer le Job 
 					</div>
@@ -118,6 +125,9 @@
 				{{/if}}
 				{{/if}}
 			{{/if}}
+			{{else}}
+				<span>Job termine</span>
+			{{/unless}}
 			<div class="panel-group col-xs-12" style='margin-top:5px;'>
 				<div class="panel panel-default">
 					<div class="panel-heading">

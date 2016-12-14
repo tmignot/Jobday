@@ -55,19 +55,17 @@
 						{{/unless}}
 					{{/if}}
 				{{else}}
-					{{#unless $eq ../../status 3}}
-						{{#if requestingValidation}}
-							{{>minispinner}}
+					{{#if requestingValidation}}
+						{{>minispinner}}
+					{{else}}
+						{{#if validated}}
+							<div class='orange button invalidate'>Se desister</div>
 						{{else}}
-							{{#if validated}}
-								<div class='orange button invalidate'>Se desister</div>
-							{{else}}
-								{{#if $eq ../../status 0}}
-									<div class='blue button validate'>Valider</div>
-								{{/if}}
+							{{#if $eq ../../status 0}}
+								<div class='blue button validate'>Valider</div>
 							{{/if}}
 						{{/if}}
-					{{/unless}}
+					{{/if}}
 				{{/if}}
 			</div>
 		{{/if}}

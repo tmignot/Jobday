@@ -193,6 +193,10 @@ Template.editJobber.events({
 		else
 			UsersDatas.update(user, {$push: {permis: index}});
 	},
+	'click .grade': function(e,t) {
+		var src = $(e.currentTarget).data('img');
+		Modal.show('imageModal', {src: src});
+	},
 	'click .user-grades .delete-icon': function(e,t) { // removes the grade that was clicked
 		var user = {_id: t.data._id};
 		var index = $(e.currentTarget).data('which');

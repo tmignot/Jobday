@@ -481,6 +481,7 @@ span.tooltips.noarrow span:after {
 .grade {
 	text-align: center;
 	padding: 10px;
+	cursor: pointer;
 }
 
 .grade-inside {

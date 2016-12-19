@@ -16,6 +16,9 @@ Template.poster.onCreated(function() {
 });
 
 Template.poster.onRendered(function() {
+	$('#AnnonceDate3').datetimepicker({format: 'YYYY-MM-DD'});
+	$('#AnnonceDate2').datetimepicker({format: 'YYYY-MM-DD'});
+	$('.timepicker').datetimepicker({format: 'HH:mm'});
 	Maps.create({
 		type: 'autocomplete',
 		doc: document.getElementById('adresseRueAnnonce'),
@@ -95,6 +98,15 @@ Template.poster.onRendered(function() {
 	
 
 Template.poster.helpers({
+	runtimepick: function() {
+		var d = Template.instance().data;
+		$('#choixHoraireAnnonceDeb').datetimepicker({format: 'HH:mm'});
+		$('#choixHoraireAnnonceFin').datetimepicker({format: 'HH:mm'});
+	},
+	rundatepick: function() {
+		$('#AnnonceDate3').datetimepicker({format: 'YYYY-MM-DD'});
+		$('#AnnonceDate2').datetimepicker({format: 'YYYY-MM-DD'});
+	},
 	categories: function() { // minifying categories for select
 		return _.map(Categories, function(d,i) {
 			return {
@@ -135,7 +147,7 @@ Template.poster.events({
 		Session.set('choixDate', parseInt(e.currentTarget.value));
 	},
 	'change input[name="choixHoraire"]': function(e,t) {
-		Session.set('choixHoraire', parseInt(e.currentTarget.value));
+		Session.set('choixHoraire', parseInt(e.currentTarget.value)); 
 	},
 	'change #address-inputs input': function(e,t) {
 		var s = t.find('#adresseRueAnnonce').value,
@@ -188,6 +200,7 @@ function bVal(id) {
 }
 
 function dateVal(id) {
+	console.log(new Date(strVal(id)));
 	return new Date(strVal(id));
 }
 
@@ -200,7 +213,7 @@ function getValues() {
 			whType = $(e).val();
 	});
 	if (whType == 5) { // date range
-		var	from = strVal('choixHoraireAnnonceDeb').split(':');
+		var from = strVal('choixHoraireAnnonceDeb').split(':');
 		var	to = strVal('choixHoraireAnnonceFin').split(':');
 		var wh = {
 			type: whType,
@@ -215,6 +228,7 @@ function getValues() {
 				min: to[1]
 			};
 		}
+		console.log(from, to, wh);
 	} else {
 		var wh = { // not a date range so one of morning, afternoon, evening
 			type: whType

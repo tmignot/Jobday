@@ -34,6 +34,7 @@ Template.searchMission.onCreated(function() {
 
 	// setting filters
 	AdvertsPages.set('filters', _.clone(this.filters.get()));
+	AdvertsPages.set({sort: {createdAt:-1}});
 });
 
 Template.searchMission.onDestroyed(function() {

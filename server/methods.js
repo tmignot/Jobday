@@ -175,8 +175,10 @@ Meteor.methods({
 				}}}, function(err) {
 					if (err)
 						return err
-					else
+					else {
+						UsersDatas.update({userId: this.userId}, {$push: {adverts: params.advert}});
 						return 'OK';
+					}
 				});
 				return ret;
 			} else

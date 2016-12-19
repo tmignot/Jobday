@@ -86,17 +86,29 @@
 				</div>
 				<div class='dateAnnonce-inputs col-xs-12'>
 					{{#if $.Session.equals 'choixDate' 0}}
-					Le <input type="date" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
+					Le <input type="text" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
 					{{/if}}
 					{{#if $.Session.equals 'choixDate' 1}}
-					Le <input type="date" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
+					Le <input type="text" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
 					{{/if}}
 					{{#if $.Session.equals 'choixDate' 2}}
-					Le <input type="date" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
+					Le <input type="text" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
 					{{/if}}
 					{{#if $.Session.equals 'choixDate' 3}}
-					Du <input type="date" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
-					Au <input type="date" id="AnnonceDate3" placeholder="JJ/MM/YYYY">
+					Du <input type="text" id="AnnonceDate2" placeholder="JJ/MM/YYYY">
+					Au <input type="text" id="AnnonceDate3" placeholder="JJ/MM/YYYY">
+					{{/if}}
+					{{#if $.Session.equals 'choixDate' 0}}
+					{{rundatepick}}
+					{{/if}}
+					{{#if $.Session.equals 'choixDate' 1}}
+					{{rundatepick}}
+					{{/if}}
+					{{#if $.Session.equals 'choixDate' 2}}
+					{{rundatepick}}
+					{{/if}}
+					{{#if $.Session.equals 'choixDate' 3}}
+					{{rundatepick}}
 					{{/if}}
 				</div>
 			</div>
@@ -121,8 +133,11 @@
 				</div>
 				<div class="horaireAnnonce-inputs col-xs-12">
 					{{#if $.Session.equals 'choixHoraire' 5}}
-					De <input type="time" id="choixHoraireAnnonceDeb">
-					A <input type="time" id="choixHoraireAnnonceFin">
+					De <input type="text" id="choixHoraireAnnonceDeb" class='timepicker'>
+					A <input type="text" id="choixHoraireAnnonceFin" class='timepicker'>
+					{{/if}}
+					{{#if $.Session.equals 'choixHoraire' 5}}
+					{{runtimepick}}
 					{{/if}}
 				</div>
 			</div>

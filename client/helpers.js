@@ -246,9 +246,19 @@ Template.registerHelper('formatDate', function(date) {
 */
 Template.registerHelper('duration', function(from, to) {
 	moment.locale('fr');
-	return moment.duration({hours: to.hour, minutes: to.min})
-		.subtract(moment.duration({hours: from.hour, minutes: from.min}))
-		.humanize();
+	var fromTotal = parseInt(from.hour*60 + from.min);
+	var toTotal = parseInt(to.hour*60 + to.min);
+	if (fromTotal > toTotal) {
+		var fromOffset = moment.duration({hours: from.hour, minutes: from.min})
+			.subtract(moment.duration({hours: to.hour, minutes: to.min}));
+		console.log(fromOffset.humanize());
+		return moment.duration({hours: 24}).subtract(fromOffset).humanize();
+	} else {
+		console.log('2');
+		return moment.duration({hours: to.hour, minutes: to.min})
+			.subtract(moment.duration({hours: from.hour, minutes: from.min}))
+			.humanize();
+	}
 });
 
 /*

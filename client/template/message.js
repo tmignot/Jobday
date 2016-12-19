@@ -9,6 +9,8 @@ Template.messages.events({
 			}, function(err, res) {
 				if (err || res)
 					Modal.show('errorModal', {invalidKeys: [{message:  'Il est interdit de communiquer des informations personnelles avec les autres utilisateurs'}]});
+				else
+					t.find('textarea').value = '';
 			});
 		}	else
 			Modal.show('errorModal', ctx.getErrorObject());
@@ -19,6 +21,6 @@ Template.messages.helpers({
 	hasPassed: function() {
 		var d = Template.parentData();
 		if (d)
-			return d.startDate <= new Date();
+			return d.startDate <= new Date() || d.status == 2
 	}
 });

@@ -8,13 +8,21 @@ Template.signupCustom.events({
 	'click #jobdaybtn': function(e,t) {
 		if (Meteor.userId())
 			Meteor.logout();
-		Meteor.call('addUser', getValues('jobday'), function(err, res) {
-			if (err) {
-				console.log(err);
-			} else if (res) {
-				Session.set('mailSent', true);
-			}
-		});
+		var data = getValues('jobday');
+		var errors = checkValues(data);
+		if (errors.length) {
+			Modal.allowMultiple = true;
+			Modal.show('errorModal', {invalidKeys: errors});
+		} else {
+			Meteor.call('addUser', data, function(err, res) {
+				if (err) {
+					Modal.allowMultiple = true;
+					Modal.show('errorModal', {invalidKeys: [{message: "<strong>Email</strong> existe deja"}]});
+				} else if (res) {
+					Session.set('mailSent', true);
+				}
+			});
+		}
 	},
 	'click #googlebtn': function(e,t) {
 		if (Meteor.userId())
@@ -61,4 +69,21 @@ function getValues(method) {
 		password: $('#signupPassword').val(),
 		confirmation: $('#signupPasswordConfirm').val()
 	}
+}
+
+function checkValues(data) {
+	var errors = [];
+	if (!data.society && !data.firstname)
+		errors.push({message: "<strong>Prenom</strong> est requis pour un particulier"});
+	if (!data.name)
+		errors.push({message: "<strong>Nom</strong> est requis"});
+	if (!data.email)
+		errors.push({message: "<strong>Email</strong> est requis"});
+	if (!data.password)
+		errors.push({message: "<strong>Mot de passe</strong> est requis"});
+	if (!data.confirmation)
+		errors.push({message: "<strong>Confirmation</strong> est requis"});
+	if (data.confirmation != data.password)
+		errors.push({message: "<strong>Confirmation</strong> et <strong>Mot de passe</strong> doivent etre identiques"});
+	return errors;
 }

@@ -34,4 +34,28 @@ Template.searchbar.events({
 		Session.set('searchMissionNeed', t.find('#need-input').value);
 		Router.go('/searchMission');
 	}
+    ,'keypress #local-input': function(e,t) {
+		//alert(e.keyCode);
+        if ( (e.keyCode && e.keyCode == 13)) {
+            
+        Session.set('searchMissionLocal', t.find('#local-input').value);
+		Session.set('searchMissionNeed', t.find('#need-input').value);
+		Router.go('/searchMission');
+            return false;
+        } else {
+            return true;
+        }
+	},
+    'keypress #need-input': function(e,t) {
+		//alert(e.keyCode);
+        if ( (e.keyCode && e.keyCode == 13)) {
+            
+        Session.set('searchMissionLocal', t.find('#local-input').value);
+		Session.set('searchMissionNeed', t.find('#need-input').value);
+		Router.go('/searchMission');
+            return false;
+        } else {
+            return true;
+        }
+	}
 });

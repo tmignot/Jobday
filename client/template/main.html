@@ -1,0 +1,51 @@
+<head>
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<link rel="shortcut icon" type="image/x-icon" href="/ico_jobday.ico" />
+	<!--<script type="application/x-javascript">
+		addEventListener("load", function () {
+			setTimeout(hideURLbar, 0);
+		}, false);
+
+		function hideURLbar() {
+			window.scrollTo(0, 1);
+		}
+	</script>
+	-->
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+"palette": {
+"popup": {
+"background": "#eaf7f7",
+"text": "#5c7291"
+},
+"button": {
+"background": "#56cbdb",
+"text": "#ffffff"
+}
+},
+"showLink": false,
+"theme": "classic",
+"position": "bottom",
+"static": false,
+"content": {
+"message": "<div style=''>En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies pour vous proposer des services et offres adaptés à vos centres d’intérêt.</div>",
+"dismiss": "OK, j'accepte."
+}
+})});
+</script>
+</head>
+
+<template name='layout1'>
+	<body data-spy='scroll' data-offset='150'>
+	{{>navbar}}
+	<div class="container main-container">
+		{{>yield}}
+	</div>
+	{{>footer}}
+	</body>
+</template>

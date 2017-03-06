@@ -1,15 +1,16 @@
 <template name='navbar'>
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			<div class="navbar-header" >
+				<button type="button" id='icon-barmenu' class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" id='jobday-logo'><object type="image/svg+xml" data="/jobday.svg" height='100%'>
+				<a class="navbar-brand" id='jobday-logo'  ><object  type="image/svg+xml" data="/jobday.svg" height='100%'>
 				  Your browser does not support SVG
+                    
 					</object>
 					<span class='dummy-link'></span>
 				</a>
@@ -21,10 +22,18 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					{{#unless currentUser}}
-					<li><a class='signup-link'>S'INSCRIRE</a><span> | </span><a class='login-link'>SE CONNECTER</a> | <a class='commentCaMarche'>COMMENT CA MARCHE</a></li>
+					<li><a class='signup-link'>S'INSCRIRE</a><span> | </span><a class='login-link'>SE CONNECTER</a> | <a class='commentCaMarche'>COMMENT CA MARCHE ?</a></li>
 					{{else}}
+					<!--
 					<li><i class='glyphicon glyphicon-envelope'></i></li>
-					<li><i class='glyphicon glyphicon-bell'></i></li>
+					-->
+					<li><div class='notifButton'>
+					
+  <button style="font-size:25px"  class="btn btn-default btn-lg btn-link">
+    <span class="glyphicon glyphicon-bell"></span>
+  </button>
+  <span style="background:white;position:relative; top: -10px; left: -25px;">{{numberNotificationALL}}</span>
+</div></li>
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle='dropdown'><img src='{{currentUserData.photo}}'><span class="caret"></span></a>
 						<ul class="dropdown-menu" aria-labelledby='nav-dropdown'>
@@ -34,13 +43,17 @@
 						</ul>
 					</li>
 					{{/unless}}
-					<li class='fb-button'><img src='/facebook.png'></li>
-					<!--
+					<!--<li class='fb-button'><img src='/facebook.png'></li>
+					
 					-->
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>
+       
 	</nav>
+   
+    
+    
 	{{>loginCustom}}
 	{{>signupCustom}}
 </template>

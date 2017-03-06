@@ -1,16 +1,30 @@
-<template name="dashboardJobber" >
+﻿<template name="dashboardJobber" >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-91207083-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 	<div class='col-xs-12 col-md-4'>
 		<div class='user-photo-container col-xs-12' style='text-align:center;'>
-			{{#if society}}
-			<h2><small>[PRO]</small></h2>
-			{{else}}
+			{{#if $eq userType 'society'}}
+			<h2><small>[SOCIETE]</small></h2>
+			{{/if}}
+			{{#if $eq userType 'professional'}}
+			<h2><small>[PROFESSIONEL]</small></h2>
+			{{/if}}
+			{{#if $eq userType 'individual'}}
 			<h2><small>[PARTICULIER]</small></h2>
 			{{/if}}
 			<img class='user-photo col-xs-12' src='{{userData.photo}}'>
 		</div>
 		<div class='user-info-container col-xs-12'>
 			<h3>
-			{{#unless userData.society}}
+			{{#unless $eq userData.userType 'society'}}
 				{{userData.firstname}}
 				{{#if canSee}}
 					{{userData.name}}
@@ -27,7 +41,7 @@
 				<span>{{formatDate user.createdAt}}</span>
 				</div>
 				<div>
-				<label>Derniere connexion:</label>
+				<label>Dernière connexion:</label>
 				<span>{{lastLogin}}</span>
 				</div>
 			</div>
@@ -40,20 +54,46 @@
 				<span>{{userAddress}}</span>
 				{{/if}}
 			</div>
-			{{#if canSee}}
+	{{#if canSee}}
 			<div class='user-birthdate col-xs-12'>
 				<label>Date de naissance:</label>
 				<span>{{formatDate birthdate}}</span>
 			</div>
+	<div class='user-address col-xs-12'>
+				<i class='glyphicon glyphicon-map-marker'></i>
+				<label>Téléphone:</label>
+				<span>{{userTelephone}}</span>
+			</div>
 			{{/if}}
+		
+			
 			{{#if $.Session.equals 'currentUserDataId' currentUser._id}}
 			<div class='user-edit-profil col-xs-12'>
 				<span class='orange edit-profil-button button'>Editer mon profil</span>
 			</div>
+			{{else}}
+			
+				{{#if userConnect}}
+			<div class='user-edit-profil col-xs-12'>
+				<span class='orange edit-profil-button button'>Editer mon profil</span>
+			</div>
+				{{/if}}
+				
 			{{/if}}
 			<div class='user-badges-container col-xs-12'>
 				<h4>Badges de confiance</h4>
 				<div class='user-badges'>
+				{{#each badges}}
+						{{#if userHasbadges _id}}
+							<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='userHasbadgesClasse-got ' width='10%' style='padding:5px;'>
+						{{else}}
+							<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='userHasbadgesClasse-not-got ' width='10%' style='padding:5px;'>
+						
+						{{/if}}
+						
+						
+			
+					{{/each}}
 				</div>
 			</div>
 			<div class='user-means-container col-xs-12'>
@@ -92,21 +132,97 @@
 			</div>
 		</div>
 	</div>
+	
 	<div class='col-xs-12 col-md-8'>
+	<img id='imgToExport' src='/jobday.png' style='display:none'/> 
+	{{#if $.Session.equals 'currentUserDataId' currentUser._id}}
+	<div id ="userNotificationsSection" class='user-presentation-container section user-text col-xs-12'>
+			<label>Notifications</label>
+			
+			{{#each userNotifications}}
+			<div id='' class=' col-xs-6 col-md-3' style='word-wrap: break-word;'>
+				<div class='botborder  col-xs-12'>
+				
+				<small><a data-id={{_id}} class='userNotificationsLink'  href="{{urlNotif}}" > 
+				<span class="{{icon}}"></span>{{name}}
+				</a></small>
+	
+				</div>
+			</div>
+			{{/each}}
+		</div>
+		
+	<div class='user-presentation-container section user-text col-xs-12'>
+			<label>Historique des Annonces Postées</label>
+			
+			{{#each missionPoster}}
+			<div id='' class=' col-xs-6 col-md-3' style='word-wrap: break-word;'>
+				<div class='botborder  col-xs-12'>
+				<small><a  href="/missionProfil/{{_id}}" > {{formatDate(startDate) }} -- {{title }}</a></small>
+					
+				</div>
+			</div>
+			{{/each}}
+		</div>
+	<div class='user-presentation-container section user-text col-xs-12'>
+			<label>Historique des Jobs Réalisés</label>
+			
+			{{#each missionParticiper}}
+			<div id='' class=' col-xs-6 col-md-3' style='word-wrap: break-word;'>
+				<div class='botborder  col-xs-12'>
+				<small><a  href="/missionProfil/{{_id}}" > {{formatDate(startDate) }} -- {{title }}</a></small>
+					
+				</div>
+			</div>
+			{{/each}}
+		</div>	
+	<div class='user-presentation-container section user-text col-xs-12'>
+			<label>Historique de vos Factures</label>
+			<div class='botborder  col-xs-12'>
+				<div class='col-xs-12 col-sm-6 col-md-7'>
+					<input id="numeroFactureVoulus" type='text' placeholder="Numéro de facture voulus" class='form-control' value=''>
+				</div>
+			</div>
+			{{#each missionJobberPayer}}
+			<div id='' class=' col-xs-6 col-md-3' style='word-wrap: break-word;'>
+				<div class='botborder  col-xs-12'>
+				<small><a  href="#" onclick="factureGenerer('{{_id }}')"> {{formatDate(startDate) }} -- {{title }}</a></small>
+					
+				</div>
+			</div>
+			{{/each}}
+		</div>
 		<div class='user-presentation-container section user-text col-xs-12'>
-			<label>Presentation</label>
-			<div class='botborder'>
+			<label>Historique Facture Annonceur</label>
+			<div class='botborder  col-xs-12'>
+				<div class='col-xs-12 col-sm-6 col-md-7'>
+					<input id="numeroFactureVoulus" type='text' placeholder="Numéro de facture voulus" class='form-control' value=''>
+				</div>
+			</div>
+			{{#each missionAnnonceurPayer}}
+			<div id='' class=' col-xs-6 col-md-3' style='word-wrap: break-word;'>
+				<div class='botborder  col-xs-12'>
+				<small><a  href="#" onclick="factureGenerer('{{_id }}')"> {{formatDate(startDate) }} -- {{title }}</a></small>
+					
+				</div>
+			</div>
+			{{/each}}
+		</div>
+		{{/if}}
+		<div class='user-presentation-container section user-text col-xs-12'>
+			<label>Présentation</label>
+			<div class='botborder' style='word-wrap: break-word;'>
 				<p>{{userData.presentation}}</p>
 			</div>
 		</div>
 		<div class='user-experience-container section user-text col-xs-12'>
-			<label>Experiences</label>
-			<div class='botborder'>
+			<label>Expériences</label>
+			<div class='botborder' style="word-break: break-all;">
 				<p>{{userData.experiences}}</p>
 			</div>
 		</div>
 		<div class='user-grades-container section user-text col-xs-12'>
-			<label>Formations / Diplomes</label>
+			<label>Formations / Diplômes</label>
 			{{#each grades}}
 			<div class='grade col-xs-6 col-md-3' data-img='{{image}}'>
 				<div class='botborder grade-inside col-xs-12'>
@@ -117,24 +233,24 @@
 			{{/each}}
 		</div>
 		<div class='user-precisions-container section user-text col-xs-12'>
-			<label>Information supplementaires</label>
+			<label>Informations supplémentaires</label>
 			<div class='botborder'>
 				<p>{{userData.precisions}}</p>
 			</div>
 		</div>
 		<div class='user-disponibilities-container section user-text col-xs-12'>
-			<label>Disponibilites</label>
+			<label>Disponibilités</label>
 			<div class='botborder'>
 				<div id='dispo-calendar'>
 				</div>
 			</div>
 			{{#if $.Session.equals 'currentUserDataId' currentUser._id}}
 			{{>disponibilities}}
-			<span class='orange button center-block'>Editer une periode</span>
+			<span class='orange button center-block'>Editer une période</span>
 			{{/if}}
 		</div>
 		<div class='user-notes-container section user-text col-xs-12'>
-			<label>Synthese des avis recus</label>
+			<label>Synthèse des notes reçus</label>
 			<div class='botborder col-xs-12'>
 				<div class='col-xs-12'>
 					<span class='center-block' style='width:190px;font-size:18px;'>
@@ -153,8 +269,8 @@
 				</div>
 			</div>
 		</div>
-		<div class='user-avis-container section user-text col-xs-12'>
-			<label>Liste des avis recus</label>
+		<div class='user-avis-container section user-text col-xs-12' style='word-wrap: break-word;'>
+			<label>Liste des avis reçus</label>
 			<div class='botborder col-xs-12'>
 				{{#each notes}}
 				<div class='col-xs-12' style='padding: 10px'>

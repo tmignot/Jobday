@@ -1,4 +1,4 @@
-<template name='editJobber'>
+﻿<template name='editJobber'>
 	<div class='user-information buttons section col-xs-12'>
 		<div class='previous-button-container col-xs-4'>
 			<div class='previous-button button {{inactive "previous"}}'>
@@ -50,26 +50,28 @@
 		</div>
 		<div class='col-md-8'>
 			<div class='user-information user-society col-xs-12 from-group section'>
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Representez-vous une societe?</label>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Vous etes ?</label>
 				<div class='col-xs-12 col-md-7 col-sm-6' style='padding-top:7px;'>
-					{{#if $.Session.equals 'isSociety' true}}
-					<span class='col-xs-4'>
-						<input type='radio' name='user-society-input' value='true' checked> Oui
-					</span>
-					<span class='col-xs-4'>
-						<input type='radio' name='user-society-input' value='false'> Non
-					</span>
-					{{else}}
-					<span class='col-xs-4'>
-						<input type='radio' name='user-society-input' value='true'> Oui
-					</span>
-					<span class='col-xs-4'>
-						<input type='radio' name='user-society-input' value='false' checked> Non
-					</span>
-					{{/if}}
+					<select name='user-type-select' class='form-control'>
+						{{#if $.Session.equals 'userType' 'society'}}
+							<option value='society' selected>Une societe</option>
+							<option value='professional'>Un auto-entrepreneur</option>
+							<option value='individual'>Un particulier</option>
+						{{/if}}
+						{{#if $.Session.equals 'userType' 'professional'}}
+							<option value='society'>Une societe</option>
+							<option value='professional' selected>Un auto-entrepreneur</option>
+							<option value='individual'>Un particulier</option>
+						{{/if}}
+						{{#if $.Session.equals 'userType' 'individual'}}
+							<option value='society'>Une societe</option>
+							<option value='professional'>Un auto-entrepreneur</option>
+							<option value='individual' selected>Un particulier</option>
+						{{/if}}
+					</select>
 				</div>
 			</div>
-			{{#if $.Session.equals 'isSociety' true}}
+			{{#if $.Session.equals 'userType' 'society'}}
 			<div class='user-information user-name col-xs-12 from-group section'>
 				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Nom de la societe</label>
 				<div class='col-xs-12 col-sm-6 col-md-7'>
@@ -77,7 +79,7 @@
 				</div>
 			</div>
 			<div class='user-information user-siret col-xs-12 from-group section'>
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Numero de SIRET</label>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Numéro de SIRET</label>
 				<div class='col-xs-12 col-md-7 col-sm-6'>
 					<input type='text' class='form-control' value='{{siret}}'>
 				</div>
@@ -90,7 +92,7 @@
 						<i class='text-success fa fa-check-circle-o'></i>
 					{{else}}
 						<i class='text-warning fa fa-question-circle-o'></i>
-					{{/if}}{{/if}} Siege social
+					{{/if}}{{/if}} Siège social
 				</label>
 				<div class='col-xs-12 col-md-7 col-sm-6'>
 					<input type='text' class='form-control user-address-street' placeholder='Num, rue' value='{{address.street}}'>
@@ -99,7 +101,65 @@
 				</div>
 			</div>
 			{{/if}}
-			{{#if $.Session.equals 'isSociety' false}}
+
+			{{#if $.Session.equals 'userType' 'professional'}}
+			<div class='user-information user-firstname col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Prenom</label>
+				<div class='col-xs-12 col-md-7 col-sm-6'>
+					<input type='text' class='form-control col-xs' value='{{firstname}}'>
+				</div>
+			</div>
+			<div class='user-information user-name col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Nom</label>
+				<div class='col-xs-12 col-md-7 col-sm-6'>
+					<input type='text' class='form-control' value='{{name}}'>
+				</div>
+			</div>
+			<div class='user-information user-birthdate col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Date de naissance</label>
+				<div class='col-xs-12 col-md-7 col-sm-6'>
+					<input type='date' class='form-control' value='{{dateValue birthdate}}'>
+				</div>
+			</div>
+			<div class='user-information user-gender col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Genre</label>
+				<div class='col-xs-12 col-md-7 col-sm-6'>
+					<select name='user-gender-select' class='form-control'>
+						{{#if $.Session.equals 'gender' 'male'}}
+						<option value='female'>Femme</option>
+						<option value='male' selected>Homme</option>
+						{{else}}
+						<option value='female' selected>Femme</option>
+						<option value='male'>Homme</option>
+						{{/if}}
+					</select>
+				</div>
+			</div>
+			<div class='user-information user-siret col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Numéro de SIRET</label>
+				<div class='col-xs-12 col-md-7 col-sm-6'>
+					<input type='text' class='form-control' value='{{siret}}'>
+				</div>
+			</div>
+			<div class='user-information user-address col-xs-12 from-group section'>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>
+					{{#if $.Session.equals 'addressStatus' false}}
+					{{else}}
+					{{#if $.Session.equals 'addressStatus' 'OK'}}
+						<i class='text-success fa fa-check-circle-o'></i>
+					{{else}}
+						<i class='text-warning fa fa-question-circle-o'></i>
+					{{/if}}{{/if}} Adresse
+				</label>
+				<div class='col-xs-12 col-md-7 col-sm-6'>
+					<input type='text' class='form-control user-address-street' placeholder='Num, rue' value='{{address.street}}'>
+					<input type='text' style='margin-top:5px;' class='form-control user-address-zipcode' placeholder='12345' value='{{address.zipcode}}'>
+					<input type='text' style='margin-top:5px;' class='form-control user-address-city' placeholder='Ville' value='{{address.city}}'>
+				</div>
+			</div>
+			{{/if}}
+
+			{{#if $.Session.equals 'userType' 'individual'}}
 			<div class='user-information user-firstname col-xs-12 from-group section'>
 				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Prenom</label>
 				<div class='col-xs-12 col-md-7 col-sm-6'>
@@ -150,7 +210,7 @@
 			</div>
 			{{/if}}
 			<div class='user-information user-phone col-xs-12 from-group section'>
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Numero de telephone</label>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Numéro de telephone</label>
 				<div class='col-xs-12 col-sm-6 col-md-7'>
 					<div class='input-group'>
 						<span class='input-group-addon'>+33</span>
@@ -158,9 +218,9 @@
 					</div>
 				</div>
 			</div>
-			{{#if $.Session.equals 'isSociety' true}}
+			{{#if $.Session.equals 'userType' 'society'}}
 			<div class='user-information user-birthdate col-xs-12 from-group section'>
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Date de naissance du representant</label>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Date de naissance du représentant</label>
 				<div class='col-xs-12 col-md-7 col-sm-6'>
 					<input type='date' class='form-control' value='{{dateValue birthdate}}'>
 				</div>
@@ -190,6 +250,45 @@
 		<h3 class='blue col-xs-12 section'>Informations complementaire</h3>
 		<div class='user-information user-precisions col-xs-12'>
 			<textarea class='form-control' rows=5>{{precisions}}</textarea>
+		</div>
+	</div>
+	{{/if}}
+	{{#if $.Session.equals 'editJobberTab' 'notificationParam'}}
+	<div class='user-notificationMail-container col-xs-12 form-horizontal'>
+		<h3 class='blue col-xs-12'>Notification Mail</h3>
+		<div class='col-xs-12  user-notificationMails section'>
+		{{#each notificationMail}}
+			<!--<div class='notificationMail col-xs-4 col-md-3 col-lg-2 user-notificationMail' data-which='{{index}}'>
+				<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='{{userHasNotificationParamMail index}}' width='100%' style='padding:5px;'>
+			</div>-->
+			<div class='col-xs-4 col-md-3 col-lg-2 user-notificationMail ' data-which='{{index}}'>
+				<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='{{userHasNotificationParamMail index}} ' width='100%' style='padding:5px;'>
+			</div>
+			{{/each}}
+			
+		</div>
+		<h3 class='blue col-xs-12'>Notification Téléphone</h3>
+		<div class='col-xs-12 user-means section'>évolution a venir
+			{{#each userHasNotificationParamPhone}}
+			<div class='{{userHasMean _id}} user-mean col-xs-4 col-md-2' data-which='{{_id}}'>
+				{{{icon}}}
+			</div>
+			{{/each}}
+		</div>
+		
+		
+		<div class='col-xs-12 col-md-8 user-grades section'>
+			{{#each this.grades}}
+			<div class='grade col-xs-6 col-md-3'>
+				<div class='botborder grade-inside col-xs-12'>
+					<h4>{{name}}</h4>
+					<small>{{formatDate date}}</small>
+					<div class='delete-button'>
+						<i class='delete-icon pull-right mdi mdi-delete' data-which='{{index}}'></i>
+					</div>
+				</div>
+			</div>
+			{{/each}}
 		</div>
 	</div>
 	{{/if}}
@@ -225,7 +324,7 @@
 			{{>spinner}}
 			{{else}}
 			<div class='form-group'>
-				<label class='control-label'>Nom du diplome</label>
+				<label class='control-label'>Nom du diplôme</label>
 				<input type='text' class='form-control add-grade-name' placeholder='BAC, Brevet, etc'>
 			</div>
 			<div class='form-group'>
@@ -233,7 +332,7 @@
 				<input type='date' class='form-control add-grade-date'>
 			</div>
 			<div class='form-group'>
-				<label class='control-label'>Scan du diplome</label>
+				<label class='control-label'>Scan du diplôme</label>
 				<input type='file' class='form-control add-grade-date'>
 			</div>
 			<div class='form-group'>
@@ -263,13 +362,13 @@
 		<div class='user-bank col-xs-12 form-horizontal'>
 			{{#if society}}
 			<div class='user-bank user-name col-xs-12 from-group section'>
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Nom de la societe</label>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Nom de la société</label>
 				<div class='col-xs-12 col-md-7 col-sm-6' style='padding-top:7px;'>
 					<span>{{name}}</span>
 				</div>
 			</div>
 			<div class='user-bank user-siret col-xs-12 from-group section'>
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Numero de SIRET</label>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Numéro de SIRET</label>
 				<div class='col-xs-12 col-md-7 col-sm-6' style='padding-top:7px;'>
 					<span>{{siret}}</span>
 				</div>
@@ -277,12 +376,12 @@
 			{{/if}}
 			<div class='user-bank user-firstname col-xs-12 from-group section'>
 				{{#if society}}
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Prenom du representant</label>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Prénom du représentant</label>
 				<div class='col-xs-12 col-md-7 col-sm-6'>
 					<input type='text' class='form-control col-xs'>
 				</div>
 				{{else}}
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Prenom</label>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Prénom</label>
 				<div class='col-xs-12 col-md-7 col-sm-6' style='padding-top:7px;'>
 					{{firstname}}
 				</div>
@@ -290,7 +389,7 @@
 			</div>
 			<div class='user-bank user-lastname col-xs-12 from-group section'>
 				{{#if society}}
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Nom du representant</label>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Nom du représentant</label>
 				<div class='col-xs-12 col-md-7 col-sm-6'>
 					<input type='text' class='form-control col-xs'>
 				</div>
@@ -303,7 +402,7 @@
 			</div>
 			<div class='user-bank user-lastname col-xs-12 from-group section'>
 				{{#if society}}
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Date de naissance du representant</label>
+				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Date de naissance du représentant</label>
 				<div class='col-xs-12 col-md-7 col-sm-6'>
 					<input type='date' class='form-control col-xs'>
 				</div>
@@ -335,7 +434,8 @@
 		{{#each badges}}
 		<div class='user-badge col-xs-12 col-md-6' style=padding:25px; data-which='{{_id}}'>
 			<h4 class='col-xs-12'>
-				<i class='material-icons'>{{icon}}</i>
+				<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='userHasbadgesClasse-got ' width='10%' style='padding:5px;'>						
+				
 				<span style=vertical-align:super;>{{name}}</span>
 				{{#if userHasBadge _id}}
 					<i class='material-icons pull-right'>check_circle</i>
@@ -343,7 +443,15 @@
 			</h4>
 			<h4><small>{{description}}</small></h4>
 			{{#unless userHasBadge _id}}
-				<button class='btn btn-default center-block'>Verifier</button>
+				<button class='btn btn-default center-block' data-which='{{name}}' >Verifier</button>
+				{{#if $eq name 'telephone'}}
+				<div class='botborder  col-xs-12'>
+				<div class='col-xs-12 col-sm-6 col-md-7'>
+					<input id="codeVerifPhone" type='text' placeholder="Code vérification" class='form-control' value=''>
+				<button id="btnCodeVerifPhone" class='btn btn-default' data-which='{{name}}' >soumettre</button>
+				</div>
+			</div>
+				{{/if}}
 			{{/unless}}
 		</div>
 		{{/each}}

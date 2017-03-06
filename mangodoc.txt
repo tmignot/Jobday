@@ -1,0 +1,49 @@
+Description du processus de paiement
+
+
+Tout d'abord, on enregistre et on maintient à jour le client dans la base de données de MangoPay à l'appel de la fonction upsertMangoUser() [server/mango.js:88] fait dans la fonction UsersData.after.update() [lib/collections/usersDatas.js:213]
+
+Lorsque le Rib ou/et l'IBAN d'un client sont mis à jour, UsersData.after.update() fait appel à une autre fonction upsertMangoBank() [server/mango.js:146] pour enregistrer et maintenir à jour les informations bancaires des clients.
+
+Lors de la création d'un nouveau client, il est également créé un portefeuille virtuel rattaché à son ID via la fonction createMangoWallet() [server/mango.js:53]
+
+Dès lors que toutes les places disponibles pour une annonce sont attribuées, son status devient égal à 1 et l'annonceur peut maintenant payer l'annonce. Au moment de valider les informations de sa carte bancaire, nous envoyons une demande de creation de jeton d'enregistrement de carte a MangoPay via la fonction createCardReg() [server/methods.js:82] et nous renvoyons au client ce jeton ainsi qu'une URL fournie par Mango à laquelle le client doit envoyer ses informations personnelles afin qu'elles ne transitent pas par le serveur.
+
+L'appel est fait dans le fichier [client/template/makePaymentModal.js:57]
+
+Une fois que les serveurs de MangoPay ont repondu au client, ce dernier appelle alors la fonction updateCardReg() [server/methods.js] avec la réponse faite précédemment par MangoPay que le serveur reconfirme aupres de MangoPay pour plus de sécurité.
+
+MangoPay répond alors au serveur en renvoyant un CardId que nous retournons au client.
+
+Si tout c'est correctement déroulé ce dernier appelle alors la fonction makePayment() [server/methods.js:114]
+Celle-ci va alors appeller la fonction createMangoPayin() [server/mango.js:165] qui va creer une demande de debit et retourner une URL pour permettre au client un paiment sécurisé. Elle permet aussi de préciser où le tier de confiance devra retourner le client (à savoir /3dsecure).
+
+Nous renvoyons donc l'URL au client et l'y redirigeons.
+
+Celui-ci valide ou non le paiement sur le site du tier de confiance qui le redirige vers la page /3dsecure
+
+A ce stade, si la transaction a été un succes, alors la carte a été debitée du montant prévu et les fonds transférés sur le portefeuille virtuel associé au client débité.
+
+Après redirection, le client se retrouve donc sur /3dsecure [lib/Router.js:224] Ici on demande a MangoPay si la transaction à été un succes via la fonction getPayin() [server/methods.js:64] avec le transactionId fourni en parametre et si c'est le cas on appelle la fonction finalizePayment() [server/methods.js:46]
+
+Cette derniere valide l'annonce comme étant terminée (status 2).
+
+Une fois l'annonce terminée l'annonceur peut laisser un avis.
+
+Lorsque l'annonceur laisse un avis, voir fonction leaveComment() [server/methods.js:11], la fonction createMangoTransfer() [server/mango.js:202] est appelée.
+
+Celle-ci appelle MangoPay à transferer les fond du portefeuille virtuel débité au portefeuille virtuel crédité et une fois l'opération validée, demande le transfer du portefeuille virtuel vers le compte à créditer en appellant la fonction createMangoPayout() [server/mango.js:234].
+
+La fonction fakePayment() [server/methods.js:128] devrait etre supprimée avant la mise en production ainsi que le bouton permettant de simuler le paiement [client/template/missionProfil.html:104-106/206-207] et [client/template/missionProfil.js:114-116]
+
+La commission prise par Jobday est inscrite comme 10% du prix et est payée actuellement par l'annonceur.
+Celle-ci est définie dans le fichier [server/mango.js:179] lors de la creation de demande de debit de carte (fonction createMangoPayin()), mais également dans [server/methods.js:123] et dans [client/template/makePaymentModal.js:11].
+Dans tous les cas la commission est représentée par le nombre 1.1 pour 10% soit 1.2 pour 20%.
+
+La configuration est éditable dans le fichier [server/mango.js:25-27]
+
+Attention: Apres quelques tests, il s'avere que les montants et la quantitee de transfer possible pour un meme utilisateur soient limitées par MangoPay avant de fournir et faire valider certains documents d'identites par leurs services. Les services sont limités à 2500 euros pour les annonceurs, et à 1000 euros pour les jobber, par an.
+
+Il est donc fortement conseille de leur transmettre les carte d'identites, cela automatiserai du meme coup votre processus de verification d'identite. Pour cela il faudra mettre en place des Hooks (voir MangoPay doc https://docs.mangopay.com/endpoints/v2.01/hooks ) pour permettre au serveur de communiquer seul avec leurs services et creer les routes sur lesquelles les réponses seront reçues afin de mettre à jour la base de données.
+
+Il a été fait appel à plusieurs reprises à un module nommé jalik:mangopay pour faciliter la communication avec les services de MangoPay. Cependant ce dernier ne respecte pas les normes de sécurité en matière de transfer d'informations sensibles et enverrai au serveur les informations de carte bancaire si on l'utilisait comme précisé sur la page d'accueil du projet. Ce module n'étant pas fini (aussi précisé sur la page d'accueil) et étant susceptible de contenir des bugs, je l'ai attentivement étudié avant de l'inclure pour m'assurer qu'il ne serait pas dangereux. Après analyse, il s'est avéré que cette partie du module n'était pas sure et j'ai donc décidé de la contourner via l'appel au module HTTP pour faire ma demande de validation de carte directement du client aux services de MangoPay [client/template/makePaymentModal.js:57].

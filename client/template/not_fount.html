@@ -1,0 +1,65 @@
+﻿<template name='NotFound'>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-91207083-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+	<div class='container modal-body section'>
+		<div class='row'>
+		<div class='user-text user-photo-container col-xs-12' >
+			<h1>Bonjour / Bonsoir ,</h1><br>
+			la page demandée n'est pas ou plus accessible pour vous.<br>
+			Veuillez revenir à la page d'acceuil <a href="/">ici</a> et vider vos caches internet.<br>
+			Si cela représente une anomalie comportemental, n'hésitez pas à nous prévenir.<br> 
+			
+			L'équipe <img src="/jobday.png" width="10%"> vous souhaite un bon Job ;).<br>
+			<div>
+			Cordialement.<br>
+	</div>
+			</div>
+			<form id="contact" method="post" action="#">
+                    <div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
+					<span class="input-group-addon" id="sizing-addon1" style="width:150px;">
+					Nom
+					</span>
+					<input type="text" class="form-control" placeholder="xxxxxxx"  id="nom" name="nom" tabindex="1" />
+					</div>
+			<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
+			<span class="input-group-addon" id="sizing-addon1" style="width:150px;">
+			Email :
+			</span>
+			<input type="text" class="form-control" placeholder="xxxxxxxx@xxxx.xxxx"  id="email" name="email" tabindex="2" />
+             </div>
+			 
+             <div class="input-group input-group-lg" style="height:55%;width:100%;margin-top:5px;">
+			<span class="input-group-addon" id="sizing-addon1" style="width:150px;">
+			Message :
+			</span>
+			<textarea style="height:20vh;" class="form-control" id="message" name="message" tabindex="4" cols="50" rows="8"></textarea>
+         </div>
+		 <div style='text-align: center;
+    color: white;
+    font-size: 16px;
+    background: #ee7202;
+    cursor: pointer;
+	padding: 10px;
+    border-radius: 20%;
+	margin-top:10px;' class='information submit-button-container col-xs-4' id="envoi" >
+			<div class='button submit-button button active'>
+				<i class='glyphicon glyphicon-check'></i>
+				<span class='hidden-xs'> Envoyer</span>
+			</div>
+		</div>
+        
+    </form>
+<br>
+	
+			</div>
+	</div>
+		
+</template>

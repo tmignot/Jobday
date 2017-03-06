@@ -12,14 +12,15 @@
 						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
 							<span class="input-group-addon" id="sizing-addon3" style="width:150px;">Status</span>
 							<select id='societyInput' class='form-control' aria-describedby='sizing-addon3'>
-								<option value=false>Auto-entrepreneur</option>
-								<option value=true>Societe</option>
+								<option value="professional">Auto-entrepreneur</option>
+								<option value='society'>Societe</option>
+								<option value='individual'>Particulier</option>
 							</select>
 						</div>
-						{{#if $.Session.equals 'society' 'false'}}
+						{{#if $.Session.equals 'society' 'society'}}
 						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
-							<span class="input-group-addon" id="sizing-addon4" style="width:150px;">Prenom </span>
-							<input type="text" id="signupFirstname" class="form-control" placeholder="Votre prenom" aria-describedby="sizing-addon1">
+							<span class="input-group-addon" id="sizing-addon4" style="width:150px;">Pr&eacute;nom </span>
+							<input type="text" id="signupFirstname" class="form-control" placeholder="Votre pr&eacute;nom" aria-describedby="sizing-addon1">
 						</div>
 						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
 							<span class="input-group-addon" id="sizing-addon4" style="width:150px;">Nom</span>
@@ -28,7 +29,7 @@
 						{{else}}
 						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
 							<span class="input-group-addon" id="sizing-addon4" style="width:150px;">Nom</span>
-							<input type="text" id="signupName" class="form-control" placeholder="Nom de votre societe" aria-describedby="sizing-addon1">
+							<input type="text" id="signupName" class="form-control" placeholder="Nom de votre société" aria-describedby="sizing-addon1">
 						</div>
 						{{/if}}
 						<div class="input-group input-group-lg" style="width:100%;margin-top:5px;">
@@ -56,8 +57,8 @@
 					</div>
 					{{else}}
 					<div class='modal-body'>
-						<h3>Un email de confirmation vous a ete envoye</h3>
-						<h4 style='text-align:center;'>Merci de cliquer sur le lien de confirmation dans votre email pour confirmer votre adresse electronique</h4>
+						<h3>Un email de confirmation vous a été envoyé</h3>
+						<h4 style='text-align:center;'>Merci de cliquer sur le lien de confirmation qui apparaît dans l'email reçu afin de valider votre adresse électronique, et pour valider également votre premier badge.</h4>
 					</div>
 					{{/unless}}
 				</form>

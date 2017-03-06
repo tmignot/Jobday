@@ -1,0 +1,81 @@
+<template name='userCard'>
+	<div class="col-xs-12 col-sm-6 col-md-4">
+		<div class='card col-xs-12'>
+			<div class='cardLeft col-xs-6 nopad'>
+				<img class="card-img-top" src="{{photo}}" alt="Card image cap" width='100%'>
+			</div>
+			<div class='cardRight col-xs-6'>
+				<div class='badges col-xs-12 nopad'>
+					<h5 class='col-xs-12'>Badges</h5>
+					<div class='col-xs-12 nopad'>
+						{{#if this.badges.length }}
+							{{#each badges}}
+								{{#if userHasBadge _id}}
+									<div class='col-xs-3' style='padding:2px;'>
+										<img width=100% src='{{icon}}' data-toogle='tooltip' title='{{name}}'>
+									</div>
+								{{/if}}
+							{{/each}}
+						{{else}}
+						<small>Aucun badge</small>
+						{{/if}}
+					</div>
+				</div>
+			</div>
+			<div class="card-block">
+				<h4 class="card-title">{{#unless $eq userType 'society'}}{{firstname}}{{/unless}} {{name}}</h4>
+			</div>
+			<div class='cardButtons hidden-xs'>
+				<div class='cardButtonContainer'>
+					<a href='/profilUser/{{userId}}'>
+						<div class='button blue circle show' data-toogle='tooltip' title='voir le profil'>
+							<i class='glyphicon glyphicon-eye-open'></i>
+						</div>
+					</a>
+				</div>
+				<div class='cardButtonContainer'>
+					<div class='button blue circle certify' data-user-id='{{userId}}' data-toogle='tooltip' title='certifier'>
+						<i class='fa fa-check'></i>
+					</div>
+				</div>
+				<div class='cardButtonContainer'>
+					<div class='button orange circle remove' data-user-id='{{userId}}' data-toogle='tooltip' title='supprimer'>
+						<i class='fa fa-remove'></i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='cardButtonsXs col-xs-12 visible-xs'>
+			<div class='cardButtonXsContainer col-xs-4'>
+				<a href='/profilUser/{{userId}}'>
+					<div class='button blue circle show' data-toogle='tooltip' title='voir le profil'>
+						<i class='glyphicon glyphicon-eye-open'></i>
+					</div>
+				</a>
+			</div>
+			<div class='cardButtonXsContainer col-xs-4'>
+				<div class='button blue circle certify' data-user-id='{{userId}}' data-toogle='tooltip' title='certifier'>
+					<i class='fa fa-check'></i>
+				</div>
+			</div>
+			<div class='cardButtonXsContainer col-xs-4'>
+				<div class='button orange circle remove' data-user-id='{{userId}}' data-toogle='tooltip' title='supprimer'>
+					<i class='fa fa-remove'></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name='adminCard'>
+	{{#with userData _id}}
+	<div class="card col-xs-12 nopad">
+		<a href='/profilUser/{{../_id}}'>
+			<img class="card-img-top" src="{{photo}}" alt="Card image cap" width='100%'>
+			<div class="card-block">
+				<h4 class="card-title">{{#unless $eq userType 'society'}}{{firstname}}{{/unless}} {{name}}</h4>
+			</div>
+		</a>
+	</div>
+	{{/with}}
+</template>

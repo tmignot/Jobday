@@ -5,27 +5,30 @@
 	<div id='{{parentAcc}}-collapse-2' class='panel-collapse collapse'>
 		<div class='panel-body'>
 			{{#unless messages.length}}
-				<h3><small>Aucune question n'a encore ete posee</small></h3>
+				<h3><small>Aucune question n'a encore &eacute;t&eacute; pos&eacute;e.</small></h3>
 			{{else}}
 				{{#each messages}}
 					{{>message}}
 				{{/each}}
 			{{/unless}}
 			{{#unless hasPassed}}
+			{{#if societyMessage}}
 			{{#if currentUser}}
 			<div class='col-xs-12 col-md-3 section hidden-xs hidden-sm'>
 				<img width='100%' src='{{currentUserData.photo}}'>
 			</div>
 			<div class='col-xs-12 col-md-9 section'>
 				<textarea class='form-control' placeholder='Posez une question'></textarea>
-				<small class='col-xs-12 col-sm-6 col-md-8 col-lg-9'>Il est interdit de divulguer ici des informations pouvant permettre de vous contacter</small>
+				<small class='col-xs-12 col-sm-6 col-md-8 col-lg-9'>Il est interdit de divulguer ici des coordonn&eacute;es personnelles.</small>
 				<span class='submit orange col-xs-12 col-sm-6 col-md-4 col-lg-3'>Envoyer</span>
 			</div>
 			{{else}}
 			<div class='col-xs-12'>
-				<span class='warning'>Vous devez etre connecte pour envoyer un message</span>
+				<span class='warning'>Vous devez être connect&eacute; pour envoyer un message.</span>
 			</div>
 			{{/if}}
+			{{/if}}
+			
 			{{/unless}}
 		</div>
 	</div>

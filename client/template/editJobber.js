@@ -3,11 +3,11 @@ Template.editJobber.onCreated(function() {
 	this.compressing = new ReactiveVar(false);
 	this.uploadingGrade = new ReactiveVar(false);
 	Maps.create({type: 'geocoder'});
-	Session.set('isSociety', false);
+	Session.set('userType', 'individual');
 	Session.set('gender', 'female');
 	Session.set('addressStatus', false);
 	if (this.data) {
-		Session.set('isSociety', this.data.society);
+		Session.set('userType', this.data.userType);
 		Session.set('gender', this.data.gender == 1? 'male':'female');
 	}
 });
@@ -20,16 +20,16 @@ Template.editJobber.onRendered(function() {
 	var gender = Session.get('gender');
 	var genderSelect = $('select[name="user-gender-select"]');
 	genderSelect.val(gender);
-	var society = Session.get('isSociety');
-	var societyInput = $('input[name="user-society-input"][value="'+society+'"]');
-	societyInput.prop('checked', true);
+	var userType = Session.get('userType');
+	var userTypeSelect = $('input[name="user-type-select"]');
+	userTypeSelect.val(userType);
 });
 
 Template.editJobber.helpers({
 	runHelp: function() { // dummy helper just to be rerun on subTemplate rendering
 		var data = Template.instance().data;
 		if (data) {
-			Session.set('isSociety', data.society);
+			Session.set('userType', data.userType);
 			Session.set('gender', data.gender == 1? 'male':'female');
 		}
 	},
@@ -48,10 +48,29 @@ Template.editJobber.helpers({
 		var params = Router.current().params;
 		if (params && params.query && params.query.tab) {
 			switch(w) {
-				case 'next': return params.query.tab == 'badges' ? 'inactive':'';
+				//JME case 'next': return params.query.tab == 'badges' ? 'inactive':'';
+				case 'next': return params.query.tab == 'notificationParam' ? 'inactive':'';
 				default: return '';
 			}
 		}
+	},
+	userHasNotificationParamMail: function(id) {
+		if (!Template.instance().data)
+			return 
+		var m = Template.instance().data.notificationMail;
+		//console.log(m);
+		if (m && _.contains(m, id)){
+			return 'notificationParamMail-got';
+	}else{
+		return 'notificationParamMail-not-got';
+	}
+	},
+	userHasNotificationParamPhone: function(id) {
+		if (!Template.instance().data)
+			return
+		var m = Template.instance().data.notificationParamPhoneValue;
+		if (m && _.contains(m, id))
+			return 'notificationParamPhone-got';
 	},
 	userHasMean: function(id) {
 		if (!Template.instance().data)
@@ -96,8 +115,63 @@ Template.editJobber.helpers({
 });
 
 Template.editJobber.events({
-	'change input[name="user-society-input"]': function(e,t) {
-		Session.set('isSociety', e.currentTarget.value == 'true');
+	'click #btnCodeVerifPhone': function(e,t) {
+		//alert($(e.currentTarget).data('which'));
+		if($(e.currentTarget).data('which')=="telephone"){
+			//alert(document.getElementById("codeVerifPhone").value + ": "+t.data.verifPhone);
+			
+		if (document.getElementById("codeVerifPhone").value == t.data.verifPhone ){
+		UsersDatas.update(
+     { _id: t.data._id },
+     { $push: { 
+				badges: {
+					giver: t.data._id,
+					badgeId: Badges.findOne({"name":"telephone"})._id
+						} 
+			} 
+	 },  function(err, res) {
+				if (err) {
+				
+				} else {
+			Modal.show('modalSuccess', {message: 'Badges Téléphone dévérouiller '});
+			}
+		}
+	 );
+	 
+				
+	}	;
+		}
+		
+		
+	},
+	'click .center-block': function(e,t) {
+		//alert($(e.currentTarget).data('which'));
+		if($(e.currentTarget).data('which')=="telephone"){
+		Meteor.call('sendAenvoyer', Meteor.userId(),"0"," ", function(err, res) {
+				if (err) {
+				console.log(err);
+				} else {
+				Modal.show('modalSuccess', {message: 'Un sms vous seras envoyé pour dévérouiller votre téléphone  entre 8h et 20H de Lundi à Samedi.'});
+				
+			
+			
+			}
+		});
+		}
+		if($(e.currentTarget).data('which')=="Mail"){
+		Meteor.call('verifEmail',  function(err, res) {
+				if (err) {
+				
+				} else {
+			
+			}
+		});
+		}
+		
+	},
+	'change select[name="user-type-select"]': function(e,t) {
+		console.log('changed');
+		Session.set('userType', e.currentTarget.value);
 	},
 	'click .previous-button': function() {
 		var params = Router.current().params;
@@ -106,6 +180,7 @@ Template.editJobber.events({
 				case 'info' : Router.go('/profiluser/'+Meteor.userId()); break;
 				case 'skills': UrlQuery({tab: 'info'}); break;
 				case 'badges': UrlQuery({tab: 'skills'}); break;
+				case 'notificationParam': UrlQuery({tab: 'badges'}); break;
 				default: return;
 			}
 		}
@@ -116,6 +191,7 @@ Template.editJobber.events({
 			switch(params.query.tab) {
 				case 'info': UrlQuery({tab: 'skills'}); break;
 				case 'skills': UrlQuery({tab: 'badges'}); break;
+				case 'badges': UrlQuery({tab: 'notificationParam'}); break;
 				default: return;
 			}
 		}
@@ -169,6 +245,16 @@ Template.editJobber.events({
 			}
 		});
   },
+	'click .user-notificationMail': function(e,t) { // add the notification that was clicked
+		var user = {_id: t.data._id};
+		var index = parseInt($(e.currentTarget).data('which'));
+		
+	//console.log(index);
+		if (_.contains(t.data.notificationMail, index))
+			UsersDatas.update(user, {$pull: {notificationMail: index}});
+		else
+			UsersDatas.update(user, {$push: {notificationMail: index}});
+	},
 	'click .user-skill': function(e,t) { // add the skill that was clicked
 		var user = {_id: t.data._id};
 		var index = parseInt($(e.currentTarget).data('which'));
@@ -232,10 +318,10 @@ Template.editJobber.events({
 		if (params && params.query && params.query.tab) {
 			if (params.query.tab == 'info') {
 				var data;
-				if (Session.get('isSociety') == true) {
+				if (Session.get('userType') == 'society') {
 					data = {
 						userId: Meteor.userId(),
-						society: true,
+						userType: 'society',
 						name: $('.user-name input').val(),
 						siret: $('.user-siret input').val(),
 						address: {
@@ -245,10 +331,25 @@ Template.editJobber.events({
 						},
 						phone: $('.user-phone input').val()
 					};
-				} else {
+				} else if (Session.get('userType') == 'professional'){
 					data = {
 						userId: Meteor.userId(),
-						society: false,
+						userType: 'professional',
+						name: $('.user-name input').val(),
+						firstname: $('.user-firstname input').val(),
+						gender: $('select[name="user-gender-select"]').val() == 'male'? 1:2,
+						siret: $('.user-siret input').val(),
+						phone: $('.user-phone input').val(),
+						address: {
+							street: $('.user-address-street').val(),
+							zipcode: $('.user-address-zipcode').val(),
+							city: $('.user-address-city').val()
+						},
+					};
+				} else if (Session.get('userType') == 'individual') {
+					data = {
+						userId: Meteor.userId(),
+						userType: 'individual',
 						name: $('.user-name input').val(),
 						firstname: $('.user-firstname input').val(),
 						gender: $('select[name="user-gender-select"]').val() == 'male'? 1:2,
@@ -259,6 +360,10 @@ Template.editJobber.events({
 							city: $('.user-address-city').val()
 						},
 					};
+				}
+				if ($('.user-birthdate input').val()){}else{
+                     if ( Session.get('isSociety') != true){
+				Modal.show('modalSuccess', {message: 'La date de naissance est obligatoire'});}
 				}
 				if ($('.user-birthdate input').val())
 					data.birthdate = new Date($('.user-birthdate input').val()),

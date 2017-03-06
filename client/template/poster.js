@@ -31,7 +31,7 @@ Template.poster.onRendered(function() {
 				for (var i = 0; i < p.address_components.length; i++) {
 					var addressType = p.address_components[i].types[0];
 					var val = p.address_components[i].long_name;
-					console.log(addressType, val);
+					//console.log(addressType, val);
 					var s,z,c;
 					switch(addressType) {
 						case 'street_number': s = s?val+' '+s:val; break;
@@ -147,7 +147,7 @@ Template.poster.events({
 		Session.set('choixDate', parseInt(e.currentTarget.value));
 	},
 	'change input[name="choixHoraire"]': function(e,t) {
-		Session.set('choixHoraire', parseInt(e.currentTarget.value)); 
+		Session.set('choixHoraire', parseInt(e.currentTarget.value));
 	},
 	'change #address-inputs input': function(e,t) {
 		var s = t.find('#adresseRueAnnonce').value,
@@ -200,7 +200,7 @@ function bVal(id) {
 }
 
 function dateVal(id) {
-	console.log(new Date(strVal(id)));
+//console.log(new Date(strVal(id)));
 	return new Date(strVal(id));
 }
 
@@ -228,7 +228,7 @@ function getValues() {
 				min: to[1]
 			};
 		}
-		console.log(from, to, wh);
+	//console.log(from, to, wh);
 	} else {
 		var wh = { // not a date range so one of morning, afternoon, evening
 			type: whType
@@ -277,19 +277,32 @@ function checkValues(values, data) {
 	if (ctx.isValid() && !ctx.invalidKeys().length) {
 		if (!data || !data._id) { // for similar advert posting, we have data but no _id
 			Adverts.insert(values, function(err, res) {
-				if (err)
-					console.log(err)
+				if (err){
+					//console.log(err)
+				}
 				else {
 					Modal.show('modalSuccess', {message: 'Votre annonce a bien ete publiee'});
 					Router.go('/missionProfil/'+res);
+					corpsHtml ="Bonjour ! <br><br>J’ai le plaisir de vous annoncer que votre annonce est en ligne. Une alerte a été envoyée aux travailleurs compétents à proximité de CODE POSTAL. <br><br> " ;
+	corpsHtml = corpsHtml + "Je reste à votre service, <br>";	
+	corpsHtml = corpsHtml +"Service Client Jobday  <br><br>";
+	
+	corpsHtml = corpsHtml +" <a href='http://jobday.fr/missionProfil/'"+res+"> CONSULTER VOTRE ANNONCE</a> <br><br>";
+	
+				subjectmail ="[JOBDAY] Votre annonce est en ligne.";
+
+				
+					Meteor.call("sendEmailNoreply",corpsHtml, subjectmail, doc.email)
+					
 				}
 			});
 		} else {
 			values.messages = data.messages;
 			values.offers = data.offers;
 			Adverts.update({_id: data._id}, {$set: values}, function(err, res) {
-				if (err)
-					console.log(err)
+				if (err){
+					//console.log(err)
+				}
 				else {
 					Modal.show('modalSuccess', {message: 'Votre annonce a bien ete mise a jour'});
 					Router.go('/missionProfil/'+data._id);

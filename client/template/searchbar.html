@@ -1,15 +1,25 @@
-<template name='searchbar'>
+﻿<template name='searchbar'>
 	<div class='searchbar-container col-xs-12'>
 		<div class='searchbar col-xs-12 col-md-10'>
-			<span class='col-xs-12 col-sm-6'>QUE RECHERCHEZ VOUS?</span>
+			<span class='col-xs-12 col-sm-6'>QUE RECHERCHEZ-VOUS ?</span>
 			<span class='col-xs-12 col-sm-6'>
 				<input type='text' id='local-input' class='col-xs-12 col-sm-6 pull-right' placeholder='LOCALISATION ?'>
 				<input type='text' id='need-input' class='col-xs-12 col-sm-6 pull-right' placeholder='VOTRE BESOIN ?'>
 			</span>
 		</div>
 		<div class='col-xs-6 col-xs-offset-3 col-md-2 col-md-offset-0'>
-			<button class='find-button col-xs-12 hidden-xs hidden-sm'>TROUVER</button>
-			<button class='find-button col-xs-12 visible-xs visible-sm section'>TROUVER</button>
+			<button class='find-button col-xs-12 hidden-xs hidden-sm'>C'EST PARTI !</button>
+			<button class='find-button col-xs-12 visible-xs visible-sm section'>C'EST PARTI !</button>
+		</div>
+	</div>
+</template>
+<template name='cookieAlert'>
+	<div class='searchbar-container col-xs-12' id="cookieAlert" style=" position: fixed;  z-index: 100;" >
+		<div class='searchbar col-xs-12 col-md-10'>
+			En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies pour vous proposer des services et offres adaptés à vos centres d’intérêt.
+            <button class='find-button col-xs-12 hidden-xs hidden-sm' id ='ok'>Ok</button>
+			<button class='find-button col-xs-12 hidden-xs hidden-sm' id= 'fermer' >Fermer</button>
+			<button class='find-button col-xs-12 hidden-xs hidden-sm' id='helpCookie'>En savoir plus</button>
 		</div>
 	</div>
 </template>

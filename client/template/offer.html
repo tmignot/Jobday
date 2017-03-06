@@ -1,11 +1,11 @@
-<template name='offers'>
+﻿<template name='offers'>
 	<div class='panel-heading'>
 		<h4 class='panel-title'><a data-toggle='collapse' data-parent='#{{parentAcc}}' href='#{{parentAcc}}-collapse-1'>Offres recues ({{offers.length}})</a></h4>
 	</div>
 	<div id='{{parentAcc}}-collapse-1' class='panel-collapse collapse'>
 		<div class='panel-body'>
 			{{#unless offers.length}}
-				<h3><small>Aucune offre n'a encore ete faite</small></h3>
+				<h3><small>Aucune offre n'a encore été faite</small></h3>
 			{{else}}
 				{{#each offers}}
 					{{>offer}}
@@ -22,6 +22,10 @@
 			<img src='{{photo}}' width='100%'>
 			<h4><a href='/profiluser/{{userId}}'>{{username userId}}</a></h4>
 			{{>stars notes=notes count=true}}
+			<span class='offer-badges col-xs-4'>
+						{{#each badges}}
+						{{/each}}
+					</span>
 		</div>
 		{{/with}}
 		<div class='col-xs-12 col-sm-8 col-md-9 '>
@@ -35,14 +39,11 @@
 							<i class='glyphicon glyphicon-briefcase text-warning' data-toggle='tooltip' title='Non Professionel'></i>
 					{{/if}}
 					</span>
-					<span class='offer-badges col-xs-4'>t
-						{{#each badges}}
-						{{/each}}
-					</span>
+					
 				{{/with}}
 				<span class='offer-price col-xs-3'>{{price}}€</span>
 			</div>
-			<div class='offer-comment col-xs-12 section'>
+			<div class='offer-comment col-xs-12 section' style="word-break: break-all;" >
 				<h4>{{comment}}</h4>
 			</div>
 		</div>
@@ -59,7 +60,7 @@
 						{{>minispinner}}
 					{{else}}
 						{{#if validated}}
-							<div class='orange button invalidate'>Se desister</div>
+							<div class='orange button invalidate'>Annuler votre choix</div>
 						{{else}}
 							{{#if $eq ../../status 0}}
 								<div class='blue button validate'>Valider</div>

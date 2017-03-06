@@ -2,6 +2,63 @@ Accounts.config({
 	sendVerificationEmail: true
 });
 
+Accounts.emailTemplates.siteName = "www.jobday.fr";
+Accounts.emailTemplates.from     = "Jobday <no-reply@incrdev.com>";
+
+Accounts.emailTemplates.verifyEmail = {
+	subject: function() {
+		return "[Jobday] Verify Your Email Address";
+	},
+	html: function(user, url) {
+		var supportEmail = "concact@jobday.fr",
+				emailBody = emailBodyTemplate+
+										"<br>Bonjour/Bonsoir<br>  Nous avons bien pris en compte votre inscription. <br>"+
+										"Pour activer votre compte et/ou débloquer votre badge E-mail vérifié, il vous suffit "+
+										"de cliquer sur le lien ci-dessous : <a href='" +url+"'> Valider mon compte <a/> "+
+										emailBodyTemplate2;
+		return emailBody;
+	}
+};
+
+Accounts.emailTemplates.enrollAccount = {
+	subject: function() {
+		return "[Jobday] You now have Administrator privileges";
+	},
+	html: function(user, url) {
+		var supportEmail = "concact@jobday.fr",
+				emailBody = emailBodyTemplate+
+										"<br>Bonjour/Bonsoir<br>  Nous vous avons enregistre comme nouvel Administrateur. <br>"+
+										"Pour activer votre compte, il vous suffit "+
+										"de cliquer sur le lien ci-contre : <a href='" +url+"'> Valider mon compte <a/> "+
+										emailBodyTemplate2;
+		return emailBody;
+	}
+};
+
+Accounts.emailTemplates.resetPassword = {
+	subject: function() {
+		return "[Jobday] Reset your password";
+	},
+	html: function(user, url) {
+		var supportEmail = "concact@jobday.fr",
+				emailBody = emailBodyTemplate+
+										"<br>Bonjour/Bonsoir<br>  Il semble que vous ayez perdu votre mot de passe. <br>"+
+										"Pour le reinitialiser, il vous suffit "+
+										"de cliquer sur le lien ci-dessous : <a href='" +url+"'> Reinitialiser mon mot de passe <a/> "+
+										emailBodyTemplate2;
+		return emailBody;
+	}
+};
+
+/*
+Accounts.validateNewUser(function(user) {
+	if (user.services && user.services.password)
+		return true;
+	else
+		throw new Meteor.Error('accountNotFound');
+});
+*/
+
 Accounts.onCreateUser(function (options, user) {
 	if (options.profile)
 		user.profile = options.profile;
@@ -11,6 +68,8 @@ Accounts.onCreateUser(function (options, user) {
 	else if (user.services) {
 		var service = _.keys(user.services)[0];
 		var email = user.services[service].email;
+		if (email==undefined)
+			email = user.services[service].emailAddress;
 		if (!email) {
 			if (user.emails)
 				email = user.emails[0].address;
@@ -22,7 +81,7 @@ Accounts.onCreateUser(function (options, user) {
 		{'emails.0.address': email},
 		{'services.google.email': email},
 		{'services.facebook.email': email},
-		{'services.linkedin.email': email}
+		{'services.linkedin.emailAddress': email}
 	]});
 	if (existingUser) {
 		// merging account with already existing account
@@ -39,10 +98,10 @@ Accounts.onCreateUser(function (options, user) {
 		};
 		if (user.services && user.services.password) {
 			method = 'password';
-			console.log(user.profile);
+//			console.log(user.profile);
 			userData.name = user.profile.name;
-			userData.society = user.profile.society;
-			if (!userData.society)
+			userData.userType = user.profile.userType;
+			if (userData.userType != 'society')
 				userData.firstname = user.profile.firstname;
 		} else if (user.services && user.services.google) {
 			userData.name = user.services.google.family_name;
@@ -68,6 +127,22 @@ Accounts.onCreateUser(function (options, user) {
 					default: return 0;
 				}
 			})();
+		}else if (user.services && user.services.linkedin) {
+			userData.name = user.services.linkedin.lastName;
+			userData.firstname = user.services.linkedin.firstName;
+			userData.photo =  user.services.linkedin.pictureUrl;
+			//userData.locale = user.services.facebook.locale.split('_')[0];
+			// userData.gender = (function() {
+				// switch(user.services.facebook.gender) {
+					// case 'male': return 1;
+					// case 'female': return 2;
+					// default: return 0;
+				// }
+			// })();
+		} else {
+			userData.firstname = user.profile.firstname;
+			userData.name = user.profile.name;
+			userData.userType = user.profile.userType;
 		}
 		// create userdata if new user
 		userDataId = UsersDatas.insert(userData);

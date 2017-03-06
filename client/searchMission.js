@@ -26,7 +26,9 @@ Template.searchMission.onCreated(function() {
 		}
 	}
 	if (Session.get('searchMissionLocal'))
-		f['$or'] = [{'online': true}, {'address.city': new RegExp('^.*'+Session.get('searchMissionLocal').split(',')[0]+'.*$', 'i')}];
+		f['$or'] = [{'online': true}, {'address.city': new RegExp('^.*'+Session.get('searchMissionLocal').split(',')[0]+'.*$', 'i')}, {'address.zipcode': new RegExp('^.*'+Session.get('searchMissionLocal').split(',')[0]+'.*$', 'gi')}];
+		//console.log(new RegExp('^.*'+Session.get('searchMissionLocal').split(' ')[0]+'.*$', 'i'));
+		//f['$or'] = [{'address.zipcode': new RegExp('^.*'+Session.get('searchMissionLocal').split(' ')[0]+'.*$', 'i')}];
 	if (Session.get('searchMissionNeed')) 
 		f.title = new RegExp('^.*'+Session.get('searchMissionNeed')+'.*$', 'i');
 
@@ -61,10 +63,22 @@ Template.searchMission.onRendered(function() {
 				navigator.geolocation.getCurrentPosition(function(position) {
 					Maps.maps.searchMissionMap.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
 					Maps.maps.searchMissionMap.setZoom(6);
+					
+					
+					
+					
+					
 				});
 			}
+			
+			
+			
 		}
 	});
+	
+	
+	
+	
 	$("#searchMissionMap").affix({ // setting map affix to permit it to stay when scrolling
 		offset: { 
 			top: 475
@@ -88,6 +102,15 @@ Template.searchMission.onRendered(function() {
 });
 
 Template.searchMission.helpers({
+	numberNotificationALL: function() { // returns the user's hometown
+	//console.log(Meteor.userId());
+	var idsArray=[];
+	idsArray.push(Meteor.userId());
+	//console.log(idsArray);
+		var aA = UserNotification.find({'owner': Meteor.userId()});
+		
+		return aA.count();
+},
 	active: function(w) { // returns a classname for underlining top filters
 		var f = Template.instance().filters.get();
 		if ((f && !_.keys(f).length && w == 'all') ||
@@ -152,7 +175,7 @@ Template.searchMission.events({
 		} else if (filters.hasOwnProperty('category'))
 			delete filters['category']; // we delete it because we don't want to find category:undefined
 		// online OR with current address filter
-		filters['$or'] = [{'online': true}, {'address.city': new RegExp('^.*'+t.find('#localisation').value+'.*$', 'gi')}];
+		filters['$or'] = [{'online': true}, {'address.city': new RegExp('^.*'+t.find('#localisation').value+'.*$', 'gi')}, {'address.zipcode': new RegExp('^.*'+t.find('#localisation').value+'.*$', 'gi')}];
 		// description that contains the keywords
 		filters.description = new RegExp('^.*'+t.find('#keyword').value+'.*$', 'gi');
 		// title that contains the needs

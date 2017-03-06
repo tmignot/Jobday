@@ -9,3 +9,9 @@ Template.profileNotComplete.events({
 		Router.go('editJobber', {id: Meteor.userId()},{query: {tab: 'info'}});
 	}
 });
+
+Template.confirmationModal.events({
+	'click .confirm': function(e,t) {
+		t.data.onConfirm.call();
+	}
+});

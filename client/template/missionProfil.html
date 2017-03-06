@@ -1,17 +1,27 @@
-<template name="missionProfil">
+﻿<template name="missionProfil">
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-91207083-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 	<div class='mission-container col-xs-12 col-md-9'>
 		<div class='mission-header' style='width:100%'>
 			{{#with category this.category}}
 			<img src='{{icon}}' style='display:inline-block;vertical-align:middle;padding:15px;' width='23%' data-toggle='tooltip' title='{{name}}'>
 			{{/with}}
-			<div style='width:75%;display:inline-block;vertical-align:middle;'>
+			<div style='width:75%;display:inline-block;vertical-align:middle;word-wrap: break-word;'>
 				<h3 style='vertical-align:middle;'>{{title}}<br>
 					<small>{{getCat}}</small>
 				</h3>
 				<h4 style='text-align:right;'><small>Poste par <a href='/profilUser/{{owner}}'>{{username owner}}</a> {{fromNow createdAt}}</small></h4>
 			</div>
 		</div>
-		<div class='mission-description col-xs-12 section bleft'>
+		<div class='mission-description col-xs-12 section bleft' style='word-wrap: break-word;'>
 			<span class='col-xs-6 col-md-3'>
 				<i class='material-icons'>person_add</i>{{waitingFor}} places restantes
 			</span>
@@ -22,12 +32,12 @@
 			{{/if}}
 			{{#if clothes}}
 			<span class='col-xs-6 col-md-3'>
-				<i class='material-icons'>accessibility</i> Vetements fournis
+				<i class='material-icons'>accessibility</i> Vêtements fournis
 			</span>
 			{{/if}}
 			{{#if needsVehicle}}
 			<span class='col-xs-6 col-md-3'>
-				<i class='material-icons'>directions_car</i> Vehicule necessaire
+				<i class='material-icons'>directions_car</i> Véhicule nécessaire
 			</span>
 			{{/if}}
 			<h4 class='col-xs-12 section pre-wrap'>{{description}}</h4>
@@ -51,11 +61,11 @@
 					<i class='material-icons'>schedule</i>
 					{{#with workingHours}}
 					{{#if $eq type 1}}	
-					<label>Horaire libre</label>
+					<label>Horaires libre</label>
 					{{/if}}{{#if $eq type 2}}
 					<label>Le matin</label>
 					{{/if}}{{#if $eq type 3}}
-					<label>L'apres-midi</label>
+					<label>L'après-midi</label>
 					{{/if}}{{#if $eq type 4}}
 					<label>Le soir</label>
 					{{/if}}{{#if $eq type 5}}
@@ -94,7 +104,7 @@
 			{{#unless hasPassed}}
 			{{#if currentUser}}
 				{{#if $eq status 2}}
-				<span>Job termine</span>
+				<span>Job terminé</span>
 				{{else}}
 				{{#if $eq currentUser._id owner}}
 					{{#unless waitingFor}}
@@ -111,6 +121,7 @@
 				{{else}}
 					{{#unless hasOffer}}
 					{{#if waitingFor}}
+					{{#if societyMessage}}
 						{{#if negocible}}
 						<div id="btnFaireOffre" class="orange button section col-xs-12" >
 							<i class='glyphicon glyphicon-map-marker'></i> Faire une Offre
@@ -121,12 +132,14 @@
 						</div>
 						{{/if}}
 					{{/if}}
+					
+					{{/if}}
 					{{/unless}}
 				{{/if}}
 				{{/if}}
 			{{/if}}
 			{{else}}
-				<span>Job termine</span>
+				<span>Job terminé</span>
 			{{/unless}}
 			<div class="panel-group col-xs-12" style='margin-top:5px;'>
 				<div class="panel panel-default">
@@ -185,7 +198,7 @@
 			</div>
 			{{#if currentUser}}
 				{{#if $eq status 2}}
-				<span>Job termine</span>
+				<span>Job terminé</span>
 				{{else}}
 				{{#if $eq currentUser._id owner}}
 					{{#unless waitingFor}}

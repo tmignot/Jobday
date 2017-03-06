@@ -1,5 +1,5 @@
 <template name='genericModal'>
-	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal fade" id='modal_{{id}}' tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog container" role="document">
 			<div class="modal-content row">
 				<div class="modal-header col-xs-12" style="background-color:#63c2c7;color:white;">
@@ -23,10 +23,10 @@
 	{{#genericModal title='Profil incomplet'}}
 		<h4>Votre profil est incomplet, vous devez renseigner vos informations personnelles avant de pouvoir effectuer cette operation.</h4>
 	{{else}}
-		<div class='col-xs-4 col-xs-offset-1 orange pointer'>
+		<div class='col-xs-4 col-xs-offset-1 orange button'>
 			Annuler
 		</div>
-		<div class='col-xs-4 col-xs-offset-2 blue pointer'>
+		<div class='col-xs-4 col-xs-offset-2 blue button'>
 			Editer votre profil
 		</div>
 	{{/genericModal}}
@@ -34,36 +34,47 @@
 
 <template name='shouldBeLogged'>
 	{{#genericModal title='Connexion obligatoire' noFoot=true}}
-	<h4>Vous devez vous connecter pour acceder a cette page</h4>
+	<h4>Vous devez vous connecter pour acc&eacute;der à cette page</h4>
 	{{/genericModal}}
-	<div class='col-xs-4 col-xs-offset-4 orange pointer' data-dismiss='modal'>
+	<div class='col-xs-4 col-xs-offset-4 orange button' data-dismiss='modal'>
 		OK
 	</div>
 </template>
 
 <template name='shouldNote'>
-	{{#genericModal title='Note jobber manquante'}}
-	<h4>Vous devez finir de noter tous les jobbers pour pouvoir effectuer cette action</h4>
+	{{#genericModal title='Note travailleur manquante'}}
+	<h4>Vous devez finir de noter tous les travailleurs afin de pouvoir effectuer cette action.</h4>
 	{{else}}
-	<div class='col-xs-4 col-xs-offset-4 orange pointer' data-dismiss='modal'>
+	<div class='col-xs-4 col-xs-offset-4 orange button' data-dismiss='modal'>
 		OK
 	</div>
 	{{/genericModal}}
 </template>
 
 <template name='accountError'>
-	{{#genericModal title='Aucun compte n\'a ete trouve'}}
-		<h4>Votre adresse email n'est reliee a aucun compte, veuillez d'abord vous inscrire</h4>
+	{{#genericModal title="Aucun compte n'a été trouvé"}}
+		<h4>Votre adresse email n'est reliée à aucun compte, veuillez d'abord vous inscrire</h4>
 	{{else}}
 	{{/genericModal}}
-	<div class='col-xs-4 col-xs-offset-4 orange pointer' data-dismiss='modal'>
+	<div class='col-xs-4 col-xs-offset-4 orange button' data-dismiss='modal'>
 		OK
 	</div>
 </template>
 
+<template name='serverErrorModal'>
+	{{#genericModal title='Une erreur est survenue'}}
+		<h4>Detail de l'erreur</h4>
+		<p>{{{reason}}}</p>
+	{{else}}
+		<div class='col-xs-4 col-xs-offset-4 orange button' data-dismiss='modal'>
+			OK
+		</div>
+	{{/genericModal}}
+</template>
+
 <template name='errorModal'>
 	{{#genericModal title='Erreur de saisie'}}
-		<h4>Les champs suivants ne sont pas valides</h4>
+		<h4>Les champs suivants ne sont pas validés.</h4>
 		<ul>
 		{{#each invalidKeys}}
 				<li>
@@ -72,7 +83,7 @@
 			{{/each}}
 		</ul>
 	{{else}}
-		<div class='col-xs-4 col-xs-offset-4 orange pointer' data-dismiss='modal'>
+		<div class='col-xs-4 col-xs-offset-4 orange button' data-dismiss='modal'>
 			Corriger
 		</div>
 	{{/genericModal}}
@@ -82,7 +93,7 @@
 	{{#genericModal title="Action validee"}}
 		<h4>{{message}}</h4>
 	{{else}}
-		<div class='col-xs-4 col-xs-offset-4 orange pointer' data-dismiss='modal'>
+		<div class='col-xs-4 col-xs-offset-4 orange button' data-dismiss='modal'>
 			Ok
 		</div>
 	{{/genericModal}}
@@ -92,8 +103,21 @@
 	{{#genericModal title="Voir l'image"}}
 		<img src='{{src}}' width='100%'>
 	{{else}}
-		<div class='col-xs-4 col-xs-offset-4 orange pointer' data-dismiss='modal'>
+		<div class='col-xs-4 col-xs-offset-4 orange button' data-dismiss='modal'>
 			Ok
 		</div>
 	{{/genericModal}}	
+</template>
+
+<template name="confirmationModal">
+	{{#genericModal title='Etes-vous sur?'}}
+		<h4>{{{message}}}</h4>
+	{{else}}
+		<div class='cancel col-xs-4 col-xs-offset-1 orange button' data-dismiss='modal'>
+			Annuler
+		</div>
+		<div class='confirm col-xs-4 col-xs-offset-2 blue button'>
+			Confirmer
+		</div>
+	{{/genericModal}}
 </template>

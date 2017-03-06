@@ -1,4 +1,15 @@
 Meteor.startup(function() {
+	process.env.MAIL_URL = 'smtp://no-reply%40incrdev.com:dominique@ssl0.ovh.net:465/'
+        /* SSLProxy({
+       port: 3000, //or 443 (normal port/requires sudo)
+       ssl : {
+            key: Assets.getText('key.pem'),
+      cert: Assets.getText('server.crt')
+
+            //Optional CA
+            //Assets.getText("ca.pem")
+       }
+    }); */
 	if (Meteor.users.find({'profile.name': 'Administrator'}).count() == 0) {
 		var adminId = Accounts.createUser({
 			email: 'admin@adm.in',
@@ -6,9 +17,10 @@ Meteor.startup(function() {
 			profile: {
 				name: 'Administrator',
 				firstname: 'Jobday',
-				society: true
+				userType: 'individual'
 			}
 		});
+		Roles.addUsersToRoles(adminId, 'admin');
 		var udId = UsersDatas.findOne({userId: adminId})._id;
 		UsersDatas.update({_id: udId}, {$set: {
 			locale: 'fr',
@@ -64,14 +76,35 @@ Meteor.startup(function() {
 	if (Badges.find().count() == 0) {
 		_.each([
 			{
-				name: 'Numero de telephone',
-				description: 'Faites verifier votre numero de telephone pour recevoir des offres par SMS',
-				icon: 'phone'
+				name: 'telephone',
+				description: 'Confirmer votre numéro de téléphone portable',
+				icon: '/Badges icones/Badge telephone cercle.png'
+			}
+			,
+			// {
+				// name: 'Identite',
+				// description: 'Transferez votre carte d\'identite pour que nous puissions verifier les informations de votre profil',
+				// icon: 'account_box'
+			// },
+			{
+				name: 'Mail',
+				description: 'Validez l’existence de votre adresse e-mail en 1 clic ',
+				icon: '/Badges icones/Badge mail v2 cercle.png'
 			},
 			{
-				name: 'Identite',
-				description: 'Transferez votre carte d\'identite pour que nous puissions verifier les informations de votre profil',
-				icon: 'account_box'
+				name: 'Pro',
+				description: 'Validez l’existence de votre adresse e-mail en 1 clic ',
+				icon: '/Badges icones/Badge pro cercle.png'
+			},
+			{
+				name: 'Social',
+				description: 'Validez l’existence de votre adresse e-mail en 1 clic ',
+				icon: '/Badges icones/Badge social cercle.png'
+			},
+			{
+				name: 'Certifie',
+				description: 'Faites vous certifier par Jobday',
+				icon: '/Badges icones/Badge certifie jobday cercle.png'
 			}
 		], function(b) {
 			Badges.insert(b);

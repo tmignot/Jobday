@@ -1,0 +1,120 @@
+<template name='adminPanel'>
+	<div class='col-xs-12 adminPanel'>
+		<div class='col-xs-12 top-menu nopad'>
+			<a href='/admin?p=events'>
+				{{#if $.Session.equals 'adminPage' 'events'}}
+				<div class='button blue btn botborder col-xs-12 col-md-4 nopad' data-page='events'>Liste des evenements</div>
+				{{else}}
+				<div class='button blue btn col-xs-12 col-md-4 nopad' data-page='events'>Liste des evenements</div>
+				{{/if}}
+			</a>
+			<a href='/admin?p=users'>
+				{{#if $.Session.equals 'adminPage' 'users'}}
+				<div class='button blue btn botborder col-xs-12 col-md-4 nopad' data-page='users'>Liste des utilisateurs</div>
+				{{else}}
+				<div class='button blue btn col-xs-12 col-md-4 nopad' data-page='users'>Liste des utilisateurs</div>
+				{{/if}}
+			</a>
+			<a href='/admin?p=admin'>
+				{{#if $.Session.equals 'adminPage' 'admin'}}
+				<div class='button blue btn botborder col-xs-12 col-md-4 nopad' data-page='admin'>Gestion des administrateurs</div>
+				{{else}}
+				<div class='button blue btn col-xs-12 col-md-4 nopad' data-page='admin'>Gestion des administrateurs</div>
+				{{/if}}
+			</a>
+		</div>
+		{{#if $.Session.equals 'adminPage' 'events'}}
+			{{>adminEventsPage}}
+		{{/if}}
+		{{#if $.Session.equals 'adminPage' 'users'}}
+			{{>adminUsersPage}}
+		{{/if}}
+		{{#if $.Session.equals 'adminPage' 'admin'}}
+			{{>adminAdminPage}}
+		{{/if}}
+	</div>
+</template>
+
+<template name='adminEventsPage'>
+	Events
+</template>
+
+<template name='UsersDatas'>
+	<div id="UsersDatasList" class="section col-xs-12 nopad">
+		{{>pages}}
+		{{>pagesNav}}
+	</div>
+</template>
+
+<template name='adminUsersPage'>
+	<div class='col-xs-12 section userList nopad'>
+		<h3 style='text-align:center'>Rechercher un utilisateur</h3>
+		<div class='form form-horizontal'>
+			<div class='sortOptions col-xs-12'>
+				<div class='col-xs-12'>
+					<h4>Options de tri</h4>
+				</div>
+				<div class='col-xs-12 col-sm-6 col-md-8'>
+					<select class='form-control' name='sorting-options'>
+						<option value='createdAt'>Date de creation du compte</option>
+						<option value='name'>Nom</option>
+						<option value='address.city'>Ville</option>
+						<option value='userType'>Type d'utilisateur</option>
+					</select>
+				</div>
+				<div class='col-xs-12 col-sm-6 col-md-4'>
+					<select class='form-control' name='sorting-order'>
+						<option value=1>Ascendant</option>
+						<option value=-1>Descendant</option>
+					</select>
+				</div>
+			</div>
+			<div class='filter col-xs-12'>
+				<div class='col-xs-12'>
+					<h4>Filtre</h4>
+				</div>
+				<div class='col-xs-12 col-sm-6 col-md-8' style='margin:0 0 5px 0'>
+					<input class='form-control' id='searchQuery' type='text' placeholder='Nom, prenom, ville, etc...'>
+				</div>
+				<div class='validation col-xs-12 col-sm-6 col-md-4'>
+					<div class='button blue search'>Rechercher</div>
+				</div>
+			</div>
+		</div>
+		{{>UsersDatas}}
+	</div>
+</template>
+
+<template name='adminAdminPage'>
+	<div class='col-xs-12 adminList section nopad'>
+	<h3 style='text-align:center'>Gestion des administrateurs</h3>
+	<div class='col-xs-12 section nopad'>
+		{{#each adminList}}
+			<div class='adminCard col-xs-12 col-sm-4 col-md-3 col-lg-2'>
+				{{>adminCard this}}
+				<div class='adminCardBottom'>
+					<div class='button orange col-xs-12 revoquer' data-user-id='{{_id}}'>Revoquer</div>
+				</div>
+			</div>
+		{{/each}}		
+	</div>
+	</div>
+	<div class='col-xs-12 newAdminForm section'>
+		<div class='form form-horizontal col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-2 col-lg-offset-3'>
+			<h4><small>Pour ajouter un nouvel administrateur, entrez ses informations et validez</small></h4>
+			<div class='form-group '>
+				<label for='newAdminFirstnameInput'>Prenom</label>
+				<input id='newAdminFirstnameInput' type='text' class='form-control input-group-item'>
+			</div>
+			<div class='form-group '>
+				<label for='newAdminNameInput'>Nom</label>
+				<input id='newAdminNameInput' type='text' class='form-control input-group-item'>
+			</div>
+			<div class='form-group '>
+				<label for='newAdminEmailInput'>Email</label>
+				<input id='newAdminEmailInput' type='email' class='form-control input-group-item'>
+			</div>
+			<div class='button orange center-block' style='width:50%;margin:10px auto;'>Ajouter</div>
+		</div>
+	</div>
+</template>

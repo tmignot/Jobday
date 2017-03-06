@@ -1,3 +1,4 @@
+
 ['01-Ain',
 '02-Aisne',
 '03-Allier',
@@ -106,17 +107,19 @@ Template.home.events({
 	
 	 'click #btnhotelRest': function (event) {
         event.preventDefault();
-		Session.set('categorie', '1');
+		Session.set('currentCategory', '1');
 			Router.go('/searchMission');
+			
+			
 	 },
 	 'click #btnServicePersonne': function (event) {
         event.preventDefault();
-		Session.set('categorie', '2');
+		Session.set('currentCategory', '5');
 			Router.go('/searchMission');
 	 },
 	  'click #btnCommerceVente': function (event) {
         event.preventDefault();
-		Session.set('categorie', '3');
+		Session.set('currentCategory', '2');
 			Router.go('/searchMission');
 	 },
 	   'click #linkAllCategorie': function (event) {
@@ -126,7 +129,7 @@ Template.home.events({
 	 },
 	  'click #searchBasic': function (event) {
         event.preventDefault();
-		Session.set('categorie', '0');
+		Session.set('currentCategory', '0');
 			Router.go('/searchMission');
 	 }
 	

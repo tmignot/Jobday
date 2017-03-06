@@ -90,8 +90,9 @@ upsertMangoUser = function(_id) {
 	var localMangoUser = MangoUsers.findOne({userId: _id});
 	if (localMangoUser && localUser) {
 		MangoPaySDK.user.fetch(localMangoUser.mango.user, function(err, user) {
-			if (err || !user)
-				console.log(err);
+			if (err || !user){
+				//console.log(err);
+			}
 			else {
 				var data = {};
 				if (localUser.birthdate && user.Birthday != localUser.birthdate.getTime() / 1000)
@@ -102,8 +103,9 @@ upsertMangoUser = function(_id) {
 					data.LastName = localUser.name;
 				if (_.keys(data).length) {
 					MangoPaySDK.user.updateNatural(localMangoUser.mango.user, data, function(err, user) {
-						if (err || !user)
-							console.log(err);
+						if (err || !user){
+						//	console.log(err);
+						}
 					});
 				}
 			}
@@ -148,8 +150,9 @@ upsertMangoBank = function(_id) {
 	var localMangoUser = MangoUsers.findOne({userId: _id});
 	if (localUser && localMangoUser && localMangoUser.mango.bank) {
 		MangoPaySDK.bank.fetch(localMangoUser.mango.user, localMangoUser.mango.bank, function(err, bank) {
-			if (err || !bank)
-				console.log(err);
+			if (err || !bank){
+				//console.log(err);
+			}
 			else {
 				if ((localUser.iban && bank.IBAN != localUser.iban) ||
 						(localUser.bic && bank.BIC != localUser.bic)) {

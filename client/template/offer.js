@@ -34,6 +34,36 @@ Template.offer.events({
 			offer: t.data._id
 		}, function() {
 			t.requestingValidation.set(false);
+			var m1 = UsersDatas.findOne({userId: Meteor.userId()}).notificationMail;
+						//console.log(m1);
+						if (m1 && _.contains(m1, 1)){
+									console.log('jonas');
+	corpsHtml ="Bonjour ! <br><br>J’ai le plaisir de vous annoncer que l'annonceur à valider votre prestation.  <br><br> " ;
+	corpsHtml = corpsHtml + "Je reste à votre service, <br>";	
+	corpsHtml = corpsHtml +"Service Client Jobday  <br><br>";
+	corpsHtml = corpsHtml +" <a href='http://jobday.fr/missionProfil/'"+res+"> CONSULTER VOTRE ANNONCE</a> <br><br>";
+	
+				subjectmail ="[JOBDAY] Validation Profil, Déclenchement Paiement.";
+
+				
+			
+									var data = Meteor.call('sendEmailNoreplyByAnnonce',corpsHtml,subjectmail,Session.get('annonceIDPosteMessageCurrent'),
+										function(error, result){					
+										   if(error){
+											  alert('Error'+error);
+										   }else{
+											  return result;
+										   }
+										});
+						}
+			/* var data = Meteor.call('sendEmailNoreplyByAnnonce','Bonjour, lannonceur a valider votre profil ','Postulant Jobber',t.data._id, function(error, result){
+					   if(error){
+						//  alert('Error'+error);
+					   }else{
+						   
+						  return result;
+					   }
+						}); */
 		});
 	},
 	'click .invalidate': function(e,t) {
@@ -43,6 +73,19 @@ Template.offer.events({
 			offer: t.data._id
 		}, function() {
 			t.requestingValidation.set(false);
+			var m1 = UsersDatas.findOne({userId: Meteor.userId()}).notificationMail;
+						//console.log(m1);
+						if (m1 && _.contains(m1, 3)){
+									//console.log('jonas');
+									var data = Meteor.call('sendEmailNoreplyByAnnonce','Bonjour, Refuser Annonce  ','OFFRE',Session.get('annonceIDPosteMessageCurrent'),
+										function(error, result){					
+										   if(error){
+											  alert('Error'+error);
+										   }else{
+											  return result;
+										   }
+										});
+						}
 		});
 	},
 	'click .comment': function(e,t) {

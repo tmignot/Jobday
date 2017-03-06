@@ -1,12 +1,31 @@
-<template name='home'>
+﻿<template name='home'>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-91207083-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 	{{>carousel}}
 	<div class='container'>
 		<div class='row'>
+             
 			<div class='col-xs-12'>
-				{{>searchbar}}
-			</div>
+			<!--{{>cookieAlert}}-->
+                {{>searchbar}}
+			</div><!--
+			<div class='fb-messengermessageus' id='fb-messengermessageus' messenger_app_id='1678638095724206' page_id='981505698582311' color='blue' size='standard'></div><script> window.fbAsyncInit = function() { FB.init({ appId : '1678638095724206', xfbml : true, version : 'v2.6' }); }; (function(d, s, id){ var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) {return;} js = d.createElement(s); js.id = id; js.src = '//connect.facebook.net/en_US/sdk.js'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
+			
+			
+			<script> window.fbAsyncInit = function() { FB.init({ appId : '1678638095724206', xfbml : true, version : 'v2.6' }); }; (function(d, s, id){ var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) {return;} js = d.createElement(s); js.id = id; js.src = '//connect.facebook.net/en_US/sdk.js'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script><div class='fb-send-to-messenger' id='fb-send-to-messenger' messenger_app_id='1678638095724206' page_id='981505698582311' data-ref='block_id_587686ece4b06c10dc03e783' color='blue' size='xlarge'></div>
+			-->
+            
+            
 			<div class='col-xs-12 quicklinks section'>
-				<h4 class='blue' style='text-transform:uppercase'>Les TOP categories du moment</h4>
+				<h4 class='blue' style='text-transform:uppercase'>Les TOPS categories du moment</h4>
 				<div class='col-xs-12 col-sm-4 category' data-category='1'>
 					<img src='/groupe2.png'>
 					<span class='col-xs-12'>HOTELLERIE & RESTAURATION</span>
@@ -34,14 +53,15 @@
 				</div>
 				<div class='col-xs-12 col-md-4'>
 					<div class='col-xs-12 urgent-jobs button'>
-						<span> DERNIER JOB URGENT </span>
+						<span> JOBS EN URGENCE </span>
 					</div>
 				</div>
 			</div>
 			<div class='col-xs-12'>
 				<div class='col-xs-12 col-md-8 section jobday-desc-container'>
 					<div class='col-xs-12 jobday-desc'>
-						<img src="/jobday.png" width="20%"> est une PLATEFORME de MISE EN RELATION entre TRAVAILLEURS INDEPENDANTS et leurs clients soient PARTICULIERS ou des PROFESSIONNELS.  
+						<img src="/jobday.png" width="20%"> est une PLATEFORME de MISE EN RELATION entre les TRAVAILLEURS INDEPENDANTS et leurs clients, qu’ils soient des PARTICULIERS ou des PROFESSIONNELS.
+                        
 					</div>
 				</div>
 				<div class='col-xs-12 col-md-4 section'>
@@ -58,7 +78,7 @@
 								<span>100% GRATUIT :</span>
 							</div>
 							<span class='tooltips'>
-								<span>Les postes d'annonces, les recherches et les inscriptions au site sont gratuits</span>
+								<span>Inscrivez-vous sur Jobday, c'est gratuit. Postez une annonce, c'est gratuit. Recherchez une annonce, c'est gratuit. Répondez à une annonce, c'est gratuit.</span>
 							</span>
 						</div>
 						<div class='col-xs-12 col-sm-4 section'>
@@ -67,7 +87,7 @@
 								<span>DES TRAVAILLEURS QUALIFIES :</span>
 							</div>
 							<span class='tooltips'>
-								<span>Grace au badges aux notes et aux commentaires attribues a chaques travailleurs, pour vous assurer de choisir la meilleure personne pour votre mission</span>
+								<span>Pour vous aider à choisir le travailleur qu'il vous faut, vous avez accès aux badges, aux notes et aux commentaires attribués à chacun.</span>
 							</span>
 						</div>
 						<div class='col-xs-12 col-sm-4 section'>
@@ -76,7 +96,7 @@
 								<span><i class='glyphicon glyphicon-lock'></i> SECURITE :</span>
 							</div>
 							<span class='tooltips'>
-								<span>Vos donnees personnelles et bancaires sont protegees</span>
+								<span>Vos donnees personnelles et bancaires sont protegees.</span>
 							</span>
 						</div>
 					</div>
@@ -85,10 +105,10 @@
 							<div class='col-xs-12 section hidden-xs'>
 								<div class='col-xs-4'>
 									<span class='tooltips topleft col-xs-12'>
-										<span>ALORS DITES NOUS CE DONT VOUS AVEZ BESOIN, LES ANNONCES SONT GRAUITES</span>
+										<span>DITES NOUS CE DONT VOUS AVEZ BESOIN. LES ANNONCES SONT GRAUITES</span>
 									</span>
 									<span class='tooltips botleft col-xs-12'>
-										<span>Recevez rapidement des propositions de travailleurs de confiance</span>
+										<span>Recevez rapidement des propositions de travailleurs de confiance.</span>
 									</span>
 								</div>
 								<div class='col-xs-4' style='vertical-align:middle:'>
@@ -96,7 +116,7 @@
 								</div>
 								<div class='col-xs-4'>
 									<span class='tooltips topright col-xs-12'>
-										<span>Choisissez le meilleur travailleur qualifie pour votre mission</span>
+										<span>Choisissez le meilleur travailleur qualifie pour votre mission.</span>
 									</span>
 									<span class='tooltips botright col-xs-12'>
 										<span>Notez la prestation<br>
@@ -108,7 +128,7 @@
 							<div class='col-xs-12 section visible-xs nopad' style='font-size:x-small'>
 								<div class='col-xs-12 nopad'>
 									<span class='tooltips topleft col-xs-6 nopad'>
-										<span>ALORS DITES NOUS CE DONT VOUS AVEZ BESOIN, LES ANNONCES SONT GRAUITES</span>
+										<span>DITES NOUS CE DONT VOUS AVEZ BESOIN. LES ANNONCES SONT GRAUITES.</span>
 									</span>
 									<span class='col-xs-6 nopad'>
 										<img src='/perso1.png' width='100%' style='padding:10px;width:100%;display:inline-block'>
@@ -116,7 +136,7 @@
 								</div>
 								<div class='col-xs-12 nopad'>
 									<span class='tooltips topleft col-xs-6 nopad'>
-										<span>Recevez rapidement des propositions de travailleurs de confiance</span>
+										<span>Recevez rapidement des propositions de travailleurs de confiance.</span>
 									</span>
 									<span class='col-xs-6 nopad'>
 										<img src='/perso1.png' width='100%' style='padding:10px;width:100%;display:inline-block'>
@@ -124,7 +144,7 @@
 								</div>
 								<div class='col-xs-12 nopad'>
 									<span class='tooltips topleft col-xs-6 nopad'>
-										<span>Choisissez le meilleur travailleur qualifie pour votre mission</span>
+										<span>Choisissez le meilleur travailleur qualifie pour votre mission.</span>
 									</span>
 									<span class='col-xs-6 nopad'>
 										<img src='/perso1.png' width='100%' style='padding:10px;width:100%;display:inline-block'>
@@ -147,10 +167,10 @@
 						<div class='jobday-desc section col-xs-12 nopad'>
 							<h2>Avec Jobday, soyez votre propre patron</h2>
 							<ul style='text-align:left;font-size:initial'>
-								<li>Plus besoin d'envoyer des tonnes de CV</li>
-								<li>Plus besoin de passer par une agence d'interim</li>
-								<li>Plus besoin de demander a son voisin</li>
-								<li>Organisez votre vie professionnelle comme bon vous semble</li>
+								<li>Plus besoin d'envoyer des tonnes de CV.</li>
+								<li>Plus besoin de passer par une agence d'interim.</li>
+								<li>Plus besoin de demander à son voisin.</li>
+								<li>Organisez votre vie professionnelle comme bon vous semble.</li>
 							</ul>
 						</div>
 					</div>
@@ -159,10 +179,13 @@
 							<h2>Newsletter</h2>
 							<h3 class='col-xs-12'>Inscrivez-vous pour vous informer de nos actualites</h3>
 							<input type='text' placeholder='VOTRE NOM' class='col-xs-12 form-control news-name'>
-							<input type='text' placeholder='VOTRE MAIL' class='col-xs-12 form-control news-mail'>
+							<input type='text' placeholder='VOTRE ADRESSE EMAIL' class='col-xs-12 form-control news-mail'>
 							<button class='subscribe-button'>SOUSCRIRE</button>
 						</div>
 					</div>
+                    
+                    <script type="text/javascript">$crisp=[];CRISP_WEBSITE_ID="d2b65898-a13d-4e6c-b843-872c07457f0d";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+                    
 				</div>
 			</div>
 		</div>

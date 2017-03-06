@@ -23,12 +23,20 @@ Template.advertCard.onRendered(function() {
 										position: {
 											lat: r[0].geometry.location.lat(),
 											lng: r[0].geometry.location.lng()
-										}
+										},
+										title :"toto"//,
+										//label: name
+										
+										
 									});
+									
 								}
-							})
+							});
+							
 						}
 					});
+					
+					
 				});
 				c.stop();
 			} else { return; }

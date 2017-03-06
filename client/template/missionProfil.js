@@ -7,12 +7,9 @@ Template.missionProfil.onRendered (function() {
 	var address;
 	if (this.data && this.data.address) {
 		// construct address litteral
-		if (this.data && this.data.status == 2 && _.findWhere(this.data.offers, {validated: true, userId: Meteor.userId()}))
-			address = this.data.address.street + ' ' +
-								this.data.address.zipcode + ' ' +
-								this.data.address.city;
-		else
-			address = this.data.address.city;
+		address = this.data.address.street;// +
+			//' ' + this.data.address.zipcode +
+			//' ' + this.data.address.city;
 	}
 	// create geocoder if not already
 	Maps.create({type: 'geocoder', after: function(maps) {
@@ -43,6 +40,25 @@ Template.missionProfil.onRendered (function() {
 });
 
 Template.missionProfil.helpers({
+	societyMessage: function (){
+		var d = Template.parentData();
+		if (d){
+		var d1 = UsersDatas.findOne({userId: Meteor.userId()});
+		//alert(d.type);
+		if(d.type==0 && (d1.society != true)){
+			//alert("1");
+			return false;
+			}
+			else{ 
+			//alert("2");
+			return true;
+			}
+		
+		
+		
+		}else{//alert("3"); 
+		return false;}
+	},
 	isOwner: function() { // is currentUser the advert's owner ?
 		if (Template.instance().data && Meteor.userId())
 			return Template.instance().data.owner == Meteor.userId();
@@ -77,20 +93,10 @@ Template.missionProfil.helpers({
 			switch(d.status) {
 				case 0: return 'ouvert';
 				case 1: return 'attribue';
-				case 2: return 'termine';
+				case 2: return 'ferme';
+				case 3: return 'termine';
 			}
 		}
-	},
-	canSee: function() {
-		var d = Template.instance().data;
-		console.log(d.offers);
-		return d && d.status == 2 && _.findWhere(d.offers, {validated: true, userId: Meteor.userId()});
-	},
-	hasPassed: function() {
-		var d = Template.instance().data;
-		if (!d || d.startDate > new Date())
-			return false
-		return true;
 	}
 });
 
@@ -100,16 +106,56 @@ Template.missionProfil.events({
 	},
 	'click #btnFaireOffre': function (event, t) { // open the makeOfferModal
 		var d = UsersDatas.findOne({userId: Meteor.userId()});
+		if(d.society==false && t.data.type==0){
+			alert("Pas d'offre car vous ètes un particulier");
+			}
+		else{
 		if (d) {
-			if (d.bankComplete)
+			//alert(d.bankComplete);
+			if (d.bankComplete){
 				Modal.show('makeOfferModal', t.data);
-			else
+				
+			//console.log(t.data._id);
+			var data = Meteor.call('sendEmailNoreplyByAnnonce','Bonjour, Une Personne a postulé ','Postulant Jobber',t.data._id, function(error, result){
+					   if(error){
+						//  alert('Error'+error);
+					   }else{
+						  return result;
+					   }
+						});
+			
+			}
+			else{
 				Modal.show('profileNotComplete');
-		} else
+			//console.log('erreur 2');
+			}
+		} else{
 			Modal.show('shouldBeLogged');
+		}}
+	},
+	'click #btnClose': function(e,t) {
+		var d = t.data;
+		if (d && d.nbPeople - _.where(d.offers, {validated: true}).length == 0)
+			Meteor.call('closeAdvert', {advertId: t.data._id});
 	},
 	'click #btnPay': function(e,t) {
-		Modal.show('makePaymentModal', t.data)
+		var d = t.data;
+		if (d) {
+			var notedUsersIds = _.map(_.where(d.offers, {validated: true}), function(o) {
+				return o.userId;
+			});
+			//console.log(notedUsersIds);
+			var notedUsers = UsersDatas.find({userId: {$in: notedUsersIds}}, {fields: {notes: 1}}).fetch();
+			var ok = true;
+			_.each(notedUsers, function(u) {
+				if (!_.findWhere(u.notes, {advertId: t.data._id}))
+					ok = false;
+			});
+			if (ok)
+				Modal.show('makePaymentModal', t.data)
+			else
+				Modal.show('shouldNote');
+		}
 	},
 	'click #btnPayFake': function(e,t) {
 		Meteor.call('fakePayment', {advertId: t.data._id}); // fake payment for testing
@@ -127,9 +173,24 @@ Template.makeOfferModal.onCreated(function(){
 
 Template.makeOfferModal.events({
 	'click #btnPosterOffreGo': function(e,t) {
+		//console.log('btnPosterOffreGo 2');
 		var d = UsersDatas.findOne({userId: Meteor.userId()});
 		if (d) {
 			if (d.profileComplete) {
+				var m1 = d.notificationMail;
+				//console.log(m1);
+				if (m1 && _.contains(m1, 1)){
+							//console.log('jonas');
+							var data = Meteor.call('sendEmailNoreply','Bonjour, Merci pour l offre ','OFFRE',Meteor.user().emails[0].address,
+								function(error, result){					
+								   if(error){
+									  alert('Error'+error);
+								   }else{
+									  return result;
+								   }
+								});
+				}
+				console.log('btnPosterOffreGo 3');
 				var distance = 0;
 				Maps.onLoad(function() { // ensure Maps api loaded
 					Maps.distance.getDistanceMatrix({ // calculate distance
@@ -137,9 +198,11 @@ Template.makeOfferModal.events({
 						destinations: [t.data.address.street+' '+t.data.address.zipcode+' '+t.data.address.city],
 						travelMode: 'DRIVING'
 					}, function(r,s) {
-						if (s == 'OK' || t.data.online) {
-							console.log('on est la');
-							distance = t.data.online? {value: 0} : r.rows[0].elements[0].distance;
+						if (s == 'OK') {
+							distance = r.rows[0].elements[0].distance;
+							if(distance==undefined){
+								//console.log("fffrrr");
+								distance = { "value": 1,"text": "0 mi"};}
 							data = {
 								advert: t.data._id,
 								distance: distance.value,
@@ -160,18 +223,25 @@ Template.makeOfferModal.events({
 							});
 							if (valid) { 
 								Meteor.call('makeOffer', data, function(err, res) {
-									console.log(err);
-									console.log(res);
 									Modal.hide('makeOfferModal');
 								});
 							} else {
 								Modal.allowMultiple = true;
 								Modal.show('errorModal', ctx.getErrorObject());
 							}
-						}
+						}else {
+								Modal.allowMultiple = true;
+								Modal.show('errorModal', ctx.getErrorObject());
+							}
 					});
 				});
-			}
+			}else {
+				
+				
+								Modal.allowMultiple = true;
+								Modal.show('errorModal', "PRofil pas a jour");
+								//Modal.show('errorModal', ctx.getErrorObject());
+							};
 		}
 	}
 });

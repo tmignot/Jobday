@@ -36,7 +36,56 @@
 </template>
 
 <template name='adminEventsPage'>
-	Events
+	<div class='col-xs-12 section eventList nopad'>
+		<h3 style='text-align:center'>Liste des evenements recents</h3>
+		<div class="col-xs-12 col-md-4 col-lg-3">
+			<ul class='list-group col-xs-12'>
+				<li class='list-group-item col-xs-12'>
+					<span class='col-xs-10 nopad'>Reports d'abus </span>
+					<span class='col-xs-2 nopad'>
+						<span class='badge'>
+							{{nEvents 'report_abuse'}}
+						</span>
+					</span>
+				</li>
+				<li class='list-group-item col-xs-12'>
+					<span class='col-xs-10 nopad'>Validations d'identite </span>
+					<span class='col-xs-2 nopad'>
+						<span class='badge'>
+							{{nEvents 'ask_identity_validation'}}
+						</span>
+					</span>
+				</li>
+				<li class='list-group-item col-xs-12'>
+					<span class='col-xs-10 nopad'>Validations de permis de conduire </span>
+					<span class='col-xs-2 nopad'>
+						<span class='badge'>
+							{{nEvents 'ask_license_validation'}}
+						</span>
+					</span>
+				</li>
+				<li class='list-group-item col-xs-12'>
+					<span class='col-xs-10 nopad'>Validations de diplome </span>
+					<span class='col-xs-2 nopad'>
+						<span class='badge'>
+							{{nEvents 'ask_grade_validation'}}
+						</span>
+					</span>
+				</li>
+				<li class='list-group-item col-xs-12'>
+					<span class='col-xs-10 nopad'>Validations de license pro </span>
+					<span class='col-xs-2 nopad'>
+						<span class='badge'>
+							{{nEvents 'ask_pro_validation'}}
+						</span>
+					</span>
+				</li>
+			</ul>
+		</div>
+		<div class='col-xs-12 col-md-8 col-lg-9'>
+			{{>Events}}
+		</div>
+	</div>
 </template>
 
 <template name='UsersDatas'>

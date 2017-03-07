@@ -177,10 +177,10 @@ Template.registerHelper('user', function() {
 Template.registerHelper('username', function(id) {
 	var u = UsersDatas.findOne({userId: id});
 	if (u) {
-		if (u.society)
+		if (u.userType == 'society')
 			return u.name
 		else
-			return u.firstname
+			return u.firstname + ' ' + u.name
 	}
 });
 /*

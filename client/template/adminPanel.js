@@ -1,3 +1,9 @@
+Template.adminEventsPage.helpers({
+	nEvents: function(type) {
+		return Events.find({type: type}).count();
+	}
+});
+
 Template.adminUsersPage.onCreated(function() {
 	var query = Router.current().params.query;
 	var sortBy = 'createdAt', sortOrder = 1, sort = {}, 

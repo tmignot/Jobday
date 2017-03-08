@@ -600,6 +600,49 @@ Meteor.methods({
 			Adverts.update({_id: advertId}, {$set: {status: 3}});
 		}
 	},
+	removeOffer: function(params) {
+		if (params && params.advert && params.offer) {
+			var ad = Adverts.findOne({_id: params.advert});
+			if (ad && ad.offers && ad.offers.length) {
+				var o = _.findWhere(ad.offers, {_id: params.offer._id});
+				if (o && o.userId) {
+					if (this.userId == o.userId || Roles.userIsInRole(this.userId, 'admin')) {
+						Adverts.update({_id: params.advert}, {
+							$pull: {offers: {_id: params.offer._id}}
+						});
+					} else throw new Meteor.Error(403, 'Unauthorized');
+				} else throw new Meteor.Error(404, 'Offer not found');
+			} else throw new Meteor.Error(404, 'Advert not found');
+		} else throw new Meteor.Error(400, 'Bad request');
+	},
+	updateOffer: function(params) {
+		if (params && params.advert && params.offer) {
+			var ad = Adverts.findOne({_id: params.advert});
+			if (ad && ad.offers && ad.offers.length) {
+				var o = _.findWhere(ad.offers, {_id: params.offer._id});
+				if (o && o.userId) {
+					if (this.userId == o.userId || Roles.userIsInRole(this.userId, 'admin')) {
+						if (ad.negocible) {
+							Adverts.update({_id: params.advert, 'offers._id': params.offer._id}, {
+								$set: {
+									'offers.$.comment': params.offer.comment,
+									'offers.$.price': params.offer.price,
+									'offers.$.validated': false
+								}
+							});
+						} else {
+							Adverts.update({_id: params.advert, 'offers._id': params.offer._id}, {
+								$set: {
+									'offers.$.comment': params.offer.comment,
+									'offers.$.validated': false
+								}
+							});
+						}
+					} else throw new Meteor.Error(403, 'Unauthorized');
+				} else throw new Meteor.Error(404, 'Offer not found');
+			} else throw new Meteor.Error(404, 'Advert not found');
+		} else throw new Meteor.Error(400, 'Bad request');
+	},
 	invalidateOffer: function(params) {
 		if (params && params.advert) {
 			var ad = Adverts.findOne({_id: params.advert});
@@ -643,14 +686,7 @@ Meteor.methods({
 					comment: params.comment,
 					price: params.price,
 					validated: false
-				}}}, function(err) {
-					if (err)
-						return err
-					else {
-						UsersDatas.update({userId: this.userId}, {$push: {adverts: params.advert}});
-						return 'OK';
-					}
-				});
+				}}});
 				UserNotification.insert({
 					  name:'Offre',
 							 description:'Offre' ,
@@ -667,6 +703,37 @@ Meteor.methods({
 				return 'Bad parameters';}
 		} else
 			return 'User not logged';
+	},
+	removeMessage: function(params) {
+		if (params && params.advert && params.message) {
+			var ad = Adverts.findOne({_id: params.advert});
+			if (ad && ad.messages && ad.messages.length) {
+				console.log(params);
+				var m = _.findWhere(ad.messages, {_id: params.message._id});
+				if (m && m.userId) {
+					if (this.userId == m.userId || Roles.userIsInRole(this.userId, 'admin')) {
+						Adverts.update({_id: params.advert}, {
+							$pull: {messages: {_id: params.message._id}}
+						});
+					} else throw new Meteor.Error(403, 'Unauthorized');
+				} else throw new Meteor.Error(404, 'Message not found');
+			} else throw new Meteor.Error(404, 'Advert not found');
+		} else throw new Meteor.Error(400, 'Bad request');
+	},
+	updateMessage: function(params) {
+		if (params && params.advert && params.message) {
+			var ad = Adverts.findOne({_id: params.advert});
+			if (ad && ad.messages && ad.messages.length) {
+				var m = _.findWhere(ad.messages, {_id: params.message._id});
+				if (m && m.userId) {
+					if (this.userId == m.userId || Roles.userIsInRole(this.userId, 'admin')) {
+						Adverts.update({_id: params.advert, 'messages._id': params.message._id}, {
+							$set: {'messages.$.text': params.message.text}
+						});
+					} else throw new Meteor.Error(403, 'Unauthorized');
+				} else throw new Meteor.Error(404, 'Message not found');
+			} else throw new Meteor.Error(404, 'Advert not found');
+		} else throw new Meteor.Error(400, 'Bad request');
 	},
 	postMessage: function(params) { // post message (checks content with regex)
 		if (this.userId) {
@@ -777,12 +844,25 @@ Meteor.methods({
 					var b = Badges.findOne({name: 'Certifie'});
 					if (b) {
 						if (!_.contains(udata.badges, b._id)) {
-							UsersDatas.update({userId: uid}, {$push: {badges: {giver: current, badgeId: b._id}}});
+							UsersDatas.update({userId: uid}, {$addToSet: {badges: {giver: current, badgeId: b._id}}});
 						} else throw new Meteor.Error(400, 'This user is already certified');
 					} else throw new Meteor.Error(500, 'Badges Certifie not found');
 				} else throw new Meteor.Error(404, 'User not found');
 			} else throw new Meteor.Error(403, 'You have to be an administrator to do that');
 		} else throw new Meteor.Error(403, 'You have to be logged in to do that');
+	},
+	removeUser: function(_id) {
+		var current = Meteor.userId();
+		if (_id != current) {
+			if (current && Roles.userIsInRole(current, ['admin','root'])) {
+				var user = Meteor.users.findOne({_id: _id});
+				if (user) {
+					if (!Roles.userIsInRole(_id, 'root')) {
+						Meteor.users.remove({_id: _id});
+					} else throw new Meteor.Error(405, "You remove root's account");
+				} else throw new Meteor.Error(404, "User not found");
+			} else throw new Meteor.Error(405, "You have to be an administrator to do that");
+		} else throw new Meteor.Error(405, "You can't remove your own account");
 	},
 	addUser: function(doc) { // 
 		var existingUser = Meteor.users.findOne({

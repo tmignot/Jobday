@@ -37,6 +37,9 @@
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle='dropdown'><img src='{{currentUserData.photo}}'><span class="caret"></span></a>
 						<ul class="dropdown-menu" aria-labelledby='nav-dropdown'>
+							{{#if isInRole 'admin'}}
+							<li><a href='/admin' class='admin-link'>Admin section</a></li>
+							{{/if}}
 							<li><a class='profile-link'>{{currentUserData.firstname}} {{currentUserData.name}}</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a class='logout'>Deconnexion</a></li>

@@ -1,4 +1,50 @@
 // submit a message to an advert or show errors
+Template.editMessageModal.events({
+	'click .confirm': function(e,t) {
+		var msg = t.data.current;
+		msg.text = t.find('textarea').value;
+		Modal.allowMultiple = true;
+		Meteor.call('updateMessage', {
+			advert: t.data._id,
+			message: msg
+		}, function(e,r) {
+			if (e)
+				Modal.show('serverErrorModal', e)
+			else {
+				Modal.hide('editModalMessage');
+				Modal.show('modalSuccess', {message: "Le message a bien ete edite"});
+			}
+		});
+	}
+});
+
+Template.message.events({
+	'click .edit': function(e,t) {
+		var data = t.parent(2).data;
+		data.current = t.data;
+		Modal.show('editMessageModal', data);
+	},
+	'click .remove': function(e,t) {
+		Modal.show('confirmationModal', {
+			message: 'Vous etes sur le point de supprimer ce message.<br>'+
+							'ATTENTION: cette action est irreversible!',
+			onConfirm: function() {
+				Modal.allowMultiple = true;
+				Modal.hide('confirmationModal');
+				Meteor.call('removeMessage', {
+					advert: t.parent(2).data._id,
+					message: t.data
+				}, function(e,r) {
+					if (e)
+						Modal.show('serverErrorModal', e)
+					else
+						Modal.show('modalSuccess', {message: "Le message a bien ete supprimee"});
+				});
+			}
+		});
+	}
+});
+
 Template.messages.events({
 	'click .submit': function(e,t) {
 		var ctx = MessageSchema.newContext();

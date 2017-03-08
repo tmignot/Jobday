@@ -89,7 +89,7 @@ Accounts.onCreateUser(function (options, user) {
 		var newEmails = _.extend(user.emails||[], existingUser.emails||[]);
 		existingUser.services = newServices;
 		existingUser.emails = newEmails;
-		Meteor.users.remove({_id: existingUser._id}); // remove existing record
+		Meteor.users.direct.remove({_id: existingUser._id}); // remove existing record
 		return existingUser;                  // record is re-inserted
 	} else {
 		var method;

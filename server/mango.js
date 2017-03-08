@@ -30,6 +30,7 @@ MangoPaySDK.authenticate('thommignot', 'Hk6aeu4Bhft0LbkPU6Jtt5dwOtjQGSLR6wREFPXJ
 /* Created a user in mango's DB and store its ID in MangoUsers collection */
 createNaturalMangoUser = function(_id, email, data) {
 	var ret = new Future();
+	console.log(data);
 	MangoPaySDK.user.create(new MangoPaySDK.user.NaturalUser({
 		Birthday: data.birthdate.getTime() / 1000,
 		Nationality: 'FR',

@@ -918,3 +918,7 @@ overflow-y: scroll;
 .button.circle.remove i {
 	vertical-align: text-top;
 }
+.material-icons {
+	display: inline;
+}
+

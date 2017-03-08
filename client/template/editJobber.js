@@ -320,7 +320,7 @@ Template.editJobber.events({
 				var data;
 				if (Session.get('userType') == 'society') {
 					data = {
-						userId: Meteor.userId(),
+						userId: t.data.userId,
 						userType: 'society',
 						name: $('.user-name input').val(),
 						siret: $('.user-siret input').val(),
@@ -333,7 +333,7 @@ Template.editJobber.events({
 					};
 				} else if (Session.get('userType') == 'professional'){
 					data = {
-						userId: Meteor.userId(),
+						userId: t.data.userId,
 						userType: 'professional',
 						name: $('.user-name input').val(),
 						firstname: $('.user-firstname input').val(),
@@ -348,7 +348,7 @@ Template.editJobber.events({
 					};
 				} else if (Session.get('userType') == 'individual') {
 					data = {
-						userId: Meteor.userId(),
+						userId: t.data.userId,
 						userType: 'individual',
 						name: $('.user-name input').val(),
 						firstname: $('.user-firstname input').val(),

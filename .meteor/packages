@@ -46,10 +46,8 @@ richsilv:owl-carousel
 raix:handlebar-helpers
 momentjs:moment
 rzymek:fullcalendar
-dapearce:material-icons
 sacha:spin
 random@1.0.10
-planettraining:material-design-icons-font
 ostrio:files
 peppelg:bootstrap-3-modal
 matb33:collection-hooks
@@ -62,3 +60,4 @@ joshowens:shareit
 tsega:bootstrap3-datetimepicker
 #tarang:ssl
 alanning:roles
+planettraining:material-design-icons-font

@@ -281,14 +281,14 @@ Template.dashboardJobber.helpers({
 
 Template.dashboardJobber.events({
 	'click .edit-profil-button': function(e,t) { // routes to edit profile page, first tab
-		Router.go('editJobber', {id: Meteor.userId()}, {query: {tab: 'info'}});
+		Router.go('editJobber', {id: t.data.userId}, {query: {tab: 'info'}});
 	},
 	'click .factureLinks': function(e,t) { // routes to edit profile page, first tab
 		
 		alert("fffff");
 	},
 	'click .userNotificationsLink': function(e,t) {
-	Meteor.call('sendAenvoyer', Meteor.userId(),"0"," ", function(err, res) {
+	Meteor.call('sendAenvoyer', t.data.userId,"0"," ", function(err, res) {
 				if (err) {
 				
 				} else {

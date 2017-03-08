@@ -7,9 +7,9 @@ Template.missionProfil.onRendered (function() {
 	var address;
 	if (this.data && this.data.address) {
 		// construct address litteral
-		address = this.data.address.street;// +
-			//' ' + this.data.address.zipcode +
-			//' ' + this.data.address.city;
+		//address = this.data.address.street;// +
+		address = this.data.address.zipcode + ' ' + 
+							this.data.address.city;
 	}
 	// create geocoder if not already
 	Maps.create({type: 'geocoder', after: function(maps) {
@@ -53,9 +53,6 @@ Template.missionProfil.helpers({
 			//alert("2");
 			return true;
 			}
-		
-		
-		
 		}else{//alert("3"); 
 		return false;}
 	},
@@ -103,6 +100,24 @@ Template.missionProfil.helpers({
 Template.missionProfil.events({
 	'click #btnModifierJob': function (event,t) { // TODO route to editJob
 		Router.go('editJob', {_id: t.data._id});
+	},
+	'click #btnDeleteJob': function(event, t) {
+		Modal.show('confirmationModal', {
+			message: 'Vous etes sur le point de supprimer definitivement cette annonce, '+
+							 'ATTENTION: cette action est irreversible',
+			onConfirm: function() {
+				Modal.allowMultiple = true;
+				Modal.hide('confirmationModal');
+				Adverts.remove({_id: t.data._id}, function(e,r) {
+					if (e)
+						Modal.show('serverErrorModal', e);
+					else {
+						Modal.show('modalSuccess', {message: "L'annonce a bien ete supprimee"});
+						Router.go('/');
+					}
+				});
+			}
+		});
 	},
 	'click #btnFaireOffre': function (event, t) { // open the makeOfferModal
 		var d = UsersDatas.findOne({userId: Meteor.userId()});
@@ -173,75 +188,92 @@ Template.makeOfferModal.onCreated(function(){
 
 Template.makeOfferModal.events({
 	'click #btnPosterOffreGo': function(e,t) {
-		//console.log('btnPosterOffreGo 2');
-		var d = UsersDatas.findOne({userId: Meteor.userId()});
-		if (d) {
-			if (d.profileComplete) {
-				var m1 = d.notificationMail;
-				//console.log(m1);
-				if (m1 && _.contains(m1, 1)){
-							//console.log('jonas');
-							var data = Meteor.call('sendEmailNoreply','Bonjour, Merci pour l offre ','OFFRE',Meteor.user().emails[0].address,
-								function(error, result){					
-								   if(error){
-									  alert('Error'+error);
-								   }else{
-									  return result;
-								   }
-								});
+		if (t.data.current) {
+			Meteor.call('updateOffer', {
+				advert: t.data._id,
+				offer: {
+					_id: t.data.current._id,
+					comment: document.getElementById('make-offer-comment').value,
+					price: (t.data.negocible)? parseInt(document.getElementById('make-offer-price').value) : t.data.budget
 				}
-				console.log('btnPosterOffreGo 3');
-				var distance = 0;
-				Maps.onLoad(function() { // ensure Maps api loaded
-					Maps.distance.getDistanceMatrix({ // calculate distance
-						origins: [d.address.street +' '+d.address.zipcode+' '+d.address.city],
-						destinations: [t.data.address.street+' '+t.data.address.zipcode+' '+t.data.address.city],
-						travelMode: 'DRIVING'
-					}, function(r,s) {
-						if (s == 'OK') {
-							distance = r.rows[0].elements[0].distance;
-							if(distance==undefined){
-								//console.log("fffrrr");
-								distance = { "value": 1,"text": "0 mi"};}
-							data = {
-								advert: t.data._id,
-								distance: distance.value,
-								comment: document.getElementById('make-offer-comment').value,
-								// if advert's price not negocible, take budget value, else take input value
-								price: (t.data.negocible)? parseInt(document.getElementById('make-offer-price').value) : t.data.budget
-							};
-							var ctx = OfferSchema.newContext();
-							var valid = true;
-							/*
-							** hack around :
-							** manually add address' keys because of SimpleSchema limitations
-							** on optional object and subObject internal keys
-							*/
-							_.each(['comment','price','distance'], function(e) {
-								if (!ctx.validateOne(data, e))
-									valid = false;
-							});
-							if (valid) { 
-								Meteor.call('makeOffer', data, function(err, res) {
-									Modal.hide('makeOfferModal');
+			}, function(e,r) {
+				Modal.allowMultiple = true;
+				if (e)
+					Modal.show('serverErrorModal', e);
+				else {
+					Modal.hide('updateOffer');
+					Modal.show('modalSuccess', {message: "L'offre a bien ete editee"});
+				}
+			});
+		} else {
+			var d = UsersDatas.findOne({userId: Meteor.userId()});
+			if (d) {
+				if (d.profileComplete) {
+					var m1 = d.notificationMail;
+					//console.log(m1);
+					if (m1 && _.contains(m1, 1)){
+								//console.log('jonas');
+								var data = Meteor.call('sendEmailNoreply','Bonjour, Merci pour l offre ','OFFRE',Meteor.user().emails[0].address,
+									function(error, result){					
+										 if(error){
+											alert('Error'+error);
+										 }else{
+											return result;
+										 }
+									});
+					}
+					var distance = 0;
+					Maps.onLoad(function() { // ensure Maps api loaded
+						Maps.distance.getDistanceMatrix({ // calculate distance
+							origins: [d.address.street +' '+d.address.zipcode+' '+d.address.city],
+							destinations: [t.data.address.street+' '+t.data.address.zipcode+' '+t.data.address.city],
+							travelMode: 'DRIVING'
+						}, function(r,s) {
+							if (s == 'OK') {
+								distance = r.rows[0].elements[0].distance;
+								if(distance==undefined){
+									//console.log("fffrrr");
+									distance = { "value": 1,"text": "0 mi"};}
+								data = {
+									advert: t.data._id,
+									distance: distance.value,
+									comment: document.getElementById('make-offer-comment').value,
+									// if advert's price not negocible, take budget value, else take input value
+									price: (t.data.negocible)? parseInt(document.getElementById('make-offer-price').value) : t.data.budget
+								};
+								var ctx = OfferSchema.newContext();
+								var valid = true;
+								/*
+								** hack around :
+								** manually add address' keys because of SimpleSchema limitations
+								** on optional object and subObject internal keys
+								*/
+								_.each(['comment','price','distance'], function(e) {
+									if (!ctx.validateOne(data, e))
+										valid = false;
 								});
-							} else {
-								Modal.allowMultiple = true;
-								Modal.show('errorModal', ctx.getErrorObject());
-							}
-						}else {
-								Modal.allowMultiple = true;
-								Modal.show('errorModal', ctx.getErrorObject());
-							}
+								if (valid) { 
+									Meteor.call('makeOffer', data, function(err, res) {
+										Modal.hide('makeOfferModal');
+									});
+								} else {
+									Modal.allowMultiple = true;
+									Modal.show('errorModal', ctx.getErrorObject());
+								}
+							}else {
+									Modal.allowMultiple = true;
+									Modal.show('errorModal', ctx.getErrorObject());
+								}
+						});
 					});
-				});
-			}else {
-				
-				
-								Modal.allowMultiple = true;
-								Modal.show('errorModal', "PRofil pas a jour");
-								//Modal.show('errorModal', ctx.getErrorObject());
-							};
+				}else {
+					
+					
+									Modal.allowMultiple = true;
+									Modal.show('errorModal', "PRofil pas a jour");
+									//Modal.show('errorModal', ctx.getErrorObject());
+								};
+			}
 		}
 	}
 });

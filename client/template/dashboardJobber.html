@@ -79,6 +79,12 @@
 			</div>
 				{{/if}}
 				
+				{{#if isInRole 'admin'}}
+			<div class='user-edit-profil col-xs-12'>
+				<span class='orange edit-profil-button button'>Editer ce profil</span>
+			</div>
+				{{/if}}
+				
 			{{/if}}
 			<div class='user-badges-container col-xs-12'>
 				<h4>Badges de confiance</h4>

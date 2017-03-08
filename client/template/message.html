@@ -12,7 +12,7 @@
 				{{/each}}
 			{{/unless}}
 			{{#unless hasPassed}}
-			{{#if societyMessage}}
+			<!--{{#if societyMessage}}-->
 			{{#if currentUser}}
 			<div class='col-xs-12 col-md-3 section hidden-xs hidden-sm'>
 				<img width='100%' src='{{currentUserData.photo}}'>
@@ -27,7 +27,7 @@
 				<span class='warning'>Vous devez être connect&eacute; pour envoyer un message.</span>
 			</div>
 			{{/if}}
-			{{/if}}
+			<!--{{/if}}-->
 			
 			{{/unless}}
 		</div>
@@ -48,5 +48,44 @@
 			<small>{{fromNow date}}</small>
 			<p>{{text}}</p>
 		</div>
+		{{#if isInRole 'admin'}}
+			<div class='col-xs-8 col-sm-6 col-md-4 pull-right'>
+				<div class='blue button edit col-xs-12'>
+					<span class='hidden-xs'>Editer</span>
+					<i class='fa fa-edit visible-xs'></i>
+				</div>
+				<div class='orange button remove col-xs-12'>
+					<span class='hidden-xs'>Supprimer</span>
+					<i class='fa fa-remove visible-xs'></i>
+				</div>
+			</div>
+		{{else}}
+			{{#if $eq userId currentUser._id}}
+				<div class='col-xs-8 col-sm-6 col-md-4 pull-right'>
+					<div class='blue button edit col-xs-12'>
+						<span class='hidden-xs'>Editer</span>
+						<i class='fa fa-edit visible-xs'></i>
+					</div>
+					<div class='orange button remove col-xs-12'>
+						<span class='hidden-xs'>Supprimer</span>
+						<i class='fa fa-remove visible-xs'></i>
+					</div>
+				</div>
+			{{/if}}
+		{{/if}}
 	</div>
+</template>
+
+<template name='editMessageModal'>
+	{{#genericModal title='Editer un message'}}
+		<textarea class='form-control' placeholder='Posez une question'>{{current.text}}</textarea>
+		<small class='col-xs-12 col-sm-6 col-md-8 col-lg-9'>Il est interdit de divulguer ici des coordonn&eacute;es personnelles.</small>
+	{{else}}
+		<div class='cancel col-xs-4 col-xs-offset-1 orange button' data-dismiss='modal'>
+			Annuler
+		</div>
+		<div class='confirm col-xs-4 col-xs-offset-2 blue button'>
+			Modifier
+		</div>
+	{{/genericModal}}
 </template>

@@ -20,7 +20,7 @@ Meteor.startup(function() {
 				userType: 'individual'
 			}
 		});
-		Roles.addUsersToRoles(adminId, 'admin');
+		Roles.addUsersToRoles(adminId, ['admin','root']);
 		var udId = UsersDatas.findOne({userId: adminId})._id;
 		UsersDatas.update({_id: udId}, {$set: {
 			locale: 'fr',

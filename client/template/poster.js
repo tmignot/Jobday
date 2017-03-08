@@ -301,7 +301,7 @@ function checkValues(values, data) {
 			values.offers = data.offers;
 			Adverts.update({_id: data._id}, {$set: values}, function(err, res) {
 				if (err){
-					//console.log(err)
+					console.log(err)
 				}
 				else {
 					Modal.show('modalSuccess', {message: 'Votre annonce a bien ete mise a jour'});

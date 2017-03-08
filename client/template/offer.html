@@ -70,5 +70,18 @@
 				{{/if}}
 			</div>
 		{{/if}}
+		{{#if isInRole 'admin'}}
+			<div class='offer-validation'>
+				<div class='blue button edit'>Editer</div>
+				<div class='orange button remove'>Supprimer</div>
+			</div>
+		{{else}}
+			{{#if $eq userId currentUser._id}}
+				<div class='offer-validation'>
+					<div class='blue button edit'>Editer</div>
+					<div class='orange button remove'>Supprimer</div>
+				</div>
+			{{/if}}
+		{{/if}}
 	</div>
 </template>

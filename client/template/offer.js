@@ -27,6 +27,30 @@ Template.offer.helpers({
 ** such a query isn't authorized in unsafe code (client)
 */
 Template.offer.events({
+	'click .edit': function(e,t) {
+		var data = t.parent(2).data;
+		data.current = t.data;
+		Modal.show('makeOfferModal', data);
+	},
+	'click .remove': function(e,t) {
+		Modal.show('confirmationModal', {
+			message: 'Vous etes sur le point de supprimer cette offre.<br>'+
+							'ATTENTION: cette action est irreversible!',
+			onConfirm: function() {
+				Modal.allowMultiple = true;
+				Modal.hide('confirmationModal');
+				Meteor.call('removeOffer', {
+					advert: t.parent(2).data._id,
+					offer: t.data
+				}, function(e,r) {
+					if (e)
+						Modal.show('serverErrorModal', e)
+					else
+						Modal.show('modalSuccess', {message: "L'offre a bien ete supprimee"});
+				});
+			}
+		});
+	},
 	'click .validate': function(e,t) {
 		t.requestingValidation.set(true);
 		Meteor.call('validateOffer', {

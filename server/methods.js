@@ -476,6 +476,51 @@ var regexp = {
 Future = Npm.require('fibers/future');
 
 Meteor.methods({
+	topCategories: function() {
+		var pipeline = [
+			{$sort: {createdAt: -1}},
+			{$limit: 50},
+			{$group: {_id: '$category', count: {$sum: 1}}},
+			{$sort: {count: -1}}
+		];
+		var rc = Adverts.rawCollection();
+		var res = Meteor.wrapAsync(rc.aggregate.bind(rc))(pipeline,{});
+		return res;
+	},
+	removeEvent: function(eid) {
+		var current = Meteor.userId();
+		if (current) {
+			if (Roles.userIsInRole(current, 'admin')) {
+				var e = Events.findOne({_id: eid});
+				if (e) {
+					Events.remove({_id: eid});
+				} else throw new Meteor.Error(404, 'Event not found');
+			} else throw new Meteor.Error(403, 'You have to be an administrator to do that');
+		} else throw new Meteor.Error(403, 'You have to be logged in to do that');
+	},
+	addBadge: function(p) {
+		var current = Meteor.userId();
+		if (current) {
+			if (Roles.userIsInRole(current, 'admin')) {
+				var udata = UsersDatas.findOne({userId: p.userId});
+				if (udata) {
+					var b = Badges.findOne({name: p.badgeName});
+					if (b) {
+						if (!_.findWhere(udata.badges, {badgeId: b._id})) {
+							UsersDatas.update({_id: udata._id}, {$push: {badges: {giver: current, badgeId: b._id}}});
+						} else throw new Meteor.Error(400, 'This user already has the badge '+b.name);
+					} else throw new Meteor.Error(500, 'Badges '+p.badgeName+' not found');
+				} else throw new Meteor.Error(404, 'User not found');
+			} else throw new Meteor.Error(403, 'You have to be an administrator to do that');
+		} else throw new Meteor.Error(403, 'You have to be logged in to do that');
+	},
+	sendEvent: function(params) {
+		if (Meteor.userId()) {
+			if (params.type) {
+				Events.insert(params);
+			} else throw new Meteor.Error('Le type d\'evenement est obligatoire');
+		} else throw new Meteor.Error('Vous devez etre connecte pour effectuer cette action');
+	},
 	leaveComment: function(params) {
 		var advertId = params.advertId,
 				offerId = params.offer,
@@ -501,6 +546,28 @@ Meteor.methods({
 								return ctx.getErrorObject();
 							else  {
 								UsersDatas.update({userId: offer.userId}, {$push: {notes: data}});
+								noted.notes.push(data);
+								if (noted.notes.length >= 5) {
+									var assidu = true;
+									_.times(5, function(t) {
+										var n = noted.notes.reverse()[t];
+										if (n.note < 4) {
+											assidu = false;
+											return;
+										}
+									});
+									var b = Badges.findOne({name: 'Assidu'})._id;
+									if (assidu && !_.findWhere(noted.badges, {badgeId: b})) {
+										UsersDatas.update({userId: offer.userId}, {
+											$push: {
+												badges: {
+													giver: offer.userId,
+													badgeId: b
+												}
+											}
+										});
+									}
+								}
 								var user = MangoUsers.findOne({userId: this.userId});
 								var err = createMangoTransfer(user.mango.user, user.mango.wallet, offer);
 								if (err) { throw err; }
@@ -843,7 +910,7 @@ Meteor.methods({
 				if (udata) {
 					var b = Badges.findOne({name: 'Certifie'});
 					if (b) {
-						if (!_.contains(udata.badges, b._id)) {
+						if (!_.findWhere(udata.badges, {badgeId: b._id})) {
 							UsersDatas.update({userId: uid}, {$addToSet: {badges: {giver: current, badgeId: b._id}}});
 						} else throw new Meteor.Error(400, 'This user is already certified');
 					} else throw new Meteor.Error(500, 'Badges Certifie not found');

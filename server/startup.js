@@ -77,35 +77,48 @@ Meteor.startup(function() {
 		_.each([
 			{
 				name: 'telephone',
-				description: 'Confirmer votre numéro de téléphone portable',
-				icon: '/Badges icones/Badge telephone cercle.png'
-			}
-			,
-			// {
-				// name: 'Identite',
-				// description: 'Transferez votre carte d\'identite pour que nous puissions verifier les informations de votre profil',
-				// icon: 'account_box'
-			// },
+				description: 'Confirmer votre numéro de téléphone portable pour obtenir le badge Telephone',
+				icon: '/Badges icones/Badge telephone cercle.png',
+				verif: true
+			}			,
+			{
+				name: 'Identite',
+				description: 'Transferez votre carte d\'identite pour que nous puissions verifier les informations de votre profil et obtenir le badge Identite',
+				icon: '/Badges icones/Badge pro cercle.png',
+				verif: true
+			},
 			{
 				name: 'Mail',
-				description: 'Validez l’existence de votre adresse e-mail en 1 clic ',
-				icon: '/Badges icones/Badge mail v2 cercle.png'
+				description: 'Validez l’existence de votre adresse e-mail vous obtenir le badge Mail',
+				icon: '/Badges icones/Badge mail v2 cercle.png',
+				verif: true
 			},
 			{
 				name: 'Pro',
-				description: 'Validez l’existence de votre adresse e-mail en 1 clic ',
-				icon: '/Badges icones/Badge pro cercle.png'
+				description: 'Envoyez-nous votre license professionelle pour obtenir le badge Pro',
+				icon: '/Badges icones/Badge pro cercle.png',
+				verif: true
 			},
 			{
 				name: 'Social',
-				description: 'Validez l’existence de votre adresse e-mail en 1 clic ',
-				icon: '/Badges icones/Badge social cercle.png'
+				description: 'Connectez-vous avec Facebook, Gmail, ou LinkedIn pour obtenir le badge Resaux Sociaux',
+				icon: '/Badges icones/Badge social cercle.png',
 			},
 			{
 				name: 'Certifie',
-				description: 'Faites vous certifier par Jobday',
-				icon: '/Badges icones/Badge certifie jobday cercle.png'
-			}
+				description: 'Faites vous certifier pour obtenir le badge Certifie Jobday',
+				icon: '/Badges icones/Badge certifie jobday cercle.png',
+			},
+			{
+				name: 'Assidu',
+				description: 'Effectuez 5 missions pour obtenir le badge Travailleur Assidu',
+				icon: '/Badges icones/Badge assidu cercle.png',
+			},
+			{
+				name: 'Connecte',
+				description: 'Connectez-vous regulierement pour obtenir le badge Super Connecte',
+				icon: '/Badges icones/Badge super connecte cercle.png',
+			},
 		], function(b) {
 			Badges.insert(b);
 		});

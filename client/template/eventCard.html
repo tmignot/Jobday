@@ -52,10 +52,37 @@
 	<div class='col-xs-12'>
 		<div class='col-xs-12' style='text-align:left'>
 			<div class='col-xs-12 col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4'>
-				<div class='button orange showIdCard' data-image-id='{{data.imageId}}'>Verifier</div>
+				<div class='button orange showIdCard'>Verifier</div>
 			</div>
 		</div>
 	</div>
+</template>
+
+<template name='modalAdminVerif'>
+	{{#genericModal title="Verification de documents"}}
+		<h4>Voici les informations indiquees dans le profil utilisateur<br>
+			<small>Verifiez que celles-ci correspondent au document pour attribuer le badge identite</small>
+		</h4>
+		<div class='col-xs-12 userDataKeyVals'>
+			{{#each userDataKeyVal}}
+			<div class='col-xs-12'>
+				<label>{{key}} </label><span>{{value}}</span>
+			</div>
+			{{/each}}
+		</div>
+		{{#each docs}}
+			<div class='col-xs-12'>
+				<img src='{{this}}' width='100%'>
+			</div>
+		{{/each}}
+	{{else}}
+		<div class='cancel col-xs-4 col-xs-offset-1 orange button' data-dismiss='modal'>
+			Refuser
+		</div>
+		<div class='confirm col-xs-4 col-xs-offset-2 blue button' data-dismiss='modal'>
+			Approuver
+		</div>
+	{{/genericModal}}
 </template>
 
 <template name='eventCard_grade'>
@@ -96,8 +123,8 @@
 
 <template name='eventCard_pro'>
 	<div class="col-xs-3 col-lg-2">
-		<i class='hidden-xs fa fa-5x fa-id-card'></i>
-		<i class='visible-xs fa fa-3x fa-id-card'></i>
+		<i class='hidden-xs fa fa-5x fa-briefcase'></i>
+		<i class='visible-xs fa fa-3x fa-briefcase'></i>
 	</div>
 	<div class='col-xs-9 col-lg-10'>
 		<h4>Validation de license professionelle</h4>

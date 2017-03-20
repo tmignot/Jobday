@@ -1,0 +1,9 @@
+<template name='subcategoriesModal'>
+	{{#genericModal title='Choisir des sous-categories'}}
+	<h4>Choisissez les sous-categories qui correspondent a vos competences</h4>
+	{{#each subcategories}}
+		{{this}}<br>
+	{{/each}}
+	{{else}}
+	{{/genericModal}}
+</template>

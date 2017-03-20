@@ -299,6 +299,9 @@
 			{{#each categories}}
 			<div class='categorie col-xs-4 col-md-3 col-lg-2 user-skill' data-which='{{index}}'>
 				<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='{{userHasSkill index}}' width='100%' style='padding:5px;'>
+				<div class='col-xs-12'>
+					<h4 style='text-align:center'>{{name}}</h4>
+				</div>
 			</div>
 			{{/each}}
 		</div>
@@ -317,6 +320,17 @@
 				{{name}}
 			</div>
 			{{/each}}
+		</div>
+		<div class='col-xs-12 form form-inline'>
+			<div class='form-group col-xs-12 col-md-8 section'>
+				<label class='control-label' for='licenseInput'>Envoyez nous votre permis de conduire</label>
+				<input class='form-control' id='licenseInput' type='file'>
+			</div>
+			{{#unless uploadingLicense}}
+				<div class='col-xs-12 col-md-4 orange sendLicense section'>Envoyer</div>
+			{{else}}
+				{{>spinner}}
+			{{/unless}}
 		</div>
 		<h3 class='blue col-xs-12'>Vos Diplomes</h3>
 		<div class='col-xs-12 col-md-4 add-grade section'>
@@ -357,103 +371,9 @@
 	{{/if}}
 	{{#if $.Session.equals 'editJobberTab' 'badges'}}
 	<div class='user-badges-container col-xs-12'>
-		<!--
-		<h3 class='blue col-xs-12'>Informations Bancaires</h3>
-		<div class='user-bank col-xs-12 form-horizontal'>
-			{{#if society}}
-			<div class='user-bank user-name col-xs-12 from-group section'>
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Nom de la société</label>
-				<div class='col-xs-12 col-md-7 col-sm-6' style='padding-top:7px;'>
-					<span>{{name}}</span>
-				</div>
-			</div>
-			<div class='user-bank user-siret col-xs-12 from-group section'>
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Numéro de SIRET</label>
-				<div class='col-xs-12 col-md-7 col-sm-6' style='padding-top:7px;'>
-					<span>{{siret}}</span>
-				</div>
-			</div>
-			{{/if}}
-			<div class='user-bank user-firstname col-xs-12 from-group section'>
-				{{#if society}}
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Prénom du représentant</label>
-				<div class='col-xs-12 col-md-7 col-sm-6'>
-					<input type='text' class='form-control col-xs'>
-				</div>
-				{{else}}
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Prénom</label>
-				<div class='col-xs-12 col-md-7 col-sm-6' style='padding-top:7px;'>
-					{{firstname}}
-				</div>
-				{{/if}}
-			</div>
-			<div class='user-bank user-lastname col-xs-12 from-group section'>
-				{{#if society}}
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Nom du représentant</label>
-				<div class='col-xs-12 col-md-7 col-sm-6'>
-					<input type='text' class='form-control col-xs'>
-				</div>
-				{{else}}
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Nom</label>
-				<div class='col-xs-12 col-md-7 col-sm-6' style='padding-top:7px;'>
-					{{name}}
-				</div>
-				{{/if}}
-			</div>
-			<div class='user-bank user-lastname col-xs-12 from-group section'>
-				{{#if society}}
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Date de naissance du représentant</label>
-				<div class='col-xs-12 col-md-7 col-sm-6'>
-					<input type='date' class='form-control col-xs'>
-				</div>
-				{{else}}
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Date de naissance</label>
-				<div class='col-xs-12 col-md-7 col-sm-6' style='padding-top:7px;'>
-					{{formatDate birthdate}}
-				</div>
-				{{/if}}
-			</div>
-			<div class='user-bank user-lastname col-xs-12 from-group section'>
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>IBAN</label>
-				<div class='col-xs-12 col-md-7 col-sm-6'>
-					<input type='text' class='form-control col-xs'>
-				</div>
-			</div>
-			<div class='user-bank user-lastname col-xs-12 from-group section'>
-				<label class='control-label col-md-5 col-xs-12 col-sm-6'>BIC</label>
-				<div class='col-xs-12 col-md-7 col-sm-6'>
-					<input type='text' class='form-control col-xs'>
-				</div>
-			</div>
-			<div class='col-xs-12 section'>
-				<span class='orange button valid-bank col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5'>Enregistrer</span>
-			</div>
-		</div>
-		-->
 		<h3 class='blue col-xs-12 section'>Badges</h3>
 		{{#each badges}}
-		<div class='user-badge col-xs-12 col-md-6' style=padding:25px; data-which='{{_id}}'>
-			<h4 class='col-xs-12'>
-				<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='userHasbadgesClasse-got ' width='10%' style='padding:5px;'>						
-				
-				<span style=vertical-align:super;>{{name}}</span>
-				{{#if userHasBadge _id}}
-					<i class='material-icons pull-right'>check_circle</i>
-				{{/if}}
-			</h4>
-			<h4><small>{{description}}</small></h4>
-			{{#unless userHasBadge _id}}
-				<button class='btn btn-default center-block' data-which='{{name}}' >Verifier</button>
-				{{#if $eq name 'telephone'}}
-				<div class='botborder  col-xs-12'>
-				<div class='col-xs-12 col-sm-6 col-md-7'>
-					<input id="codeVerifPhone" type='text' placeholder="Code vérification" class='form-control' value=''>
-				<button id="btnCodeVerifPhone" class='btn btn-default' data-which='{{name}}' >soumettre</button>
-				</div>
-			</div>
-				{{/if}}
-			{{/unless}}
-		</div>
+			{{>badge}}
 		{{/each}}
 	</div>
 	{{/if}}

@@ -45,6 +45,7 @@ Template.userCard.events({
 
 Template.userCard.helpers({
 	userHasBadge: function(id) {
+		console.log('b');
 		var m = _.map(Template.instance().data.badges, function(b) {
 			return b.badgeId;
 		});

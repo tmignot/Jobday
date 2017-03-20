@@ -2,6 +2,7 @@ Template.editJobber.onCreated(function() {
   this.currentFile = new ReactiveVar(false);
 	this.compressing = new ReactiveVar(false);
 	this.uploadingGrade = new ReactiveVar(false);
+	this.uploadingLicense = new ReactiveVar(false);
 	Maps.create({type: 'geocoder'});
 	Session.set('userType', 'individual');
 	Session.set('gender', 'female');
@@ -23,6 +24,36 @@ Template.editJobber.onRendered(function() {
 	var userType = Session.get('userType');
 	var userTypeSelect = $('input[name="user-type-select"]');
 	userTypeSelect.val(userType);
+	if ($('input.user-address-street')[0]) {
+		Maps.create({
+			type: 'autocomplete',
+			doc: $('input.user-address-street')[0],
+			params: {
+				componentRestrictions: {country: 'fr'}
+			},
+			listeners: {
+				place_changed: function() {
+					var p = Maps.places.autocomplete.getPlace();
+					for (var i = 0; i < p.address_components.length; i++) {
+						var addressType = p.address_components[i].types[0];
+						var val = p.address_components[i].long_name;
+						//console.log(addressType, val);
+						var s,z,c;
+						switch(addressType) {
+							case 'street_number': s = s?val+' '+s:val; break;
+							case 'route': s = s?s+' '+val:val; break;
+							case 'postal_code': z = val; break;
+							case 'locality': c = val; break;
+							default: break;
+						}
+						$('input.user-address-street').val(s);
+						$('input.user-address-zipcode').val(z);
+						$('input.user-address-city').val(c);
+					}
+				}
+			}
+		});
+	}
 });
 
 Template.editJobber.helpers({
@@ -97,7 +128,7 @@ Template.editJobber.helpers({
 		if (!Template.instance().data)
 			return
 		var p = Template.instance().data.badges;
-		if (p && _.contains(p, id))
+		if (p && _.findWhere(p, {badgeId: id}))
 			return 'badge-got';
 	},
 	dateValue: function(d) {
@@ -111,6 +142,9 @@ Template.editJobber.helpers({
 	},
 	uploadingGrade: function() {
 		return Template.instance().uploadingGrade.get();
+	},
+	uploadingLicense: function() {
+		return Template.instance().uploadingLicense.get();
 	}
 });
 
@@ -199,6 +233,7 @@ Template.editJobber.events({
 	'click .user-photo .orange': function() {
 		$('#fileInput').click();
 	},
+	/*
 	'change .user-address input': function(e,t) {
 		var s = t.find('.user-address-street').value,
 				z = t.find('.user-address-zipcode').value,
@@ -219,6 +254,7 @@ Template.editJobber.events({
 			});
 		});
 	},
+	*/
   'change #fileInput': function (e, t) {
 		UploadImage({
 			name: 'pic.jpg',
@@ -258,10 +294,13 @@ Template.editJobber.events({
 	'click .user-skill': function(e,t) { // add the skill that was clicked
 		var user = {_id: t.data._id};
 		var index = parseInt($(e.currentTarget).data('which'));
+		Modal.show('subcategoriesModal', {user: user, index: index});
+		/*
 		if (_.contains(t.data.skills, index))
 			UsersDatas.update(user, {$pull: {skills: index}});
 		else
 			UsersDatas.update(user, {$push: {skills: index}});
+		*/
 	},
 	'click .user-mean': function(e,t) { // add the mean that was clicked
 		var user = {_id: t.data._id};
@@ -290,6 +329,38 @@ Template.editJobber.events({
 			return g.index !== index;
 		});
 		UsersDatas.update(user, {$set: {grades: grades}});
+	},
+	'click .sendLicense': function(e,t) {
+		Modal.allowMultiple = true;
+		var user = t.data.userId;
+		UploadImage({ //See client/helpers.js for a better looking of this function
+			doc: $('#licenseInput')[0],
+			name: user + '_license_' + Date.now(),
+			maxWidth: 300,
+			maxHeight: 300,
+			onBeforeCompress: function() {t.uploadingLicense.set(true);},
+			onAfterUpload: function(error, file) {
+				if (!error) {
+					var license = Images.link(file);
+					Meteor.call('sendEvent', {
+						userEmitter: user,
+						type: 'ask_license_validation',
+						data: {
+							license: license
+						}
+					}, function (e,r) {
+						if (e) { Modal.show('serverErrorModal', e);	} 
+						else {
+							Modal.show('modalSuccess', {
+								message: 'Vos documents ont bien etes telecharge, nous allons traiter votre demande'
+							});
+						}
+					});
+				} else
+					Modal.show('errorModal', {invalidKeys: [{message: error.message}]});
+				t.uploadingLicense.set(false);
+			}
+		});
 	},
 	'click .add-grade .blue': function(e,t) { // add a grade from grades form
 		var user = {_id: t.data._id};

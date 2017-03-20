@@ -1,0 +1,69 @@
+<template name='badge'>
+	<div class='user-badge col-xs-12 col-md-6' data-which='{{_id}}'>
+		<div class='card col-xs-12'>
+				<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='visible-xs center-block userHasbadgesClasse-got ' width='30%' style='padding:5px;'>
+			<h4 class='col-xs-12'>
+				<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='hidden-xs userHasbadgesClasse-got ' width='10%' style='padding:5px;'>						
+				<span>{{name}}</span>
+				{{#if userHasBadge _id}}
+					<i class='material-icons pull-right'>check_circle</i>
+				{{/if}}
+			</h4>
+			<h4 style='padding:5px;'><small>{{description}}</small></h4>
+			{{#if verif}}
+				{{#unless userHasBadge _id}}
+					<button class='btn btn-default center-block' data-which='{{name}}' >Verifier</button>
+				{{/unless}}
+			{{/if}}
+		</div>
+	</div>
+</template>
+
+<template name='modalVerifIdentite'>
+	{{#genericModal title='Obtenir le badge Identite'}}
+	<h4>Pour obtenir le bage identite, veuillez nous envoyer la photocopie recto et verso d'une piece d'identite</h4>
+	<div class='col-xs-12 form form-horizontal'>
+		<div class='form-group col-xs-12'>
+			<label class='control-label' for='idCardRectoInput'>Recto</label>
+			<input id='idCardRectoInput' class='form-control' type='file'>
+		</div>
+		<div class='form-group col-xs-12'>
+			<label class='control-label' for='idCardVersoInput'>Verso</label>
+			<input id='idCardVersoInput' class='form-control' type='file'>
+		</div>
+	</div>
+	<h4><small>La validation des informations et l'obtention du badge peuvent prendre jusqu'a 48h</small></h4>
+	{{else}}
+		{{#unless uploading}}
+			<div class='cancel col-xs-4 col-xs-offset-1 orange button' data-dismiss='modal'>
+				Annuler
+			</div>
+			<div class='confirm col-xs-4 col-xs-offset-2 blue button'>
+				Envoyer
+			</div>
+		{{else}}
+			{{>spinner}}
+			<small>documents telecharges: {{uploadCount}}</small>
+		{{/unless}}
+	{{/genericModal}}
+</template>
+
+<template name='modalVerifPro'>
+	{{#genericModal title='Obtenir le badge Pro'}}
+	<h4>Pour obtenir le bage pro, veuillez nous envoyer la photocopie de votre license professionnelle</h4>
+	<div class='col-xs-12 form form-horizontal'>
+		<div class='form-group col-xs-12'>
+			<label class='control-label' for='licenseProInput'>License professionnelle</label>
+			<input id='licenseProInput' class='form-control' type='file'>
+		</div>
+	</div>
+	<h4><small>La validation des informations et l'obtention du badge peuvent prendre jusqu'a 48h</small></h4>
+	{{else}}
+		<div class='cancel col-xs-4 col-xs-offset-1 orange button' data-dismiss='modal'>
+			Annuler
+		</div>
+		<div class='confirm col-xs-4 col-xs-offset-2 blue button'>
+			Envoyer
+		</div>
+	{{/genericModal}}
+</template>

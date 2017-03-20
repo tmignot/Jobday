@@ -66,8 +66,8 @@ Accounts.onCreateUser(function (options, user) {
 	if (user.emails && user.emails[0])
 		email = user.emails[0].address;
 	else if (user.services) {
-		var service = _.keys(user.services)[0];
-		var email = user.services[service].email;
+		service = _.keys(user.services)[0];
+		email = user.services[service].email;
 		if (email==undefined)
 			email = user.services[service].emailAddress;
 		if (!email) {
@@ -85,6 +85,12 @@ Accounts.onCreateUser(function (options, user) {
 	]});
 	if (existingUser) {
 		// merging account with already existing account
+		if (existingUser.emails && existingUser.emails[0].address) {
+			var data = UsersDatas.findOne({userId: existingUser._id});
+			UsersDatas.update({_id: data._id}, {
+				$push: {badges: {giver: existingUser._id, badgeId: Badges.findOne({name: 'Social'})._id}}
+			});
+		}
 		var newServices = _.extend(user.services||{}, existingUser.services||{});
 		var newEmails = _.extend(user.emails||[], existingUser.emails||[]);
 		existingUser.services = newServices;
@@ -104,6 +110,7 @@ Accounts.onCreateUser(function (options, user) {
 			if (userData.userType != 'society')
 				userData.firstname = user.profile.firstname;
 		} else if (user.services && user.services.google) {
+			method = 'social';
 			userData.name = user.services.google.family_name;
 			userData.firstname = user.services.google.given_name;
 			userData.photo = user.services.google.picture;
@@ -116,6 +123,7 @@ Accounts.onCreateUser(function (options, user) {
 				}
 			})();
 		} else if (user.services && user.services.facebook) {
+			method = 'social';
 			userData.name = user.services.facebook.last_name;
 			userData.firstname = user.services.facebook.first_name;
 			userData.photo = "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large";
@@ -128,6 +136,7 @@ Accounts.onCreateUser(function (options, user) {
 				}
 			})();
 		}else if (user.services && user.services.linkedin) {
+			method = 'social';
 			userData.name = user.services.linkedin.lastName;
 			userData.firstname = user.services.linkedin.firstName;
 			userData.photo =  user.services.linkedin.pictureUrl;
@@ -144,10 +153,63 @@ Accounts.onCreateUser(function (options, user) {
 			userData.name = user.profile.name;
 			userData.userType = user.profile.userType;
 		}
+
+		if (method == 'social') {
+			userData.bagdes = [{
+				giver: userData.userId,
+				badgeId: Badges.findOne({name: 'Social'})._id
+			}];
+		}
 		// create userdata if new user
 		userDataId = UsersDatas.insert(userData);
 		if (userDataId) {
 			return user;
+		}
+	}
+});
+
+Accounts.onLogin(function() {
+	var u = Meteor.userId();
+	var insert = Logs.insert({
+		type: 'login',
+		userId: u
+	});
+	if (insert) {
+		var pipeline = [
+			{$match: {userId: u}},
+			{$group: {_id: {
+				year: {$year: '$date'},
+				month: {$month: '$date'},
+				day: {$dayOfMonth: '$date'}
+			}}},
+			{$sort: {_id: -1}},
+			{$limit: 5}
+		];
+		var rawCollection = Logs.rawCollection();
+		var results = Meteor.wrapAsync(rawCollection.aggregate.bind(rawCollection))(pipeline,{});
+		if (results.length < 5)
+			return;
+		var prec, ok = true;
+		_.each(results, function(r, i) {
+			var m = new moment({
+				year: r._id.year,
+				month: r._id.month - 1,
+				day: r._id.day
+			});
+			if (i == 0)
+				prec = m;
+			else {
+				var d = prec.diff(m) / (24*60*60*1000);
+				if (d != 1)
+					ok = false;
+				prec = m;
+			}
+		});
+		if (ok) {
+			var d = UsersDatas.findOne({userId: u});
+			var b = Badges.findOne({name: 'Connecte'});
+			if (d && b && !_.findWhere(d.badges, {badgeId: b._id}))
+				UsersDatas.update({userId: u}, {$push: {badges: {giver: u, badgeId: b._id}}});
 		}
 	}
 });

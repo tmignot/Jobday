@@ -1,4 +1,7 @@
 Template.navbar.events({
+	'click a:not(.dropdown-toggle)': function(e,t) {
+		$('#navbar.in').collapse('hide');
+	},
 	'click .navbar-brand .dummy-link': function(e) { Router.go('home');	},
     //'click #jobday-logo': function(e) { Router.go('home');	},
 	'click .proposerUnJob a': function() { // check profile completion before posting a job

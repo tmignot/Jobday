@@ -119,6 +119,7 @@ Template.modalAdminVerif.events({
 		});
 	},
 	'click .cancel': function(e,t) {
+		Modal.allowMultiple = true;
 		var ud = UsersDatas.findOne({userId: t.data.userEmitter});
 		if (t.data.type == 'ask_grade_validation') {
 			Meteor.call('removeGrade', {
@@ -128,9 +129,11 @@ Template.modalAdminVerif.events({
 				if (e) {
 					Modal.show('serverErrorModal', e);
 				} else {
-					Meteor.call('removeEvent', t.data._id, function(e) {
-						if (e) console.log(e);
-						else Modal.show('modalSuccess', {message: 'Vous avez refuse la validation'});
+					Meteor.call('removeEvent', t.data._id, function(e,r) {
+						if (e)
+							Modal.show('serverErrorModal', e);
+						else 
+							Modal.show('modalSuccess', {message: 'Vous avez refuse la validation'});
 					});
 				}
 			});

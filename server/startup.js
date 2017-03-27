@@ -123,7 +123,7 @@ Meteor.startup(function() {
 			if (!fb) {
 				Badges.insert(b);
 			} else if (b.verif && !fb.verif) {
-				Bagdes.update({_id: fb._id}, {$set: {verif: true}});
+				Badges.update({_id: fb._id}, {$set: {verif: true}});
 			}
 		});
 

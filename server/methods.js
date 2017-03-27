@@ -533,8 +533,10 @@ Meteor.methods({
 						}
 					})();
 					_.each(imgs, function(img) {
-						var _id = _.last(e.data[img].split('/'));
-						Images.remove({_id: _id});
+						if (e.data[img]) {
+							var _id = _.last(e.data[img].split('/'));
+							Images.remove({_id: _id});
+						}
 					});
 					Events.remove({_id: eid});
 				} else throw new Meteor.Error(404, 'Event not found');

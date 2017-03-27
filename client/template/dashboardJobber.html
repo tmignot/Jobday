@@ -231,7 +231,7 @@
 			<label>Formations / Diplômes</label>
 			{{#each grades}}
 				{{#if validated}}
-					<div class='grade col-xs-6 col-md-3' data-img='{{image}}'>
+				<div class='grade col-xs-6 col-md-3' data-validated='{{validated}}' data-img='{{image}}'>
 						<div class='botborder grade-inside col-xs-12'>
 							<h4>{{name}}</h4>
 							<small>{{formatDate date}}</small>

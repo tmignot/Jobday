@@ -300,8 +300,10 @@ Template.dashboardJobber.events({
 		Modal.show('dispoRangeModal');
 	},
 	'click .grade': function(e,t) {
-		var src = $(e.currentTarget).data('img');
-	Modal.show('imageModal', {src: src});
+		if ($(e.currentTarget).data('validated') == false) {
+			var src = $(e.currentTarget).data('img');
+			Modal.show('imageModal', {src: src});
+		}
 	}
 });
 function buildTableBody2(data) {

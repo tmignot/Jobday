@@ -130,9 +130,14 @@ Template.modalAdminVerif.events({
 				} else {
 					Meteor.call('removeEvent', t.data._id, function(e) {
 						if (e) console.log(e);
-						else Modal.show('modalSuccess', {message: 'Vous avez refuse le badge'});
+						else Modal.show('modalSuccess', {message: 'Vous avez refuse la validation'});
 					});
 				}
+			});
+		}	else {
+			Meteor.call('removeEvent', t.data._id, function(e) {
+				if (e) console.log(e);
+				else Modal.show('modalSuccess', {message: 'Vous avez refuse la validation'});
 			});
 		}
 	}

@@ -319,8 +319,10 @@ Template.editJobber.events({
 			UsersDatas.update(user, {$push: {permis: index}});
 	},
 	'click .grade': function(e,t) {
-		var src = $(e.currentTarget).data('img');
-		Modal.show('imageModal', {src: src});
+		if (!$(e.currentTarget).data('validated')) {
+			var src = $(e.currentTarget).data('img');
+			Modal.show('imageModal', {src: src});
+		}
 	},
 	'click .user-grades .delete-icon': function(e,t) { // removes the grade that was clicked
 		e.stopPropagation();

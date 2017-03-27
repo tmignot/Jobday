@@ -523,6 +523,19 @@ Meteor.methods({
 			if (Roles.userIsInRole(current, 'admin')) {
 				var e = Events.findOne({_id: eid});
 				if (e) {
+					var imgs = (function() {
+						switch (e.type) {
+							case 'ask_grade_validation': return ['image'];
+							case 'ask_license_validation': return ['license'];
+							case 'ask_pro_validation': return ['license'];
+							case 'ask_identity_validation': return ['recto', 'verso'];
+							default: return [];
+						}
+					})();
+					_.each(imgs, function(img) {
+						var _id = _.last(e.data[img].split('/'));
+						Images.remove({_id: _id});
+					});
 					Events.remove({_id: eid});
 				} else throw new Meteor.Error(404, 'Event not found');
 			} else throw new Meteor.Error(403, 'You have to be an administrator to do that');

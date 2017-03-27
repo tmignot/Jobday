@@ -81,12 +81,28 @@ Template.modalAdminVerif.events({
 			switch(t.data.type) {
 				case 'ask_identity_validation': return 'Identite';
 				case 'ask_pro_validation': return 'Pro';
+				case 'ask_grade_validation': return 'Grade';
 				default: return '';
 			}
 		})();
 		if (!badgeName) {
 			Meteor.call('removeEvent', t.data._id, function(e) {if (e) console.log(e);});
 			Modal.show('modalSuccess', {message: "Vous avez approuve"});
+			return;
+		}
+		if (t.data.type == 'ask_grade_validation') {
+			var ud = UsersDatas.findOne({userId: t.data.userEmitter});
+			Meteor.call('validateGrade', {
+				_id: ud._id,
+				grade: t.data.data.grade
+			}, function(e,r) {
+				if (e) {
+					Modal.show('serverErrorModal', e);
+				} else {
+					Meteor.call('removeEvent', t.data._id, function(e) {if (e) console.log(e);});
+					Modal.show('modalSuccess', {message: "La validation a bien ete effectuee"});
+				}
+			});
 			return;
 		}
 		Meteor.call('addBadge', {
@@ -102,10 +118,22 @@ Template.modalAdminVerif.events({
 		});
 	},
 	'click .cancel': function(e,t) {
-		Meteor.call('removeEvent', t.data._id, function(e) {
-			if (e) console.log(e);
-			else Modal.show('modalSuccess', {message: 'Vous avez refuse le badge'});
-		});
+		var ud = UsersDatas.findOne({userId: t.data.userEmitter});
+		if (t.data.type == 'ask_grade_validation') {
+			Meteor.call('removeGrade', {
+				_id: ud._id,
+				grade: t.data.data.grade
+			}, function(e,r) {
+				if (e) {
+					Modal.show('serverErrorModal', e);
+				} else {
+					Meteor.call('removeEvent', t.data._id, function(e) {
+						if (e) console.log(e);
+						else Modal.show('modalSuccess', {message: 'Vous avez refuse le badge'});
+					});
+				}
+			});
+		}
 	}
 });
 

@@ -90,17 +90,17 @@
 				<h4>Badges de confiance</h4>
 				<div class='user-badges'>
 				{{#each badges}}
+					<div class='col-xs-3 nopad' style='text-align:center;'>
 						{{#if userHasbadges _id}}
-							<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='userHasbadgesClasse-got ' width='10%' style='padding:5px;'>
+							<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='userHasbadgesClasse-got ' width='100%' style='padding:15px 15px 0 15px;'>
+							<small>{{name}}</small>
 						{{else}}
-							<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='userHasbadgesClasse-not-got ' width='10%' style='padding:5px;'>
-						
+							<img data-toggle='tooltip' title='{{name}}' src='{{icon}}' class='userHasbadgesClasse-not-got ' width='100%' style='padding:15px 15px 0 15px;'>
+							<small>{{name}}</small>
 						{{/if}}
-						
-						
-			
-					{{/each}}
-				</div>
+					</div>
+				{{/each}}
+			</div>
 			</div>
 			<div class='user-means-container col-xs-12'>
 				<h4>Moyens de transport</h4>
@@ -230,12 +230,24 @@
 		<div class='user-grades-container section user-text col-xs-12'>
 			<label>Formations / Diplômes</label>
 			{{#each grades}}
-			<div class='grade col-xs-6 col-md-3' data-img='{{image}}'>
-				<div class='botborder grade-inside col-xs-12'>
-					<h4>{{name}}</h4>
-					<small>{{formatDate date}}</small>
-				</div>
-			</div>
+				{{#if validated}}
+					<div class='grade col-xs-6 col-md-3' data-img='{{image}}'>
+						<div class='botborder grade-inside col-xs-12'>
+							<h4>{{name}}</h4>
+							<small>{{formatDate date}}</small>
+						</div>
+					</div>
+				{{else}}
+					{{#if $.Session.equals 'currentUserDataId' currentUser._id}}
+					<div class='grade col-xs-6 col-md-3' data-img='{{image}}'>
+						<div class='botborder grade-inside col-xs-12'>
+							<h4>{{name}}</h4>
+							<small>{{formatDate date}}</small>
+						</div>
+						<small>En attente de validation</small>
+					</div>
+					{{/if}}
+				{{/if}}
 			{{/each}}
 		</div>
 		<div class='user-precisions-container section user-text col-xs-12'>

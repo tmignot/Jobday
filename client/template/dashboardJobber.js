@@ -222,7 +222,7 @@ Template.dashboardJobber.helpers({
 		if (!Template.instance().data)
 			return
 		var p = Template.instance().data.skills;
-		if (p && _.contains(p, id))
+		if (p && p[id])
 			return 'skill-got';
 	},
 	userHasPermis: function(id) { // same as means for permis

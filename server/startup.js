@@ -73,7 +73,6 @@ Meteor.startup(function() {
 		});
 	}
 
-	if (Badges.find().count() == 0) {
 		_.each([
 			{
 				name: 'telephone',
@@ -120,9 +119,13 @@ Meteor.startup(function() {
 				icon: '/Badges icones/Badge super connecte cercle.png',
 			},
 		], function(b) {
-			Badges.insert(b);
+			var fb = Badges.findOne({name: b.name});
+			if (!fb) {
+				Badges.insert(b);
+			} else if (b.verif && !fb.verif) {
+				Bagdes.update({_id: fb._id}, {$set: {verif: true}});
+			}
 		});
-	}
 
 	if (Events.find().count() == 0) {
 		_.each([

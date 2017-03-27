@@ -184,6 +184,21 @@ ul.navbar-nav li a{
 }
 
 @media (max-width: 767px) { /* xs only */
+	.navbar-brand {
+		width: 100%;
+		position: absolute;
+		left: 0px;
+		text-align: center;
+	}
+
+	.navbar-brand img {
+		display: inline-block;
+	}
+
+	.navbar-toggle{
+		z-index: 10;
+	}
+
 	.owl-item p {
 		font-size: inherit;
 	}

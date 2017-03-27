@@ -121,7 +121,7 @@ Template.editJobber.helpers({
 		if (!Template.instance().data)
 			return
 		var p = Template.instance().data.skills;
-		if (p && _.contains(p, id))
+		if (p && p[id])
 			return 'skill-got';
 	},
 	userHasBadge: function(id) {
@@ -323,6 +323,7 @@ Template.editJobber.events({
 		Modal.show('imageModal', {src: src});
 	},
 	'click .user-grades .delete-icon': function(e,t) { // removes the grade that was clicked
+		e.stopPropagation();
 		var user = {_id: t.data._id};
 		var index = $(e.currentTarget).data('which');
 		var grades = _.filter(t.data.grades, function(g) {

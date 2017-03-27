@@ -487,6 +487,36 @@ Meteor.methods({
 		var res = Meteor.wrapAsync(rc.aggregate.bind(rc))(pipeline,{});
 		return res;
 	},
+	removeGrade: function(p) {
+		var current = Meteor.userId();
+		if (current) {
+			if (Roles.userIsInRole(current, 'admin')) {
+				var udata = UsersDatas.findOne({_id: p._id});
+				if (udata) {
+					var g = _.findWhere(udata.grades, {index: p.grade});
+					if (g) {
+						UsersDatas.update({_id: udata._id}, {$pull: {grades: {index: p.grade}}});
+					} else throw new Meteor.Error(500, 'Grade '+p.grade+' not found');
+				} else throw new Meteor.Error(404, 'User not found');
+			} else throw new Meteor.Error(403, 'You have to be an administrator to do that');
+		} else throw new Meteor.Error(403, 'You have to be logged in to do that');
+	},
+	validateGrade: function(p) {
+		var current = Meteor.userId();
+		if (current) {
+			if (Roles.userIsInRole(current, 'admin')) {
+				var udata = UsersDatas.findOne({_id: p._id});
+				if (udata) {
+					var g = _.findWhere(udata.grades, {index: p.grade});
+					if (g) {
+						if (!g.validated) {
+							UsersDatas.update({_id: udata._id, 'grades.index': p.grade}, {$set: {'grades.$.validated': true}});
+						} else throw new Meteor.Error(400, 'This grade has already been validated');
+					} else throw new Meteor.Error(500, 'Grade '+p.grade+' not found');
+				} else throw new Meteor.Error(404, 'User not found');
+			} else throw new Meteor.Error(403, 'You have to be an administrator to do that');
+		} else throw new Meteor.Error(403, 'You have to be logged in to do that');
+	},
 	removeEvent: function(eid) {
 		var current = Meteor.userId();
 		if (current) {

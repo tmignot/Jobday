@@ -32,6 +32,11 @@
 	{{#genericModal title='Editer vos disponibilites'}}
 	<h4>Editer vos disponibilit&eacute;s pour une p&eacute;riode donn&eacute;e</h4>
 	<div class='col-xs-12 dispo-range form-horizontal'>
+		<div class='form-group'>
+			<label class='control-label'>Je suis toujours disponible</label>
+			<input type='checkbox' id='alwaysDisp' checked='{{alwaysDisponible}}'>
+		</div>
+		{{#unless isAlwaysDisp}}
 		<div class='dispo-range-checkbox form-group'>
 			<label class='control-label'>Je serais </label>
 			<div>
@@ -41,17 +46,41 @@
 		</div>
 		<div class='date form-group'>
 			<label class='control-label'>Du </label>
-			<input type='date' class='date-from form-control'>
+			<input type='text' class='date-input date-from form-control' placeholder='JJ/MM/YYYY'>
 			<label class='control-label'>A </label>
-			<input type='time' class='hours-from form-control'>
+			<input type='text' class='hour-input hours-from form-control' placeholder='HH:mm'>
 		</div>
 		<div class='hours form-group'>
 			<label class='control-label'>Au </label>
-			<input type='date' class='date-to form-control'>
+			<input type='text' class='date-input date-to form-control' placeholder='JJ/MM/YYYY'>
 			<label class='control-label'>A </label>
-			<input type='time' class='hours-to form-control'>
+			<input type='text' class='hour-input hours-to form-control' placeholder='HH:mm'>
 		</div>
+		{{else}}
+		<div class='dispo-range-checkbox form-group'>
+			<label class='control-label'>Je serais </label>
+			<div>
+			<input disabled type='radio' name='isDisp' value='true' checked> disponible
+			<input disabled type='radio' name='isDisp' value='false'> indisponible
+			</div>
 		</div>
+		<div class='date form-group'>
+			<label class='control-label'>Du </label>
+			<input disabled type='text' class='date-from form-control' placeholder='JJ/MM/YYYY'>
+			<label class='control-label'>A </label>
+			<input disabled type='text' class='hours-from form-control' placeholder='HH:mm'>
+		</div>
+		<div class='hours form-group'>
+			<label class='control-label'>Au </label>
+			<input disabled type='text' class='date-to form-control' placeholder='JJ/MM/YYYY'>
+			<label class='control-label'>A </label>
+			<input disabled type='text' class='hours-to form-control' placeholder='HH:mm'>
+		</div>
+		{{/unless}}
+		{{#unless isAlwaysDisp}}
+			{{rundatepicker}}
+		{{/unless}}
+	</div>
 	{{else}}
 	<button type="button" class="btn btn-primary center-block section validate" data-dismiss="modal">Enregistrer</button>
 	{{/genericModal}}

@@ -118,7 +118,7 @@
 			<div class='user-information user-birthdate col-xs-12 from-group section'>
 				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Date de naissance</label>
 				<div class='col-xs-12 col-md-7 col-sm-6'>
-					<input type='date' class='form-control' value='{{dateValue birthdate}}'>
+					<input type='text' class='form-control' value='{{dateValue birthdate}}'>
 				</div>
 			</div>
 			<div class='user-information user-gender col-xs-12 from-group section'>
@@ -175,7 +175,7 @@
 			<div class='user-information user-birthdate col-xs-12 from-group section'>
 				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Date de naissance</label>
 				<div class='col-xs-12 col-md-7 col-sm-6'>
-					<input type='date' class='form-control' value='{{dateValue birthdate}}'>
+					<input type='text' class='form-control' value='{{dateValue birthdate}}'>
 				</div>
 			</div>
 			<div class='user-information user-gender col-xs-12 from-group section'>
@@ -222,7 +222,7 @@
 			<div class='user-information user-birthdate col-xs-12 from-group section'>
 				<label class='control-label col-md-5 col-xs-12 col-sm-6'>Date de naissance du représentant</label>
 				<div class='col-xs-12 col-md-7 col-sm-6'>
-					<input type='date' class='form-control' value='{{dateValue birthdate}}'>
+					<input type='text' class='form-control' value='{{dateValue birthdate}}'>
 				</div>
 			</div>
 			{{/if}}
@@ -343,11 +343,11 @@
 			</div>
 			<div class='form-group'>
 				<label class='control-label'>Date d'obtention</label>
-				<input type='date' class='form-control add-grade-date'>
+				<input type='text' class='form-control add-grade-date' placeHolder='DD/MM/YYYY'>
 			</div>
 			<div class='form-group'>
 				<label class='control-label'>Scan du diplôme</label>
-				<input type='file' class='form-control add-grade-date'>
+				<input type='file' class='form-control add-grade-doc'>
 			</div>
 			<div class='form-group'>
 				<div class='blue'>Ajouter</div>
@@ -368,6 +368,12 @@
 			{{/each}}
 		</div>
 	</div>
+	{{/if}}
+	{{#if $.Session.equals 'editJobberTab' 'skills'}}
+		{{rundatepick}}
+	{{/if}}
+	{{#if $.Session.equals 'editJobberTab' 'info'}}
+		{{rundatepick}}
 	{{/if}}
 	{{#if $.Session.equals 'editJobberTab' 'badges'}}
 	<div class='user-badges-container col-xs-12'>

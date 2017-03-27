@@ -44,9 +44,9 @@ Template.modalAdminVerif.helpers({
 					{key: 'Nom', value: udata.name},
 					{key: 'Prenom', value: udata.firstname}
 				];
-				_.each(udata.grades, function(e) {
-						keyval.push({key: 'Diplome', value: e.name});
-				});
+				var g = _.findWhere(udata.grades, {index: Template.instance().data.data.grade});
+				if (g)
+					keyval.push({key: 'Diplome', value: g.name});
 				return keyval;
 			case 'ask_license_validation':
 				var p = Permis.find({_id: {$in: udata.permis}}).fetch();

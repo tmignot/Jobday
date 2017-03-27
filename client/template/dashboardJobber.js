@@ -297,7 +297,7 @@ Template.dashboardJobber.events({
 		});
 },
 	'click .user-disponibilities-container .orange.button': function(e,t) {
-		Modal.show('dispoRangeModal');
+		Modal.show('dispoRangeModal', t.data);
 	},
 	'click .grade': function(e,t) {
 		if ($(e.currentTarget).data('validated') == false) {

@@ -61,45 +61,84 @@ Template.disponibilities.events({
 	}
 });
 
+Template.dispoRangeModal.onCreated(function() {
+	this.isAlwaysDisp = new ReactiveVar(this.data.alwaysDisponible);
+});
+
+Template.dispoRangeModal.onRendered(function() {
+	$('.date-input').datetimepicker({
+		format: 'DD/MM/YYYY',
+		locale: 'fr'
+	});
+	$('.hour-input').datetimepicker({
+		format: 'HH:mm',
+		locale: 'fr'
+	});
+});
+
+Template.dispoRangeModal.helpers({
+	isAlwaysDisp: function() {
+		return Template.instance().isAlwaysDisp.get();
+	},
+	rundatepicker: function() {
+		$('.date-input').datetimepicker({
+			format: 'DD/MM/YYYY',
+			locale: 'fr'
+		});
+		$('.hour-input').datetimepicker({
+			format: 'HH:mm',
+			locale: 'fr'
+		});
+	}
+});
+
 Template.dispoRangeModal.events({
+	'change #alwaysDisp': function(e,t) {
+		t.isAlwaysDisp.set($(e.currentTarget).is(':checked'));
+	},
 	'click .validate': function(e,t) { // on validation
-		var userDataId = UsersDatas.findOne({userId: Meteor.userId()})._id;
-		var hFrom = t.find('.hours-from').value, // we retrieve the form's values
-				hTo = t.find('.hours-to').value,
-				dFrom = t.find('.date-from').value,
-				dTo = t.find('.date-to').value;
-		var isDisp = $('.dispo-range input[name=isDisp]:checked').val() == 'true';
-		var day = new Date(dFrom);
-		var days = moment(dTo).diff(dFrom, 'days');
-		var duration = moment.duration(1, 'days');
-		for (i=0; i<days; i++) { //for each day in the range chosen
-			// logic
-			UsersDatas.update({_id: userDataId}, {
-				$pull: {disponibilities: {day: new Date(day)}} // removing the selected day
-			});
-			if (isDisp) { // if the user is disponible we re-insert the day with the proper values
-				var disp = {morning: true, afternoon: true, evening: true};
-				if (!i) {
-					var hfh = parseInt(hFrom.split(':')[0]);
-					if (hfh >= 12)
-						disp.morning = false;
-					if (hfh >= 18)
-						disp.afternoon = false;
-				} else if (i == days - 1) {
-					var hth = parseInt(hTo.split(':')[0]);
-					if (hth < 12)
-						disp.afternoon = false;
-					if (hth < 18)
-						disp.evening = false;
-				}
-				disp.day = new Date(day);
-				UsersDatas.update({_id: userDataId}, { // re-inserting here
-					$push: {disponibilities: disp}
+		var userDataId = t.data._id;
+		if (t.isAlwaysDisp.get() === true) {
+			UsersDatas.update({_id: userDataId}, {$set: {alwaysDisponible: true}});
+		} else {
+			UsersDatas.update({_id: userDataId}, {$set: {alwaysDisponible: false}});
+			var hFrom = t.find('.hours-from').value, // we retrieve the form's values
+					hTo = t.find('.hours-to').value,
+					dFrom = t.find('.date-from').value.split('/').reverse().join('/'),
+					dTo = t.find('.date-to').value.split('/').reverse().join('/');
+			var isDisp = $('.dispo-range input[name=isDisp]:checked').val() == 'true';
+			var day = new Date(dFrom);
+			var days = moment(dTo).diff(dFrom, 'days');
+			var duration = moment.duration(1, 'days');
+			for (i=0; i<days; i++) { //for each day in the range chosen
+				// logic
+				UsersDatas.update({_id: userDataId}, {
+					$pull: {disponibilities: {day: new Date(day)}} // removing the selected day
 				});
+				if (isDisp) { // if the user is disponible we re-insert the day with the proper values
+					var disp = {morning: true, afternoon: true, evening: true};
+					if (!i) {
+						var hfh = parseInt(hFrom.split(':')[0]);
+						if (hfh >= 12)
+							disp.morning = false;
+						if (hfh >= 18)
+							disp.afternoon = false;
+					} else if (i == days - 1) {
+						var hth = parseInt(hTo.split(':')[0]);
+						if (hth < 12)
+							disp.afternoon = false;
+						if (hth < 18)
+							disp.evening = false;
+					}
+					disp.day = new Date(day);
+					UsersDatas.update({_id: userDataId}, { // re-inserting here
+						$push: {disponibilities: disp}
+					});
+				}
+				// increment day in order to loop correctly
+				day = moment(day).add(duration);
 			}
-			// increment day in order to loop correctly
-			day = moment(day).add(duration);
+			$('#dispo-calendar').fullCalendar('refetchEvents'); // refresh callendar
 		}
-		$('#dispo-calendar').fullCalendar('refetchEvents'); // refresh callendar
 	}
 });

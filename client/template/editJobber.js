@@ -24,6 +24,8 @@ Template.editJobber.onRendered(function() {
 	var userType = Session.get('userType');
 	var userTypeSelect = $('input[name="user-type-select"]');
 	userTypeSelect.val(userType);
+	$('.add-grade-date').datetimepicker({locale: 'fr', format: 'DD/MM/YYYY'});
+	$('.user-birthdate input').datetimepicker({locale: 'fr', format: 'DD/MM/YYYY'});
 	if ($('input.user-address-street')[0]) {
 		Maps.create({
 			type: 'autocomplete',
@@ -132,7 +134,7 @@ Template.editJobber.helpers({
 			return 'badge-got';
 	},
 	dateValue: function(d) {
-		return d ? moment(d).format('Y-MM-DD'): undefined;
+		return d ? moment(d).format('DD/MM/YYYY'): undefined;
 	},
 	currentFile: function() {
 		return Template.instance().currentFile.get();
@@ -145,7 +147,11 @@ Template.editJobber.helpers({
 	},
 	uploadingLicense: function() {
 		return Template.instance().uploadingLicense.get();
-	}
+	},
+	rundatepick: function() {
+		$('.add-grade-date').datetimepicker({locale: 'fr', format: 'DD/MM/YYYY'});
+		$('.user-birthdate input').datetimepicker({locale: 'fr', format: 'DD/MM/YYYY'});
+	},
 });
 
 Template.editJobber.events({
@@ -369,7 +375,7 @@ Template.editJobber.events({
 		var user = {_id: t.data._id};
 		var new_grade = {
 			name: $('.add-grade-name').val(),
-			date: new Date($('.add-grade-date').val())
+			date: new Date($('.add-grade-date').val().split('/').reverse().join('/'))
 		};
 		UploadImage({ //See client/helpers.js for a better looking of this function
 			doc: $('.add-grade input[type=file]')[0],
@@ -440,7 +446,7 @@ Template.editJobber.events({
 				Modal.show('modalSuccess', {message: 'La date de naissance est obligatoire'});}
 				}
 				if ($('.user-birthdate input').val())
-					data.birthdate = new Date($('.user-birthdate input').val()),
+					data.birthdate = new Date($('.user-birthdate input').val().split('/').reverse().join('/')),
 				data.presentation = $('.user-presentation textarea').val();
 				data.experiences = $('.user-experiences textarea').val();
 				data.precisions = $('.user-precisions textarea').val();

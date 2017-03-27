@@ -16,9 +16,9 @@ Template.poster.onCreated(function() {
 });
 
 Template.poster.onRendered(function() {
-	$('#AnnonceDate3').datetimepicker({format: 'YYYY-MM-DD'});
-	$('#AnnonceDate2').datetimepicker({format: 'YYYY-MM-DD'});
-	$('.timepicker').datetimepicker({format: 'HH:mm'});
+	$('#AnnonceDate3').datetimepicker({locale: 'fr', format: 'DD/MM/YYYY'});
+	$('#AnnonceDate2').datetimepicker({locale: 'fr', format: 'DD/MM/YYYY'});
+	$('.timepicker').datetimepicker({locale: 'fr', format: 'HH:mm'});
 	Maps.create({
 		type: 'autocomplete',
 		doc: document.getElementById('adresseRueAnnonce'),
@@ -100,12 +100,12 @@ Template.poster.onRendered(function() {
 Template.poster.helpers({
 	runtimepick: function() {
 		var d = Template.instance().data;
-		$('#choixHoraireAnnonceDeb').datetimepicker({format: 'HH:mm'});
-		$('#choixHoraireAnnonceFin').datetimepicker({format: 'HH:mm'});
+		$('#choixHoraireAnnonceDeb').datetimepicker({locale: 'fr', format: 'HH:mm'});
+		$('#choixHoraireAnnonceFin').datetimepicker({locale: 'fr', format: 'HH:mm'});
 	},
 	rundatepick: function() {
-		$('#AnnonceDate3').datetimepicker({format: 'YYYY-MM-DD'});
-		$('#AnnonceDate2').datetimepicker({format: 'YYYY-MM-DD'});
+		$('#AnnonceDate3').datetimepicker({locale: 'fr', format: 'DD/MM/YYYY'});
+		$('#AnnonceDate2').datetimepicker({locale: 'fr', format: 'DD/MM/YYYY'});
 	},
 	categories: function() { // minifying categories for select
 		return _.map(Categories, function(d,i) {
@@ -201,7 +201,7 @@ function bVal(id) {
 
 function dateVal(id) {
 //console.log(new Date(strVal(id)));
-	return new Date(strVal(id));
+	return new Date(strVal(id).split('/').reverse().join('/'));
 }
 
 function getValues() {

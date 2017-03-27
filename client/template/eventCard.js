@@ -69,6 +69,7 @@ Template.modalAdminVerif.helpers({
 		switch(d.type) {
 			case 'ask_identity_validation': return [d.data.recto, d.data.verso];
 			case 'ask_pro_validation': return [d.data.license];
+			case 'ask_license_validation': return [d.data.license];
 			case 'ask_grade_validation': return [d.data.image];
 			default: return '';
 		}

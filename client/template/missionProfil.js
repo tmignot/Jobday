@@ -258,21 +258,24 @@ Template.makeOfferModal.events({
 									});
 								} else {
 									Modal.allowMultiple = true;
+									console.log(1);
 									Modal.show('errorModal', ctx.getErrorObject());
 								}
 							}else {
 									Modal.allowMultiple = true;
+									console.log(2);
 									Modal.show('errorModal', ctx.getErrorObject());
 								}
 						});
 					});
-				}else {
-					
-					
-									Modal.allowMultiple = true;
-									Modal.show('errorModal', "PRofil pas a jour");
-									//Modal.show('errorModal', ctx.getErrorObject());
-								};
+				} else {
+					console.log(3);
+					Modal.allowMultiple = true;
+					Modal.hide('makeOfferModal');
+					Modal.show('profileNotComplete');
+					//Modal.show('errorModal', "Profil pas a jour");
+					//Modal.show('errorModal', ctx.getErrorObject());
+				};
 			}
 		}
 	}

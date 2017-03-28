@@ -800,16 +800,16 @@ Meteor.methods({
 					validated: false
 				}}});
 				UserNotification.insert({
-					  name:'Offre',
-							 description:'Offre' ,
-							 icon:'glyphicon glyphicon-eur' ,
-							 urlNotif: '/missionProfil/'+ params.advert ,
-							 owner: Adverts.findOne({_id : params.advert}).owner,
-							 createdBy :this.userId							 
-							 }, function(err) {
-							if (err)
-							 return err;}
-				);
+					name:'Offre',
+					description:'Offre' ,
+					icon:'glyphicon glyphicon-eur' ,
+					urlNotif: '/missionProfil/'+ params.advert ,
+					owner: Adverts.findOne({_id : params.advert}).owner,
+					createdBy :this.userId							 
+				}, function(err) {
+					if (err)
+						return err;
+				});
 				return ret;
 			} else{
 				return 'Bad parameters';}
@@ -820,7 +820,6 @@ Meteor.methods({
 		if (params && params.advert && params.message) {
 			var ad = Adverts.findOne({_id: params.advert});
 			if (ad && ad.messages && ad.messages.length) {
-				console.log(params);
 				var m = _.findWhere(ad.messages, {_id: params.message._id});
 				if (m && m.userId) {
 					if (this.userId == m.userId || Roles.userIsInRole(this.userId, 'admin')) {
@@ -885,7 +884,6 @@ Meteor.methods({
 	},
 	addAdmin: function(email, firstname, name) {
 		var current = Meteor.userId();
-		console.log(email, firstname, name);
 		if (current && Roles.userIsInRole(current, ['admin','root'])) {
 			var existingUser = Meteor.users.findOne({
 				$or: [

@@ -104,7 +104,6 @@ Accounts.onCreateUser(function (options, user) {
 		};
 		if (user.services && user.services.password) {
 			method = 'password';
-//			console.log(user.profile);
 			userData.name = user.profile.name;
 			userData.userType = user.profile.userType;
 			if (userData.userType != 'society')

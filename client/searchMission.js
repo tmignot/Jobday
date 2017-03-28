@@ -26,7 +26,11 @@ Template.searchMission.onCreated(function() {
 		}
 	}
 	if (Session.get('searchMissionLocal'))
-		f['$or'] = [{'online': true}, {'address.city': new RegExp('^.*'+Session.get('searchMissionLocal').split(',')[0]+'.*$', 'i')}, {'address.zipcode': new RegExp('^.*'+Session.get('searchMissionLocal').split(',')[0]+'.*$', 'gi')}];
+		f['$or'] = [
+			{'online': true},
+			{'address.city': new RegExp('^.*'+Session.get('searchMissionLocal').split(',')[0]+'.*$', 'i')}, 
+			{'address.zipcode': new RegExp('^.*'+Session.get('searchMissionLocal').split(',')[0]+'.*$', 'gi')}
+		];
 		//console.log(new RegExp('^.*'+Session.get('searchMissionLocal').split(' ')[0]+'.*$', 'i'));
 		//f['$or'] = [{'address.zipcode': new RegExp('^.*'+Session.get('searchMissionLocal').split(' ')[0]+'.*$', 'i')}];
 	if (Session.get('searchMissionNeed')) 
@@ -36,7 +40,7 @@ Template.searchMission.onCreated(function() {
 
 	// setting filters
 	AdvertsPages.set('filters', _.clone(this.filters.get()));
-	AdvertsPages.set({sort: {createdAt:-1}});
+	AdvertsPages.set({sort: {createdAt: 1}});
 });
 
 Template.searchMission.onDestroyed(function() {
@@ -63,22 +67,10 @@ Template.searchMission.onRendered(function() {
 				navigator.geolocation.getCurrentPosition(function(position) {
 					Maps.maps.searchMissionMap.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
 					Maps.maps.searchMissionMap.setZoom(6);
-					
-					
-					
-					
-					
 				});
 			}
-			
-			
-			
 		}
 	});
-	
-	
-	
-	
 	$("#searchMissionMap").affix({ // setting map affix to permit it to stay when scrolling
 		offset: { 
 			top: 475
@@ -103,14 +95,11 @@ Template.searchMission.onRendered(function() {
 
 Template.searchMission.helpers({
 	numberNotificationALL: function() { // returns the user's hometown
-	//console.log(Meteor.userId());
-	var idsArray=[];
-	idsArray.push(Meteor.userId());
-	//console.log(idsArray);
+		var idsArray=[];
+		idsArray.push(Meteor.userId());
 		var aA = UserNotification.find({'owner': Meteor.userId()});
-		
 		return aA.count();
-},
+	},
 	active: function(w) { // returns a classname for underlining top filters
 		var f = Template.instance().filters.get();
 		if ((f && !_.keys(f).length && w == 'all') ||
@@ -199,7 +188,9 @@ Template.searchMission.events({
 		var a = ss.value.split('_');
 		switch(a[0]) {
 			// sort by price or sort by date
-			case 'price': AdvertsPages.set({sort: {budget: a[1]=='asc'?1:-1}}); break;
+			case 'price': 
+				AdvertsPages.set({sort: {budget: a[1]=='asc'? 1: -1}});
+				break;
 			case 'date': 
 				if (a[1] == 'desc')
 					AdvertsPages.set({sort: {createdAt:1}});

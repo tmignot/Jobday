@@ -775,6 +775,15 @@ span.tooltips.noarrow span:after {
 	text-align: center;
 }
 
+@media (max-width: 767px) { /* xs only */
+	.offer h4 {
+		font-size: inherit;
+	}
+	.search-buttons .button-container {
+		padding: 5px;
+	}
+}
+
 .offer-pro i {
 	vertical-align: baseline;
 }
@@ -799,15 +808,17 @@ span.tooltips.noarrow span:after {
 }
 
 
-.offer-validation {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-}
-
 .user-notes-container .progress {
 	height: 8px;
 	margin-bottom: 15px;
+}
+
+.search-buttons .button-container .button {
+	padding: 15px 0;
+	font-size: inherit;
+	height: 65px;
+	margin: 5px;
+	line-height: inherit;
 }
 
 .button-container .button {

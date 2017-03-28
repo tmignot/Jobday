@@ -16,6 +16,15 @@ Template.offer.helpers({
 		if (user && user.notes && !_.findWhere(user.notes, {advertId: advert}))
 			return false;
 		return true;
+	},
+	badges: function() {
+		var t = Template.instance();
+		var u = UsersDatas.findOne({userId: t.data.userId});
+		return Badges.find({_id: {
+			$in: _.map(u.badges, function(b) {
+				return b.badgeId;
+			})
+		}});
 	}
 });
 

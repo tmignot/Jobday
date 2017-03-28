@@ -39,7 +39,6 @@ Template.editJobber.onRendered(function() {
 					for (var i = 0; i < p.address_components.length; i++) {
 						var addressType = p.address_components[i].types[0];
 						var val = p.address_components[i].long_name;
-						//console.log(addressType, val);
 						var s,z,c;
 						switch(addressType) {
 							case 'street_number': s = s?val+' '+s:val; break;
@@ -91,7 +90,6 @@ Template.editJobber.helpers({
 		if (!Template.instance().data)
 			return 
 		var m = Template.instance().data.notificationMail;
-		//console.log(m);
 		if (m && _.contains(m, id)){
 			return 'notificationParamMail-got';
 	}else{
@@ -210,7 +208,6 @@ Template.editJobber.events({
 		
 	},
 	'change select[name="user-type-select"]': function(e,t) {
-		console.log('changed');
 		Session.set('userType', e.currentTarget.value);
 	},
 	'click .previous-button': function() {
@@ -291,7 +288,6 @@ Template.editJobber.events({
 		var user = {_id: t.data._id};
 		var index = parseInt($(e.currentTarget).data('which'));
 		
-	//console.log(index);
 		if (_.contains(t.data.notificationMail, index))
 			UsersDatas.update(user, {$pull: {notificationMail: index}});
 		else
@@ -441,9 +437,10 @@ Template.editJobber.events({
 						},
 					};
 				}
-				if ($('.user-birthdate input').val()){}else{
-                     if ( Session.get('isSociety') != true){
-				Modal.show('modalSuccess', {message: 'La date de naissance est obligatoire'});}
+				if ($('.user-birthdate input').val()){
+				} else {
+				 if ( Session.get('isSociety') != true) {
+					Modal.show('modalSuccess', {message: 'La date de naissance est obligatoire'});}
 				}
 				if ($('.user-birthdate input').val())
 					data.birthdate = new Date($('.user-birthdate input').val().split('/').reverse().join('/')),
@@ -462,8 +459,10 @@ Template.editJobber.events({
 				if (ctx.invalidKeys().length) { // if data not valid, show errorModal
 					Modal.show('errorModal', ctx.getErrorObject());
 				} else {
-					UsersDatas.update({_id: t.data._id}, {$set: data}, function() {
-						Modal.show('modalSuccess', {message: 'Vos informations ont bien ete mises a jour'});
+					console.log('updating');
+					UsersDatas.update({_id: t.data._id}, {$set: data}, function(e,r) {
+						if (!e)
+							Modal.show('modalSuccess', {message: 'Vos informations ont bien ete mises a jour'});
 					});
 				}
 			}

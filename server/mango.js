@@ -30,7 +30,6 @@ MangoPaySDK.authenticate('thommignot', 'Hk6aeu4Bhft0LbkPU6Jtt5dwOtjQGSLR6wREFPXJ
 /* Created a user in mango's DB and store its ID in MangoUsers collection */
 createNaturalMangoUser = function(_id, email, data) {
 	var ret = new Future();
-	console.log(data);
 	MangoPaySDK.user.create(new MangoPaySDK.user.NaturalUser({
 		Birthday: data.birthdate.getTime() / 1000,
 		Nationality: 'FR',
@@ -40,11 +39,16 @@ createNaturalMangoUser = function(_id, email, data) {
 		LastName: data.name
 	}), function(err, user) {
 		if (err || !user) {
+			console.log('An error occured');
+			console.log(err);
 			ret.throw(err);
 		} else {
+			console.log('Mango distant user created');
 			var mUser = MangoUsers.insert({userId: _id, mango: {user: user.Id}});
 			if (mUser)
 				ret.return(createMangoWallet(mUser));
+			else
+				ret.throw('unable to create MangoUser');
 		}
 	});
 	return ret.wait();
@@ -81,8 +85,11 @@ createMangoUser = function(_id) {
 		throw new Error('User with _id '+_id+' was not found');
 	if (email) {
 		var data = UsersDatas.findOne({userId: _id});
+		console.log('trying to create mangoUser');
 		createNaturalMangoUser(_id, email, data);
-	}
+		console.log('mangoUser created');
+	} else
+		throw new Error('Cannot find user\'s email');
 };
 
 /* If a users doesn't exist, we create it, else we update */
@@ -92,7 +99,7 @@ upsertMangoUser = function(_id) {
 	if (localMangoUser && localUser) {
 		MangoPaySDK.user.fetch(localMangoUser.mango.user, function(err, user) {
 			if (err || !user){
-				//console.log(err);
+				console.log(err);
 			}
 			else {
 				var data = {};
@@ -105,7 +112,7 @@ upsertMangoUser = function(_id) {
 				if (_.keys(data).length) {
 					MangoPaySDK.user.updateNatural(localMangoUser.mango.user, data, function(err, user) {
 						if (err || !user){
-						//	console.log(err);
+							console.log(err);
 						}
 					});
 				}

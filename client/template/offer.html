@@ -22,14 +22,15 @@
 			<img src='{{photo}}' width='100%'>
 			<h4><a href='/profiluser/{{userId}}'>{{username userId}}</a></h4>
 			{{>stars notes=notes count=true}}
-			<span class='offer-badges col-xs-4'>
-						{{#each badges}}
-						{{/each}}
-					</span>
+				{{#each badges}}
+				<div class='col-xs-3 nopad'>
+					<img src='{{icon}}' alt='badge {{name}}' width='90%;' data-toggle='tooltip' title='{{name}}'>
+				</div>
+				{{/each}}
 		</div>
 		{{/with}}
-		<div class='col-xs-12 col-sm-8 col-md-9 '>
-			<div class='col-xs-12 offer-info'>
+		<div class='col-xs-12 col-sm-8 col-md-9 section'>
+			<div class='col-xs-12 offer-info nopad'>
 				<span class='offer-distance col-xs-3'>{{m2km distance}}km	</span>
 				{{#with userData userId}}
 					<span class='offer-pro col-xs-1'>
@@ -43,8 +44,8 @@
 				{{/with}}
 				<span class='offer-price col-xs-3'>{{price}}€</span>
 			</div>
-			<div class='offer-comment col-xs-12 section' style="word-break: break-all;" >
-				<h4>{{comment}}</h4>
+			<div class='offer-comment col-xs-12 section nopad' style="word-break: break-word;" >
+				<h4 class='col-xs-12 nopad'>{{comment}}</h4>
 			</div>
 		</div>
 		{{#if $eq ../../owner currentUser._id}}
@@ -71,15 +72,15 @@
 			</div>
 		{{/if}}
 		{{#if isInRole 'admin'}}
-			<div class='offer-validation'>
-				<div class='blue button edit'>Editer</div>
-				<div class='orange button remove'>Supprimer</div>
+			<div class='offer-validation col-xs-12'>
+				<div class='blue button edit col-xs-12 col-sm-6 col-md-3 col-md-offset-6'>Editer</div>
+				<div class='orange button remove col-xs-12 col-sm-6 col-md-3'>Supprimer</div>
 			</div>
 		{{else}}
 			{{#if $eq userId currentUser._id}}
-				<div class='offer-validation'>
-					<div class='blue button edit'>Editer</div>
-					<div class='orange button remove'>Supprimer</div>
+				<div class='offer-validation col-xs-12'>
+					<div class='blue button edit col-xs-12 col-sm-6 col-md-3 col-md-offset-6'>Editer</div>
+					<div class='orange button remove col-xs-12 col-sm-6 col-md-3'>Supprimer</div>
 				</div>
 			{{/if}}
 		{{/if}}

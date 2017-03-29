@@ -153,7 +153,7 @@ Template.eventCard_abuse.helpers({
 		var elem = Template.instance().data;
 		var data = elem ? elem.data : undefined;
 		if (!data) { return; }
-		switch(data.object) {
+		switch(data.objectType) {
 			case 'advert': return "une annonce";
 			case 'offer': return "une offre";
 			case 'user': return "un profil utilisateur";
@@ -165,13 +165,29 @@ Template.eventCard_abuse.helpers({
 		var elem = Template.instance().data;
 		var data = elem ? elem.data : undefined;
 		if (!data) { return; }
-		switch(data.object) {
-			case 'advert': return "/adverts/"+data.advertId;
-			case 'offer': return "/adverts/"+data.advertId;
+		switch(data.objectType) {
+			case 'advert': return "/missionProfil/"+data.advertId;
+			case 'offer': return "/missionProfil/"+data.advertId;
 			case 'user': return "/profilUser/"+data.userId;
-			case 'message': return "/adverts/"+data.advertId;
+			case 'message': return "/missionProfil/"+data.advertId;
 			default: return;
 		}
+	}
+});
+
+Template.eventCard_abuse.events({
+	'click .close-abuse': function(e,t) {
+		var ev = $(e.currentTarget).data('which');
+		Modal.allowMultiple = true;
+		Modal.show('confirmationModal', {
+			message: 'Etes-vous sur de vouloir clore le report d\'abus?',
+			onConfirm: function() {
+				Modal.hide('confirmationModal');
+				Meteor.call('removeEvent', ev, function(e,t) {
+					if (e) Modal.show('serverErrorModal', e);
+				})
+			}
+		});
 	}
 });
 

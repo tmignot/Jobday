@@ -1,0 +1,54 @@
+<template name='reportAbuseModal'>
+	{{#genericModal title='Signaler un abus'}}
+		<div class='form col-xs-12'>
+			<div class='form-group'>
+				<label class='control-label' for='abuse-item-type-select'>Que souhaitez-vous signaler?</label>
+				<select id='abuse-item-type-select' name='abuse-item-type-select' class='form-control'>
+					<option disabled selected value>Choisir</option>
+					<option value='advert'>L'annonce</option>
+					<option value='message'>Une question/une reponse</option>
+					<option value='offer'>Le message d'une offre</option>
+				</select>
+			</div>
+			{{#if itemIs 'message'}}
+				<div class='form-group'>
+					<label class='control-label' for='abuse-item'>Quel message souhaitez-vous signaler?</label>
+					<select id='abuse-itemt' name='abuse-item-select' class='form-control'>
+						<option disabled selected value>Choisir</option>
+						{{#each messages}}
+							<option value='{{_id}}' >{{shorten text}}</option>
+						{{/each}}
+					</select>
+				</div>
+			{{/if}}
+			{{#if itemIs 'offer'}}
+				<div class='form-group'>
+					<label class='control-label' for='abuse-item-type-select'>Quel offre souhaitez-vous signaler?</label>
+					<select id='abuse-item' name='abuse-item-select' class='form-control'>
+						<option disabled selected value>Choisir</option>
+						{{#each offers}}
+							<option value='{{_id}}'>{{shorten comment}}</option>
+						{{/each}}
+					</select>
+				</div>
+			{{/if}}
+			<div class='form-group'>
+				<label class='control-label' for='abuse-message'>Expliquez-nous brievement pourquoi</label>
+				<textarea id='abuse-message' class='form-control' placeholder='Votre message..'></textarea>
+			</div>
+		</div>
+	{{else}}
+		<div class='cancel col-xs-4 col-xs-offset-1 orange button' data-dismiss='modal'>
+			Annuler
+		</div>
+		{{#if validable}}
+			<div class='confirm col-xs-4 col-xs-offset-2 blue button' data-dismiss='modal'>
+				Envoyer
+			</div>
+			{{else}}
+			<div class='col-xs-4 col-xs-offset-2 orange button' disabled style='background:lightgray;color:gray'>
+				Envoyer
+			</div>
+		{{/if}}
+	{{/genericModal}}
+</template>

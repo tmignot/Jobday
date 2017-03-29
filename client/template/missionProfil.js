@@ -178,7 +178,10 @@ Template.missionProfil.events({
 	'click .postSimilarAdvert': function(e,t) { // fill post form for a similar advert
 		e.preventDefault();
 		Router.go('poster', {}, {query: 'like='+t.data._id});
-	}
+	},
+	'click .report': function(e,t) {
+		Modal.show('reportAbuseModal', t.data);
+	},
 });
 
 Template.makeOfferModal.onCreated(function(){

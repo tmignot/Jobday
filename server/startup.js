@@ -127,55 +127,6 @@ Meteor.startup(function() {
 			}
 		});
 
-	if (Events.find().count() == 0) {
-		_.each([
-			{
-				type: 'ask_grade_validation',
-				userEmitter: Meteor.users.findOne()._id,
-				data: {
-					image: 'imageId',
-					name: 'BAC'
-				}
-			},
-			{
-				type: 'ask_identity_validation',
-				userEmitter: Meteor.users.findOne()._id,
-				data: {
-					image: 'imageId'
-				}
-			},
-			{
-				type: 'report_abuse',
-				userEmitter: Meteor.users.findOne()._id,
-				data: {
-					object: 'offer',
-					advertId: 'advertId',
-					userId: 'userId',
-					message: "J'ai trouve cette offre indecente pour ses propos racistes"
-				}
-			},
-			{
-				type: 'ask_license_validation',
-				userEmitter: Meteor.users.findOne()._id,
-				data: {
-					image: 'image_id',
-					name: 'B'
-				}
-			},
-			{
-				type: 'report_abuse',
-				userEmitter: Meteor.users.findOne()._id,
-				data: {
-					object: 'advert',
-					advertId: 'advert_id',
-					message: "Non mais c'est quand meme incroyable de laisser passer un message aussi choquant"
-				}
-			}
-		], function(e) {
-			Events.insert(e);
-		});
-	}
-
 	var adminMeans = _.map(MeansOfTransports.find({
 		$or: [{name: 'Voiture'},
 					{name: 'Pieds'},

@@ -29,6 +29,9 @@ MangoPaySDK.authenticate('thommignot', 'Hk6aeu4Bhft0LbkPU6Jtt5dwOtjQGSLR6wREFPXJ
 
 /* Created a user in mango's DB and store its ID in MangoUsers collection */
 createNaturalMangoUser = function(_id, email, data) {
+	console.log('createNaturalMangoUser');
+	return true;
+	/*
 	var ret = new Future();
 	MangoPaySDK.user.create(new MangoPaySDK.user.NaturalUser({
 		Birthday: data.birthdate.getTime() / 1000,
@@ -49,6 +52,7 @@ createNaturalMangoUser = function(_id, email, data) {
 		}
 	});
 	return ret.wait();
+	*/
 };
 
 /* Create a wallet attached to a user in mango's DB and stores its ID in MangoUsers collection */
@@ -92,6 +96,8 @@ upsertMangoUser = function(_id) {
 	var localUser = UsersDatas.findOne({userId: _id});
 	var localMangoUser = MangoUsers.findOne({userId: _id});
 	if (localMangoUser && localUser) {
+		console.log('updateMangoUser');
+		/*
 		MangoPaySDK.user.fetch(localMangoUser.mango.user, function(err, user) {
 			if (err || !user){
 				console.log(err);
@@ -113,6 +119,7 @@ upsertMangoUser = function(_id) {
 				}
 			}
 		});
+		*/
 	} else
 		createMangoUser(_id);
 };
@@ -122,6 +129,9 @@ createMangoBank = function(_id) {
 	var localUser = UsersDatas.findOne({userId: _id});
 	var localMangoUser = MangoUsers.findOne({userId: _id});
 	if (localUser && localMangoUser) {
+		console.log('createMangoBank');
+		return UsersDatas.update({userId: _id}, {$set: {bankComplete: true}});
+		/*
 		var ret = new Future();
 		MangoPaySDK.bank.create(localMangoUser.mango.user, MangoPaySDK.bank.type.IBAN, new MangoPaySDK.bank.BankAccount({
 			IBAN: localUser.iban,
@@ -135,12 +145,15 @@ createMangoBank = function(_id) {
 			}
 		}), function(err, nbank) {
 			if (err || !nbank) {
+				UsersDatas.update({userId: _id}, {$set: {bankComplete: false}});
 				ret.throw(err);
 			} else {
+				UsersDatas.update({userId: _id}, {$set: {bankComplete: true}});
 				ret.return(MangoUsers.update({userId: _id}, {$set: {'mango.bank': nbank.Id}}));
 			}
 		});
 		return ret.wait();
+		*/
 	} else
 		throw new Error('No user found with _id ' + _id);
 };
@@ -149,6 +162,7 @@ createMangoBank = function(_id) {
 upsertMangoBank = function(_id) {
 	var localUser = UsersDatas.findOne({userId: _id});
 	var localMangoUser = MangoUsers.findOne({userId: _id});
+	/*
 	if (localUser && localMangoUser && localMangoUser.mango.bank) {
 		var ret = new Future();
 		MangoPaySDK.bank.fetch(localMangoUser.mango.user, localMangoUser.mango.bank, function(err, bank) {
@@ -164,6 +178,7 @@ upsertMangoBank = function(_id) {
 		if (ret.wait())
 			return createMangoBank(_id);
 	} else
+	*/
 		return createMangoBank(_id);
 };
 

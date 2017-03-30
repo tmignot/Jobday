@@ -940,9 +940,12 @@ Meteor.methods({
 				{'services.linkedin.emailAddress': email}
 			]
 		});
-		if (existingUser)
+		if (existingUser && existingUser.services.password)
 			Accounts.sendResetPasswordEmail(existingUser._id);
-		else
+		else if (existingUser) {
+			Accounts.addEmail(existingUser._id, email);
+			Accounts.sendResetPasswordEmail(existingUser._id);
+		} else
 			throw new Meteor.Error(404, "Cette adresse email ne correspond a aucun compte");
 	},
 	certifyUser: function(uid) {

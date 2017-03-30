@@ -74,7 +74,7 @@ Template.signupCustom.events({
 				if (err) {
 				//	$('.modal-body .has-error').removeClass('hidden');
 					Modal.allowMultiple = true;
-					Modal.show('errorModal', {invalidKeys: [{message: "<strong>Email</strong> existe deja"}]});
+					Modal.show('serverErrorModal', err);
 								
 					} else {
 					//console.log(UsersDatas.findOne({userId: Meteor.userId()}));

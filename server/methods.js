@@ -1010,6 +1010,7 @@ Meteor.methods({
 				}
 			});
 			if (newUserId) {
+				try {
 				Accounts.sendVerificationEmail(newUserId);
 				
 				subjectmail ="[Jobday] Inscription sur Jobday";
@@ -1025,7 +1026,9 @@ Meteor.methods({
 				var corpsHtml = "Débloquer vos badges. <br>Un profil certifié, c'est quatre fois plus de chances d'être sélectionné !<br>"+
 												"En moins de 5 minutes, obtenez l'ensemble de vos badges ! Certifier son profil, c'est simple et rapide <br>" ;
 				Meteor.call("sendEmailNoreply",corpsHtml, subjectmail, doc.email);
-				
+				} catch (e) {
+					throw new Meteor.Error(405, e.data);
+				}				
 				return newUserId;
 			}
 		}

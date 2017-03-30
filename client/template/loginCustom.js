@@ -92,11 +92,13 @@ Template.loginCustom.events({
     'click #facebookbtn': function (event) {
 			event.preventDefault();
 			Meteor.loginWithFacebook({}, function (err) {
+				$('#myModal').modal('hide');
 				if (err) {
+					Modal.show('serverErrorModal', err);
+					console.log(err);
 					//	throw new Meteor.Error("Facebook login failed");
 				} else {
 					Router.go('/profiluser/'+Meteor.userId());
-					$('#myModal').modal('hide');
 					
 				}
 			});

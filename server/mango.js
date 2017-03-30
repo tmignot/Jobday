@@ -39,16 +39,13 @@ createNaturalMangoUser = function(_id, email, data) {
 		LastName: data.name
 	}), function(err, user) {
 		if (err || !user) {
-			console.log('An error occured');
-			console.log(err);
 			ret.throw(err);
 		} else {
-			console.log('Mango distant user created');
 			var mUser = MangoUsers.insert({userId: _id, mango: {user: user.Id}});
 			if (mUser)
 				ret.return(createMangoWallet(mUser));
 			else
-				ret.throw('unable to create MangoUser');
+				ret.throw(new Meteor.Error(400, 'unable to create MangoUser'));
 		}
 	});
 	return ret.wait();
@@ -85,9 +82,7 @@ createMangoUser = function(_id) {
 		throw new Error('User with _id '+_id+' was not found');
 	if (email) {
 		var data = UsersDatas.findOne({userId: _id});
-		console.log('trying to create mangoUser');
 		createNaturalMangoUser(_id, email, data);
-		console.log('mangoUser created');
 	} else
 		throw new Error('Cannot find user\'s email');
 };
@@ -105,7 +100,7 @@ upsertMangoUser = function(_id) {
 				var data = {};
 				if (localUser.birthdate && user.Birthday != localUser.birthdate.getTime() / 1000)
 					data.Birthday = localUser.birthdate.getTime() / 1000;
-				if (localUser.firtname && user.FirstName != localUser.firstname)
+				if (localUser.firstname && user.FirstName != localUser.firstname)
 					data.FirstName = localUser.firstname;
 				if (localUser.name && user.LastName != localUser.name)
 					data.LastName = localUser.name;
@@ -141,9 +136,7 @@ createMangoBank = function(_id) {
 		}), function(err, nbank) {
 			if (err || !nbank) {
 				ret.throw(err);
-				UsersDatas.update({userId: _id}, {$set: {bankComplete: false}});
 			} else {
-				UsersDatas.update({userId: _id}, {$set: {bankComplete: true}});
 				ret.return(MangoUsers.update({userId: _id}, {$set: {'mango.bank': nbank.Id}}));
 			}
 		});
@@ -157,19 +150,21 @@ upsertMangoBank = function(_id) {
 	var localUser = UsersDatas.findOne({userId: _id});
 	var localMangoUser = MangoUsers.findOne({userId: _id});
 	if (localUser && localMangoUser && localMangoUser.mango.bank) {
+		var ret = new Future();
 		MangoPaySDK.bank.fetch(localMangoUser.mango.user, localMangoUser.mango.bank, function(err, bank) {
-			if (err || !bank){
-				//console.log(err);
-			}
+			if (err || !bank)
+				ret.throw(err);
 			else {
 				if ((localUser.iban && bank.IBAN != localUser.iban) ||
-						(localUser.bic && bank.BIC != localUser.bic)) {
-					createMangoBank(_id);
-				}
+						(localUser.bic && bank.BIC != localUser.bic))
+					ret.return(true);
+				ret.return(false);
 			}
 		});
+		if (ret.wait())
+			return createMangoBank(_id);
 	} else
-		createMangoBank(_id);
+		return createMangoBank(_id);
 };
 
 /*  */

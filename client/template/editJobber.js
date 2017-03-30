@@ -461,8 +461,8 @@ Template.editJobber.events({
 				} else {
 					console.log('updating');
 					UsersDatas.update({_id: t.data._id}, {$set: data}, function(e,r) {
-						if (!e)
-							Modal.show('modalSuccess', {message: 'Vos informations ont bien ete mises a jour'});
+						if (e) Modal.show('serverErrorModal', e);
+						else   Modal.show('modalSuccess', {message: 'Vos informations ont bien ete mises a jour'});
 					});
 				}
 			}

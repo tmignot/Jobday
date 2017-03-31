@@ -459,7 +459,6 @@ Template.editJobber.events({
 				if (ctx.invalidKeys().length) { // if data not valid, show errorModal
 					Modal.show('errorModal', ctx.getErrorObject());
 				} else {
-					console.log('updating');
 					UsersDatas.update({_id: t.data._id}, {$set: data}, function(e,r) {
 						if (e) Modal.show('serverErrorModal', e);
 						else   Modal.show('modalSuccess', {message: 'Vos informations ont bien ete mises a jour'});

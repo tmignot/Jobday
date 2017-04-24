@@ -494,7 +494,8 @@ Meteor.methods({
 			{$sort: {createdAt: -1}},
 			{$limit: 50},
 			{$group: {_id: '$category', count: {$sum: 1}}},
-			{$sort: {count: -1}}
+			{$sort: {count: -1}},
+			{$limit: 3}
 		];
 		var rc = Adverts.rawCollection();
 		var res = Meteor.wrapAsync(rc.aggregate.bind(rc))(pipeline,{});

@@ -26,7 +26,7 @@
             
 			<div class='col-xs-12 quicklinks section'>
 				<h4 class='blue' style='text-transform:uppercase'>Les TOPS categories du moment</h4>
-				{{#each topCategories}}
+				{{#each $.Session.get 'topCategories'}}
 					<div class='col-xs-12 col-sm-4 category' data-category='{{_id}}'>
 						<img src='{{icon}}'>
 						<span class='col-xs-12'>{{name}}</span>

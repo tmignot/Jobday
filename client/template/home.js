@@ -1,5 +1,5 @@
 Template.home.onCreated(function() {
-	this.topCategories = new ReactiveVar([0, 1, 2]);
+	this.topCategories = new ReactiveVar([{}, {}, {}]);
 	var self = this;
 	Meteor.call('topCategories', function(e,r) {
 		if (r) {
@@ -33,6 +33,7 @@ Template.home.onCreated(function() {
 					});
 				}
 			}
+			Session.set('topCategories', tc);
 			self.topCategories.set(tc);
 		}
 	});
@@ -56,13 +57,12 @@ Template.home.events({
 	'click .all-jobs.button': function() { Router.go('searchMission'); },
 	'click .urgent-jobs.button': function() { 
 		Session.set('dateBeginning', 'hour');
-        	
-        Session.set('dateBeginning', 'day');
+		Session.set('dateBeginning', 'day');
 		Router.go('searchMission');
 	},
 	'click .category': function(e,t) {
 		var c = $(e.currentTarget).data('category');
-		if (c) {
+		if (c !== undefined) {
 			Session.set('currentCategory', c);
 			Router.go('/searchMission');
 		}

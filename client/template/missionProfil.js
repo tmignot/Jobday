@@ -94,6 +94,22 @@ Template.missionProfil.helpers({
 				case 3: return 'termine';
 			}
 		}
+	},
+	canSee: function() {
+		var d = Template.instance().data,
+				uid;
+		if (d)
+			uid = d.userId;
+		var adverts = Adverts.find({
+			owner: Meteor.userId(), 
+			status: 2
+		}, {fields: {offers: 1}}).fetch();
+		var advert = _.find(adverts, function(a) {
+			if (_.findWhere(a.offers, {validated: true, userId: uid}))
+				return true;
+		});
+		if (advert)
+			return true;
 	}
 });
 
@@ -121,16 +137,13 @@ Template.missionProfil.events({
 	},
 	'click #btnFaireOffre': function (event, t) { // open the makeOfferModal
 		var d = UsersDatas.findOne({userId: Meteor.userId()});
-		if(d.society==false && t.data.type==0){
+		if(d.type=='individual' && t.data.type==0){
 			alert("Pas d'offre car vous ètes un particulier");
 			}
 		else{
 		if (d) {
-			//alert(d.bankComplete);
 			if (d.bankComplete){
 				Modal.show('makeOfferModal', t.data);
-				
-			//console.log(t.data._id);
 			var data = Meteor.call('sendEmailNoreplyByAnnonce','Bonjour, Une Personne a postulé ','Postulant Jobber',t.data._id, function(error, result){
 					   if(error){
 						//  alert('Error'+error);
@@ -138,11 +151,9 @@ Template.missionProfil.events({
 						  return result;
 					   }
 						});
-			
 			}
 			else{
-				Modal.show('profileNotComplete');
-			//console.log('erreur 2');
+				Modal.show('profileNotComplete', {msg: 'Vous devez renseigner vos informations bancaires'});
 			}
 		} else{
 			Modal.show('shouldBeLogged');

@@ -138,7 +138,7 @@ Template.dispoRangeModal.events({
 				// increment day in order to loop correctly
 				day = moment(day).add(duration);
 			}
-			$('#dispo-calendar').fullCalendar('refetchEvents'); // refresh callendar
 		}
+		$('#dispo-calendar').fullCalendar('refetchEvents'); // refresh callendar
 	}
 });

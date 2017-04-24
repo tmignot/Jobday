@@ -7,7 +7,7 @@ Template.searchMission.onCreated(function() {
 	// we retrived previously set filters from other pages such as allCategoryScreen
 	// that are stored in Session
 	var f = {};
-	if (Session.get('currentCategory') && !Session.equals('currentCategory', 'off')) {
+	if (Session.get('currentCategory') !== undefined && !Session.equals('currentCategory', 'off')) {
 		this.filters = new ReactiveVar({
 			category: parseInt(Session.get('currentCategory'))
 		});

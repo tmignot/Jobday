@@ -13,7 +13,7 @@
 			{{#if itemIs 'message'}}
 				<div class='form-group'>
 					<label class='control-label' for='abuse-item'>Quel message souhaitez-vous signaler?</label>
-					<select id='abuse-itemt' name='abuse-item-select' class='form-control'>
+					<select id='abuse-item' name='abuse-item-select' class='form-control'>
 						<option disabled selected value>Choisir</option>
 						{{#each messages}}
 							<option value='{{_id}}' >{{shorten text}}</option>

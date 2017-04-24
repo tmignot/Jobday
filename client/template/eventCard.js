@@ -87,7 +87,13 @@ Template.modalAdminVerif.events({
 			}
 		})();
 		if (!badgeName) {
-			Meteor.call('removeEvent', t.data._id, function(e) {if (e) console.log(e);});
+			Meteor.call('removeEvent', {
+				_id: t.data._id,
+				confirmed: true
+			}, function(e) {
+				if (e)
+					Modal.show('serverErrorModal', e);
+			});
 			Modal.show('modalSuccess', {message: "Vous avez approuve"});
 			return;
 		}
@@ -100,7 +106,13 @@ Template.modalAdminVerif.events({
 				if (e) {
 					Modal.show('serverErrorModal', e);
 				} else {
-					Meteor.call('removeEvent', t.data._id, function(e) {if (e) console.log(e);});
+					Meteor.call('removeEvent', {
+						_id: t.data._id,
+						confirmed: true
+					}, function(e) {
+						if (e)
+							Modal.show('serverErrorModal', e);
+					});
 					Modal.show('modalSuccess', {message: "La validation a bien ete effectuee"});
 				}
 			});
@@ -113,7 +125,12 @@ Template.modalAdminVerif.events({
 			if (e) {
 				Modal.show('serverErrorModal', e);
 			} else {
-				Meteor.call('removeEvent', t.data._id, function(e) {if (e) console.log(e);});
+				Meteor.call('removeEvent', {
+					_id: t.data._id,
+					confirmed: true
+				}, function(e) {
+					if (e) console.log(e);
+				});
 				Modal.show('modalSuccess', {message: "Le badge a bien ete attribue"});
 			}
 		});
@@ -129,7 +146,10 @@ Template.modalAdminVerif.events({
 				if (e) {
 					Modal.show('serverErrorModal', e);
 				} else {
-					Meteor.call('removeEvent', t.data._id, function(e,r) {
+					Meteor.call('removeEvent', {
+						_id: t.data._id,
+						confirmed: false
+					}, function(e,r) {
 						if (e)
 							Modal.show('serverErrorModal', e);
 						else 
@@ -138,9 +158,14 @@ Template.modalAdminVerif.events({
 				}
 			});
 		}	else {
-			Meteor.call('removeEvent', t.data._id, function(e) {
-				if (e) console.log(e);
-				else Modal.show('modalSuccess', {message: 'Vous avez refuse la validation'});
+			Meteor.call('removeEvent', {
+				_id: t.data._id,
+				confirmed: false
+			}, function(e) {
+				if (e)
+					Modal.show('serverErrorModal', e);
+				else 
+					Modal.show('modalSuccess', {message: 'Vous avez refuse la validation'});
 			});
 		}
 	}

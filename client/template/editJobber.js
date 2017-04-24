@@ -340,9 +340,9 @@ Template.editJobber.events({
 		var user = t.data.userId;
 		UploadImage({ //See client/helpers.js for a better looking of this function
 			doc: $('#licenseInput')[0],
-			name: user + '_license_' + Date.now(),
-			maxWidth: 300,
-			maxHeight: 300,
+			name: 'license',
+			maxWidth: 1024,
+			maxHeight: 1024,
 			onBeforeCompress: function() {t.uploadingLicense.set(true);},
 			onAfterUpload: function(error, file) {
 				if (!error) {
@@ -375,9 +375,9 @@ Template.editJobber.events({
 		};
 		UploadImage({ //See client/helpers.js for a better looking of this function
 			doc: $('.add-grade input[type=file]')[0],
-			name: user._id + new_grade.name + Date.now(),
-			maxWidth: 300,
-			maxHeight: 300,
+			name: 'grade_'+new_grade.name,
+			maxWidth: 1024,
+			maxHeight: 1024,
 			onBeforeCompress: function() { t.uploadingGrade.set(true); },
 			onAfterUpload: function(error, file) {
 				if (!error) {

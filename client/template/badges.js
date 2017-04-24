@@ -20,9 +20,14 @@ Template.modalVerifIdentite.events({
 		var user = t.data.userId;
 		UploadImage({ //See client/helpers.js for a better looking of this function
 			doc: $('#idCardRectoInput')[0],
-			name: user + '_idCardRecto_' + Date.now(),
-			maxWidth: 300,
-			maxHeight: 300,
+			name: 'idCardRecto',
+			maxWidth: 600,
+			maxHeight: 600,
+			onError: function(error) {
+				t.uploadCount.set('');
+				t.uploading.set(false);
+				Modal.show('errorModal', {invalidKeys: [{message: 'Recto: '+error}]});
+			},
 			onBeforeCompress: function() { 
 				t.uploadCount.set('0/2');
 				t.uploading.set(true);
@@ -33,9 +38,15 @@ Template.modalVerifIdentite.events({
 					t.uploadCount.set('1/2');
 					UploadImage({ //See client/helpers.js for a better looking of this function
 						doc: $('#idCardVersoInput')[0],
-						name: user._id + '_idCardVerso_' + Date.now(),
-						maxWidth: 300,
-						maxHeight: 300,
+						name: 'idCardVerso',
+						maxWidth: 600,
+						maxHeight: 600,
+						onError: function(error) {
+							t.uploadCount.set('');
+							t.uploading.set(false);
+							Images.remove({_id: file._id});
+							Modal.show('errorModal', {invalidKeys: [{message: 'Verso: '+error}]});
+						},
 						onAfterUpload: function(error, file) {
 							if (!error) {
 								t.uploadCount.set('2/2');
@@ -50,7 +61,7 @@ Template.modalVerifIdentite.events({
 								}, function (e,r) {
 									if (e) { Modal.show('serverErrorModal', e);	} 
 									else {
-										Modal.hide('modalVerifIdentite');
+										Modal.hide(t);
 										Modal.show('modalSuccess', {
 											message: 'Vos documents ont bien etes telecharge, nous allons traiter votre demande'
 										});
@@ -82,7 +93,7 @@ Template.modalVerifPro.events({
 		var user = t.data.userId;
 		UploadImage({ //See client/helpers.js for a better looking of this function
 			doc: $('#licenseProInput')[0],
-			name: user + '_pro_' + Date.now(),
+			name: 'pro',
 			maxWidth: 300,
 			maxHeight: 300,
 			onBeforeCompress: function() {t.uploading.set(true);},

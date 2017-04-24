@@ -1,4 +1,8 @@
 Template.userCard.events({
+	'click .documents': function(e,t) {
+		var uid = $(e.currentTarget).data('user-id');
+		Modal.show('documentsModal', t.data);
+	},
 	'click .certify': function(e,t) {
 		var uid = $(e.currentTarget).data('user-id');
 		Modal.allowMultiple = true;
@@ -40,6 +44,22 @@ Template.userCard.events({
 				})
 			}
 		});
+	}
+});
+
+Template.usermail.onCreated(function() {
+	this.email = new ReactiveVar('');
+	var self = this;
+	Meteor.call('getUserEmail', this.data, function(e,r) {
+		console.log(r);
+		if (r)
+			self.email.set(r);
+	});
+});
+
+Template.usermail.helpers({
+	email: function() {
+		return Template.instance().email.get();
 	}
 });
 

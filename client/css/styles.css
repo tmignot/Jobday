@@ -120,7 +120,7 @@ ul.navbar-nav li a{
 	text-align: center;
 	font-size: x-large;
 	width: 100%;
-	margin: 15px;
+	margin: 15px auto;
 }
 
 .jobday-desc {
@@ -357,6 +357,12 @@ span.tooltips.noarrow span:after {
 	border-radius: 0;
 }
 
+@media only screen and (max-width: 768px) {
+	.newsletter input {
+		font-size: smaller;
+	}
+}
+
 .newsletter input:focus {
 	box-shadow: none;
 	border-bottom: solid 5px #ee7202;
@@ -570,6 +576,20 @@ span.tooltips.noarrow span:after {
 	//-webkit-filter: saturate(0%);
 	//filter: saturate(0%);
 }
+
+@media only screen and (max-width: 768px) {
+	.user-skill {
+		padding: 0;
+	}
+	.user-skill h4 {
+		font-size: smaller;
+	}
+	.button {
+		font-size: inherit !important;
+	}
+}
+
+.user-skills,
 .user-skills img {
 	opacity: 0.4;
 	-webkit-filter: saturate(0%);
@@ -775,15 +795,6 @@ span.tooltips.noarrow span:after {
 	text-align: center;
 }
 
-@media (max-width: 767px) { /* xs only */
-	.offer h4 {
-		font-size: inherit;
-	}
-	.search-buttons .button-container {
-		padding: 5px;
-	}
-}
-
 .offer-pro i {
 	vertical-align: baseline;
 }
@@ -817,13 +828,24 @@ span.tooltips.noarrow span:after {
 	padding: 15px 0;
 	font-size: inherit;
 	height: 65px;
-	margin: 5px;
 	line-height: inherit;
 }
 
 .button-container .button {
 	padding: 15px;
 	line-height: 24px;
+}
+
+@media (max-width: 767px) { /* xs only */
+	.offer h4 {
+		font-size: inherit;
+	}
+	.search-buttons .button-container .button {
+		padding: 5px;
+	}
+	.search-buttons .button-container {
+		padding: 5px;
+	}
 }
 
 .nopad { padding-left: 0; padding-right: 0; }
@@ -936,7 +958,7 @@ overflow-y: scroll;
 }
 
 .card .cardButtonContainer {
-	height: 33%;
+	height: 25%;
 }
 
 .cardButtonXsContainer {

@@ -47,11 +47,34 @@ if (Meteor.user().emails[0].verified && UsersDatas.findOne( {_id: uid, "badges.b
 	** Additionally it hooks an function on dayClick
 	** to show the editDisponibilities modal
 	*/
+	var u = UsersDatas.findOne({_id: uid});
+	var mdisp = [],
+			adisp = [],
+			edisp = [];
+	var range = moment.range(moment({hours:0,minutes:0,seconds:0,milliseconds:0}).subtract(1,'month'), moment().add(1,'year'));
+	range.by('day', function(d) {
+		var date = d.toDate();
+		mdisp.push({
+			title: 'Matin',
+			start: date.setHours(6),
+			end: date.setHours(12)
+		});
+		adisp.push({
+			title: 'Apres-midi',
+			start: date.setHours(12),
+			end: date.setHours(18)
+		});
+		edisp.push({
+			title: 'Soir',
+			start: date.setHours(18),
+			end: date.setHours(24)
+		});
+	});
 	$('#dispo-calendar').fullCalendar({
+		lang: 'fr',
 		contentHeight: 250,
 		displayEventTime: false,
 		dayClick: function(date) {
-			var u = UsersDatas.findOne({_id: uid});
 			if (u.userId == Meteor.userId()) {
 				Session.set('dispoday', new Date(date));
 				$('#editDisponibilities').modal('show');
@@ -65,17 +88,20 @@ if (Meteor.user().emails[0].verified && UsersDatas.findOne( {_id: uid, "badges.b
 				events: function(s,e,t,c) {
 					var u = UsersDatas.findOne({_id: uid}),
 							disp = [];
-					if (u && u.disponibilities)
-						disp = u.disponibilities
-					var events = _.map(_.where(disp, {morning: true}), function(d) {
-						return {
-							title: 'Matin',
-							//dummy start and end dates to garanty events order
-							start: (new Date(d.day)).setHours(6),
-							end: (new Date(d.day)).setHours(12)
-						};
-					});
-					c(events);
+					if (u && u.alwaysDisponible) {
+						c(mdisp);
+					} else if (u && u.disponibilities) {
+						var disp = u.disponibilities
+						var events = _.map(_.where(disp, {morning: true}), function(d) {
+							return {
+								title: 'Matin',
+								//dummy start and end dates to garanty events order
+								start: (new Date(d.day)).setHours(6),
+								end: (new Date(d.day)).setHours(12)
+							};
+						});
+						c(events);
+					}
 				}
 			},
 			{
@@ -85,16 +111,19 @@ if (Meteor.user().emails[0].verified && UsersDatas.findOne( {_id: uid, "badges.b
 				events: function(s,e,t,c) {
 					var u = UsersDatas.findOne({_id: uid}),
 							disp = [];
-					if (u && u.disponibilities)
+					if (u && u.alwaysDisponible)
+						return c(adisp);
+					else if (u && u.disponibilities) {
 						disp = u.disponibilities
-					var events = _.map(_.where(disp, {afternoon: true}), function(d) {
-						return {
-							title: 'Apres-midi',
-							start: (new Date(d.day)).setHours(12),
-							end: (new Date(d.day)).setHours(18)
-						};
-					});
-					c(events);
+						var events = _.map(_.where(disp, {afternoon: true}), function(d) {
+							return {
+								title: 'Apres-midi',
+								start: (new Date(d.day)).setHours(12),
+								end: (new Date(d.day)).setHours(18)
+							};
+						});
+						c(events);
+					}
 				}
 			},
 			{
@@ -104,16 +133,19 @@ if (Meteor.user().emails[0].verified && UsersDatas.findOne( {_id: uid, "badges.b
 				events: function(s,e,t,c) {
 					var u = UsersDatas.findOne({_id: uid}),
 							disp = [];
-					if (u && u.disponibilities)
+					if (u && u.alwaysDisponible)
+						return c(edisp);
+					else if (u && u.disponibilities) {
 						disp = u.disponibilities
-					var events = _.map(_.where(disp, {evening: true}), function(d) {
-						return {
-							title: 'Soir',
-							start: (new Date(d.day)).setHours(18),
-							end: (new Date(d.day)).setHours(23)
-						};
-					});
-					c(events);
+						var events = _.map(_.where(disp, {evening: true}), function(d) {
+							return {
+								title: 'Soir',
+								start: (new Date(d.day)).setHours(18),
+								end: (new Date(d.day)).setHours(23)
+							};
+						});
+						c(events);
+					}
 				}
 			}
 		]
@@ -280,6 +312,11 @@ Template.dashboardJobber.helpers({
 });
 
 Template.dashboardJobber.events({
+	'click .categorie': function(e,t) {
+		var index = $(e.currentTarget).data('category');
+		var subs = t.data.skills[index];
+		Modal.show('showSubcategoriesModal', {cat: index, sub: subs});
+	},
 	'click .edit-profil-button': function(e,t) { // routes to edit profile page, first tab
 		Router.go('editJobber', {id: t.data.userId}, {query: {tab: 'info'}});
 	},

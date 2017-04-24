@@ -13,5 +13,25 @@
 		<div class='confirm col-xs-4 col-xs-offset-2 blue button' data-dismiss='modal'>
 			Enregistrer
 		</div>
+		<div class='col-xs-12 visible-xs section'></div>
+	{{/genericModal}}
+</template>
+
+<template name='showSubcategoriesModal'>
+	{{#genericModal title='Sous-categories'}}
+		<h4>Voir les sous-categories de competences pour {{category}}</h4>
+		{{#if subcategories}}
+			<ul>
+				{{#each subcategories}}
+					<li>{{this}}</li>
+				{{/each}}
+			</ul>
+		{{else}}
+			<small>Il n'y a aucune sous-categorie selectionnee pour cette comptetence</small>
+		{{/if}}
+	{{else}}
+		<div class='cancel col-xs-4 col-xs-offset-4 orange button' data-dismiss='modal'>
+			Fermer
+		</div>
 	{{/genericModal}}
 </template>

@@ -14,6 +14,7 @@ Template.subcategoriesModal.events({
 		});
 		if (sc.length)
 			ud.skills[t.data.index] = sc;
+		console.log(ud.skills);
 		UsersDatas.update({_id: ud._id}, {
 			$set: {skills: ud.skills}
 		});
@@ -34,5 +35,18 @@ Template.subcategoriesModal.helpers({
 				return 'active'
 			}
 		}
+	}
+});
+
+Template.showSubcategoriesModal.helpers({
+	category: function() {
+		var d = Template.instance().data;
+		return Categories[d.cat].name;
+	},
+	subcategories: function() {
+		var d = Template.instance().data;
+		return _.map(d.sub, function(i) {
+			return Categories[d.cat].subcategories[i];
+		});
 	}
 });

@@ -153,12 +153,15 @@ Accounts.onCreateUser(function (options, user) {
 			userData.userType = user.profile.userType;
 		}
 
+		console.log(userData);
+		console.log(method);
 		if (method == 'social') {
-			userData.bagdes = [{
+			userData.badges = [{
 				giver: userData.userId,
 				badgeId: Badges.findOne({name: 'Social'})._id
 			}];
 		}
+		console.log(userData);
 		// create userdata if new user
 		userDataId = UsersDatas.insert(userData);
 		if (userDataId) {

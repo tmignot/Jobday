@@ -56,6 +56,7 @@ Template.messages.events({
 				to: {advert: Template.parentData()._id},
 				text: t.find('textarea').value
 			}, function(err, res) {
+				$(t.find('textarea')).val('');
 				if (err || res)
 					Modal.show('errorModal', {invalidKeys: [{message:  'Il est interdit de communiquer des informations personnelles avec les autres utilisateurs'}]});
 					else{

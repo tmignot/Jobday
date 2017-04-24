@@ -476,6 +476,19 @@ var regexp = {
 Future = Npm.require('fibers/future');
 
 Meteor.methods({
+	getUserEmail: function(id) {
+		if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
+			var u = Meteor.users.findOne({_id: id});
+			if (u && u.services) {
+				if (u.services.password)
+					return u.emails[0].address;
+				if (u.services.facebook)
+					return u.services.facebook.email;
+				if (u.services.google)
+					return u.services.linkedin.emailAddress;
+			}
+		}
+	},
 	topCategories: function() {
 		var pipeline = [
 			{$sort: {createdAt: -1}},
@@ -517,28 +530,30 @@ Meteor.methods({
 			} else throw new Meteor.Error(403, 'You have to be an administrator to do that');
 		} else throw new Meteor.Error(403, 'You have to be logged in to do that');
 	},
-	removeEvent: function(eid) {
+	removeEvent: function(param) {
 		var current = Meteor.userId();
 		if (current) {
 			if (Roles.userIsInRole(current, 'admin')) {
-				var e = Events.findOne({_id: eid});
+				var e = Events.findOne({_id: param._id});
 				if (e) {
-					var imgs = (function() {
-						switch (e.type) {
-							case 'ask_grade_validation': return ['image'];
-							case 'ask_license_validation': return ['license'];
-							case 'ask_pro_validation': return ['license'];
-							case 'ask_identity_validation': return ['recto', 'verso'];
-							default: return [];
-						}
-					})();
-					_.each(imgs, function(img) {
-						if (e.data[img]) {
-							var _id = _.last(e.data[img].split('/'));
-							Images.remove({_id: _id});
-						}
-					});
-					Events.remove({_id: eid});
+					if (!param.confirmed) {
+						var imgs = (function() {
+							switch (e.type) {
+								case 'ask_grade_validation': return ['image'];
+								case 'ask_license_validation': return ['license'];
+								case 'ask_pro_validation': return ['license'];
+								case 'ask_identity_validation': return ['recto', 'verso'];
+								default: return [];
+							}
+						})();
+						_.each(imgs, function(img) {
+							if (e.data[img]) {
+								var _id = _.last(e.data[img].split('/'));
+								Images.remove({_id: _id});
+							}
+						});
+					}
+					Events.remove({_id: param._id});
 				} else throw new Meteor.Error(404, 'Event not found');
 			} else throw new Meteor.Error(403, 'You have to be an administrator to do that');
 		} else throw new Meteor.Error(403, 'You have to be logged in to do that');
@@ -562,6 +577,28 @@ Meteor.methods({
 	sendEvent: function(params) {
 		if (Meteor.userId()) {
 			if (params.type) {
+				if (params.type == 'ask_license_validation') {
+					var curimg = _.last(params.data.license.split('/'));
+					var img = Images.findOne({_id: {$ne: curimg}, name: 'license', userId: params.userEmitter});
+					var evt = Events.findOne({type: 'ask_license_validation', userEmitter: params.userEmitter});
+					if (img) Images.remove({_id: img._id});
+					if (evt) Events.remove({_id: evt._id});
+				} else if (params.type == 'ask_identity_validation') {
+					var curimg_r = _.last(params.data.recto.split('/'));
+					var curimg_v = _.last(params.data.verso.split('/'));
+					var img_r = Images.findOne({_id: {$ne: curimg_r}, name: 'idCardRecto', userId: params.userEmitter});
+					var img_v = Images.findOne({_id: {$ne: curimg_v}, name: 'idCardVerso', userId: params.userEmitter});
+					var evt = Events.findOne({type: 'ask_identity_validation', userEmitter: params.userEmitter});
+					if (img_r) Images.remove({_id: img_r._id});
+					if (img_v) Images.remove({_id: img_v._id});
+					if (evt) Events.remove({_id: evt._id});
+				} else if (params.type == 'ask_pro_validation') {
+					var curimg = _.last(params.data.license.split('/'));
+					var img = Images.findOne({_id: {$ne: curimg}, name: 'pro', userId: params.userEmitter});
+					var evt = Events.findOne({type: 'ask_pro_validation', userEmitter: params.userEmitter});
+					if (img) Images.remove({_id: img._id});
+					if (evt) Events.remove({_id: evt._id});
+				}
 				Events.insert(params);
 			} else throw new Meteor.Error('Le type d\'evenement est obligatoire');
 		} else throw new Meteor.Error('Vous devez etre connecte pour effectuer cette action');
@@ -719,8 +756,9 @@ Meteor.methods({
 				var o = _.findWhere(ad.offers, {_id: params.offer._id});
 				if (o && o.userId) {
 					if (this.userId == o.userId || Roles.userIsInRole(this.userId, 'admin')) {
+						console.log(params);
 						Adverts.update({_id: params.advert}, {
-							$pull: {offers: {_id: params.offer._id}}
+							$pull: {offers: o}
 						});
 					} else throw new Meteor.Error(403, 'Unauthorized');
 				} else throw new Meteor.Error(404, 'Offer not found');
@@ -987,7 +1025,7 @@ Meteor.methods({
 			]
 		});
 		if (existingUser && existingUser.services.password) // user exists and has password
-			throw new Meteor.Error('Email already in database');
+			throw new Meteor.Error(403, 'Email already in database');
 		else if (existingUser) {	// user exists but hasn't password
 			if (doc.password != doc.confirmation)
 				throw new Meteor.Error('Password confirmation mismatch');

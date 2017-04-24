@@ -18,71 +18,74 @@
 <template name='offer'>
 	<div class='col-xs-12 offer'>
 		{{#with userData userId}}
-		<div class='col-xs-12 col-sm-4 col-md-3 offer-user' style='padding:0'>
-			<img src='{{photo}}' width='100%'>
-			<h4><a href='/profiluser/{{userId}}'>{{username userId}}</a></h4>
-			{{>stars notes=notes count=true}}
+			<div class='col-xs-12 col-sm-4 col-md-3 offer-user' style='padding:0'>
+				<img src='{{photo}}' width='100%'>
+				<h4><a href='/profiluser/{{userId}}'>{{username userId}}</a></h4>
+				{{>stars notes=notes count=true}}
 				{{#each badges}}
-				<div class='col-xs-3 nopad'>
-					<img src='{{icon}}' alt='badge {{name}}' width='90%;' data-toggle='tooltip' title='{{name}}'>
-				</div>
+					<div class='col-xs-3 nopad'>
+						<img src='{{icon}}' alt='badge {{name}}' width='90%;' data-toggle='tooltip' title='{{name}}'>
+					</div>
 				{{/each}}
-		</div>
+			</div>
 		{{/with}}
 		<div class='col-xs-12 col-sm-8 col-md-9 section'>
 			<div class='col-xs-12 offer-info nopad'>
-				<span class='offer-distance col-xs-3'>{{m2km distance}}km	</span>
+				<span class='offer-distance col-xs-4 nopad'>{{m2km distance}}km	</span>
 				{{#with userData userId}}
-					<span class='offer-pro col-xs-1'>
+					<span class='offer-pro col-xs-4 nopad'>
 					{{#if society}}
-							<i class='glyphicon glyphicon-briefcase text-success' data-toggle='tooltip' title='Professionel'></i>
-							{{else}}
-							<i class='glyphicon glyphicon-briefcase text-warning' data-toggle='tooltip' title='Non Professionel'></i>
+						<i class='glyphicon glyphicon-briefcase text-success' data-toggle='tooltip' title='Professionel'></i>
+					{{else}}
+						<i class='glyphicon glyphicon-briefcase text-warning' data-toggle='tooltip' title='Non Professionel'></i>
 					{{/if}}
 					</span>
-					
 				{{/with}}
-				<span class='offer-price col-xs-3'>{{price}}€</span>
+				<span class='offer-price col-xs-4 nopad'>{{price}}€</span>
 			</div>
 			<div class='offer-comment col-xs-12 section nopad' style="word-break: break-word;" >
 				<h4 class='col-xs-12 nopad'>{{comment}}</h4>
 			</div>
-		</div>
-		{{#if $eq ../../owner currentUser._id}}
-			<div class='offer-validation'>
-				{{#if $eq ../../status 2}}
-					{{#if validated}}
-						{{#unless hasBeenNoted}}
-							<div class='blue button comment'>Laisser un avis</div>
-						{{/unless}}
-					{{/if}}
-				{{else}}
-					{{#if requestingValidation}}
-						{{>minispinner}}
-					{{else}}
+			{{#if $eq ../../owner currentUser._id}}
+				<div class='col-xs-12 offer-validation'>
+					{{#if $eq ../../status 2}}
 						{{#if validated}}
-							<div class='orange button invalidate'>Annuler votre choix</div>
+							{{#unless hasBeenNoted}}
+								<div class='blue button comment col-xs-12 col-sm-6 col-md-3 pull-right'>Laisser un avis</div>
+							{{/unless}}
+						{{/if}}
+					{{else}}
+						{{#if requestingValidation}}
+							{{>minispinner}}
 						{{else}}
-							{{#if $eq ../../status 0}}
-								<div class='blue button validate'>Valider</div>
+							{{#if validated}}
+								<div class='orange button invalidate col-xs-12 col-sm-6 col-md-3 pull-right'>Annuler votre choix</div>
+							{{else}}
+								{{#if $eq ../../status 0}}
+									<div class='blue button validate col-xs-12 col-sm-6 col-md-3 pull-right'>Valider</div>
+								{{/if}}
 							{{/if}}
 						{{/if}}
 					{{/if}}
-				{{/if}}
-			</div>
-		{{/if}}
-		{{#if isInRole 'admin'}}
-			<div class='offer-validation col-xs-12'>
-				<div class='blue button edit col-xs-12 col-sm-6 col-md-3 col-md-offset-6'>Editer</div>
-				<div class='orange button remove col-xs-12 col-sm-6 col-md-3'>Supprimer</div>
-			</div>
-		{{else}}
-			{{#if $eq userId currentUser._id}}
-				<div class='offer-validation col-xs-12'>
-					<div class='blue button edit col-xs-12 col-sm-6 col-md-3 col-md-offset-6'>Editer</div>
-					<div class='orange button remove col-xs-12 col-sm-6 col-md-3'>Supprimer</div>
 				</div>
 			{{/if}}
-		{{/if}}
+			{{#if isInRole 'admin'}}
+				<div class='offer-validation col-xs-12'>
+					<div class='blue button edit col-xs-12 col-sm-6 col-md-3 pull-right'>Editer</div>
+				</div>
+				<div class='offer-validation col-xs-12'>
+					<div class='orange button remove col-xs-12 col-sm-6 col-md-3 pull-right'>Supprimer</div>
+				</div>
+			{{else}}
+				{{#if $eq userId currentUser._id}}
+					<div class='offer-validation col-xs-12'>
+						<div class='blue button edit col-xs-12 col-sm-6 col-md-3 pull-right'>Editer</div>
+					</div>
+					<div class='offer-validation col-xs-12'>
+						<div class='orange button remove col-xs-12 col-sm-6 col-md-3 pull-right'>Supprimer</div>
+					</div>
+				{{/if}}
+			{{/if}}
+		</div>
 	</div>
 </template>

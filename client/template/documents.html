@@ -1,0 +1,21 @@
+<template name='documentsModal'>
+	{{#genericModal title='Voir des documents'}}
+		<h4>Voir les documents de {{username userId}}</h4>
+		{{#unless documents.count}}
+			<small>Aucuns documents enregistres</small>
+		{{/unless}}
+		{{#each documents}}
+		<div class='doc col-xs-12 col-sm-6 col-md-4 col-lg-3' data-document='{{_id}}' style='cursor:pointer'>
+			<img width=100% src='{{fileURL this}}'>
+			<h5 style='text-align:center;'><small>{{name}}</small></h5>
+		</div>
+		{{/each}}
+		{{#if selectedDoc}}
+			<div class='col-xs-12 section'>
+				<h4 style='text-align:center'>{{selectedDoc.name}}</h4>
+				<img width=100% src='{{selectedDoc.link}}'>
+			</div>
+		{{/if}}
+	{{else}}
+	{{/genericModal}}		
+</template>

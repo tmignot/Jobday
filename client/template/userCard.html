@@ -1,3 +1,7 @@
+<template name='usermail'>
+	{{email}}
+</template>
+
 <template name='userCard'>
 	<div class="col-xs-12 col-sm-6 col-md-4">
 		<div class='card col-xs-12'>
@@ -23,7 +27,9 @@
 				</div>
 			</div>
 			<div class="card-block">
-				<h4 class="card-title">{{#unless $eq userType 'society'}}{{firstname}}{{/unless}} {{name}}</h4>
+				<h4 class="card-title">{{#unless $eq userType 'society'}}{{firstname}}{{/unless}} {{name}}<br>
+					<small>{{>usermail userId}}</small>
+				</h4>
 			</div>
 			<div class='cardButtons hidden-xs'>
 				<div class='cardButtonContainer'>
@@ -39,6 +45,11 @@
 					</div>
 				</div>
 				<div class='cardButtonContainer'>
+					<div class='button blue circle documents' data-user-id='{{userId}}' data-toogle='tooltip' title='documents'>
+						<i class='fa fa-folder'></i>
+					</div>
+				</div>
+				<div class='cardButtonContainer'>
 					<div class='button orange circle remove' data-user-id='{{userId}}' data-toogle='tooltip' title='supprimer'>
 						<i class='fa fa-remove'></i>
 					</div>
@@ -46,19 +57,24 @@
 			</div>
 		</div>
 		<div class='cardButtonsXs col-xs-12 visible-xs'>
-			<div class='cardButtonXsContainer col-xs-4'>
+			<div class='cardButtonXsContainer col-xs-3'>
 				<a href='/profilUser/{{userId}}'>
 					<div class='button blue circle show' data-toogle='tooltip' title='voir le profil'>
 						<i class='glyphicon glyphicon-eye-open'></i>
 					</div>
 				</a>
 			</div>
-			<div class='cardButtonXsContainer col-xs-4'>
+			<div class='cardButtonXsContainer col-xs-3'>
 				<div class='button blue circle certify' data-user-id='{{userId}}' data-toogle='tooltip' title='certifier'>
 					<i class='fa fa-check'></i>
 				</div>
 			</div>
-			<div class='cardButtonXsContainer col-xs-4'>
+			<div class='cardButtonXsContainer col-xs-3'>
+				<div class='button blue circle documents' data-user-id='{{userId}}' data-toogle='tooltip' title='documents'>
+					<i class='fa fa-folder'></i>
+				</div>
+			</div>
+			<div class='cardButtonXsContainer col-xs-3'>
 				<div class='button orange circle remove' data-user-id='{{userId}}' data-toogle='tooltip' title='supprimer'>
 					<i class='fa fa-remove'></i>
 				</div>

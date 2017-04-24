@@ -22,6 +22,9 @@
 <template name='profileNotComplete'>
 	{{#genericModal title='Profil incomplet'}}
 		<h4>Votre profil est incomplet, vous devez renseigner vos informations personnelles avant de pouvoir effectuer cette operation.</h4>
+		{{#if this.msg}}
+			<h5>Precisions: {{msg}}</h5>
+		{{/if}}
 	{{else}}
 		<div class='col-xs-4 col-xs-offset-1 orange button' data-dismiss='modal'>
 			Annuler

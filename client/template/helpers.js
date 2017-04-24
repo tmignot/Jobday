@@ -27,8 +27,11 @@ UploadImage = function(opt) {
 	}, opt, ['doc', 'name']);
 	if (opt.doc.type != 'file')
 		throw new Error('UploadImage: doc have to be a file input');
-	if (!opt.doc.files || !opt.doc.files.length)
-		throw new Error('UploadImage: no file chosen');
+	if (!opt.doc.files || !opt.doc.files.length) {
+		if (opt.onError)
+			opt.onError.call(this, 'No file chosen');
+		return
+	}
 	if (opt.onBeforeCompress)
 		opt.onBeforeCompress.call();
 	/*
@@ -183,6 +186,17 @@ Template.registerHelper('username', function(id) {
 			return u.firstname + ' ' + u.name
 	}
 });
+
+Template.registerHelper('userfirstname', function(id) {
+	var u = UsersDatas.findOne({userId: id});
+	if (u) {
+		if (u.userType == 'society')
+			return u.name
+		else
+			return u.firstname
+	}
+});
+
 /*
 **	notificationMail: helper to retrieve all notificationMail
 **		NB: extends the array with indices values

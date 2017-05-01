@@ -82,6 +82,9 @@ Template.dispoRangeModal.helpers({
 	},
 	rundatepicker: function() {
 		$('.date-input').datetimepicker({
+			widgetPositioning: {
+				vertical: 'bottom'
+			},
 			format: 'DD/MM/YYYY',
 			locale: 'fr'
 		});

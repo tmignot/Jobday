@@ -23,7 +23,7 @@ Template.leaveComment.events({
 			note: t.note.get(),
 			msg: $('.comment-text textarea').val()
 		}, function(e,r) {
-			if (r) {
+			if (e) {
 				Modal.allowMultiple = true;
 				Modal.show('errorModal', r);				
 			} else {

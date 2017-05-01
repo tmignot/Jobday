@@ -596,6 +596,13 @@ span.tooltips.noarrow span:after {
 	filter: saturate(0%);
 }
 
+.user-skills,
+.user-skills img.skill-got {
+	-webkit-filter: saturate(100%);
+	filter: saturate(100%);
+	opacity: 1;
+}
+
 .user-permis {
 	font-size: 1.2em;
 	font-weight: bold;
@@ -633,10 +640,6 @@ span.tooltips.noarrow span:after {
 }
 
 
-.user-skills .skill-got {
-	-webkit-filter: saturate(100%);
-	filter: saturate(100%);
-}
 
 .user-mean i:hover,
 .user-permi:hover {

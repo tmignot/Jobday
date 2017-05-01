@@ -143,6 +143,7 @@ createMangoBank = function(_id) {
 				UsersDatas.direct.update({userId: _id}, {$set: {bankComplete: false}});
 				ret.throw(err);
 			} else {
+				console.log('ok');
 				UsersDatas.direct.update({userId: _id}, {$set: {bankComplete: true}});
 				ret.return(MangoUsers.update({userId: _id}, {$set: {'mango.bank': nbank.Id}}));
 			}
@@ -166,8 +167,11 @@ upsertMangoBank = function(_id) {
 				if ((localUser.iban && bank.IBAN != localUser.iban) ||
 						(localUser.bic && bank.BIC != localUser.bic))
 					ret.return(true);
-				else
+				else {
+					if (!localUser.bankComplete)
+						UsersDatas.direct.update({userId: _id}, {$set: {bankComplete: true}});
 					ret.return(false);
+				}
 			}
 		});
 		if (ret.wait())

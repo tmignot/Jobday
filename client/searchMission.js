@@ -40,7 +40,7 @@ Template.searchMission.onCreated(function() {
 
 	// setting filters
 	AdvertsPages.set('filters', _.clone(this.filters.get()));
-	AdvertsPages.set({sort: {createdAt: 1}});
+	AdvertsPages.set({sort: {createdAt: -1}});
 });
 
 Template.searchMission.onDestroyed(function() {
@@ -193,7 +193,7 @@ Template.searchMission.events({
 				break;
 			case 'date': 
 				if (a[1] == 'desc')
-					AdvertsPages.set({sort: {createdAt:1}});
+					AdvertsPages.set({sort: {createdAt:-1}});
 				else
 					AdvertsPages.set({sort: {startDate:1}});
 				break

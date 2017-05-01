@@ -746,8 +746,8 @@ Meteor.methods({
 	fakePayment: function(data) {
 		var advertId = data.advertId;
 		var a = Adverts.findOne({_id: advertId});
-		if (a && a.status == 2) {
-			Adverts.update({_id: advertId}, {$set: {status: 3}});
+		if (a && a.status == 1) {
+			Adverts.update({_id: advertId}, {$set: {status: 2}});
 		}
 	},
 	removeOffer: function(params) {

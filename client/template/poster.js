@@ -1,3 +1,7 @@
+Template.poster.onDestroyed(function() {
+	Session.set('currentCategory', 'off');
+});
+
 Template.poster.onCreated(function() {
 	// initialize session variables
 	if (this.data) {

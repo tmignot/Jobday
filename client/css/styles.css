@@ -505,6 +505,15 @@ span.tooltips.noarrow span:after {
 	word-break: break-word;
 }
 
+.date-from-parent,
+.date-to-parent {
+	position: relative;
+}
+.date-from-parent input,
+.date-to-parent input {
+	position: relative;
+}
+
 .user-edit-profil {
 	text-align: center;
 }

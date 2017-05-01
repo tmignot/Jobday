@@ -81,14 +81,33 @@ Template.dispoRangeModal.helpers({
 		return Template.instance().isAlwaysDisp.get();
 	},
 	rundatepicker: function() {
-		$('.date-input').datetimepicker({
+		$('.date-from').datetimepicker({
 			widgetPositioning: {
 				vertical: 'bottom'
 			},
+			widgetParent: $('.date-from-parent'),
 			format: 'DD/MM/YYYY',
 			locale: 'fr'
 		});
-		$('.hour-input').datetimepicker({
+		$('.hours-from').datetimepicker({
+			widgetPositioning: {
+				vertical: 'bottom'
+			},
+			format: 'HH:mm',
+			locale: 'fr'
+		});
+		$('.date-to').datetimepicker({
+			widgetPositioning: {
+				vertical: 'bottom'
+			},
+			widgetParent: $('.date-from-parent'),
+			format: 'DD/MM/YYYY',
+			locale: 'fr'
+		});
+		$('.hours-to').datetimepicker({
+			widgetPositioning: {
+				vertical: 'bottom'
+			},
 			format: 'HH:mm',
 			locale: 'fr'
 		});

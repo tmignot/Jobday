@@ -501,6 +501,10 @@ span.tooltips.noarrow span:after {
 	width: 100%;
 }
 
+.user-text p {
+	word-break: break-word;
+}
+
 .user-edit-profil {
 	text-align: center;
 }

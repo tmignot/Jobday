@@ -20,7 +20,13 @@
 		{{#with userData userId}}
 			<div class='col-xs-12 col-sm-4 col-md-3 offer-user' style='padding:0'>
 				<img src='{{photo}}' width='100%'>
-				<h4><a href='/profiluser/{{userId}}'>{{username userId}}</a></h4>
+				<h4><a href='/profiluser/{{userId}}'>
+						{{#if canSee}}
+							{{username userId}}
+						{{else}}
+							{{userfirstname userId}}
+						{{/if}}
+					</a></h4>
 				{{>stars notes=notes count=true}}
 				{{#each badges}}
 					<div class='col-xs-3 nopad'>

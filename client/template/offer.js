@@ -25,6 +25,22 @@ Template.offer.helpers({
 				return b.badgeId;
 			})
 		}});
+	},
+	canSee: function() {
+		var d = Template.parentData(2),
+				uid;
+		if (d)
+			uid = d.userId;
+		var adverts = Adverts.find({
+			owner: Meteor.userId(), 
+			status: 2
+		}, {fields: {offers: 1}}).fetch();
+		var advert = _.find(adverts, function(a) {
+			if (_.findWhere(a.offers, {validated: true, userId: uid}))
+				return true;
+		});
+		if (advert)
+			return true;
 	}
 });
 

@@ -298,7 +298,13 @@
 							{{>stars notes=note}}
 						</div>
 						<small>
-						Par <a href='/profilUser/{{advertOwnerId}}'>{{username advertOwnerId}}</a><br>
+						Par <a href='/profilUser/{{advertOwnerId}}'>
+							{{#if canSee}}
+								{{username advertOwnerId}}
+							{{else}}
+								{{userfirstname advertOwnerId}}
+							{{/if}}
+						</a><br>
 						Pour le job <a href='/missionProfil/{{advertId}}'>{{advertTitle advertId}}</a>
 						</small>
 					</div>

@@ -23,10 +23,12 @@ Template.leaveComment.events({
 			note: t.note.get(),
 			msg: $('.comment-text textarea').val()
 		}, function(e,r) {
-			if (e) {
-				Modal.allowMultiple = true;
+			Modal.allowMultiple = true;
+			if (r)
 				Modal.show('errorModal', r);				
-			} else {
+			else if (e) 
+				Modal.show('serverErrorModal', e);				
+			else { 
 				Modal.hide('leaveComment');
 				Router.go(Router.current().originalUrl);
 			}

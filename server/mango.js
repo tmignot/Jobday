@@ -71,6 +71,7 @@ createMangoWallet = function(_id) {
 
 /* get a user email and call createMangoUser */
 createMangoUser = function(_id) {
+	console.log('createMangoUser');
 	var user = Meteor.users.findOne(_id),
 			email;
 	if (user && user.emails && user.emails.length)
@@ -91,6 +92,7 @@ createMangoUser = function(_id) {
 
 /* If a users doesn't exist, we create it, else we update */
 upsertMangoUser = function(_id) {
+	console.log('upsertMangoUser');
 	var localUser = UsersDatas.findOne({userId: _id});
 	var localMangoUser = MangoUsers.findOne({userId: _id});
 	if (localMangoUser && localUser) {
@@ -143,7 +145,6 @@ createMangoBank = function(_id) {
 				UsersDatas.direct.update({userId: _id}, {$set: {bankComplete: false}});
 				ret.throw(err);
 			} else {
-				console.log('ok');
 				UsersDatas.direct.update({userId: _id}, {$set: {bankComplete: true}});
 				ret.return(MangoUsers.update({userId: _id}, {$set: {'mango.bank': nbank.Id}}));
 			}
@@ -155,6 +156,7 @@ createMangoBank = function(_id) {
 
 /* if a bank account exists, update it else, create it */
 upsertMangoBank = function(_id) {
+	console.log('upsertMangoBank');
 	var localUser = UsersDatas.findOne({userId: _id});
 	var localMangoUser = MangoUsers.findOne({userId: _id});
 	if (localUser && localMangoUser && localMangoUser.mango.bank) {

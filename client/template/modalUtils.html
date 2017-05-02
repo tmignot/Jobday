@@ -75,6 +75,23 @@
 	{{/genericModal}}
 </template>
 
+<template name='impossibleModal'>
+	{{#genericModal title='Action impossible'}}
+		<h4>Vous ne pouvez pas effectuer cette action</h4>
+		<ul>
+		{{#each messages}}
+				<li>
+					{{{this}}}
+				</li>
+			{{/each}}
+		</ul>
+	{{else}}
+		<div class='col-xs-4 col-xs-offset-4 orange button' data-dismiss='modal'>
+			J'ai compris
+		</div>
+	{{/genericModal}}
+</template>
+
 <template name='errorModal'>
 	{{#genericModal title='Erreur de saisie'}}
 		<h4>Les champs suivants ne sont pas validés.</h4>

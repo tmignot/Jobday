@@ -137,10 +137,9 @@ Template.missionProfil.events({
 	},
 	'click #btnFaireOffre': function (event, t) { // open the makeOfferModal
 		var d = UsersDatas.findOne({userId: Meteor.userId()});
-		if(d.type=='individual' && t.data.type==0){
-			alert("Pas d'offre car vous ètes un particulier");
-			}
-		else{
+		if (d.userType=='individual' && t.data.type==0) {
+				Modal.show('impossibleModal', {messages: ['Vous ne pouvez pas faire d\'offres en tant que particulier']});
+		}	else {
 		if (d) {
 			if (d.bankComplete){
 				Modal.show('makeOfferModal', t.data);

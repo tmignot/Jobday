@@ -505,10 +505,15 @@ span.tooltips.noarrow span:after {
 	word-break: break-word;
 }
 
+.hours-from-parent,
+.hours-to-parent,
 .date-from-parent,
 .date-to-parent {
 	position: relative;
 }
+
+.hours-from-parent input,
+.hours-to-parent input,
 .date-from-parent input,
 .date-to-parent input {
 	position: relative;

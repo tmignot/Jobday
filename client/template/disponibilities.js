@@ -93,6 +93,7 @@ Template.dispoRangeModal.helpers({
 			widgetPositioning: {
 				vertical: 'bottom'
 			},
+			widgetParent: $('.hours-from-parent'),
 			format: 'HH:mm',
 			locale: 'fr'
 		});
@@ -100,7 +101,7 @@ Template.dispoRangeModal.helpers({
 			widgetPositioning: {
 				vertical: 'bottom'
 			},
-			widgetParent: $('.date-from-parent'),
+			widgetParent: $('.date-to-parent'),
 			format: 'DD/MM/YYYY',
 			locale: 'fr'
 		});
@@ -108,6 +109,7 @@ Template.dispoRangeModal.helpers({
 			widgetPositioning: {
 				vertical: 'bottom'
 			},
+			widgetParent: $('.hours-to-parent'),
 			format: 'HH:mm',
 			locale: 'fr'
 		});

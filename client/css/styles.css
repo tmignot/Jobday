@@ -512,6 +512,11 @@ span.tooltips.noarrow span:after {
 	position: relative;
 }
 
+.form-control[readonly] {
+	background: #fff;
+	opacity: 1;
+}
+
 .hours-from-parent input,
 .hours-to-parent input,
 .date-from-parent input,

@@ -82,6 +82,8 @@ Template.dispoRangeModal.helpers({
 	},
 	rundatepicker: function() {
 		$('.date-from').datetimepicker({
+			ignoreReadonly: true,
+			allowInputToggle: true,
 			widgetPositioning: {
 				vertical: 'bottom'
 			},
@@ -90,6 +92,8 @@ Template.dispoRangeModal.helpers({
 			locale: 'fr'
 		});
 		$('.hours-from').datetimepicker({
+			ignoreReadonly: true,
+			allowInputToggle: true,
 			widgetPositioning: {
 				vertical: 'bottom'
 			},
@@ -98,6 +102,8 @@ Template.dispoRangeModal.helpers({
 			locale: 'fr'
 		});
 		$('.date-to').datetimepicker({
+			ignoreReadonly: true,
+			allowInputToggle: true,
 			widgetPositioning: {
 				vertical: 'bottom'
 			},
@@ -106,6 +112,8 @@ Template.dispoRangeModal.helpers({
 			locale: 'fr'
 		});
 		$('.hours-to').datetimepicker({
+			ignoreReadonly: true,
+			allowInputToggle: true,
 			widgetPositioning: {
 				vertical: 'bottom'
 			},

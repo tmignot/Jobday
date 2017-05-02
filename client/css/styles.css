@@ -519,6 +519,10 @@ span.tooltips.noarrow span:after {
 	position: relative;
 }
 
+.modal {
+	-webkit-overflow-scrolling: auto;
+}
+
 .user-edit-profil {
 	text-align: center;
 }

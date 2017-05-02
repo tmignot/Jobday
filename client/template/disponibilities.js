@@ -66,14 +66,46 @@ Template.dispoRangeModal.onCreated(function() {
 });
 
 Template.dispoRangeModal.onRendered(function() {
-	$('.date-input').datetimepicker({
-		format: 'DD/MM/YYYY',
-		locale: 'fr'
-	});
-	$('.hour-input').datetimepicker({
-		format: 'HH:mm',
-		locale: 'fr'
-	});
+		$('.date-from').datetimepicker({
+			ignoreReadonly: true,
+			allowInputToggle: true,
+			widgetPositioning: {
+				vertical: 'bottom'
+			},
+			widgetParent: $('.date-from-parent'),
+			format: 'DD/MM/YYYY',
+			locale: 'fr'
+		});
+		$('.hours-from').datetimepicker({
+			ignoreReadonly: true,
+			allowInputToggle: true,
+			widgetPositioning: {
+				vertical: 'bottom'
+			},
+			widgetParent: $('.hours-from-parent'),
+			format: 'HH:mm',
+			locale: 'fr'
+		});
+		$('.date-to').datetimepicker({
+			ignoreReadonly: true,
+			allowInputToggle: true,
+			widgetPositioning: {
+				vertical: 'bottom'
+			},
+			widgetParent: $('.date-to-parent'),
+			format: 'DD/MM/YYYY',
+			locale: 'fr'
+		});
+		$('.hours-to').datetimepicker({
+			ignoreReadonly: true,
+			allowInputToggle: true,
+			widgetPositioning: {
+				vertical: 'bottom'
+			},
+			widgetParent: $('.hours-to-parent'),
+			format: 'HH:mm',
+			locale: 'fr'
+		});
 });
 
 Template.dispoRangeModal.helpers({

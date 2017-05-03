@@ -206,17 +206,9 @@ Template.dashboardJobber.helpers({
 		return false;
 	},
 	userTelephone: function() { // returns the user's hometown
-		var a = Template.instance().data;
-		//,'offers.userId': Template.instance().data.userId ,'status':3,
-		//owner:"P99XS49cYvAdE6JCr"
-		var idsArray=[];
-		idsArray.push(Template.instance().data.userId);
-		var c = Adverts.find({'offers.userId':Meteor.userId()}).count();
-		//console.log(Template.instance().data.userId );
-		//console.log(c);
-		
-		if (a && a.phone && Meteor.userId()== Template.instance().data.userId )
-			return a.phone;
+		var d = Template.instance().data;
+		if (d && d.phone)
+			return '0'+d.phone;
 		return 'Non renseigne';
 	},
 	grades: function() { // returns the user's grades sorted by date
@@ -298,6 +290,8 @@ Template.dashboardJobber.helpers({
 				uid;
 		if (d)
 			uid = d.userId;
+		if (uid == Meteor.userId())
+			return true
 		var adverts = Adverts.find({
 			owner: Meteor.userId(), 
 			status: 2

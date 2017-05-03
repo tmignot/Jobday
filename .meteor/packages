@@ -51,7 +51,6 @@ random@1.0.10
 ostrio:files
 peppelg:bootstrap-3-modal
 matb33:collection-hooks
-alethes:pages@1.8.0
 aldeed:template-extension
 jalik:mangopay
 http@1.2.12
@@ -65,3 +64,4 @@ dapearce:material-icons
 facebook-config-ui
 google-config-ui
 benmgreene:moment-range
+electronifiejs:pages

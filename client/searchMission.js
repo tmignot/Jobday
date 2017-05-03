@@ -1,6 +1,7 @@
 Template.spinner.replaces('_pagesLoading');
 
 Template.searchMission.onCreated(function() {
+	console.log('searchMission created');
 	Session.set('mapsIsLoaded', false);
 	Session.set('latlng', {lat: 48.853, lng: 2.35});
 
@@ -31,19 +32,19 @@ Template.searchMission.onCreated(function() {
 			{'address.city': new RegExp('^.*'+Session.get('searchMissionLocal').split(',')[0]+'.*$', 'i')}, 
 			{'address.zipcode': new RegExp('^.*'+Session.get('searchMissionLocal').split(',')[0]+'.*$', 'gi')}
 		];
-		//console.log(new RegExp('^.*'+Session.get('searchMissionLocal').split(' ')[0]+'.*$', 'i'));
-		//f['$or'] = [{'address.zipcode': new RegExp('^.*'+Session.get('searchMissionLocal').split(' ')[0]+'.*$', 'i')}];
 	if (Session.get('searchMissionNeed')) 
 		f.title = new RegExp('^.*'+Session.get('searchMissionNeed')+'.*$', 'i');
 
 	this.filters.set(_.extend(f, this.filters.get()));
 
 	// setting filters
-	AdvertsPages.set('filters', _.clone(this.filters.get()));
-	AdvertsPages.set({sort: {createdAt: -1}});
+	if (AdvertsPages.subscriptions[1])
+		var subId = AdvertsPages.subscriptions[1].subscriptionId;
+	AdvertsPages.set({filters: _.clone(this.filters.get()), sort: {createdAt: -1}}, subId);
 });
 
 Template.searchMission.onDestroyed(function() {
+	console.log('searchMission destroyed');
 	Session.set('currentCategory', 'off');
 	Session.set('dateBeginning', 'off');
 	Session.set('searchMissionLocal', undefined);
@@ -180,25 +181,29 @@ Template.searchMission.events({
 			case 'future': filters.startDate = {$gte: new Date()}; break;
 			default: break;
 		}
-		AdvertsPages.set({filters: filters});
-		filters = {};
 
 		// TRI
 		var ss = t.find('#sort-type');
 		var a = ss.value.split('_');
+		var sort = {};
 		switch(a[0]) {
 			// sort by price or sort by date
 			case 'price': 
-				AdvertsPages.set({sort: {budget: a[1]=='asc'? 1: -1}});
+				sort = {budget: a[1]=='asc'? 1: -1};
 				break;
 			case 'date': 
 				if (a[1] == 'desc')
-					AdvertsPages.set({sort: {createdAt:-1}});
+					sort = {createdAt:-1};
 				else
-					AdvertsPages.set({sort: {startDate:1}});
+					sort = {startDate:1};
 				break
 			default: break;
 		}
+		AdvertsPages.unsubscribe();
+		if (AdvertsPages.subscriptions[1])
+			var subId = AdvertsPages.subscriptions[1].subscriptionId;
+		AdvertsPages.set({filters: filters, sort: sort}, subId);
+		filters = {};
 
 	},
 });

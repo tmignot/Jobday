@@ -199,7 +199,6 @@ Template.searchMission.events({
 				break
 			default: break;
 		}
-		AdvertsPages.unsubscribe();
 		if (AdvertsPages.subscriptions[1])
 			var subId = AdvertsPages.subscriptions[1].subscriptionId;
 		AdvertsPages.set({filters: filters, sort: sort}, subId);

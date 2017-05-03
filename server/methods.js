@@ -537,7 +537,7 @@ Meteor.methods({
 			if (Roles.userIsInRole(current, 'admin')) {
 				var e = Events.findOne({_id: param._id});
 				if (e) {
-					if (!param.confirmed) {
+					if (!param.confirmed && !e.type == 'report_abuse') {
 						var imgs = (function() {
 							switch (e.type) {
 								case 'ask_grade_validation': return ['image'];

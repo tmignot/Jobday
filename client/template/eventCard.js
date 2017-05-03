@@ -208,7 +208,7 @@ Template.eventCard_abuse.events({
 			message: 'Etes-vous sur de vouloir clore le report d\'abus?',
 			onConfirm: function() {
 				Modal.hide('confirmationModal');
-				Meteor.call('removeEvent', ev, function(e,t) {
+				Meteor.call('removeEvent', {_id: ev}, function(e,t) {
 					if (e) Modal.show('serverErrorModal', e);
 				})
 			}

@@ -145,7 +145,7 @@ Template.searchMission.events({
 	'click .nextPage': function(e,t) {
 		var p = Session.get('searchMission_page');
 		Session.set('searchMission_page', p+1);
-		$('#btnSearch').click();
+		goSearch(e,t);
 	},
 	'click .prevPage': function(e,t) {
 		var p = Session.get('searchMission_page');
@@ -153,14 +153,19 @@ Template.searchMission.events({
 			Session.set('searchMission_page', p-1);
 		else
 			Session.set('searchMission_page', 0);
-		$('#btnSearch').click();
+		goSearch(e,t);
 	},
 	'click .nPage': function(e,t) {
 		var p = $(e.currentTarget).data('page');
 		Session.set('searchMission_page', parseInt(p) - 1);
-		$('#btnSearch').click();
+		goSearch(e,t);
 	},
 	'click #btnSearch': function(e,t) {
+		Session.set('searchMission_page', 0);
+		goSearch(e,t);
+	}
+});
+var goSearch = function(e,t) {
 		// FILTRES
 		// retriveing filters
 		var filters = {};
@@ -239,8 +244,7 @@ Template.searchMission.events({
 		}
 		var p = Session.get('searchMission_page') || 0;
 		UrlQuery({page: p, filters: JSON.stringify(filters), sort: JSON.stringify(sort)});
-	},
-});
+	};
 
 Template.Adverts.helpers({
 	adverts: function() {

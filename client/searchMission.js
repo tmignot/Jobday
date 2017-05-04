@@ -92,18 +92,12 @@ Template.searchMission.helpers({
 	pages: function() {
 		var currentPage = Session.get('searchMission_page');
 		var maxPage = Template.instance().pageCount.get();
-		var pages = [],
-				i = 0;
-		pages.push(currentPage + 1);
-		while (currentPage - i && i <= 2) {
-			pages.push(currentPage - i + 1);
-			i++;
-		}
-		i = 1;
-		while (currentPage + i < maxPage && i <= 2) {
-			pages.push(currentPage + i + 1);
-			i++;
-		}
+		var min = Math.max(currentPage-1, 1);
+		var max = Math.min(currentPage+3, maxPage);
+		var pages = [];
+		for (var i = min; i == max, i++) {
+			pages.push(i);
+		};
 		return pages;
 	},
 	pageCount: function() {

@@ -100,11 +100,6 @@ Template.searchMission.helpers({
 			pages.push(min);
 			min++;
 		}
-		/*
-		for (var i = min; i >= max; i++) {
-			pages.push(i);
-		};
-		*/
 		return pages;
 	},
 	pageCount: function() {
@@ -117,6 +112,9 @@ Template.searchMission.helpers({
 	nextEnabled: function() {
 		var maxPage = Template.instance().pageCount.get();
 		return Session.get('searchMission_page') < maxPage - 1 ? 'nextPage' : 'disabled';
+	},
+	currentPage: function() {
+		return Session.get('searchMission_page') + 1;
 	}
 });
 

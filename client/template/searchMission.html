@@ -103,7 +103,11 @@
 				<ul class="pagination">
 					<li class='{{prevEnabled}}'><a>&laquo;</a></li>
 					{{#each pages}}
+						{{#if $eq currentPage this}}
+						<li class='nPage active' data-page='{{this}}'><a>{{this}}</a></li>
+						{{else}}
 						<li class='nPage' data-page='{{this}}'><a>{{this}}</a></li>
+						{{/if}}
 					{{/each}}
 					<li class='{{nextEnabled}}'><a>&raquo;</a></li>
 				</ul>

@@ -1,8 +1,9 @@
 ﻿<template name="Adverts">
 	<div id="AdvertsList" class="col-xs-12 nopad">
-		{{#if pagesData.getPage}}
-			{{>pages}}
-			{{>pagesNav}}
+		{{#if adverts.count}}
+			{{#each adverts}}
+				{{>advertCard}}
+			{{/each}}
 		{{else}}
 			<h2 class='col-xs-12'><small>Aucun resultat</small></h2>
 		{{/if}}
@@ -22,7 +23,7 @@
 </script>
 	<div class='col-xs-12 search-buttons'>
 		<span class='col-xs-6 col-md-3 button-container'>
-			<span  id="btnSearchJobParticulier" class="col-xs-12 nopad button blue glyphicon glyphicon-search {{active 'particulier'}}"> Jobs entre Particuliers</span>
+			<span  id="btnSearchJobParticulier" class="col-xs-12 nopad button blue glyphicon glyphicon-search {{active 'part'}}"> Jobs entre Particuliers</span>
 		</span>
 		<span class='col-xs-6 col-md-3 button-container'>
 			<span  id="btnSearchJobProfessionel" class="col-xs-12 nopad button blue glyphicon glyphicon-search {{active 'pro'}}"> Jobs pour les Professionnels</span>
@@ -96,7 +97,17 @@
 	</div>
 	<div class="ligneTableau col-xs-12">
 		<div class="celluleTableau col-xs-12 col-md-6 nopad">
-			{{> Adverts}}
+			{{> Adverts pageParams}}
+			{{log pages}}
+			<nav style='text-align:center;'>
+				<ul class="pagination">
+					<li class='{{prevEnabled}}'><a>&laquo;</a></li>
+					{{#each pages}}
+						<li class='nPage' data-page='{{this}}'><a>{{this}}</a></li>
+					{{/each}}
+					<li class='{{nextEnabled}}'><a>&raquo;</a></li>
+				</ul>
+			</nav>
 		</div>
 		<div class="celluleTableau col-xs-12 col-md-6">
 			<div id='searchMissionMap' data-spy='affix' data-offset-top='400'></div>

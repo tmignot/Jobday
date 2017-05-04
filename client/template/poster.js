@@ -121,12 +121,14 @@ Template.poster.helpers({
 	},
 	subcategories: function() { // extending subcategories for select
 		var cat = Session.get('currentCategory');
-		return _.map(Categories[cat].subcategories, function(d,i) {
-			return {
-				index: i,
-				name: d
-			}
-		});
+		if (cat != 'off' && cat != undefined) {
+			return _.map(Categories[cat].subcategories, function(d,i) {
+				return {
+					index: i,
+					name: d
+				}
+			});
+		}
 	},
 	infobulle: function() {
 		return "Certaines missions concernent uniquement les travailleurs professionels independant.D'autres missions occasionnelles comme l'entraide peuvent s'effectuer entre particuliers";

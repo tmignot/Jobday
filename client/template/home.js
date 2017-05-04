@@ -56,15 +56,19 @@ Template.home.events({
 	'click .category-jobs.button': function() { Router.go('allCategories'); },
 	'click .all-jobs.button': function() { Router.go('searchMission'); },
 	'click .urgent-jobs.button': function() { 
-		Session.set('dateBeginning', 'hour');
 		Session.set('dateBeginning', 'day');
-		Router.go('searchMission');
+		var filters = {
+			startDate: {
+				$lte: (new Date(moment().add(moment.duration(1,'day')))).toISOString(),
+				$gte: (new Date()).toISOString()
+			}
+		};
+		Router.go('/searchMission?filters='+JSON.stringify(filters));
 	},
 	'click .category': function(e,t) {
 		var c = $(e.currentTarget).data('category');
 		if (c !== undefined) {
-			Session.set('currentCategory', c);
-			Router.go('/searchMission');
+			Router.go('/searchMission?filters={"category":'+c+'}');
 		}
 	}
 });

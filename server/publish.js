@@ -6,12 +6,28 @@ Meteor.publish('Adverts', function(ids) {
 	if (!ids)
 		return Adverts.find({});
 	else
-		//console.log('Advert:' + ids);
-		//return Adverts.find({_id: {$in: ids}});
 		return Adverts.find({$or: [{_id: {$in: ids}},{owner: {$in: ids}},
 		{'status':3,'offers.userId':this.userId ,'offers.validated': true }]});
 		
 });
+
+Meteor.publish('AdvertsPage', function(p) {
+	var filters = p.filters ? JSON.parse(p.filters) : {};
+	if (filters.startDate) {
+		_.each(_.keys(filters.startDate), function(k) {
+			filters.startDate[k] = new Date(filters.startDate[k]);
+		});
+	}
+
+	var params = {
+		skip: (p.page||0) *10,
+		sort: p.sort ? JSON.parse(p.sort) : {createdAt: -1},
+		limit: 10
+	};
+
+	return Adverts.find(filters, params);
+});
+
 Meteor.publish('Advert', function(id) {
 	  //return Adverts.find({_id: id});
 	return Adverts.find({$or: [{_id: id},{owner: id},{'status':3,'offers.userId':this.userId,'offers.validated': true }]});

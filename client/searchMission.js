@@ -1,54 +1,17 @@
 Template.spinner.replaces('_pagesLoading');
 
 Template.searchMission.onCreated(function() {
-	console.log('searchMission created');
 	Session.set('mapsIsLoaded', false);
 	Session.set('latlng', {lat: 48.853, lng: 2.35});
-
-	// we retrived previously set filters from other pages such as allCategoryScreen
-	// that are stored in Session
-	var f = {};
-	if (Session.get('currentCategory') !== undefined && !Session.equals('currentCategory', 'off')) {
-		this.filters = new ReactiveVar({
-			category: parseInt(Session.get('currentCategory'))
-		});
-	} else
-		this.filters = new ReactiveVar({});
-	// retriving dateBeginning from urgentJob button
-	if (Session.get('dateBeginning') && Session.get('dateBeginning') != 'off') {
-		switch(Session.get('dateBeginning')) {
-			case 'off': break;
-			case 'hour': f.startDate = {$lte: new Date(moment().add(moment.duration(1, 'hour'))), $gte: new Date()}; break;
-			case 'day': f.startDate = {$lte: new Date(moment().add(moment.duration(1,'day'))), $gte: new Date()}; break;
-			case 'week': f.startDate = {$lte: new Date(moment().add(moment.duration(1,'week'))), $gte: new Date()}; break;
-			case 'past': f.startDate = {$lt: new Date()}; break;
-			case 'future': filters.startDate = {gte: new Date()}; break;
-			default: break;
-		}
-	}
-	if (Session.get('searchMissionLocal'))
-		f['$or'] = [
-			{'online': true},
-			{'address.city': new RegExp('^.*'+Session.get('searchMissionLocal').split(',')[0]+'.*$', 'i')}, 
-			{'address.zipcode': new RegExp('^.*'+Session.get('searchMissionLocal').split(',')[0]+'.*$', 'gi')}
-		];
-	if (Session.get('searchMissionNeed')) 
-		f.title = new RegExp('^.*'+Session.get('searchMissionNeed')+'.*$', 'i');
-
-	this.filters.set(_.extend(f, this.filters.get()));
-
-	// setting filters
-	if (AdvertsPages.subscriptions[1])
-		var subId = AdvertsPages.subscriptions[1].subscriptionId;
-	AdvertsPages.set({filters: _.clone(this.filters.get()), sort: {createdAt: -1}}, subId);
+	this.pageCount = new ReactiveVar(0);
+	var self = this;
+	Meteor.call('getPageCount', Router.current().params.query, function(e,r) {
+		if (r)
+			self.pageCount.set(r);
+	});
 });
 
 Template.searchMission.onDestroyed(function() {
-	console.log('searchMission destroyed');
-	Session.set('currentCategory', 'off');
-	Session.set('dateBeginning', 'off');
-	Session.set('searchMissionLocal', undefined);
-	Session.set('searchMissionNeed', undefined);
 	delete Maps.maps.searchMissionMap;
 });
 
@@ -79,19 +42,26 @@ Template.searchMission.onRendered(function() {
 	});
 	// setting selects inputs to match current filters
 	var cat = Session.get('currentCategory'),
+			sub = Session.get('currentSubcategory'),
 			dat = Session.get('dateBeginning'),
 			loc = Session.get('searchMissionLocal'),
 			need= Session.get('searchMissionNeed');
-	if (cat != 'off' && (cat || cat == '0'))
-		$('#categorySelect').val(cat);
-	else
+			key = Session.get('searchMissionKeyword');
+	if (cat != 'off' && (cat || cat == 0)) {
+		$('#categorySelect').val(cat.toString());
+		if (sub != 'off' && (sub || sub == 0))
+			$('#subcatSelect').val(sub.toString());
+	} else
 		Session.set('currentCategory', 'off');
 	if (dat && dat != 'off')
 		$('#dateSelect').val(dat);
+	Session.set('dateBeginning', 'off');
 	if (loc)
 		$('#localisation').val(loc);
 	if (need)
 		$('#besoin').val(need);
+	if (key)
+		$('#keyword').val(key);
 });
 
 Template.searchMission.helpers({
@@ -102,11 +72,7 @@ Template.searchMission.helpers({
 		return aA.count();
 	},
 	active: function(w) { // returns a classname for underlining top filters
-		var f = Template.instance().filters.get();
-		if ((f && !_.keys(f).length && w == 'all') ||
-				(f && f.type == 1 && w == 'particulier') ||
-				(f && f.type == 0 && w == 'pro') ||
-				(f && f.online && w == 'online'))
+		if (Session.equals('searchMission_type', w))
 			return 'botborder'
 	},
 	subdisabled: function() { // disable suCategories if no categories are selected
@@ -114,8 +80,7 @@ Template.searchMission.helpers({
 	},
 	subcategories: function() { // extending subcategories for select
 		var cat = Session.get('currentCategory');
-		if (cat && cat != 'off') {
-			cat = parseInt(cat);
+		if (cat != 'off' && cat != undefined) {
 			return _.map(Categories[cat].subcategories, function(d,i) {
 				return {
 					index: i,
@@ -123,6 +88,34 @@ Template.searchMission.helpers({
 				}
 			});
 		}
+	},
+	pages: function() {
+		var currentPage = Session.get('searchMission_page');
+		var maxPage = Template.instance().pageCount.get();
+		var pages = [],
+				i = 0;
+		pages.push(currentPage + 1);
+		while (currentPage - i && i <= 2) {
+			pages.push(currentPage - i + 1);
+			i++;
+		}
+		i = 1;
+		while (currentPage + i < maxPage && i <= 2) {
+			pages.push(currentPage + i + 1);
+			i++;
+		}
+		return pages;
+	},
+	pageCount: function() {
+		var currentPage = Session.get('searchMission_page');
+		var maxPage = Template.instance().pageCount.get();
+	},
+	prevEnabled: function() {
+		return Session.get('searchMission_page') ? 'prevPage' : 'disabled';
+	},
+	nextEnabled: function() {
+		var maxPage = Template.instance().pageCount.get();
+		return Session.get('searchMission_page') < maxPage - 1 ? 'nextPage' : 'disabled';
 	}
 });
 
@@ -132,55 +125,101 @@ Template.searchMission.events({
 	},
 	'click #btnSearchJobParticulier': function(e,t) {
 		resetForm();
-		AdvertsPages.set({filters: {type: 1}});
-		t.filters.set({type: 1});
+		Session.set('searchMission_type', 'part');
+		$('#btnSearch').click();
 	},
 	'click #btnSearchJobProfessionel': function(e,t) {
 		resetForm();
-		AdvertsPages.set({filters: {type: 0}});
-		t.filters.set({type: 0});
+		Session.set('searchMission_type', 'pro');
+		$('#btnSearch').click();
 	},
 	'click #btnSearchJobAll': function(e,t) {
 		resetForm();
-		AdvertsPages.set({filters: {}});
-		t.filters.set({});
+		Session.set('searchMission_type', 'all');
+		$('#btnSearch').click();
 	},
 	'click #btnSearchJobOnline': function(e,t) {
 		resetForm();
-		AdvertsPages.set({filters: {online: true}});
-		t.filters.set({online: true});
+		Session.set('searchMission_type', 'online');
+		$('#btnSearch').click();
+	},
+	'click .nextPage': function(e,t) {
+		var p = Session.get('searchMission_page');
+		Session.set('searchMission_page', p+1);
+		$('#btnSearch').click();
+	},
+	'click .prevPage': function(e,t) {
+		var p = Session.get('searchMission_page');
+		if (p)
+			Session.set('searchMission_page', p-1);
+		else
+			Session.set('searchMission_page', 0);
+		$('#btnSearch').click();
+	},
+	'click .nPage': function(e,t) {
+		var p = $(e.currentTarget).data('page');
+		Session.set('searchMission_page', parseInt(p) - 1);
+		$('#btnSearch').click();
 	},
 	'click #btnSearch': function(e,t) {
 		// FILTRES
 		// retriveing filters
-		var filters = _.clone(t.filters.get());
-		// category
+		var filters = {};
+
 		var cat = parseInt(t.find('#categorySelect').value);
 		if (cat || cat == 0) {
-			// if category -> subcategory
 			filters.category = cat;
 			var sc = t.find('#subcatSelect').value;
 			if (sc != 'off')
 				filters.subcategory = parseInt(t.find('#subcatSelect').value);
-		} else if (filters.hasOwnProperty('category'))
-			delete filters['category']; // we delete it because we don't want to find category:undefined
-		// online OR with current address filter
-		filters['$or'] = [{'online': true}, {'address.city': new RegExp('^.*'+t.find('#localisation').value+'.*$', 'gi')}, {'address.zipcode': new RegExp('^.*'+t.find('#localisation').value+'.*$', 'gi')}];
-		// description that contains the keywords
-		filters.description = new RegExp('^.*'+t.find('#keyword').value+'.*$', 'gi');
-		// title that contains the needs
-		filters.title = new RegExp('^.*'+t.find('#besoin').value+'.*$', 'gi');
+		}
+
+		if (t.find('#localisation').value) {
+			filters['$or'] = [
+				{online: true},
+				{'address.city': {$regex: '^.*'+t.find('#localisation').value+'.*$', $options: 'gi'}},
+				{'address.zipcode': {$regex: '^.*'+t.find('#localisation').value+'.*$', $options: 'gi'}},
+			];
+		}
+
+		if (t.find('#besoin').value)
+			filters.title = {$regex: '^.*'+t.find('#besoin').value+'.*$', $options: 'gi'};
+
+		if (t.find('#keyword').value)
+			filters.description = {$regex: '^.*'+t.find('#keyword').value+'.*$', $options: 'gi'};
+
+		switch(Session.get('searchMission_type')) {
+			case 'pro': filters.type = 0; break;
+			case 'part': filters.type = 1; break;
+			case 'online': filters.online = true; break;
+			default: break;
+		}
 
 		// Setting date filters
 		switch($('#dateSelect').val()) {
-			case 'off': break;
-			case 'hour': filters.startDate = {$lte: new Date(moment().add(moment.duration(1, 'hour'))), $gte: new Date()}; break;
-			case 'day': filters.startDate = {$lte: new Date(moment().add(moment.duration(1,'day'))), $gte: new Date()}; break;
-			case 'week': filters.startDate = {$lte: new Date(moment().add(moment.duration(1,'week'))), $gte: new Date()}; break;
-			case 'past': filters.startDate = {$lt: new Date()}; break;
-			case 'future': filters.startDate = {$gte: new Date()}; break;
+			case 'hour': filters.startDate = {
+				$lte: (new Date(moment().add(moment.duration(1, 'hour')))).toISOString(),
+				$gte: (new Date()).toISOString()
+			}; break;
+			case 'day': filters.startDate = {
+				$lte: (new Date(moment().add(moment.duration(1,'day')))).toISOString(),
+				$gte: (new Date()).toISOString()
+			}; break;
+			case 'week': filters.startDate = {
+				$lte: (new Date(moment().add(moment.duration(1,'week')))).toISOString(),
+				$gte: (new Date()).toISOString()
+			}; break;
+			case 'past': filters.startDate = {
+				$lt: (new Date()).toISOString()
+			}; break;
+			case 'future': filters.startDate = {
+				$gte: (new Date()).toISOString()
+			}; break;
 			default: break;
 		}
+		Session.set('dateBeginning', $('#dateSelect').val());
+		Session.set('setMissionType', true);
+		Session.set('setMissionPage', true);
 
 		// TRI
 		var ss = t.find('#sort-type');
@@ -199,16 +238,20 @@ Template.searchMission.events({
 				break
 			default: break;
 		}
-		if (AdvertsPages.subscriptions[1])
-			var subId = AdvertsPages.subscriptions[1].subscriptionId;
-		AdvertsPages.set({filters: filters, sort: sort}, subId);
-		filters = {};
-
+		var p = Session.get('searchMission_page') || 0;
+		UrlQuery({page: p, filters: JSON.stringify(filters), sort: JSON.stringify(sort)});
 	},
+});
+
+Template.Adverts.helpers({
+	adverts: function() {
+		return Adverts.find();
+	}
 });
 
 function resetForm() {
 	Session.set('currentCategory', 'off');
+	Session.set('currentSubcategory', 'off');
 	$('#dateSelect').val('off');
 	$('#localisation').val('');
 	$('#besoin').val('');

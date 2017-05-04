@@ -476,6 +476,15 @@ var regexp = {
 Future = Npm.require('fibers/future');
 
 Meteor.methods({
+	getPageCount: function(p) {
+		var filters = p.filters ? JSON.parse(p.filters) : {};
+		if (filters.startDate) {
+			_.each(_.keys(filters.startDate), function(k) {
+				filters.startDate[k] = new Date(filters.startDate[k]);
+			});
+		}
+		return Math.ceil(Adverts.find(filters).count() / 10);
+	},
 	getUserEmail: function(id) {
 		if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
 			var u = Meteor.users.findOne({_id: id});

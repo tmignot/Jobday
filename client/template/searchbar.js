@@ -30,32 +30,31 @@ Template.searchbar.events({
 		}
 	},
 	'click .find-button': function(e,t) {
-		Session.set('searchMissionLocal', t.find('#local-input').value);
-		Session.set('searchMissionNeed', t.find('#need-input').value);
-		Router.go('/searchMission');
-	}
-    ,'keypress #local-input': function(e,t) {
-		//alert(e.keyCode);
-        if ( (e.keyCode && e.keyCode == 13)) {
-            
-        Session.set('searchMissionLocal', t.find('#local-input').value);
-		Session.set('searchMissionNeed', t.find('#need-input').value);
-		Router.go('/searchMission');
-            return false;
-        } else {
-            return true;
-        }
+		var query = {
+			$or: [
+				{online: true},
+				{'address.city': {
+					$regex: '^.*'+t.find('#local-input').value+'.*$',
+					$options: 'gi'
+				}},
+				{'address.zipcode': {
+					$regex: '^.$' + t.find('#local-input').value + '.*$',
+					$options: 'gi'
+				}}
+			],
+			title: {
+				$regex: '^.*'+t.find('#need-input').value+'.*$',
+				$options: 'gi'
+			}
+		};
+		Router.go('/searchMission?filters='+JSON.stringify(query));
 	},
-    'keypress #need-input': function(e,t) {
-		//alert(e.keyCode);
-        if ( (e.keyCode && e.keyCode == 13)) {
-            
-        Session.set('searchMissionLocal', t.find('#local-input').value);
-		Session.set('searchMissionNeed', t.find('#need-input').value);
-		Router.go('/searchMission');
-            return false;
-        } else {
-            return true;
-        }
+	'keypress #local-input': function(e,t) {
+		if ( (e.keyCode && e.keyCode == 13))
+			$('.find-button').click();
+	},
+	'keypress #need-input': function(e,t) {
+		if ( (e.keyCode && e.keyCode == 13))
+			$('.find-button').click();
 	}
 });

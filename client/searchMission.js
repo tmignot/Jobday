@@ -95,9 +95,16 @@ Template.searchMission.helpers({
 		var min = Math.max(currentPage-1, 1);
 		var max = Math.min(currentPage+3, maxPage);
 		var pages = [];
-		for (var i = min; i == max, i++) {
+		console.log(min, max);
+		while (min <= max) {
+			pages.push(min);
+			min++;
+		}
+		/*
+		for (var i = min; i >= max; i++) {
 			pages.push(i);
 		};
+		*/
 		return pages;
 	},
 	pageCount: function() {

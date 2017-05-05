@@ -63,12 +63,12 @@ Template.home.events({
 				$gte: (new Date()).toISOString()
 			}
 		};
-		Router.go('/searchMission?filters='+JSON.stringify(filters));
+		Router.go('/searchMission?filters='+Base64.encode(JSON.stringify(filters)));
 	},
 	'click .category': function(e,t) {
 		var c = $(e.currentTarget).data('category');
 		if (c !== undefined) {
-			Router.go('/searchMission?filters={"category":'+c+'}');
+			searchCategory(e, parseInt(c));
 		}
 	}
 });

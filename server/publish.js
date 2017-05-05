@@ -12,16 +12,19 @@ Meteor.publish('Adverts', function(ids) {
 });
 
 Meteor.publish('AdvertsPage', function(p) {
-	var filters = p.filters ? JSON.parse(p.filters) : {};
+	var filters = p.filters || {};
 	if (filters.startDate) {
 		_.each(_.keys(filters.startDate), function(k) {
 			filters.startDate[k] = new Date(filters.startDate[k]);
 		});
 	}
 
+	if (!p.page || p.page < 0)
+		p.page = 0;
+
 	var params = {
 		skip: (p.page||0) *10,
-		sort: p.sort ? JSON.parse(p.sort) : {createdAt: -1},
+		sort: p.sort || {createdAt: -1},
 		limit: 10
 	};
 

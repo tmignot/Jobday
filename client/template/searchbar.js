@@ -47,7 +47,7 @@ Template.searchbar.events({
 				$options: 'gi'
 			}
 		};
-		Router.go('/searchMission?filters='+JSON.stringify(query));
+		Router.go('/searchMission?filters='+Base64.encode(JSON.stringify(query)));
 	},
 	'keypress #local-input': function(e,t) {
 		if ( (e.keyCode && e.keyCode == 13))

@@ -477,7 +477,7 @@ Future = Npm.require('fibers/future');
 
 Meteor.methods({
 	getPageCount: function(p) {
-		var filters = p.filters ? JSON.parse(p.filters) : {};
+		var filters = p || {};
 		if (filters.startDate) {
 			_.each(_.keys(filters.startDate), function(k) {
 				filters.startDate[k] = new Date(filters.startDate[k]);

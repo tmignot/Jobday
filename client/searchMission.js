@@ -5,7 +5,8 @@ Template.searchMission.onCreated(function() {
 	Session.set('latlng', {lat: 48.853, lng: 2.35});
 	this.pageCount = new ReactiveVar(0);
 	var self = this;
-	Meteor.call('getPageCount', Router.current().params.query, function(e,r) {
+	var params = b64toJSON(Router.current().params.query.filters);
+	Meteor.call('getPageCount', params, function(e,r) {
 		if (r)
 			self.pageCount.set(r);
 	});
@@ -47,6 +48,8 @@ Template.searchMission.onRendered(function() {
 			loc = Session.get('searchMissionLocal'),
 			need= Session.get('searchMissionNeed');
 			key = Session.get('searchMissionKeyword');
+			sort= Session.get('searchMission_sort');
+	$('#sort-type').val(sort);
 	if (cat != 'off' && (cat || cat == 0)) {
 		$('#categorySelect').val(cat.toString());
 		if (sub != 'off' && (sub || sub == 0))
@@ -243,7 +246,11 @@ var goSearch = function(e,t) {
 			default: break;
 		}
 		var p = Session.get('searchMission_page') || 0;
-		UrlQuery({page: p, filters: JSON.stringify(filters), sort: JSON.stringify(sort)});
+		UrlQuery({
+			page: p,
+			filters: Base64.encode(JSON.stringify(filters)),
+			sort: Base64.encode(JSON.stringify(sort))
+		});
 	};
 
 Template.Adverts.helpers({
@@ -253,9 +260,10 @@ Template.Adverts.helpers({
 });
 
 function resetForm() {
-	Session.set('currentCategory', 'off');
-	Session.set('currentSubcategory', 'off');
+	$('#categorySelect').val('off');
+	$('#subcatSelect').val('off');
 	$('#dateSelect').val('off');
+	$('#sort-type').val('date_desc');
 	$('#localisation').val('');
 	$('#besoin').val('');
 	$('#keyword').val('');
